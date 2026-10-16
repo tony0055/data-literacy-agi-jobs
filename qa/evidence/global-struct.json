@@ -1,0 +1,1315 @@
+{
+ "out": [
+  {
+   "n": 1,
+   "cls": "slide cover t-stagger is-shown",
+   "h": null,
+   "hLines": 0,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1720,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "1 / 34",
+   "nSizes": 5,
+   "sizes": "14px,80px,24px,20px,16px",
+   "shadows": 3,
+   "cards": 0,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "AI가 AI 개발을 돕기 시작한 뒤의 10년",
+   "src": true,
+   "srcText": "사진: AI 생성 이미지(Gemini) · 모든 수치에 출처와 라벨(기술·추정)을 붙였습니다",
+   "srcClip": 0,
+   "headTxt": "AI는 언제쯤내 일을대신하게 될까요"
+  },
+  {
+   "n": 2,
+   "cls": "slide nohead t-stagger is-shown",
+   "h": null,
+   "hLines": 0,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1718,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "2 / 34",
+   "nSizes": 2,
+   "sizes": "64px,16px",
+   "shadows": 2,
+   "cards": 0,
+   "heads": 0,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "src": true,
+   "srcText": "사진: AI 생성 이미지(Gemini) · 이처럼 AI가 다음 AI 개발을 돕는 것을 재귀적 자기개선이라 부릅니다",
+   "srcClip": 0
+  },
+  {
+   "n": 3,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1717,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "3 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,24px,20px,16px",
+   "shadows": 3,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "이 발표가 답하려는 것",
+   "src": true,
+   "srcText": "AGI 정의는 회사마다 다릅니다. 정의가 다른 지표는 한 줄로 잇지 않았습니다",
+   "srcClip": 0,
+   "headTxt": "세 가지를 차례로 확인합니다"
+  },
+  {
+   "n": 4,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1717,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "4 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,96px,24px,20px,16px",
+   "shadows": 3,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "결론 먼저",
+   "src": true,
+   "srcText": "METR · AI Impacts 전문가 설문 · 한국은행 이슈노트 2026-19 · 대체 압력은 이 덱의 시나리오 모형 값(새로 생기는 일자리는",
+   "srcClip": 0,
+   "headTxt": "결론은 세 숫자입니다"
+  },
+  {
+   "n": 5,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1717,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "5 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,24px,16px,20px",
+   "shadows": 1,
+   "cards": 1,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "연산과 전력에서 AI 능력, AI 개발 가속, 컴퓨터로 하는 일, 로봇 학습 데이터, 몸을 쓰는 일, 일자리",
+     "title": false,
+     "desc": false,
+     "tickHidden": true
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "전체 구조",
+   "src": true,
+   "srcText": "Epoch AI · IEA · METR · Google·Anthropic 발표(보도) · AI Impacts · 한국은행 · analysis/r",
+   "srcClip": 0,
+   "headTxt": "따로 보이는 숫자들은 하나의 흐름으로 이어집니다"
+  },
+  {
+   "n": 6,
+   "cls": "slide bleed t-stagger is-shown",
+   "h": [
+    176,
+    178,
+    1176,
+    306
+   ],
+   "hLines": 2,
+   "foot": [
+    176,
+    976,
+    1744,
+    1000
+   ],
+   "pg": [
+    1701,
+    976,
+    1744,
+    1000
+   ],
+   "pgText": "6 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,24px,20px,16px",
+   "shadows": 1,
+   "cards": 0,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "재귀적 자기개선 · 지금 보이는 신호",
+   "src": true,
+   "srcText": "배경: AI 생성 이미지(Gemini) · Semafor·TechSpot 보도, OpenAI 발표 요약(HelpNetSecurity 등), Go",
+   "srcClip": 0,
+   "headTxt": "AI 회사들은 이미다음 AI 개발에 AI를 쓰고 있습니다"
+  },
+  {
+   "n": 7,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1718,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "7 / 34",
+   "nSizes": 4,
+   "sizes": "14px,48px,20px,16px",
+   "shadows": 1,
+   "cards": 1,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "AI가 맡을 수 있는 업무 크기 (METR 50% 시간지평)",
+     "title": false,
+     "desc": false,
+     "tickHidden": false
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "AI 발전 속도 · 관계식 R1",
+   "src": true,
+   "srcText": "METR, metr.org/assets/benchmark_results_1_1.yaml · analysis/timeline_analysis.py",
+   "srcClip": 0,
+   "headTxt": "AI가 맡을 수 있는 업무는 갈수록 빠르게 커집니다"
+  },
+  {
+   "n": 8,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1717,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "8 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,20px,64px,24px,16px",
+   "shadows": 3,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "AI 발전 속도 · 관계식 R1",
+   "src": true,
+   "srcText": "analysis/timeline_analysis.py · analysis/ml_models.py · METR는 16시간이 넘는 측정은 아직 믿기",
+   "srcClip": 0,
+   "headTxt": "AI가 맡는 업무 크기는 이제 석 달 반마다 두 배가 됩니다"
+  },
+  {
+   "n": 9,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1717,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "9 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,20px,24px,16px",
+   "shadows": 4,
+   "cards": 4,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "AI 발전 속도 · 회사 대표들의 말",
+   "src": true,
+   "srcText": "사진: Village Global(CC BY 2.0), UK Prime Minister Flickr(CC BY 2.0), Jenny8lee(CC",
+   "srcClip": 0,
+   "headTxt": "AI 회사 대표들은 AGI 시점으로 2026~2030년을 말합니다"
+  },
+  {
+   "n": 10,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    298
+   ],
+   "hLines": 2,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1710,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "10 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,20px,24px,16px",
+   "shadows": 2,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "전문가들이 예상한 AGI 연도의 변화",
+     "title": false,
+     "desc": false,
+     "tickHidden": false
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "전문가 예상 · 관계식 R2",
+   "src": true,
+   "srcText": "AI Impacts ESPAI 2016·2022·2023·2024 (Grace 외) · Metaculus 5121 커뮤니티 중앙값(OWID·Le",
+   "srcClip": 0,
+   "headTxt": "AI 능력이 두 배가 될 때마다전문가들은 AGI 예상 연도를 3.2년씩 앞당겼습니다"
+  },
+  {
+   "n": 11,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    298
+   ],
+   "hLines": 2,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1713,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "11 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,20px,64px,24px,16px",
+   "shadows": 3,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "AGI 예상 연도와 모든 직업 자동화 예상 연도",
+     "title": false,
+     "desc": false,
+     "tickHidden": false
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "전문가 예상 · 관계식 R3",
+   "src": true,
+   "srcText": "Grace 외 2024 · ESPAI 2024 보고서(2026-09) · 2016년 직업 자동화 값은 수집 파일에 없어 그리지 않음 · anal",
+   "srcClip": 0,
+   "headTxt": "전문가들은 직업 자동화 시점을AGI 시점보다 3.5배 빠르게 앞당겼습니다"
+  },
+  {
+   "n": 12,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1710,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "12 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,20px,96px,24px,16px",
+   "shadows": 2,
+   "cards": 2,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "전문가 예상 · 컨설팅 기관",
+   "src": true,
+   "srcText": "McKinsey Global Institute 2017 「A future that works」 · 2023 「The economic potent",
+   "srcClip": 0,
+   "headTxt": "컨설팅 기관의 추정도 같은 방향으로 움직였습니다"
+  },
+  {
+   "n": 13,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    298
+   ],
+   "hLines": 2,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1710,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "13 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,20px,64px,16px",
+   "shadows": 2,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "AI 노출도와 고용 변화 — 미국 세부 직업",
+     "title": false,
+     "desc": false,
+     "tickHidden": false
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "실제 고용 1 · 미국 세부 직업 · 수업 7주 상관",
+   "src": true,
+   "srcText": "수업 4·5주: 변화율 평균 3.43% · 중앙값 3.35% · SD 18.71(ddof=1) · 왜도 1.91 · z 후보 10개, IQR 후",
+   "srcClip": 0,
+   "headTxt": "그런데 직업 전체로 보면AI 노출도와 고용 변화는 아직 상관이 없습니다"
+  },
+  {
+   "n": 14,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1710,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "14 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,20px,24px,64px,16px",
+   "shadows": 3,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "노출도 5분위별 합계 고용 변화 2022→2025",
+     "title": false,
+     "desc": false,
+     "tickHidden": true
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "실제 고용 1 · 노출 상위 직업",
+   "src": true,
+   "srcText": "analysis/occupation_analysis.py — 분위·상위 10% 집계 · BLS OEWS · Eloundou 외 β",
+   "srcClip": 0,
+   "headTxt": "다만 노출이 가장 큰 직업들은 이미 덜 늘고 있습니다"
+  },
+  {
+   "n": 15,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1710,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "15 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,20px,96px,24px,16px",
+   "shadows": 1,
+   "cards": 2,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "실제 고용 1 · 수업 9주 층화 · 심슨의 역설",
+   "src": true,
+   "srcText": "analysis/occupation_analysis.py — 대분류별 ρ · 대분류 평균을 뺀 상관(부트스트랩 2,000회, 시드 42)",
+   "srcClip": 0,
+   "headTxt": "직업군을 섞어 보면 관계가 가려집니다"
+  },
+  {
+   "n": 16,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    298
+   ],
+   "hLines": 2,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1710,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "16 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,20px,64px,24px,16px",
+   "shadows": 3,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "예측모형 · 수업 6주 보너스 · 학습/검증 분리",
+   "src": true,
+   "srcText": "analysis/ml_models.py (numpy, scikit-learn 1.9) · 5겹 교차검증(시드 42) · 상관 분석과 같은 결론을",
+   "srcClip": 0,
+   "headTxt": "머신러닝으로 예측해도AI 노출도보다 직업의 원래 추세가 더 큽니다"
+  },
+  {
+   "n": 17,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1711,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "17 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,20px,24px,16px",
+   "shadows": 2,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "한국 직업 대분류별 취업자 (2019 = 100)",
+     "title": false,
+     "desc": false,
+     "tickHidden": false
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "실제 고용 2 · 한국 직업 대분류",
+   "src": true,
+   "srcText": "KOSIS · 한국고용정보원 연구사업 2025-40 · 국회예산정책처 경제현안분석 110호(2026-09)",
+   "srcClip": 0,
+   "headTxt": "한국도 사무직·전문직 취업자는 아직 늘고 있습니다"
+  },
+  {
+   "n": 18,
+   "cls": "slide bleed t-stagger is-shown",
+   "h": [
+    176,
+    178,
+    1276,
+    306
+   ],
+   "hLines": 2,
+   "foot": [
+    176,
+    976,
+    1744,
+    1000
+   ],
+   "pg": [
+    1694,
+    976,
+    1744,
+    1000
+   ],
+   "pgText": "18 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,96px,24px,20px,16px",
+   "shadows": 1,
+   "cards": 0,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "실제 고용 3 · 신입 채용 · 관계식 R4",
+   "src": true,
+   "srcText": "배경: AI 생성 이미지(Gemini) · 한국은행 이슈노트 2026-19 · Brynjolfsson 외 Canaries(2026-08판) · ",
+   "srcClip": 0,
+   "headTxt": "변화는 일자리 수보다 먼저신입 채용에서 나타났습니다"
+  },
+  {
+   "n": 19,
+   "cls": "slide bleed t-stagger is-shown",
+   "h": [
+    176,
+    178,
+    1276,
+    306
+   ],
+   "hLines": 2,
+   "foot": [
+    176,
+    976,
+    1744,
+    1000
+   ],
+   "pg": [
+    1694,
+    976,
+    1744,
+    1000
+   ],
+   "pgText": "19 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,96px,24px,20px,16px",
+   "shadows": 1,
+   "cards": 0,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "로봇 학습 데이터",
+   "src": true,
+   "srcText": "배경: AI 생성 이미지(Gemini) · Waymo 발표 · Generalist AI·Physical Intelligence 블로그 · Bes",
+   "srcClip": 0,
+   "headTxt": "로봇 학습 데이터가 쌓이면같은 AI가 몸을 쓰는 일도 맡게 됩니다"
+  },
+  {
+   "n": 20,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    988,
+    1760,
+    1016
+   ],
+   "pg": [
+    1707,
+    990,
+    1760,
+    1014
+   ],
+   "pgText": "20 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,24px,16px,20px",
+   "shadows": 2,
+   "cards": 2,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "관계식 R6 · 로봇 데이터가 따라잡는 데 걸리는 시간",
+   "src": true,
+   "srcText": "Bessemer · Generalist AI · Scale AI · IFR World Robotics 2026 · 국내 보도 · research",
+   "srcClip": 0,
+   "headTxt": "몸을 쓰는 일은 3~8년 늦게 따라옵니다"
+  },
+  {
+   "n": 21,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1710,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "21 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,20px,96px,24px,16px",
+   "shadows": 2,
+   "cards": 2,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "속도를 늦추는 요인 · 관계식 R5",
+   "src": true,
+   "srcText": "Epoch AI · IEA Energy and AI · research/biocomputing.md",
+   "srcClip": 0,
+   "headTxt": "속도를 늦출 가장 큰 제약은 전기입니다"
+  },
+  {
+   "n": 22,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1708,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "22 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,24px,20px,16px",
+   "shadows": 2,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "바이오 반도체 · 뉴로모픽",
+   "src": true,
+   "srcText": "사진: AI 생성 이미지(Gemini) · Hartung 외 2023 · Cortical Labs · Intel · research/biocom",
+   "srcClip": 0,
+   "headTxt": "뇌세포 칩은 2036년 안의 답이 아닙니다"
+  },
+  {
+   "n": 23,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1708,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "23 / 34",
+   "nSizes": 4,
+   "sizes": "14px,48px,20px,16px",
+   "shadows": 0,
+   "cards": 1,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "2036 추정 1 · 모형의 뼈대",
+   "src": true,
+   "srcText": "교육용 시나리오 모형입니다. 이 관계가 이어진다면 어떤 경로가 나오는지 계산합니다. 새로 생기는 일자리와 인구 감소는 넣지 않았습니다",
+   "srcClip": 0,
+   "headTxt": "관계식들을 이어 직업군별 대체 시점 모형을 만들었습니다"
+  },
+  {
+   "n": 24,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1708,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "24 / 34",
+   "nSizes": 4,
+   "sizes": "14px,48px,20px,16px",
+   "shadows": 2,
+   "cards": 2,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "AI가 80% 확률로 해내는 업무 크기 2036년까지 연장",
+     "title": false,
+     "desc": false,
+     "tickHidden": false
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "2036 추정 2 · AI 능력 연장",
+   "src": true,
+   "srcText": "analysis/projection_2036.py · 실제 업무가 METR 과제보다 10배 복잡하다고 가정하면 각 연도가 1~3년 늦어집니다",
+   "srcClip": 0,
+   "headTxt": "2031년 전에 AI는 한 달짜리 업무도 해냅니다"
+  },
+  {
+   "n": 25,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    298
+   ],
+   "hLines": 2,
+   "foot": [
+    160,
+    988,
+    1760,
+    1016
+   ],
+   "pg": [
+    1708,
+    990,
+    1760,
+    1014
+   ],
+   "pgText": "25 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,20px,32px,16px,24px",
+   "shadows": 2,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "2036 추정 3 · 직급별",
+   "src": true,
+   "srcText": "직급별 업무 크기(하루·한 주·한 달·한 분기)는 이 덱의 가정 · analysis/out/projection_2036.json 추정",
+   "srcClip": 0,
+   "headTxt": "직급별 대체는 대리·과장 2031~2032년부장급 2033년 무렵 본격화합니다"
+  },
+  {
+   "n": 26,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1708,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "26 / 34",
+   "nSizes": 6,
+   "sizes": "14px,48px,20px,64px,24px,16px",
+   "shadows": 3,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "한국 일자리 대체 압력 누적 (새 일자리 미반영)",
+     "title": false,
+     "desc": false,
+     "tickHidden": false
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "2036 추정 4 · 한국 일자리",
+   "src": true,
+   "srcText": "analysis/projection_2036.py · 같은 기간 생산연령인구가 해마다 약 39만 명 줄어(KDI 인용) 실업보다 '채용이 늘지 ",
+   "srcClip": 0,
+   "headTxt": "2036년까지 한국 일자리 열 개 중 하나가 대체 압력을 받습니다"
+  },
+  {
+   "n": 27,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1709,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "27 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,20px,24px,16px",
+   "shadows": 2,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [
+    {
+     "role": "img",
+     "label": "직업군별 2036년 대체 압력 (기준 시나리오)",
+     "title": false,
+     "desc": false,
+     "tickHidden": true
+    }
+   ],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "2036 추정 5 · 직업군별",
+   "src": true,
+   "srcText": "한국고용정보원 연구사업 2025-40 고위험 비중 × 실현 비율 0.5 · analysis/projection_2036.py",
+   "srcClip": 0,
+   "headTxt": "사무직부터 시작해 판매와 생산 현장으로 이어집니다"
+  },
+  {
+   "n": 28,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1708,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "28 / 34",
+   "nSizes": 4,
+   "sizes": "14px,48px,24px,16px",
+   "shadows": 1,
+   "cards": 1,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "직업군별 대체 시작 시점",
+   "src": true,
+   "srcText": "시작 시점 = 기준 시나리오에서 그 직업군 일자리의 5%가 대체 압력을 받는 해(추정) · 실측: BLS OEWS 2022·2025 · 한국은행",
+   "srcClip": 0,
+   "headTxt": "다음으로 대체가 시작될 직업군은 사무직입니다"
+  },
+  {
+   "n": 29,
+   "cls": "slide dark t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1708,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "29 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,20px,24px,16px",
+   "shadows": 4,
+   "cards": 4,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(23, 21, 18)",
+   "kicker": "종합 · 관계식들이 가리키는 10년",
+   "src": true,
+   "srcText": "모든 연도는 기준 시나리오 추정 · 결론 등급은 '기술'(관계)과 '추정'(경로)이며 '인과'로 쓰지 않았습니다",
+   "srcClip": 0,
+   "headTxt": "이 관계가 이어진다면 2036년까지 이렇게 흘러갑니다"
+  },
+  {
+   "n": 30,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1707,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "30 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,24px,20px,16px",
+   "shadows": 5,
+   "cards": 5,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "반대 증거 · 같은 무게로",
+   "src": true,
+   "srcText": "research/jobs-global.md · research/jobs-korea.md · 이 덱의 결론 문장은 '함께 움직인다'(기술)까지이고",
+   "srcClip": 0,
+   "headTxt": "아직 AI 때문이라고 단정할 수는 없습니다"
+  },
+  {
+   "n": 31,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1710,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "31 / 34",
+   "nSizes": 4,
+   "sizes": "14px,48px,20px,16px",
+   "shadows": 1,
+   "cards": 1,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "데이터분석 계획 1 · 질문과 데이터",
+   "src": true,
+   "srcText": "수업 방법 결정표(course-domain/method-selector.md)",
+   "srcClip": 0,
+   "headTxt": "본 분석은 AI가 신입 채용을 줄였는지를 묻습니다"
+  },
+  {
+   "n": 32,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1708,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "32 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,20px,24px,16px",
+   "shadows": 2,
+   "cards": 2,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "데이터분석 계획 2 · 방법과 일정",
+   "src": true,
+   "srcText": "7~16주는 계획 문서 기준이며 확정 일정은 학교 공지를 따릅니다",
+   "srcClip": 0,
+   "headTxt": "관계를 확인한 뒤 이중차분으로 원인에 다가갑니다"
+  },
+  {
+   "n": 33,
+   "cls": "slide t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1707,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "33 / 34",
+   "nSizes": 5,
+   "sizes": "14px,48px,24px,20px,16px",
+   "shadows": 3,
+   "cards": 3,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(244, 242, 239)",
+   "kicker": "한계",
+   "src": true,
+   "srcText": "분석 명세 spec.md · 종합 보고서 report.md · 독립 재계산 verification-independent.md",
+   "srcClip": 0,
+   "headTxt": "이번 예비 분석으로 말할 수 있는 것과 없는 것"
+  },
+  {
+   "n": 34,
+   "cls": "slide dark t-stagger is-shown",
+   "h": [
+    160,
+    170,
+    1600,
+    234
+   ],
+   "hLines": 1,
+   "foot": [
+    160,
+    992,
+    1760,
+    1016
+   ],
+   "pg": [
+    1707,
+    992,
+    1760,
+    1016
+   ],
+   "pgText": "34 / 34",
+   "nSizes": 4,
+   "sizes": "14px,48px,20px,16px",
+   "shadows": 0,
+   "cards": 0,
+   "heads": 1,
+   "svgs": [],
+   "bg": "rgb(23, 21, 18)",
+   "kicker": "출처",
+   "src": true,
+   "srcText": "이미지: Gemini 생성 8장(워터마크는 SAM 2.1로 제거, 생성 사실은 장마다 표기) · 인물 사진 Wikimedia Commons(CC",
+   "srcClip": 0,
+   "headTxt": "쓴 자료와 확인 경로"
+  }
+ ],
+ "sizes": [
+  "14px",
+  "16px",
+  "20px",
+  "24px",
+  "32px",
+  "48px",
+  "64px",
+  "80px",
+  "96px"
+ ],
+ "weights": [
+  "600",
+  "700",
+  "400"
+ ],
+ "fams": [
+  "\"Pretendard Variable\", Pretendard, system-ui, sans-serif"
+ ]
+}
