@@ -109,7 +109,8 @@ em { font-style: normal; font-weight: 700; color: var(--accent); }
 .chart-title { font: var(--t-title) var(--font); letter-spacing: -0.02em; }
 .chart-sub { font: var(--t-body) var(--font); color: var(--note); }
 .chart-head { display: flex; flex-direction: column; gap: var(--g8); }
-.chart-src { max-width: 36em; font: var(--t-small) var(--font); color: var(--note); }
+.chart-src { font: var(--t-small) var(--font); color: var(--note); }
+.chart > .chart-src { max-width: 36em; } /* 차트 출처 줄은 한 줄 45자 안팎에서 줄바꿈 */
 /* 차트 안: 글자는 잉크·회색만(계열은 옆의 점·선 색), 크기는 본문 프리셋 20px 하나, 굵기 400·600·700 */
 .chart svg { width: 100%; height: auto; overflow: visible; }
 .chart svg text { font-family: var(--font); font-size: 20px; font-weight: 400; fill: var(--note); font-variant-numeric: tabular-nums; }
@@ -117,6 +118,8 @@ em { font-style: normal; font-weight: 700; color: var(--accent); }
 .chart svg .slab, .chart svg .note { font-weight: 600; fill: var(--ink); }
 .chart svg .cat-hi { font-weight: 700; fill: var(--ink); }
 .chart svg .band-lab, .chart svg .gate-lab { font-weight: 600; fill: var(--note); }
+/* 이름표 뒤 바탕색 테(점선·격자가 글자를 지나가도 읽히게) */
+.chart svg .vlab, .chart svg .slab, .chart svg .note, .chart svg .gate-lab { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
 /* 격자·축: 옅은 실선 */
 .chart svg .grid line { stroke: var(--chart-grid); stroke-width: 1; }
 .chart svg .base, .chart svg .grid .zero { stroke: var(--chart-mid); stroke-width: 1.5; }

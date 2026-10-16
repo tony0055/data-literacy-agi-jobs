@@ -241,7 +241,7 @@ def main():
         "v": month_min, "직급": "과장·차장",
         # 맥락색(신중) 점은 대비가 낮아 바로 옆에 연도 이름표를 단다
         "points": [{"key": n, "색": {"빠름": "evid", "기준": "worse", "신중": "neutral"}[n], "x": cross[n],
-                    **({"label": cross[n], "anchor": "end", "dx": -12, "dy": -12} if n == "신중" else {})} for n in ("빠름", "기준", "신중")],
+                    **({"label": cross[n], "anchor": "start", "dx": 12, "dy": 28} if n == "신중" else {})} for n in ("빠름", "기준", "신중")],
         # 점은 문턱선 위에, 연도는 선이 지나지 않는 아래쪽 빈 자리에 한 줄 주석으로
         "주석": {"x": 2029.4, "y": 150, "anchor": "start",
                  "text": f"한 달짜리 일을 해내기 시작하는 해 · 빠름 {cross['빠름']} · 기준 {cross['기준']} · 신중 {cross['신중']}"},
