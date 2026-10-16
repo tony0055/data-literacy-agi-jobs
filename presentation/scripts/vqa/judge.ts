@@ -221,7 +221,11 @@ J["LAY-08"] = (D) => {
     // 같은 행: 세로 구간이 작은 쪽 높이의 절반 넘게 겹치면(계단식으로 내려 놓은 타일도 한 행으로 본다)
     const sameRow = (a: any, b: any) => Math.min(a.rect.b, b.rect.b) - Math.max(a.rect.y, b.rect.y) > Math.min(a.rect.h, b.rect.h) / 2;
     for (const k of g.kids) { const row = rows.find((r) => sameRow(r[0], k)); row ? row.push(k) : rows.push([k]); }
-    for (const row of rows) if (row.length >= 2) {
+    // 기준이 열거한 묶음(.figs·.tiles·.bands·질문 묶음)은 같은 행 전부를 비교한다. 일반 격자(.grid·.timeline·.points)는
+    // 폭이 같은(±8px) 나란한 형제끼리만 본다 — 폭이 다른 주·보조 배치(차트 1051 + 옆 카드 501)는 의도된 비대칭이다
+    const listed = /figs|tiles|bands|qcards/.test(g.cls);
+    const peerRows = listed ? rows : rows.flatMap((row) => { const sets: any[][] = []; for (const k of row) { const s2 = sets.find((x) => Math.abs(x[0].rect.w - k.rect.w) <= 8); s2 ? s2.push(k) : sets.push([k]); } return sets; });
+    for (const row of peerRows) if (row.length >= 2) {
       const w = row.map((k) => k.rect.w), h = row.map((k) => k.rect.h);
       if (Math.max(...w) - Math.min(...w) > 8 || Math.max(...h) - Math.min(...h) > 8) items.push({ n, msg: `${g.label} 같은 행 형제 폭 ${uniq(w.map((x) => r1(x, 0))).join("/")} · 높이 ${uniq(h.map((x) => r1(x, 0))).join("/")}` });
       if (uniq(row.map((k) => k.kidCls)).length > 1) items.push({ n, msg: `${g.label} 같은 행 형제 자식 구조 다름` });
@@ -1036,7 +1040,11 @@ J["TXT-05"] = (D) => {
       const v = jacc(B[i].text, B[j].text);
       if (v >= 0.5) items.push({ n, msg: `블록 유사도 ${r1(v, 2)}: ${B[i].label.split(" ")[0]} ↔ ${B[j].label.split(" ")[0]}` });
     }
-    const txt = [s.headline?.text ?? "", s.bodyText, s.soweInfo?.text ?? ""].join(" ");
+    // 같은 숫자 반복은 문장에서 센다. 표 칸(서로 다른 행·열의 값), 차트 안 글자, 범례(숫자 뜻풀이), 출처·꼬리말은 반복으로 치지 않는다
+    const tables = s.boxes.filter((b: any) => b.tag === "td" || b.tag === "th");
+    const inTable = (t: any) => tables.some((b: any) => t.rect.x + t.rect.w / 2 >= b.rect.x && t.rect.x + t.rect.w / 2 <= b.rect.x + b.rect.w && t.rect.y + t.rect.h / 2 >= b.rect.y && t.rect.y + t.rect.h / 2 <= b.rect.y + b.rect.h);
+    const prose = s.texts.filter((t: any) => t.ctx.includes("body") && !t.ctx.includes("legend") && !t.inSvg && !isTertiary(t) && !inTable(t)).map((t: any) => t.own).join(" ");
+    const txt = [s.headline?.text ?? "", prose, s.soweInfo?.text ?? ""].join(" ");
     const cnt = new Map<string, number>();
     for (const x of claimNums(txt)) cnt.set(x, (cnt.get(x) ?? 0) + 1);
     const rep = [...cnt].filter(([, c]) => c > 2);
@@ -1410,8 +1418,9 @@ J["CHT-09"] = (D) => {
     const head = D.slides[n]?.headline?.text ?? "";
     const hasYearAxis = v.texts.some((t: any) => /alab|tick/.test(t.cls) && /^\d{4}$/.test(t.text));
     // 순서 주장 = 헤드라인이 차트 범주 이름을 '…부터·먼저'로 짚는다('사무직부터'). '2023년부터'처럼 범주가 아닌 말은 보지 않는다
-    const cats = uniq(v.texts.filter((t: any) => /alab|note/.test(t.cls) && HANGUL.test(t.text)).map((t: any) => norm(t.text.split(/\s*·\s*|\s*\(/)[0]))).filter((c: any) => c.length >= 2) as string[];
-    const orderClaim = cats.some((c) => new RegExp(`${c}[가-힣]{0,2}\\s*(부터|먼저)`).test(head));
+    const cats = uniq(v.texts.filter((t: any) => /alab|note/.test(t.cls) && HANGUL.test(t.text)).map((t: any) => norm(t.text.split(/\s+·\s+|\s*\(/)[0]))).filter((c: any) => c.length >= 2) as string[];
+    const headN = head.replace(/[\s·]/g, "");
+    const orderClaim = cats.some((c) => new RegExp(`${c}[가-힣]{0,2}(부터|먼저)`).test(headN));
     if (v.kind === "hbar" && orderClaim && !hasYearAxis) {
       const vals = v.texts.filter((t: any) => /vlab/.test(t.cls)).sort((a: any, b: any) => a.rect.y - b.rect.y).map((t: any) => Number(t.text.replace(/[,%+\s]/g, "").replace("−", "-"))).filter(Number.isFinite);
       const sorted = vals.every((x: number, i: number) => i === 0 || x <= vals[i - 1]) || vals.every((x: number, i: number) => i === 0 || x >= vals[i - 1]);
@@ -1424,7 +1433,9 @@ J["CHT-09"] = (D) => {
 J["CHT-10"] = (D) => {
   const items: Item[] = [];
   const by = new Map(charts(D).map(([n, v]) => [v.chart, { n, v }]));
-  const pairs = [["metr_horizon", "proj_capability"], ["agi_forecast_shift", "espai_two_clocks"], ["kr_occupation_index", "proj_kr_jobs"], ["kr_occupation_index", "proj_wave"]];
+  // 기준이 꼽은 같은 데이터 쌍(7↔22장 METR, 17↔25·26장 직업군). 계열 표기 대조는 같은 설문을 다시 쓰는 10↔11장도 본다
+  const sameDataPairs = [["metr_horizon", "proj_capability"], ["kr_occupation_index", "proj_kr_jobs"], ["kr_occupation_index", "proj_wave"]];
+  const pairs = [...sameDataPairs, ["agi_forecast_shift", "espai_two_clocks"]];
   const seriesLabel = (v: any) => new Map(v.polylines.map((p: any) => { const e = p.pts[p.pts.length - 1]; const t = v.texts.filter((t: any) => !/tick/.test(t.cls) && HANGUL.test(t.text)).sort((a: any, b: any) => dist(a.rect, { x: e.x, y: e.y, w: 1, h: 1 }) - dist(b.rect, { x: e.x, y: e.y, w: 1, h: 1 }))[0]; return [t ? norm(t.text) : p.cls, `${p.stroke}|${p.sw}`]; }));
   const units = (v: any) => new Set(([v.titles, v.subs].flat().map((x: any) => x.text).join(" ") + v.texts.filter((t: any) => /alab/.test(t.cls)).map((t: any) => t.text).join(" ")).match(/%|시간|분|만\s?명|배|지수/g) ?? []);
   for (const [a, b] of pairs) {
@@ -1442,7 +1453,7 @@ J["CHT-10"] = (D) => {
   // 이어지는 차트 장의 모집단: '직업 N개'·'N개 직업'(분위마다 ×5, 상위 10% ×10)으로 센 전체 수가 다르면, 뒤 장이 앞 장의 수나 차이 이유를 밝혀야 한다
   const pop = (s: any) => {
     const t = s.slideText as string, out = new Set<number>();
-    for (const m of t.matchAll(/(분위마다|상위\s*(\d+)%)?\s*직업\s*(\d[\d,]*)\s*개|(\d[\d,]*)\s*개\s*직업(?!\s*(?:대분류|군))/g)) {
+    for (const m of t.matchAll(/(분위마다|상위\s*(\d+)%)?\s*(?:직업\s*(\d[\d,]*)\s*개|(\d[\d,]*)\s*개\s*직업(?!\s*(?:대분류|군)))/g)) {
       const k = Number((m[3] ?? m[4]).replace(/,/g, ""));
       const q = Math.max(0, ...[...t.matchAll(/(?<![\d.→~])([1-9]\d?)\s*분위/g)].map((x) => +x[1])) || 5; // 'N분위' 중 가장 큰 N(없으면 5분위)
       out.add(m[1] === "분위마다" ? k * q : m[2] ? Math.round(k * 100 / Number(m[2])) : k);
@@ -1461,7 +1472,12 @@ J["CHT-10"] = (D) => {
   const C = charts(D);
   for (let i = 1; i < C.length; i++) {
     const [n, v] = C[i], [m, p] = C[i - 1];
-    if (n === m + 1 && v.kind === p.kind) {
+    // 축·위치 유지는 같은 데이터를 잇는 장에만 요구한다: 기준이 꼽은 같은 데이터 쌍(METR·직업군)이거나 같은 이름의 범주·계열 라벨을 공유할 때.
+    // 10↔11장처럼 한 계열을 더 큰 범위의 다른 계열과 나란히 보이려고 축을 넓힌 장은 요구하지 않는다
+    const labelsOf = (x: any) => new Set(x.texts.filter((t: any) => !/tick|alab/.test(t.cls) && HANGUL.test(t.text)).map((t: any) => norm(t.text)).filter((l: string) => l.length >= 2));
+    const lv = labelsOf(v), lp = labelsOf(p);
+    const sameData = sameDataPairs.some(([a, b]) => (a === p.chart && b === v.chart) || (a === v.chart && b === p.chart)) || [...lv].some((l) => lp.has(l));
+    if (n === m + 1 && v.kind === p.kind && sameData) {
       const d = Math.max(Math.abs(v.rect.x - p.rect.x), Math.abs(v.rect.y - p.rect.y), Math.abs(v.rect.w - p.rect.w), Math.abs(v.rect.h - p.rect.h));
       if (d > 8) items.push({ n, msg: `연속 차트 장 ${m}·${n} svg 위치·크기 차 ${r1(d)}px(>8)` });
       const rng = (x: any) => { const t = x.texts.filter((t: any) => /tick/.test(t.cls)).map((t: any) => Number(t.text.replace(/[,%+\s]/g, ""))).filter(Number.isFinite); const y = x.texts.filter((t: any) => /alab/.test(t.cls) && /^\d{4}$/.test(t.text)).map((t: any) => +t.text); return `세로 ${t.length ? Math.min(...t) + "~" + Math.max(...t) : "-"} · 가로 ${y.length ? Math.min(...y) + "~" + Math.max(...y) : "-"}`; };
@@ -1493,8 +1509,15 @@ J["CHT-12"] = (D) => {
   const items: Item[] = [];
   const src = D.files.js["charts.js"] ?? "";
   stripComments(src).split("\n").forEach((l, i) => {
-    if (/innerHTML\s*[+]?=.*\$\{/.test(l)) items.push({ msg: `charts.js:${i + 1} innerHTML 문자열 결합` });
-    if (/\[\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*(,\s*-?\d+(\.\d+)?\s*)+\]/.test(l)) items.push({ msg: `charts.js:${i + 1} 하드코딩 숫자 배열: ${l.trim().slice(0, 80)}` });
+    if (/innerHTML\s*[+]?=.*\$\{|insertAdjacentHTML\s*\(.*\$\{|outerHTML\s*[+]?=.*\$\{/.test(l)) items.push({ msg: `charts.js:${i + 1} HTML 문자열 결합(${l.match(/innerHTML|insertAdjacentHTML|outerHTML/)![0]})` });
+    // 숫자 배열 리터럴: 등간격 수열(축 눈금 위치 [0, 0.25, 0.5, 0.75, 1] 같은 척도)은 데이터가 아니라서 뺀다
+    for (const m of l.matchAll(/\[\s*-?\d+(?:\.\d+)?\s*(?:,\s*-?\d+(?:\.\d+)?\s*){2,}\]/g)) {
+      const a = m[0].slice(1, -1).split(",").map(Number), d = a.slice(1).map((x, k) => r1(x - a[k], 6));
+      if (uniq(d).length > 1) items.push({ msg: `charts.js:${i + 1} 하드코딩 숫자 배열: ${l.trim().slice(0, 80)}` });
+    }
+    // 차트 글자 크기를 JS 숫자로 박으면 글자 프리셋(토큰)을 벗어난다
+    const fs = l.match(/["']font-size["']\s*:\s*["']?(\d+(?:\.\d+)?)/);
+    if (fs) items.push({ msg: `charts.js:${i + 1} 글자 크기 하드코딩 font-size ${fs[1]}` });
   });
   const marks = charts(D).flatMap(([, v]) => marksOf(v));
   if (marks.length && !marks.some((m: any) => m.data)) items.push({ msg: `차트 도형 ${marks.length}개 중 data 속성으로 값과 묶인 것 0` });
