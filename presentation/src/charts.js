@@ -184,17 +184,17 @@ function gates(d) {
   const t = document.createElement("table");
   t.className = "plan gates";
   const yr = (v) => (v > 2036.99 ? `${Math.floor(v)}*` : String(Math.floor(v)));
-  t.innerHTML = `<thead><tr><th>직급</th><th>AI가 맡을 업무 단위</th><th>빠름</th><th>기준</th><th>신중</th></tr></thead>`;
+  t.innerHTML = `<thead><tr><th>직급</th><th>맡는 업무 크기</th><th>빠름</th><th>기준</th><th>신중</th></tr></thead>`;
   const tb = document.createElement("tbody");
   for (const r of d.rows) {
-    const cell = (n) => `<td class="yr"><b>${yr(r[n].본격화)}</b><span>문턱 ${yr(r[n].문턱)}</span></td>`;
+    const cell = (n) => `<td class="yr"><b>${yr(r[n].본격화)}</b><span>AI 가능 ${yr(r[n].문턱)}</span></td>`;
     tb.insertAdjacentHTML("beforeend", `<tr><td>${r.직급}</td><td>${r.업무단위}</td>${cell("빠름")}${cell("기준")}${cell("신중")}</tr>`);
   }
   t.append(tb);
   return t;
 }
 
-// 7) 도착 안내: 포스터 줄 목록(taste-skill 「One item per poster line」)
+// 7) 직업군별 대체 시작: 포스터 줄 목록(taste-skill 「One item per poster line」)
 function poster(d) {
   const wrap = document.createElement("div");
   wrap.className = "poster";
