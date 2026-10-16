@@ -107,31 +107,38 @@ em { font-style: normal; font-weight: 700; color: var(--accent); }
 .chart { display: flex; flex-direction: column; gap: var(--g16); min-width: 0; padding: var(--g48); border-radius: var(--r-core); background: var(--paper); box-shadow: var(--bezel); }
 .chart.bare { padding: 0; background: none; box-shadow: none; border-radius: 0; }
 .chart-title { font: var(--t-title) var(--font); letter-spacing: -0.02em; }
-.chart-sub { font: var(--t-caption) var(--font); color: var(--note); }
-.chart-src { font: var(--t-small) var(--font); color: var(--note); }
+.chart-sub { font: var(--t-body) var(--font); color: var(--note); }
+.chart-head { display: flex; flex-direction: column; gap: var(--g8); }
+.chart-src { max-width: 36em; font: var(--t-small) var(--font); color: var(--note); }
+/* 차트 안: 글자는 잉크·회색만(계열은 옆의 점·선 색), 크기는 본문 프리셋 20px 하나, 굵기 400·600·700 */
 .chart svg { width: 100%; height: auto; overflow: visible; }
-.chart svg text { font-family: var(--font); fill: var(--note); font-variant-numeric: tabular-nums; }
-.chart svg .tick, .chart svg .alab { font-size: 20px; }
-.chart svg .vlab { font-size: 20px; font-weight: 700; fill: var(--ink); }
-.chart svg .note { font-size: 20px; font-weight: 700; fill: var(--accent); }
-.chart svg .grid line { stroke: var(--chart-grid); stroke-width: 1.5; }
-.chart svg .base { stroke: var(--chart-mid); stroke-width: 1.5; }
+.chart svg text { font-family: var(--font); font-size: 20px; font-weight: 400; fill: var(--note); font-variant-numeric: tabular-nums; }
+.chart svg .vlab { font-weight: 700; fill: var(--ink); }
+.chart svg .slab, .chart svg .note { font-weight: 600; fill: var(--ink); }
+.chart svg .cat-hi { font-weight: 700; fill: var(--ink); }
+.chart svg .band-lab, .chart svg .gate-lab { font-weight: 600; fill: var(--note); }
+/* 격자·축: 옅은 실선 */
+.chart svg .grid line { stroke: var(--chart-grid); stroke-width: 1; }
+.chart svg .base, .chart svg .grid .zero { stroke: var(--chart-mid); stroke-width: 1.5; }
 .chart svg rect, .chart svg circle { transform-box: fill-box; }
 .chart svg rect { transform-origin: 0 50%; }
-.chart svg circle { transform-origin: 50% 50%; }
+.chart svg circle { transform-origin: 50% 50%; stroke: var(--paper); stroke-width: 2; }
+/* 계열: 강조(인디고) · 비교(잉크) · 맥락(스톤). 인접 계열 밝기 차 ΔL* ≥ 15(프로젝터 모사) */
 .chart svg .b-worse { fill: var(--chart-hi); }
-.chart svg .b-evid { fill: var(--chart-mid); }
+.chart svg .b-evid { fill: var(--ink); }
 .chart svg .b-neutral { fill: var(--chart-lo); }
-.chart svg .l-worse { fill: none; stroke: var(--chart-hi); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
-.chart svg .l-evid { fill: none; stroke: var(--chart-mid); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
-.chart svg .l-neutral { fill: none; stroke: var(--chart-lo); stroke-width: 3.5; stroke-dasharray: 8 7; stroke-linecap: round; }
-.chart svg .dot { fill: var(--chart-lo); fill-opacity: .7; }
-.chart svg .band { fill: var(--accent-50); }
-.chart svg .band-lab { font-size: 20px; font-weight: 700; fill: var(--accent); }
-.chart svg .gate { stroke: var(--chart-lo); stroke-width: 1.5; stroke-dasharray: 2 7; }
-.chart svg .gate-lab { font-size: 20px; font-weight: 600; fill: var(--note); }
-.chart svg .trend { stroke: var(--ink); stroke-width: 2; stroke-dasharray: 10 6; }
-.chart svg .grid .zero { stroke: var(--chart-mid); stroke-width: 1.5; }
+.chart svg .l-worse, .chart svg .l-evid, .chart svg .l-neutral { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.chart svg .l-worse { stroke: var(--chart-hi); stroke-width: 5; }
+.chart svg .l-evid { stroke: var(--ink); stroke-width: 3.5; }
+.chart svg .l-neutral { stroke: var(--chart-lo); stroke-width: 3.5; }
+/* 점선은 뜻이 있을 때만(출처·정의가 다른 계열), 뜻은 이름표·출처 줄에 적는다 */
+.chart svg .dash-a { stroke-dasharray: 8 7; }
+.chart svg .dash-b { stroke-dasharray: 2 8; }
+.chart svg .dot { fill: var(--ink); fill-opacity: .5; }
+.chart svg .band { fill: var(--canvas); } /* 구간·외삽 띠는 중립 스톤(강조색은 데이터 계열에만) */
+.chart svg .gate { stroke: var(--chart-mid); stroke-width: 1.5; stroke-dasharray: 2 7; }
+.chart svg .leader { stroke: var(--note); stroke-width: 1.5; }
+.chart svg .range { stroke: var(--note); stroke-width: 6; stroke-linecap: round; }
 .legend { display: flex; flex-wrap: wrap; gap: var(--g8) var(--g24); font: var(--t-caption) var(--font); color: var(--note); }
 
 /* ── 발표 무대: 한 장씩, 장 사이는 페이지 좌우 전환(transitions.dev) ── */
