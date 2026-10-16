@@ -1043,6 +1043,7 @@ if (want("PERF-01", "TYP-14", "PERF-02", "PERF-03")) await phase("느린 회선(
     await Bun.sleep(300);
     await J(w, PAGE_JS).catch(() => 0);
     const c0 = await cur(w).catch(() => -1);
+    await J(w, "(() => { window.__cls = 0; return 1; })()").catch(() => 0); // 로드 중 이동은 빼고 첫 넘김 뒤 이동만 센다
     await key(w, "ArrowRight");
     await Bun.sleep(300);
     const c1 = await cur(w).catch(() => -1);
