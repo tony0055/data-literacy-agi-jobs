@@ -29,6 +29,7 @@ for (let i = 0; i < 50 && !report; i++) {
   report = await view.evaluate("document.getElementById('report')?.textContent || null");
   if (!report) await Bun.sleep(100);
 }
+const excepted = await view.evaluate("document.getElementById('report-excepted')?.textContent || null");
 const count = Number(await view.evaluate("document.querySelectorAll('.slide').length"));
 
 await mkdir(outDir, { recursive: true });
@@ -47,4 +48,5 @@ if (pdfPath) {
 
 view.close();
 server.stop();
-console.log(JSON.stringify({ slides: count, outDir, pdf: pdfPath, issues: JSON.parse(report ?? "null") }, null, 1));
+// issues: 실패만. excepted: fit.js 3차 정보 예외 목록(TERTIARY)으로 넘긴 글자 — 숨기지 않고 따로 보인다.
+console.log(JSON.stringify({ slides: count, outDir, pdf: pdfPath, issues: JSON.parse(report ?? "null"), excepted: JSON.parse(excepted ?? "null") }, null, 1));
