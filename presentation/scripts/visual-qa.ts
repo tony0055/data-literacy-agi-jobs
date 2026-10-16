@@ -479,9 +479,9 @@ if (want("NAV-04")) await phase("연타·왕복", async () => {
   await open(v, url("", "1"), 400);
   await J(v, `(() => { window.__kd = []; window.__vis = []; document.addEventListener('keydown', () => { const t = performance.now(); const target = Math.min(window.__deckCurrentSlide() + 1, document.querySelectorAll('.slide').length - 1); window.__kd.push(t);
     const tick = () => { const s = document.querySelectorAll('.slide')[target]; const cs = getComputedStyle(s); if (cs.visibility === 'visible' && Number(cs.opacity) > 0.01) window.__vis.push(performance.now() - t); else if (performance.now() - t < 1000) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }, true); return 1; })()`);
-  await key(v, "ArrowRight");
-  await Bun.sleep(400);
-  const firstVisible = await J(v, "window.__vis[0] ?? null");
+  for (let i = 0; i < 5; i++) { await key(v, "ArrowRight"); await Bun.sleep(500); }
+  const vis = await J<number[]>(v, "window.__vis.slice()");
+  const firstVisible = vis.length ? [...vis].sort((a, b) => a - b)[Math.floor(vis.length / 2)] : null; // 5번 넘김의 중앙값
   await key(v, "Home");
   await Bun.sleep(300);
   for (let i = 0; i < 10; i++) { await key(v, "ArrowRight"); await Bun.sleep(50); }
@@ -490,7 +490,7 @@ if (want("NAV-04")) await phase("연타·왕복", async () => {
   for (let i = 0; i < 20; i++) { await key(v, "ArrowRight"); await Bun.sleep(100); await key(v, "ArrowLeft"); await Bun.sleep(100); }
   await Bun.sleep(1500);
   const b = await J(v, "(() => { const s = document.querySelectorAll('.slide')[window.__deckCurrentSlide()]; return { cur: window.__deckCurrentSlide(), current: document.querySelectorAll('.slide[data-side=current]').length, hiding: document.querySelectorAll('.is-hiding').length, notOpaque: [...s.querySelectorAll('.t-stagger-line')].filter((e) => Number(getComputedStyle(e).opacity) < 0.999).length }; })()");
-  ix.rapid = { firstVisibleMs: firstVisible, afterTen: a, afterRoundTrips: b, errors: await watchErr(v) };
+  ix.rapid = { firstVisibleMs: firstVisible, visibleSamples: vis, afterTen: a, afterRoundTrips: b, errors: await watchErr(v) };
   close(v);
 });
 
@@ -631,7 +631,7 @@ if (want("NAV-08", "NAV-09", "PRT-02")) await phase("개요·Esc", async () => {
           const cap = await v.cdp("Page.captureScreenshot", { format: "png", clip: { x: r.x, y: r.y, width: r.w, height: r.h, scale: 1 } });
           const p = join(tmpDir, `thumb-${String(n).padStart(2, "0")}.png`);
           await Bun.write(p, Buffer.from(cap.data, "base64"));
-          tasks.push({ op: "ssim", a: p, b: D.shots[n].png, blur: 1 });
+          tasks.push({ op: "ssim", a: p, b: D.shots[n].png, blur: 1, w: 240 });
         }
         const res = await py(tasks);
         ix.thumbs = Object.keys(D.shots).map(Number).map((n, i) => ({ n, ssim: res[i] }));
@@ -926,10 +926,12 @@ if (want("MOT-11")) await phase("빌드 도중 탭 숨김", async () => {
   await vis(true);
   await Bun.sleep(10000);
   await vis(false);
+  await Bun.sleep(100);
+  const early = await J<number>(v, "(() => { const tl = window.__motion?.timelines?.get(document.querySelectorAll('.slide')[6]); return tl ? tl.currentTime : null; })()");
   const left = await J<any>(v, "(() => { const tl = window.__motion?.timelines?.get(document.querySelectorAll('.slide')[6]); return tl ? tl.duration - tl.currentTime : 0; })()");
   const waitMs = Math.round(Math.max(0, left) + 1000);
   await Bun.sleep(waitMs);
-  ix.frozen = { waitMs, ...(await J(v, "(() => { const s = document.querySelectorAll('.slide')[6]; const tl = window.__motion?.timelines?.get(s); return { cur: window.__deckCurrentSlide(), t: tl?.currentTime ?? null, d: tl?.duration ?? null, dash: [...s.querySelectorAll('polyline')].map((p) => getComputedStyle(p).strokeDashoffset) }; })()")) };
+  ix.frozen = { waitMs, early, ...(await J(v, "(() => { const s = document.querySelectorAll('.slide')[6]; const tl = window.__motion?.timelines?.get(s); return { cur: window.__deckCurrentSlide(), t: tl?.currentTime ?? null, d: tl?.duration ?? null, dash: [...s.querySelectorAll('polyline')].map((p) => getComputedStyle(p).strokeDashoffset) }; })()")) };
   close(v);
 });
 

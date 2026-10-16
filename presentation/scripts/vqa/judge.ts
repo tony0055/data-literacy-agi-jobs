@@ -23,6 +23,7 @@ const grams = (s: string) => { const t = s.replace(/[^가-힣A-Za-z0-9]/g, ""); 
 const jacc = (a: string, b: string) => { const A = grams(a), B = grams(b); if (!A.size || !B.size) return 0; let i = 0; for (const x of A) if (B.has(x)) i++; return i / (A.size + B.size - i); };
 const hit = (a: any, b: any) => Math.max(0, Math.min(a.r ?? a.x + a.w, b.r ?? b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.b ?? a.y + a.h, b.b ?? b.y + b.h) - Math.max(a.y, b.y));
 const dist = (a: any, b: any) => { const dx = Math.max(0, b.x - (a.x + a.w), a.x - (b.x + b.w)); const dy = Math.max(0, b.y - (a.y + a.h), a.y - (b.y + b.h)); return Math.hypot(dx, dy); };
+const norm = (s: string) => s.replace(/[\s·]/g, "").replace(/(직|직군|직업)$/, "");
 const nums = (s: string) => (s.match(/\d+(?:[.,]\d+)*/g) ?? []).map((x) => x.replace(/,/g, ""));
 const allCss = (D: Data) => [D.files.tokens, D.files.deck, D.files.slides, ...Object.values(D.files.extraCss ?? {})].join("\n");
 const allJs = (D: Data) => Object.values(D.files.js).join("\n");
@@ -191,7 +192,9 @@ J["LAY-08"] = (D) => {
   for (const [n, s] of slidesOf(D)) for (const g of s.groups) {
     if (!/figs|tiles|bands|qcards|timeline|grid|points/.test(g.cls)) continue;
     const rows: any[][] = [];
-    for (const k of g.kids) { const row = rows.find((r) => Math.abs(r[0].rect.y - k.rect.y) < 4); row ? row.push(k) : rows.push([k]); }
+    // 같은 행: 세로 구간이 작은 쪽 높이의 절반 넘게 겹치면(계단식으로 내려 놓은 타일도 한 행으로 본다)
+    const sameRow = (a: any, b: any) => Math.min(a.rect.b, b.rect.b) - Math.max(a.rect.y, b.rect.y) > Math.min(a.rect.h, b.rect.h) / 2;
+    for (const k of g.kids) { const row = rows.find((r) => sameRow(r[0], k)); row ? row.push(k) : rows.push([k]); }
     for (const row of rows) if (row.length >= 2) {
       const w = row.map((k) => k.rect.w), h = row.map((k) => k.rect.h);
       if (Math.max(...w) - Math.min(...w) > 8 || Math.max(...h) - Math.min(...h) > 8) items.push({ n, msg: `${g.label} 같은 행 형제 폭 ${uniq(w.map((x) => r1(x, 0))).join("/")} · 높이 ${uniq(h.map((x) => r1(x, 0))).join("/")}` });
@@ -269,13 +272,15 @@ J["SURF-02"] = (D) => {
 J["SURF-03"] = (D) => {
   const items: Item[] = [];
   const S = slidesOf(D);
-  const dark = S.filter(([n, s]) => !s.bleed && (s.dark || (D.pix[n]?.stats?.meanL ?? 100) < 30)).map(([n]) => n);
+  const dark = S.filter(([n, s]) => s.dark || (D.pix[n]?.stats?.meanL ?? 100) < 30).map(([n]) => n);
   const bleed = S.filter(([, s]) => s.bleed).map(([n]) => n);
   if (dark.length > 2) items.push({ msg: `어두운 장 ${dark.length}(>2): ${dark.join(", ")}` });
   for (let i = 1; i < dark.length; i++) if (dark[i] === dark[i - 1] + 1) items.push({ n: dark[i], msg: `어두운 장 이웃 ${dark[i - 1]}·${dark[i]}` });
   if (uniq([...dark, ...bleed]).length > 6) items.push({ msg: `어두운+전면 사진 ${uniq([...dark, ...bleed]).length}장(>6)` });
   const std = stdText(D);
-  if (!/어두운 장/.test(std)) items.push({ msg: "design-standard에 어두운 장 사유 목록 없음" });
+  const darkLines = std.split("\n").filter((l) => /어두운|전면 사진/.test(l)).join(" ");
+  const noReason = uniq([...dark, ...bleed]).filter((n) => !new RegExp(`(^|[^\\d])${n}(장|[^\\d]|$)`).test(darkLines));
+  if (noReason.length) items.push({ msg: `design-standard에 어두운·전면 사진 장 사유 없음: ${noReason.join(", ")}장` });
   return { items, measured: { dark, bleed }, implemented: "auto+manual", manual: dark.concat(bleed).map((n) => shotOf(D, n)) };
 };
 
@@ -614,17 +619,18 @@ J["CON-03"] = (D) => {
   for (const [n, s] of slidesOf(D)) for (const v of s.svgs.filter((x: any) => x.chart)) {
     const bg = parseColor(v.bg)!;
     const labels = v.texts.filter((t: any) => /vlab|note|slab|band-lab|alab/.test(t.cls));
-    const seen = new Set<string>();
+    const low = new Map<string, { ratio: number; total: number; unlabeled: number }>();
     for (const m of marksOf(v)) {
       let c = parseColor(m.col)!;
       if (m.fillOpacity < 1 && m.col === m.fill) c = [c[0], c[1], c[2], c[3] * m.fillOpacity];
       const ratio = contrast(over(c, bg), bg);
-      const k = `${m.cls}:${hex(c)}`;
-      if (ratio >= 3 || seen.has(k)) continue;
-      seen.add(k);
-      const labeled = labels.some((t: any) => dist(t.rect, m.rect) <= 48);
-      if (!labeled) items.push({ n, msg: `${v.chart} ${m.tag}.${m.cls} ${hex(c)} 대비 ${r1(ratio, 2)}:1(<3) 직접 라벨 없음` });
+      if (ratio >= 3) continue;
+      const k = `${m.tag}.${m.cls} ${hex(over(c, bg))}`;
+      const e = low.get(k) ?? low.set(k, { ratio, total: 0, unlabeled: 0 }).get(k)!;
+      e.total++;
+      if (!labels.some((t: any) => dist(t.rect, m.rect) <= 24)) e.unlabeled++; // 마크마다 바로 옆(24px) 직접 라벨
     }
+    for (const [k, e] of low) if (e.unlabeled) items.push({ n, msg: `${v.chart} ${k} 대비 ${r1(e.ratio, 2)}:1(<3) — ${e.total}개 중 ${e.unlabeled}개 직접 라벨 없음` });
   }
   return { items, notes: ["validate_palette.js(dataviz 스킬)는 이 환경 경로가 고정돼 있지 않아 돌리지 않음 — 마크 색 대비를 직접 잼"], implemented: "partial" };
 };
@@ -712,6 +718,10 @@ J["TYP-02"] = (D) => {
   if (fs.size > 9) items.push({ msg: `계산 글자 크기 ${fs.size}종(>9): ${[...fs.keys()].sort((a, b) => a - b).join(", ")}` });
   for (const [v, ns] of fs) if (!sizes.has(v)) items.push({ n: ns[0], msg: `프리셋 밖 글자 크기 ${v}px — 장 ${uniq(ns).slice(0, 8).join(",")}` });
   for (const [v, ns] of fw) if (![400, 600, 700].includes(v)) items.push({ n: ns[0], msg: `굵기 ${v} — 장 ${uniq(ns).slice(0, 8).join(",")}` });
+  const eff = new Map<number, number[]>();
+  for (const [n, s] of slidesOf(D)) for (const t of s.texts.filter((t: any) => t.inSvg)) if (![...sizes].some((p) => Math.abs(p - t.efs) < 0.5)) (eff.get(r1(t.efs)) ?? eff.set(r1(t.efs), []).get(r1(t.efs)))!.push(n);
+  for (const [v, ns] of eff) items.push({ n: ns[0], msg: `svg 축소로 프리셋 밖 실효 크기 ${v}px — 장 ${uniq(ns).slice(0, 8).join(",")}` });
+  stripComments(D.files.js["charts.js"] ?? "").split("\n").forEach((l, i) => { for (const m of l.matchAll(/["']font-size["']\s*:\s*(\d+(\.\d+)?)/g)) if (!sizes.has(Number(m[1]))) items.push({ msg: `charts.js:${i + 1} font-size ${m[1]} 하드코딩(프리셋 밖)` }); });
   return { items, measured: { sizes: [...fs.keys()].sort((a, b) => a - b), weights: [...fw.keys()].sort() } };
 };
 
@@ -852,7 +862,7 @@ J["TYP-13"] = (D) => {
     for (const k of s.headline?.styledKids ?? []) if (k.color || k.style || k.family || k.deco) items.push({ n, msg: `헤드라인 안 꾸밈(${["color", "style", "family", "deco"].filter((x) => k[x]).join("·")}): ${k.label}` });
     if (/\p{Extended_Pictographic}/u.test(s.slideText)) items.push({ n, msg: "이모지" });
     const noPg = s.slideText.replace(s.pgText ?? "", "");
-    const seq = noPg.match(/(?<![\d.,])0[1-9](?![\d.,])/g);
+    const seq = noPg.match(/(?<![\w.,\-/:])0[1-9](?![\w.,\-/:])/g); // 날짜(2026-05)·시각은 빼고 홀로 선 01~09만
     if (seq) items.push({ n, msg: `장식 순번 ${seq.join(",")}` });
   }
   return { items };
@@ -1251,8 +1261,8 @@ J["CHT-08"] = (D) => {
 J["CHT-09"] = (D) => {
   const items: Item[] = [];
   for (const [n, v] of charts(D)) {
-    const m = v.circles.length + v.rects.filter((r: any) => !/band/.test(r.cls)).length + v.polylines.length;
-    if (m <= 3) items.push({ n, msg: `${v.chart} 데이터 마크 ${m}개(≤3) — 큰 숫자로` });
+    const m = v.circles.length + v.rects.filter((r: any) => !/band/.test(r.cls)).length + v.polylines.reduce((a: number, p: any) => a + p.pts.length, 0);
+    if (m <= 3) items.push({ n, msg: `${v.chart} 데이터 값 ${m}개(≤3, 점·막대·선 꼭짓점) — 큰 숫자로` });
     const tk = v.texts.filter((t: any) => /tick/.test(t.cls));
     const left = tk.filter((t: any) => t.rect.x < v.rect.x + v.rect.w * 0.2).length, right = tk.filter((t: any) => t.rect.x > v.rect.x + v.rect.w * 0.8).length;
     if (left >= 2 && right >= 2) items.push({ n, msg: `${v.chart} 이중 세로축` });
@@ -1263,7 +1273,8 @@ J["CHT-09"] = (D) => {
 J["CHT-10"] = (D) => {
   const items: Item[] = [];
   const by = new Map(charts(D).map(([n, v]) => [v.chart, { n, v }]));
-  const pairs = [["metr_horizon", "proj_capability"], ["kr_occupation_index", "proj_kr_jobs"], ["kr_occupation_index", "proj_wave"]];
+  const pairs = [["metr_horizon", "proj_capability"], ["agi_forecast_shift", "espai_two_clocks"], ["kr_occupation_index", "proj_kr_jobs"], ["kr_occupation_index", "proj_wave"]];
+  const seriesLabel = (v: any) => new Map(v.polylines.map((p: any) => { const e = p.pts[p.pts.length - 1]; const t = v.texts.filter((t: any) => !/tick/.test(t.cls) && HANGUL.test(t.text)).sort((a: any, b: any) => dist(a.rect, { x: e.x, y: e.y, w: 1, h: 1 }) - dist(b.rect, { x: e.x, y: e.y, w: 1, h: 1 }))[0]; return [t ? norm(t.text) : p.cls, `${p.stroke}|${p.sw}`]; }));
   const units = (v: any) => new Set(([v.titles, v.subs].flat().map((x: any) => x.text).join(" ") + v.texts.filter((t: any) => /alab/.test(t.cls)).map((t: any) => t.text).join(" ")).match(/%|시간|분|만\s?명|배|지수/g) ?? []);
   for (const [a, b] of pairs) {
     const A = by.get(a), B = by.get(b);
@@ -1272,13 +1283,20 @@ J["CHT-10"] = (D) => {
     for (const [c, col] of colA) if (colB.has(c) && colB.get(c) !== col) items.push({ n: B.n, msg: `${a}↔${b} 같은 계열 ${c} 색 다름` });
     const ua = units(A.v), ub = units(B.v);
     if (ua.size && ub.size && ![...ua].some((u) => ub.has(u))) items.push({ n: B.n, msg: `${a}↔${b} 단위 다름: ${[...ua].join(",")} / ${[...ub].join(",")}` });
-    const na = A.v.texts.map((t: any) => t.text).filter((x: string) => HANGUL.test(x)), nb = B.v.texts.map((t: any) => t.text).filter((x: string) => HANGUL.test(x));
-    for (const x of na) for (const y of nb) if (x !== y && x.replace(/\s/g, "") === y.replace(/\s/g, "")) items.push({ n: B.n, msg: `${a}↔${b} 이름 표기 다름 "${x}" / "${y}"` });
+    const na = uniq(A.v.texts.map((t: any) => t.text).filter((x: string) => HANGUL.test(x))) as string[], nb = uniq(B.v.texts.map((t: any) => t.text).filter((x: string) => HANGUL.test(x))) as string[];
+    for (const x of na) for (const y of nb) if (x !== y && norm(x) === norm(y) && norm(x).length >= 2) items.push({ n: B.n, msg: `${a}↔${b} 이름 표기 다름 "${x}" / "${y}"` });
+    const sa = seriesLabel(A.v), sb = seriesLabel(B.v);
+    for (const [k, st] of sa) if (sb.has(k) && sb.get(k) !== st) items.push({ n: B.n, msg: `${a}↔${b} 같은 이름 계열 '${k}' 선 모양 다름 ${st} / ${sb.get(k)}` });
   }
   const C = charts(D);
   for (let i = 1; i < C.length; i++) {
     const [n, v] = C[i], [m, p] = C[i - 1];
-    if (n === m + 1 && v.kind === p.kind) { const d = Math.max(Math.abs(v.rect.x - p.rect.x), Math.abs(v.rect.y - p.rect.y), Math.abs(v.rect.w - p.rect.w), Math.abs(v.rect.h - p.rect.h)); if (d > 8) items.push({ n, msg: `연속 차트 장 ${m}·${n} svg 위치·크기 차 ${r1(d)}px(>8)` }); }
+    if (n === m + 1 && v.kind === p.kind) {
+      const d = Math.max(Math.abs(v.rect.x - p.rect.x), Math.abs(v.rect.y - p.rect.y), Math.abs(v.rect.w - p.rect.w), Math.abs(v.rect.h - p.rect.h));
+      if (d > 8) items.push({ n, msg: `연속 차트 장 ${m}·${n} svg 위치·크기 차 ${r1(d)}px(>8)` });
+      const rng = (x: any) => { const t = x.texts.filter((t: any) => /tick/.test(t.cls)).map((t: any) => Number(t.text.replace(/[,%+\s]/g, ""))).filter(Number.isFinite); const y = x.texts.filter((t: any) => /alab/.test(t.cls) && /^\d{4}$/.test(t.text)).map((t: any) => +t.text); return `세로 ${t.length ? Math.min(...t) + "~" + Math.max(...t) : "-"} · 가로 ${y.length ? Math.min(...y) + "~" + Math.max(...y) : "-"}`; };
+      if (rng(v) !== rng(p)) items.push({ n, msg: `연속 차트 장 ${m}·${n} 축 범위 다름: ${rng(p)} / ${rng(v)}` });
+    }
   }
   return { items };
 };
@@ -1454,7 +1472,7 @@ J["NAV-04"] = (D) => {
   if (!r) return { items: [{ msg: "측정 없음" }] };
   if (r.afterTen.cur !== 10) items.push({ msg: `→ 50ms 간격 10회 후 장 ${r.afterTen.cur + 1}(기대 11)` });
   if (r.afterTen.current !== 1) items.push({ msg: `current 장 ${r.afterTen.current}개` });
-  if (r.firstVisibleMs == null || r.firstVisibleMs > 100) items.push({ msg: `입력→다음 장 보임 ${r.firstVisibleMs == null ? "측정 실패" : r1(r.firstVisibleMs) + "ms"}(>100)` });
+  if (r.firstVisibleMs == null || r.firstVisibleMs > 100) items.push({ msg: `입력→다음 장 보임 중앙값 ${r.firstVisibleMs == null ? "측정 실패" : r1(r.firstVisibleMs) + "ms"}(>100, 5회 ${(r.visibleSamples ?? []).map((x: number) => r1(x, 0)).join("/")})` });
   if (r.afterTen.hiding || r.afterRoundTrips.hiding) items.push({ msg: `is-hiding 잔존 ${r.afterTen.hiding}/${r.afterRoundTrips.hiding}` });
   if (r.afterRoundTrips.notOpaque) items.push({ msg: `왕복 20회 뒤 1.5초에도 불투명하지 않은 글줄 ${r.afterRoundTrips.notOpaque}` });
   if (r.afterRoundTrips.cur !== 10) items.push({ msg: `왕복 뒤 장 ${r.afterRoundTrips.cur + 1}(기대 11)` });
@@ -1951,8 +1969,8 @@ J["MOT-11"] = (D) => {
   const f = D.ix.frozen;
   if (!f) return { items: [{ msg: "측정 없음" }] };
   if (f.cur !== 6) items.push({ msg: `탭 복귀 뒤 장 ${f.cur + 1}(7 기대)` });
-  if (f.d != null && f.t < f.d - 1) items.push({ n: 7, msg: `탭 복귀 ${f.waitMs}ms 뒤 차트 빌드 ${r1(f.t, 0)}/${r1(f.d, 0)}ms(미완)` });
-  return { items, measured: f, notes: ["탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 복귀 뒤 빌드 남은 시간 + 1초를 기다린다"] };
+  if (f.d != null && f.early < f.d - 1) items.push({ n: 7, msg: `탭 복귀 100ms 뒤 차트 빌드 ${r1(f.early, 0)}/${r1(f.d, 0)}ms — 반쯤 그려진 채로 보임(${f.waitMs}ms 뒤 ${r1(f.t, 0)}ms)` });
+  return { items, measured: f, notes: ["탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과"] };
 };
 
 // ── 접근성 ──
@@ -2140,7 +2158,7 @@ J["PRT-02"] = (D) => {
   const t = D.ix.thumbs;
   if (!t) return { items: [{ msg: "개요 썸네일을 찍지 못함" }] };
   for (const x of t) if (x.ssim < 0.98) items.push({ n: x.n, msg: `개요 썸네일 SSIM ${x.ssim}(<0.98)` });
-  return { items, measured: Object.fromEntries(t.map((x: any) => [x.n, x.ssim])), notes: ["썸네일 해상도(0.206배)에서 ?slide=n 렌더를 줄이고 둘 다 가우스 흐림 1px을 준 뒤 SSIM(8px 창)을 잰다(글자 래스터화 차이 제거, 다른 장끼리는 0.7 안팎)"] };
+  return { items, measured: Object.fromEntries(t.map((x: any) => [x.n, x.ssim])), notes: ["썸네일과 ?slide=n 렌더를 둘 다 폭 240px로 줄이고 가우스 흐림 1px을 준 뒤 SSIM(8px 창)을 잰다 — 글자 래스터화 차이는 지우고 배치 차이만 본다(다른 장끼리는 0.6~0.7)"] };
 };
 
 // ── 표준 ──

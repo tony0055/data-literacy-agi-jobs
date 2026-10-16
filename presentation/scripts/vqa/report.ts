@@ -10,29 +10,36 @@ export function renderMarkdown(rep: any, criteria: any[], violations: any[]) {
   L.push("");
   L.push(`# 시각 QA 보고서 — ${rep.label}`);
   L.push("");
-  L.push(`- 실행: ${rep.date} · 커밋 ${rep.commit}${rep.deckDirty ? " (덱 파일 미커밋 변경 있음)" : ""} · 덱 해시 ${rep.deckSha} · ${rep.seconds}초`);
-  L.push(`- 명령: \`cd presentation && bun scripts/visual-qa.ts --label ${rep.label}${rep.compare ? ` --compare=${rep.compare}` : ""}\` · 파이썬 \`${rep.tools.python}\``);
-  L.push(`- 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모)`);
-  if (rep.phaseErrors?.length) L.push(`- 측정 단계 오류 ${rep.phaseErrors.length}: ${rep.phaseErrors.map(esc).join(" · ")}`);
-  L.push("");
-
   // critical 위반 → 조건
   const byId = new Map(rep.results.map((r: any) => [r.id, r]));
   const crit = violations.filter((v) => v.severity === "critical");
   if (crit.length) {
     L.push("## critical 위반을 잡은 조건");
     L.push("");
+    L.push("1회차 감사(violations.md)의 critical 4건이 이 검사기의 어느 조건 id로 실패 판정됐는지. '잡은 조건'은 그 위반의 장에서 실패 항목을 낸 조건이다.");
+    L.push("");
     L.push("| 위반 | 장 | 잡은 조건 | 이번 판정 | 근거(측정값) |");
     L.push("| --- | --- | --- | --- | --- |");
     for (const v of crit) {
       const rel = v.criterion_ids.map((id: string) => byId.get(id)).filter(Boolean) as any[];
-      const caught = rel.filter((r) => r.status === "fail" && (v.slides.length > 30 || r.failedSlides.some((n: number) => v.slides.includes(n)) || r.items.some((i: any) => i.n == null)));
-      const ev = caught.flatMap((r) => r.items.filter((i: any) => v.slides.length > 30 || i.n == null || v.slides.includes(i.n)).slice(0, 2).map((i: any) => `${r.id}: ${i.n ? `${i.n}장 ` : ""}${i.msg}`)).slice(0, 4);
+      // 장이 정해진 위반은 그 장의 실패 항목, 또는 위반 관찰과 같은 낱말(6자 이상)을 쓴 덱 전체 항목만 '잡았다'로 본다
+      const related = (i: any) => v.slides.length > 30 || (i.n != null ? v.slides.includes(i.n) : String(i.msg).split(/[\s,()'"·:]+/).some((w: string) => w.length >= 6 && v.observed.includes(w)));
+      const caught = rel.filter((r) => r.status === "fail" && r.items.some(related));
+      const ev = caught.flatMap((r) => r.items.filter(related).slice(0, 2).map((i: any) => `${r.id}: ${i.n ? `${i.n}장 ` : ""}${i.msg}`)).slice(0, 4);
       const sl = v.slides.length > 30 ? "전체" : v.slides.join(", ");
       L.push(`| ${v.id} | ${sl} | ${caught.map((r) => r.id).join(", ") || "—"} | ${rel.map((r) => `${r.id} ${icon[r.status]}`).join(" · ")} | ${esc(ev.join(" / ").slice(0, 600)) || "잡지 못함"} |`);
     }
     L.push("");
   }
+
+  L.push("## 실행");
+  L.push("");
+  L.push(`- 실행: ${rep.date} · 커밋 ${rep.commit}${rep.deckDirty ? " (덱 파일 미커밋 변경 있음)" : ""} · 덱 해시 ${rep.deckSha} · ${rep.seconds}초`);
+  L.push(`- 명령: \`cd presentation && bun scripts/visual-qa.ts --label ${rep.label}${rep.compare ? ` --compare=${rep.compare}` : ""}\` · 파이썬 \`${rep.tools.python}\``);
+  L.push("- 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다");
+  L.push(`- 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모)`);
+  if (rep.phaseErrors?.length) L.push(`- 측정 단계 오류 ${rep.phaseErrors.length}: ${rep.phaseErrors.map(esc).join(" · ")}`);
+  L.push("");
 
   if (rep.compare) {
     const reg = rep.results.filter((r: any) => r.regression);

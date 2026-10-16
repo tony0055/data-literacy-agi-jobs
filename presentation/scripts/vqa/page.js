@@ -260,7 +260,7 @@
     const bodyText = bodyEl ? (() => { const c = bodyEl.cloneNode(true); c.querySelectorAll("svg, .chart-src, .source, .legend").forEach((x) => x.remove()); return c.textContent.replace(/\s+/g, " ").trim(); })() : "";
     const blocks = [...S.querySelectorAll(".head > *, .body > *, .body .grid > *, .body .stack > *, .sowe")].filter(visible).map((e) => ({ label: label(e), text: e.cloneNode(true).textContent.replace(/\s+/g, " ").trim().slice(0, 600), rect: rel(e.getBoundingClientRect()) }));
     const bodyKids = bodyEl ? [...bodyEl.children].filter(visible).map((e) => ({ label: label(e), cls: e.className, rect: rel(e.getBoundingClientRect()), kids: [...e.children].filter(visible).map((k) => ({ cls: k.className, rect: rel(k.getBoundingClientRect()) })) })) : [];
-    const groups = [...S.querySelectorAll(".figs, .tiles, .bands, .grid, .qcards, .timeline, ul, ol, .points, .poster, .stack")].filter(visible).map((g) => ({
+    const groups = [...S.querySelectorAll(".figs, .tiles, .bands, .grid, .qcards, .timeline, ul, ol, .points, .poster, .stack")].filter((g) => visible(g) && !(g instanceof SVGElement)).map((g) => ({
       label: label(g), cls: g.className, n: [...g.children].filter(visible).length,
       kids: [...g.children].filter(visible).map((k) => ({ cls: k.className, rect: rel(k.getBoundingClientRect()), kidCls: [...k.children].map((x) => (typeof x.className === "string" ? x.className : "")).sort().join("|") })),
     }));
