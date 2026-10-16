@@ -15,7 +15,7 @@
 
 ## 실행
 
-- 실행: 2026-10-16T10:27:36.510Z · 커밋 43c03ac · 덱 해시 a2bf7b988014 · 301초
+- 실행: 2026-10-16T10:52:11.682Z · 커밋 9845cb5 · 덱 해시 a2bf7b988014 · 300초
 - 명령: `cd presentation && bun scripts/visual-qa.ts --label baseline` · 파이썬 `python3`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
 - 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift)으로 IMG-02·RSP-02를 판정
@@ -82,7 +82,7 @@
 | [TXT-05](#txt-05) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [TXT-06](#txt-06) | both | 자동+수동 | 실패 | 7, 13, 14, 17, 27 | 차트 장 헤드라인에 숫자 없음: "AI가 맡을 수 있는 업무는 갈수록 빠르게 커집니다" |
 | [TXT-07](#txt-07) | automated | 자동 | 통과 |  |  |
-| [TXT-08](#txt-08) | automated | 부분 | 실패 | 4, 6, 7, 9, 11, 13, 17, 18, 19, 27, 28, 34 | em dash 3개(>2) |
+| [TXT-08](#txt-08) | automated | 부분 | 실패 | 4, 5, 6, 8, 9, 13, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | em dash 3개(>2) |
 | [TXT-09](#txt-09) | automated | 자동 | 실패 | 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 알약 kicker "AI가 AI 개발을 돕기 시작한 뒤의 10년" |
 | [TXT-10](#txt-10) | automated | 자동 | 실패 | 6, 23, 25, 28, 29, 30, 31, 34 | 본문 255자(>220) |
 | [TXT-11](#txt-11) | visual | 수동 | 수동 |  |  |
@@ -156,13 +156,13 @@
 | [A11Y-04](#a11y-04) | automated | 부분 | 실패 | 6, 9, 18, 19 | color-contrast: 대비 3.32:1 < 4.5 — div.kicker.t-stagger-line "재귀적 자기개선 · 지금 보이는 신호" 14px 600 (픽셀 최악 5%) |
 | [A11Y-05](#a11y-05) | automated | 자동 | 실패 | 덱 전체 | JS 끔: 빈 차트 9(metr_horizon, agi_forecast_shift, espai_two_clocks, occ_scatter, occ_quintile, kr_occupation_index, proj_ca |
 | [A11Y-06](#a11y-06) | automated | 자동 | 통과 |  |  |
-| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7756ms(>2500) |
+| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7744ms(>2500) |
 | [PERF-02](#perf-02) | automated | 자동 | 통과 |  |  |
 | [PERF-03](#perf-03) | automated | 자동 | 통과 |  |  |
 | [PERF-04](#perf-04) | automated | 자동 | 통과 |  |  |
 | [META-01](#meta-01) | automated | 자동 | 실패 | 덱 전체 | description 없음 |
 | [META-02](#meta-02) | automated | 자동 | 실패 | 덱 전체 | favicon(link rel=icon) 없음 |
-| [PRT-01](#prt-01) | both | 자동+수동 | 실패 | 7, 10, 11, 17, 24, 26 | print 미디어(CSS만)에서 흐린 글줄 149 |
+| [PRT-01](#prt-01) | both | 자동+수동 | 실패 | 7, 10, 11, 17, 24, 26 | print 미디어(CSS만)에서 흐린 글줄 150 |
 | [PRT-02](#prt-02) | automated | 자동 | 통과 |  |  |
 | [STD-01](#std-01) | both | 자동+수동 | 실패 | 덱 전체 | 34장 역할 표 행 0(<34) |
 | [STD-02](#std-02) | automated | 자동 | 실패 | 덱 전체 | token-check --strict 종료 1: off-token: 27 (space 27) |
@@ -370,7 +370,7 @@
 > 같은 행의 형제 블록(.figs·.tiles·.bands·질문 묶음)은 폭·높이·자식 구조가 같다  
 > 기준: 폭·높이 차 ≤8px, 자식 클래스 집합 동일. 의도된 비대칭은 README 예외 목록
 
-실패 9건 · 장 4, 9, 15, 21, 30, 33
+실패 8건 · 장 4, 9, 15, 21, 30, 33
 
 - 4장 · div.tiles "105일AI가 맡을 수 있는 업무 크기가 두 배로 " 같은 행 형제 폭 579/463 · 높이 534/470/406
 - 9장 · div.grid "OpenAI · 샘 올트먼AI 연구를 스스로 하는 " 같은 행 형제 폭 364 · 높이 540/508
@@ -378,8 +378,7 @@
 - 15장 · div.grid "18개 직업 대분류 중 음의 상관이 나온 곳11개전" 같은 행 형제 폭 776 · 높이 304/352
 - 15장 · div.grid "18개 직업 대분류 중 음의 상관이 나온 곳11개전" 같은 행 형제 자식 구조 다름
 - 21장 · div.grid "가장 큰 AI 모델 학습에 드는 전력2.9배/년학습" 같은 행 형제 폭 776 · 높이 272/304
-- 30장 · div.bands "쟁점AI 영향으로 볼 수 있는 근거다른 원인으로 설" 1번째 행 칸 3개 첫 줄 기준선 3.5px 어긋남(위끝 13px 차, 정렬 기준 아래끝): p.q y=374 · p.a y=387 · p.c y=387
-- 30장 · div.bands "쟁점AI 영향으로 볼 수 있는 근거다른 원인으로 설" 행마다 칸 정렬 기준이 다름: 1행 아래끝 · 2행 기준선 · 3행 기준선 · 4행 기준선 · 5행 기준선
+- 30장 · div.bands "쟁점AI 영향으로 볼 수 있는 근거다른 원인으로 설" 행마다 칸 정렬 기준이 다름: 1행 아래끝(첫 줄 기준선 3.5px 어긋남) · 2행 기준선 · 3행 기준선 · 4행 기준선 · 5행 기준선
 - 33장 · div.grid "말할 수 없는 것AI가 일자리를 '줄였다'(인과) " 같은 행 형제 폭 501 · 높이 240/272
 
 근거: [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-09.jpg](../shots/baseline/slide-09.jpg) · [slide-15.jpg](../shots/baseline/slide-15.jpg) · [slide-21.jpg](../shots/baseline/slide-21.jpg) · [slide-30.jpg](../shots/baseline/slide-30.jpg) · [slide-33.jpg](../shots/baseline/slide-33.jpg)
@@ -1491,25 +1490,38 @@
 > em dash는 덱 전체 2개 이하, 범위는 en dash, 곧은 큰따옴표 인용 없음, 숫자 표기 규칙(천 단위 쉼표·만 단위·단위 띄어쓰기)이 하나다  
 > 기준: em dash ≤2, 하이픈 범위 0, 곧은 따옴표 0, 형식 불일치 0
 
-실패 13건 · 장 4, 6, 7, 9, 11, 13, 17, 18, 19, 27, 28, 34
+실패 33건 · 장 4, 5, 6, 8, 9, 13, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
 
 - em dash 3개(>2)
-- 4장 · 하이픈 범위: 6-1
-- 6장 · 곧은 큰따옴표: "90% 이상"
-- 7장 · 하이픈 범위: 6-0
-- 9장 · 하이픈 범위: 5-0, 6-0
-- 11장 · 하이픈 범위: 6-0
-- 13장 · 하이픈 범위: 0 -2
-- 17장 · 하이픈 범위: 5-4, 6-0
-- 18장 · 하이픈 범위: 6-1, 6-0
-- 19장 · 하이픈 범위: 4-0, 6-0, 4-1
-- 27장 · 하이픈 범위: 5-4
-- 28장 · 하이픈 범위: 6-1
-- 34장 · 하이픈 범위: 3-3, 5-2, 6-1
+- 4장 · 물결 범위(en dash 아님) 2개: 2022~2026, 165만~378
+- 4장 · 곧은 따옴표 인용: '모든 직업 자동화'
+- 5장 · 물결 범위(en dash 아님) 2개: 75~90, 3~8
+- 6장 · 물결 범위(en dash 아님) 1개: 4~8
+- 6장 · 곧은 따옴표 인용: "90% 이상"
+- 8장 · 물결 범위(en dash 아님) 1개: 2025~26
+- 9장 · 물결 범위(en dash 아님) 1개: 2026~2030
+- 9장 · 곧은 따옴표 인용: '목표'
+- 13장 · 물결 범위(en dash 아님) 2개: 0~1, 0.10 ~ 0.065
+- 14장 · 물결 범위(en dash 아님) 5개: 0.00~0.09, 0.09~0.25, 0.25~0.41
+- 15장 · 물결 범위(en dash 아님) 1개: 0.16 ~ 0.004
+- 15장 · 곧은 따옴표 인용: '함께 움직인다'
+- 16장 · 물결 범위(en dash 아님) 1개: 0.03~0.06
+- 18장 · 물결 범위(en dash 아님) 2개: 15~29, 22~25
+- 20장 · 물결 범위(en dash 아님) 1개: 3~8
+- 21장 · 곧은 따옴표 인용: '2028년부터 전력 제약으로 두 배가 되는 기간이 1
+- 22장 · 곧은 따옴표 인용: '대당 약 25W'
+- 24장 · 물결 범위(en dash 아님) 1개: 1~3
+- 25장 · 물결 범위(en dash 아님) 1개: 2031~2032
+- 26장 · 물결 범위(en dash 아님) 1개: 192만~448
+- 26장 · 곧은 따옴표 인용: '채용이 늘지 않는'
+- 27장 · 물결 범위(en dash 아님) 1개: 0~1
+- 28장 · 물결 범위(en dash 아님) 3개: 2028~2032, 2028~2034, 2029~2036
+- 29장 · 물결 범위(en dash 아님) 4개: 2026 ~ 2027, 2028 ~ 2030, 2031 ~ 2033
+- … 외 8건(JSON 보고서에 전부)
 
 - 메모: 지표별 숫자 표기 형식 일치는 수동(형식 표 없음)
 
-근거: [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-06.jpg](../shots/baseline/slide-06.jpg) · [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-09.jpg](../shots/baseline/slide-09.jpg) · [slide-11.jpg](../shots/baseline/slide-11.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg)
+근거: [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-05.jpg](../shots/baseline/slide-05.jpg) · [slide-06.jpg](../shots/baseline/slide-06.jpg) · [slide-08.jpg](../shots/baseline/slide-08.jpg) · [slide-09.jpg](../shots/baseline/slide-09.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg)
 
 ### TXT-09
 
@@ -2525,7 +2537,7 @@
 - 17장 · 차트 빌드 2570ms(>1500)
 - 24장 · 차트 빌드 1830ms(>1500)
 - 26장 · 차트 빌드 3220ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 243/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 265/2290ms)
 
 근거: [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-10.jpg](../shots/baseline/slide-10.jpg) · [slide-11.jpg](../shots/baseline/slide-11.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-17.jpg](../shots/baseline/slide-17.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg)
 
@@ -2790,7 +2802,7 @@
 
 실패 2건
 
-- LCP 7756ms(>2500)
+- LCP 7744ms(>2500)
 - 첫 화면 전송량 1.59MB(>1.5): 가장 큰 /assets/img/desk.jpg 305KB, /assets/img/recursion.jpg 242KB
 
 - 메모: Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public
@@ -2858,7 +2870,7 @@
 
 실패 8건 · 장 7, 10, 11, 17, 24, 26
 
-- print 미디어(CSS만)에서 흐린 글줄 149
+- print 미디어(CSS만)에서 흐린 글줄 150
 - @media print에 box-shadow: none 없음
 - 7장 · PDF 7쪽 꺾은선 1/1개가 끝까지 안 그려짐: metr_horizon:l-worse 0/51점(0%)
 - 10장 · PDF 10쪽 꺾은선 1/2개가 끝까지 안 그려짐: agi_forecast_shift:l-worse 0/20점(0%)

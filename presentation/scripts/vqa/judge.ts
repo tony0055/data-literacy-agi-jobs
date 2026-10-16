@@ -232,7 +232,7 @@ J["LAY-08"] = (D) => {
     }
     // 세로로 쌓인 행 묶음(.bands 같은 표 모양): 한 행 안 칸들의 첫 줄 세로 정렬. 기준선은 상자 위 + 0.952em(Pretendard 어센트)
     if (rows.length >= 2 && rows.every((r) => r.length === 1)) {
-      const modes: string[] = [];
+      const modes: string[] = [], baseOff: number[] = [];
       for (const [ri, [k]] of rows.entries()) {
         const inside = s.texts.filter((t: any) => t.block && !t.inSvg && !isTertiary(t) && !t.ctx.some((c: string) => ["tag", "pill", "kicker"].includes(c)) && !/\b(tag|pill)\b/.test(t.cls) && t.rect.x >= k.rect.x - 1 && t.rect.r <= k.rect.r + 1 && t.rect.y >= k.rect.y - 1 && t.rect.b <= k.rect.b + 1).sort((a: any, b: any) => a.rect.x - b.rect.x);
         const cols: any[] = [];
@@ -241,10 +241,10 @@ J["LAY-08"] = (D) => {
         const spread = (f: (t: any) => number) => { const v = cols.map(f); return Math.max(...v) - Math.min(...v); };
         const top = spread((t) => t.rect.y), base = spread((t) => t.rect.y + 0.952 * t.fs), bot = spread((t) => t.rect.y + 1.2 * t.fs);
         const mode = base <= 1.5 ? "기준선" : top <= 1.5 ? "위끝" : bot <= 1.5 ? "아래끝" : "없음";
-        modes.push(mode);
-        if (base > 2) items.push({ n, msg: `${g.label} ${ri + 1}번째 행 칸 ${cols.length}개 첫 줄 기준선 ${r1(base)}px 어긋남(위끝 ${r1(top)}px 차, 정렬 기준 ${mode}): ${cols.map((t: any) => `${t.label.split(" ")[0]} y=${r1(t.rect.y, 0)}`).join(" · ")}` });
+        modes.push(mode); baseOff.push(base);
+        if (mode === "없음") items.push({ n, msg: `${g.label} ${ri + 1}번째 행 칸 ${cols.length}개 첫 줄 기준선 ${r1(base)}px 어긋남(위끝 ${r1(top)}px 차, 정렬 기준 ${mode}): ${cols.map((t: any) => `${t.label.split(" ")[0]} y=${r1(t.rect.y, 0)}`).join(" · ")}` });
       }
-      if (uniq(modes).length > 1) items.push({ n, msg: `${g.label} 행마다 칸 정렬 기준이 다름: ${modes.map((m, i) => `${i + 1}행 ${m}`).join(" · ")}` });
+      if (uniq(modes).length > 1) items.push({ n, msg: `${g.label} 행마다 칸 정렬 기준이 다름: ${modes.map((m, i) => `${i + 1}행 ${m}${baseOff[i] > 2 ? `(첫 줄 기준선 ${r1(baseOff[i])}px 어긋남)` : ""}`).join(" · ")}` });
     }
   }
   return { items };
@@ -1082,11 +1082,15 @@ J["TXT-08"] = (D) => {
   const em = (all.match(/—/g) ?? []).length;
   if (em > 2) items.push({ msg: `em dash ${em}개(>2)` });
   for (const [n, s] of slidesOf(D)) {
-    const t = s.slideText.replace(/\d{4}-\d{2}-\d{2}/g, "");
-    const h = t.match(/\d\s*-\s*\d/g);
+    // 하이픈 범위에서 빼는 것: 날짜(2026-10-16)·연월(2026-05)·호수(이슈노트 2026-19)·영문 식별자(DT_1DA7-…), 음수 눈금('0 -25')
+    const t = s.slideText.replace(/[A-Za-z_]+[\w-]*\d[\w-]*/g, " ").replace(/(?<!\d)\d{4}-\d{1,2}(?:-\d{1,2})?(?!\d)/g, " ");
+    const h = t.match(/\d(?:-|\s+-\s+)\d/g);
     if (h) items.push({ n, msg: `하이픈 범위: ${uniq(h).slice(0, 3).join(", ")}` });
-    const q = s.slideText.match(/"[^"]+"/g);
-    if (q) items.push({ n, msg: `곧은 큰따옴표: ${q[0].slice(0, 30)}` });
+    // 범위는 en dash로: 물결 범위('2031~2032년', '192만~448만')도 기준 밖이다
+    const w = s.slideText.match(/\d[\d.,]*\s*[가-힣%]{0,3}\s*~\s*\d[\d.,]*/g);
+    if (w) items.push({ n, msg: `물결 범위(en dash 아님) ${w.length}개: ${uniq(w).slice(0, 3).join(", ")}` });
+    const q = s.slideText.match(/"[^"]+"|'[^'\n]+'/g);
+    if (q) items.push({ n, msg: `곧은 따옴표 인용: ${q[0].slice(0, 30)}` });
   }
   return { items, notes: ["지표별 숫자 표기 형식 일치는 수동(형식 표 없음)"], implemented: "partial" };
 };
@@ -1584,7 +1588,9 @@ J["EVD-03"] = (D) => {
 // 외삽 장: 미래 연도(실행한 해보다 뒤)를 말하면서 그 장이 추정을 내놓는다는 표시 — 추정 라벨(.tag.est), 연장 차트(proj_*),
 // 키커의 '추정·전망', 본문의 '시나리오' — 가 있는 장. 미래 연도만 나오는 안내·분석 계획·출처 장은 외삽 장이 아니다
 const kickerText = (s: any) => (typeof s.kicker === "string" ? s.kicker : s.kicker?.text) ?? "";
-const NOW_YEAR = new Date().getFullYear();
+// 기준 연도: 덱이 적은 발표 날짜(첫 장의 YYYY-MM-DD·YYYY.MM.DD)를 쓴다. 없으면 실행한 해. 같은 덱은 언제 돌려도 같은 판정
+let NOW_YEAR = new Date().getFullYear();
+const setNowYear = (D: Data) => { const first = slidesOf(D)[0]?.[1]?.slideText ?? ""; const m = first.match(/(20\d\d)[-.]\d{1,2}[-.]\d{1,2}/); NOW_YEAR = m ? +m[1] : new Date().getFullYear(); };
 const futureYear = (s: any) => ((s.headline?.text ?? "") + " " + s.bodyText + " " + kickerText(s)).match(/(?<!\d)20\d\d(?!\d)/g)?.some((y: string) => +y > NOW_YEAR) ?? false;
 const estSignal = (s: any) => s.tags.some((t: any) => /\best\b/.test(t.cls) || /추정/.test(t.text)) || s.svgs.some((v: any) => /^proj_/.test(v.chart ?? "")) || /추정|전망/.test(kickerText(s)) || /시나리오/.test(s.bodyText);
 const isExtrapolation = (s: any) => futureYear(s) && estSignal(s);
@@ -1592,6 +1598,7 @@ const isExtrapolation = (s: any) => futureYear(s) && estSignal(s);
 const SCEN = ["빠름", "신중", "낙관", "비관", "보수", "상한", "하한", "기준"];
 const hasRange = (t: string) => RANGE.test(t) || /범위/.test(t) || SCEN.filter((w) => t.includes(w)).length >= 3;
 J["EVD-04"] = (D) => {
+  setNowYear(D);
   const items: Item[] = [];
   for (const [n, s] of slidesOf(D)) {
     const est = s.tags.filter((t: any) => /추정|est/.test(t.text + t.cls));
