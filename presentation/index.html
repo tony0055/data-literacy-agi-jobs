@@ -6,20 +6,25 @@
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#1b1916" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1b1916" media="(prefers-color-scheme: dark)">
-<title>AI는 언제 내 일을 대신할까</title>
+<title>AI는 언제쯤 내 일을 대신하게 될까요</title>
 <meta name="description" content="AI가 AI 개발을 돕기 시작한 뒤 AI 능력·전문가 예상·실제 고용 자료로 2036년 한국 일자리 대체 압력을 추정한 34장 발표">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:title" content="AI는 언제 내 일을 대신할까">
+<meta property="og:title" content="AI는 언제쯤 내 일을 대신하게 될까요">
 <meta property="og:description" content="AI가 AI 개발을 돕기 시작한 뒤 AI 능력·전문가 예상·실제 고용 자료로 2036년 한국 일자리 대체 압력을 추정한 34장 발표">
 <meta property="og:url" content="https://tony0055.github.io/data-literacy-agi-jobs/presentation/">
 <meta property="og:image" content="https://tony0055.github.io/data-literacy-agi-jobs/presentation/assets/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="AI는 언제 내 일을 대신할까 · 데이터리터러시의이해 중간고사 발표 표지">
+<meta property="og:image:alt" content="AI는 언제쯤 내 일을 대신하게 될까요 · 데이터리터러시의이해 중간고사 발표 표지">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231b1916'/%3E%3Cpath d='M7 22l6-7 4 4 8-9' fill='none' stroke='%23cce3b1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+<!-- 느린 회선에서 사진·글꼴과 대역을 나누다 덱 스크립트가 늦게 와 무대·읽기 칸이 늦게 그려지지 않도록 먼저 받는다(실행 순서는 아래 script 태그 그대로) -->
+<link rel="preload" href="src/fit.js" as="script" fetchpriority="high">
+<link rel="preload" href="src/charts.js" as="script" fetchpriority="high">
+<link rel="preload" href="src/present.js" as="script" fetchpriority="high">
+<link rel="preload" href="src/motion.js" as="script" fetchpriority="high">
 <link rel="stylesheet" href="src/deck.css">
 <link rel="stylesheet" href="src/slides.css">
 <link rel="stylesheet" href="src/controls.css">
@@ -36,7 +41,7 @@
   boot.id = "deck-boot";
   boot.textContent = `html.deck-js:not(.deck-ready) .deck > .slide:nth-of-type(${n}) { visibility: visible; }`;
   document.head.append(boot);
-  // 막대(bar): 꼬리말 아래에 조작 막대(높이 44 + 위아래 4)가 들어갈 자리가 생기도록 배율을 고른다
+  // 막대(bar): 장의 가장 아래 면 밑에 조작 막대(높이 44 + 위아래 4)가 들어갈 자리가 생기도록 배율을 고른다
   // 기둥(rail): 휴대폰 가로처럼 아래 자리가 모자라고 좌우 레터박스가 넓으면 배율을 줄이지 않고 좌우에 세운다
   // 읽기 칸(panel): 세로 화면(폭 820 이하)은 덱을 위에 폭 맞춤으로 두고 아래에 읽기 칸을 연다
   window.__deckLayout = (safe = { t: 0, r: 0, b: 0, l: 0 }) => {
@@ -46,13 +51,14 @@
     let mode, k, x, y;
     if (W < H && W <= 820) { mode = "panel"; k = W / 1920; x = 0; y = safe.t; }
     else {
-      const below = H - 1016 * fit - (H - 1080 * fit) / 2;
+      // 1056 = 장 안에서 가장 아래로 내려오는 면(사진 장의 둥근 사진 카드, 아래 여백 24)
+      const below = H - 1056 * fit - (H - 1080 * fit) / 2;
       const side = (W - 1920 * fit) / 2;
       if (below >= bar) { mode = "bar"; k = fit; }
       else if (side >= 60 + Math.max(safe.l, safe.r)) { mode = "rail"; k = fit; }
-      else { mode = "bar"; k = Math.min(fit, (H - bar) / 1016); }
+      else { mode = "bar"; k = Math.min(fit, (H - bar) / 1056); }
       x = (W - 1920 * k) / 2;
-      y = mode === "bar" ? Math.max(0, Math.min((H - 1080 * k) / 2, H - bar - 1016 * k)) : (H - 1080 * k) / 2;
+      y = mode === "bar" ? Math.max(0, Math.min((H - 1080 * k) / 2, H - bar - 1056 * k)) : (H - 1080 * k) / 2;
     }
     d.classList.remove("deck-bar", "deck-rail", "deck-panel");
     d.classList.add(`deck-${mode}`);

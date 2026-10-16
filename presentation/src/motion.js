@@ -40,34 +40,32 @@ const assignOrder = () => lineSets.forEach((lines) => {
 assignOrder();
 document.fonts?.ready.then(assignOrder); // 글꼴이 바뀌면 줄 위치도 바뀐다
 
-// 2) 큰 수치: 숫자를 글자 단위로 나눈 묶음(한 덩어리로 읽히게 role=img·aria-label, 조각은 aria-hidden).
-//    팝인(.t-digit-group)은 순수 숫자인 핵심 수치 하나에만(장당 1개·덱 8장 이하, 큰 결론 숫자가 있는 장 먼저).
-//    나머지는 같은 배치(글자마다 inline-block)의 정지 묶음(.t-num). 띄어쓰기는 줄바꿈 없는 공백으로 남겨 'R² 0.01'이 붙지 않게 한다
+// 2) 큰 수치 팝인: 순수 숫자인 핵심 수치 하나에만(장당 1개·덱 8장 이하, 큰 결론 숫자가 있는 장 먼저).
+//    Transitions.dev Number pop-in 구조(.t-digit-group > .t-digit) 그대로 쪼개고, 묶음은 role=img·aria-label=원문,
+//    조각은 aria-hidden이라 한 덩어리로 읽힌다. 팝인하지 않는 숫자는 쪼개지 않는다(글자 그대로)
 const NUMERIC = /^[\d.,]+$/;
 const hosts = [];
 for (const [sel, score] of [[".num.hero", 3], [".tile .v", 2], [".fig .v", 2], [".num", 1]]) {
   for (const host of document.querySelectorAll(sel)) {
     if (hosts.some((h) => h.host === host)) continue;
     const node = [...host.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
-    if (node) hosts.push({ host, node, score, slide: slides.indexOf(host.closest(".slide")) });
+    if (node && NUMERIC.test(node.textContent.trim())) hosts.push({ host, node, score, slide: slides.indexOf(host.closest(".slide")) });
   }
 }
 const popSlides = new Set();
-const pops = new Set(hosts.filter((h) => NUMERIC.test(h.node.textContent.trim())).sort((a, b) => b.score - a.score || a.slide - b.slide)
-  .filter((h) => !popSlides.has(h.slide) && popSlides.size < 8 && popSlides.add(h.slide)));
-for (const h of hosts) {
+const pops = hosts.sort((a, b) => b.score - a.score || a.slide - b.slide).filter((h) => !popSlides.has(h.slide) && popSlides.size < 8 && popSlides.add(h.slide));
+for (const h of pops) {
   const text = h.node.textContent.trim();
   const group = document.createElement("span");
-  group.className = pops.has(h) ? "t-digit-group" : "t-num";
+  group.className = "t-digit-group";
   group.setAttribute("role", "img");
   group.setAttribute("aria-label", text);
-  const pop = pops.has(h);
   [...text].forEach((ch, i) => {
     const d = document.createElement("span");
-    d.className = pop ? "t-digit" : "t-num-d";
+    d.className = "t-digit";
     d.setAttribute("aria-hidden", "true");
     d.style.setProperty("--d", String(i));
-    d.textContent = ch === " " ? "\u00a0" : ch;
+    d.textContent = ch;
     group.append(d);
   });
   h.host.replaceChild(group, h.node);

@@ -178,14 +178,22 @@ const marksOf = (s) => {
   [...s.querySelectorAll("*")].forEach((o, i) => {
     if (o instanceof SVGElement && o.tagName !== "svg") return;
     const st = getComputedStyle(o);
-    const digits = o.matches(".t-num, .t-digit-group"); // 쪼갠 숫자 묶음은 한 줄 그대로
+    const digits = o.matches(".t-digit-group"); // 쪼갠 숫자 묶음은 한 줄 그대로
     let rd = "";
-    if (/^(flex|grid)$/.test(st.display) && !digits && o.offsetWidth > 480) rd = "stack"; // 칸보다 넓은 가로 배치만 한 열로
+    if (/^(flex|grid)$/.test(st.display) && !digits && o.offsetWidth > 480 && o.textContent.trim().length > 16) rd = "stack"; // 칸보다 넓은 가로 배치만 한 열로(숫자+단위 같은 짧은 줄은 그대로)
     else if (/^inline-(flex|grid)$/.test(st.display) && !digits) rd = "inline";
     if (/^(absolute|fixed)$/.test(st.position)) rd = "abs";
     else if (!rd && st.display === "block" && o.tagName !== "svg" && !o.querySelector("svg")) rd = "box";
     const wide = ["paddingLeft", "paddingRight", "marginLeft"].filter((k) => parseFloat(st[k]) > 48); // 계단·들여쓰기는 좁은 칸에서 없앤다
-    if (rd || wide.length) out.push([i, rd, wide]);
+    // 그림(svg): 가장 작은 글자가 실제 12px 이상이 되는 폭(px). 칸보다 넓으면 사본을 가로 스크롤 칸에 넣는다
+    let svgW = 0;
+    if (o.tagName === "svg" && o.viewBox?.baseVal?.width) {
+      const sizes = [...o.querySelectorAll("text")].map((t) => parseFloat(getComputedStyle(t).fontSize)).filter((v) => v > 0);
+      if (sizes.length) svgW = Math.ceil((o.viewBox.baseVal.width * 12.5) / Math.min(...sizes));
+    }
+    // 짧은 한 줄(숫자+단위·라벨)은 줄바꿈하지 않는다
+    const keep = st.whiteSpace === "nowrap" && o.textContent.trim().length <= 16;
+    if (rd || wide.length || svgW || keep) out.push([i, rd, wide, svgW, keep]);
   });
   marks.set(s, out);
   return out;
@@ -196,7 +204,14 @@ const cloneSlide = (s) => {
   c.className = `r-slide ${[...s.classList].filter((k) => !/^(slide|t-page|t-stagger|is-)/.test(k)).join(" ")}`;
   // 원본 배치를 보고 한 열로 풀 상자를 표시한다(장 클래스와 무관). 1920 캔버스 배치는 화면과 상관없어 장마다 한 번만 잰다
   const to = [...c.querySelectorAll("*")];
-  marksOf(s).forEach(([i, rd, wide]) => { const x = to[i]; if (!x) return; if (rd) x.dataset.rd = rd; for (const side of wide) x.style[side] = "0"; });
+  marksOf(s).forEach(([i, rd, wide, svgW, keep]) => {
+    const x = to[i];
+    if (!x) return;
+    if (rd) x.dataset.rd = rd;
+    if (keep) x.dataset.rdKeep = "";
+    for (const side of wide) x.style[side] = "0";
+    if (svgW) { x.style.width = `${svgW}px`; x.style.height = "auto"; const w = document.createElement("div"); w.className = "r-scroll r-fig"; x.replaceWith(w); w.append(x); }
+  });
   for (const t of c.querySelectorAll("table")) { const w = document.createElement("div"); w.className = "r-scroll"; t.replaceWith(w); w.append(t); }
   // 바탕·글자색은 원본 장에서 가져온다. 사진 위 밝은 글자처럼 바탕이 비치지 않으면 어두운 바탕을 깐다
   const ss = getComputedStyle(s);
@@ -219,7 +234,7 @@ const renderRead = () => {
   readRoot.replaceChildren(cloneSlide(slides[current]));
   ui.read.scrollTop = 0;
   const idle = window.requestIdleCallback || ((f) => setTimeout(f, FAST));
-  idle(() => [current + 1, current - 1].forEach((j) => slides[j] && marksOf(slides[j]))); // 옆 장 배치는 쉬는 틈에 미리 잰다
+  idle((d) => { for (const j of [current + 1, current - 1]) if (slides[j] && !marks.has(slides[j]) && (!d || d.timeRemaining() > 24)) marksOf(slides[j]); }); // 옆 장 배치는 쉬는 틈이 넉넉할 때 미리 잰다
 };
 const go = (i, opts = {}) => {
   if (!Number.isFinite(i)) i = 0;
@@ -412,12 +427,19 @@ document.addEventListener("pointermove", (e) => { if (e.pointerType === "mouse")
 document.addEventListener("pointerdown", wake, { passive: true });
 document.addEventListener("focusin", (e) => { if (e.target instanceof Element && e.target.closest(".deck-ui")) wake(); });
 
+// 3-11) 장 안 글줄 링크: 덱 배율에 반비례하는 히트 영역(controls.css가 padding으로 넓히고 같은 만큼 margin으로 되돌려 배치는 그대로)
+for (const a of document.querySelectorAll(".slide a[href]")) if (getComputedStyle(a).display === "inline") a.dataset.hit = "";
+
 // 4) 시작
 document.getElementById("deck-boot")?.remove();
 current = -1;
 go(parseHash());
 root.classList.add("deck-ready");
 if (!store.get("deck-hint")) { store.set("deck-hint", "1"); showHint(); }
+
+// 읽기 칸은 덱 글꼴이 오기 전에는 시스템 글꼴로 먼저 그리고(느린 회선에서 빈 칸으로 기다리지 않게), 온 뒤 같은 요소의 글꼴만 바꾼다
+// (요소를 새로 그리지 않아 첫 화면 큰 글자가 글꼴 도착 시각으로 밀리지 않는다). 배치 표시는 다음 장부터 다시 잰다
+document.fonts?.load('700 32px "Pretendard Variable"', "가").then(() => { readRoot.classList.add("font-ok"); marks.clear(); }).catch(() => readRoot.classList.add("font-ok"));
 
 // 인쇄: 개요가 열려 있으면 닫고 그린다(최종 상태 자체는 controls.css의 @media print가 강제한다)
 window.addEventListener("beforeprint", () => closeOverview());
