@@ -81,6 +81,7 @@ function logline(d, W, host) {
     g.append(el("line", { x1: x0, y1: py(t.v), x2: x1, y2: py(t.v) }));
     svg.append(tick({ x: x0 - 16, y: py(t.v) + 7, "text-anchor": "end" }, t.label));
   }
+  if (d.y보조) svg.append(axisLab({ x: x0 - 16, y: py(d.y보조.v) + 33, "text-anchor": "end" }, d.y보조.label));
   svg.append(gridWrap(g));
   svg.append(el("line", { class: "base", x1: x0, y1: yBase, x2: x1, y2: yBase }));
   for (let y = Math.ceil(lo); y <= Math.floor(hi); y++) svg.append(axisLab({ x: px(`${y}-01-01`), y: yBase + 34, "text-anchor": "middle" }, y));
@@ -139,7 +140,8 @@ function yearline(d, W, host) {
 //    범위를 넘는 점이 생기면 끝에 붙이지 않고 다른 모양(위·아래 삼각형)과 개수 주석으로 따로 그린다.
 //    강조점 이름표는 오른쪽 여백의 한 열에 두고 지시선으로 잇는다(이름표끼리·점과 겹치지 않게).
 function scatter(d, W, host) {
-  const H = d.H ?? 560, x0 = 96, x1 = W - 216, yTop = 64, yBase = H - 72;
+  // 세로축 이름은 차트 제목('… 고용 변화율 (%)')이 맡고, 가로축 이름은 눈금 줄 오른쪽 여백에 둔다(플롯 높이 확보)
+  const H = d.H ?? 560, x0 = 96, x1 = W - 216, yTop = 16, yBase = H - 40;
   const svg = svgOf(W, H, d, host);
   const [ylo, yhi] = d.y범위;
   const px = (v) => x0 + v * (x1 - x0);
@@ -151,35 +153,43 @@ function scatter(d, W, host) {
   }
   svg.append(gridWrap(g));
   for (const t of [0, 0.25, 0.5, 0.75, 1]) svg.append(axisLab({ x: px(t), y: yBase + 34, "text-anchor": "middle" }, t.toFixed(2)));
+  svg.append(axisLab({ x: x1 + 40, y: yBase + 34 }, d.x이름));
   const hl = new Set(d.강조 ?? []);
   const out = { up: 0, down: 0 };
   const mark = (p, cls, r) => {
     if (p.y > yhi || p.y < ylo) {
+      // 범위를 넘는 점: 끝에 붙인 원이 아니라 다른 모양(위·아래 삼각형)으로, 축 바깥쪽에 그린다
       const up = p.y > yhi, y = up ? yTop : yBase, k = up ? -1 : 1;
       out[up ? "up" : "down"]++;
-      svg.append(el("path", { class: `${cls} clip`, d: `M${px(p.x) - 7},${y - k * 2} L${px(p.x) + 7},${y - k * 2} L${px(p.x)},${y + k * 10} Z`, "data-x": p.x, "data-y": p.y }));
+      svg.append(el("path", { class: `${cls} clip`, d: `M${px(p.x) - 7},${y - k * 2} L${px(p.x) + 7},${y - k * 2} L${px(p.x)},${y + k * 12} Z`, "data-x": p.x, "data-y": p.y }));
       return;
     }
     svg.append(el("circle", { class: cls, cx: px(p.x), cy: py(p.y), r, "data-x": p.x, "data-y": p.y }));
   };
   for (const p of d.points) if (!hl.has(p.soc)) mark(p, "dot", Math.max(4.5, Math.min(14, Math.sqrt(p.emp2022 / 20000))));
   for (const p of d.points.filter((q) => hl.has(q.soc))) mark(p, "b-worse", Math.max(6, Math.min(14, Math.sqrt(p.emp2022 / 20000))));
-  if (out.up) svg.append(el("text", { class: "note", x: x1, y: yTop - 16, "text-anchor": "end" }, `▲ 세로 범위를 넘는 직업 ${out.up}개는 위 끝에 따로 표시`));
-  if (out.down) svg.append(el("text", { class: "note", x: x1, y: yBase + 28, "text-anchor": "end" }, `▼ 세로 범위 아래 직업 ${out.down}개는 아래 끝에 따로 표시`));
-  // 이름표 열: 점의 세로 자리 순으로 쌓고, 최소 간격 28을 지킨다
+  // 범위 밖 개수 주석: 오른쪽 여백 위쪽(점과 겹치지 않는 자리)에 두 줄로
+  if (out.up) (d.범위밖주석 ?? [`▲ 세로 범위를 넘는 직업 ${out.up}개는`, "위 끝에 따로 표시"]).forEach((line, i) => svg.append(el("text", { class: "edge-lab", x: x1 + 24, y: yTop + 8 + i * 26 }, line)));
+  if (out.down) svg.append(el("text", { class: "edge-lab", x: x1 + 24, y: yBase - 8 }, `▼ 아래로 넘는 직업 ${out.down}개`));
+  // 이름표 열: 점의 세로 자리 순으로 쌓고(최소 간격 28), 지시선은 점에서 오른쪽 여백까지 가로로 간 뒤 꺾는다
   const ann = (d.주석점 ?? []).map((a) => ({ a, p: d.points.find((q) => q.soc === a.soc) })).filter((x) => x.p).sort((u, v) => py(u.p.y) - py(v.p.y));
   const gap = 28, colX = x1 + 40;
   let prev = -Infinity;
   const ys = ann.map(({ p }) => (prev = Math.max(py(p.y) + 7, prev + gap)));
   const shift = Math.max(0, ys.at(-1) - (yBase - 8));
+  // 지시선이 다른 점을 지나지 않게: 후보 경로(가로로 간 뒤 꺾기 · 곧장 · 위/아래로 비켜 가기) 중 지나는 점이 가장 적은 것
+  const dots = d.points.filter((q) => q.y <= yhi && q.y >= ylo).map((q) => ({ q, x: px(q.x), y: py(q.y), r: Math.max(4.5, Math.min(14, Math.sqrt(q.emp2022 / 20000))) + 3 }));
+  const segD = (P, A, B) => { const dx = B[0] - A[0], dy = B[1] - A[1], L = dx * dx + dy * dy || 1, t = Math.max(0, Math.min(1, ((P.x - A[0]) * dx + (P.y - A[1]) * dy) / L)); return Math.hypot(P.x - A[0] - t * dx, P.y - A[1] - t * dy); };
+  const hits = (pts, self) => dots.filter((o) => o.q !== self && pts.slice(1).some((B, k) => segD(o, pts[k], B) < o.r)).length;
   ann.forEach(({ a, p }, i) => {
-    const ty = ys[i] - shift;
-    svg.append(el("line", { class: "leader", x1: px(p.x) + 9, y1: py(p.y), x2: colX - 8, y2: ty - 7 }));
+    const ty = ys[i] - shift, sx = px(p.x), sy = py(p.y), end = [colX - 8, ty - 7];
+    const routes = [[[sx + 9, sy], [x1 + 10, sy], end], [[sx + 9, sy], end]];
+    for (const dyv of [10, 18].flatMap((v) => [-v, v])) routes.push([[sx + 7, sy + dyv * 0.5], [sx + 18, sy + dyv], [x1 + 10, sy + dyv], end]);
+    const best = routes.map((r) => ({ r, h: hits(r, p) })).sort((u, v) => u.h - v.h)[0].r;
+    svg.append(el("path", { class: "leader", fill: "none", d: "M" + best.map((q) => q.join(",")).join(" L") }));
     svg.append(el("text", { class: a.note ? "note" : "slab", x: colX, y: ty }, a.text));
   });
   for (const a of d.주석 ?? []) annotate(svg, a, px, py);
-  svg.append(axisLab({ x: 0, y: yTop - 32 }, d.y이름));
-  svg.append(axisLab({ x: x1, y: yBase + 64, "text-anchor": "end" }, d.x이름));
   return svg;
 }
 
@@ -195,7 +205,7 @@ function hbar(d, W, host) {
   for (const [i, b] of d.bars.entries()) {
     const y = 16 + i * rowH, cy = y + rowH / 2;
     const xa = Math.min(px(0), px(b.value)), w = Math.max(Math.abs(px(b.value) - px(0)), 4);
-    svg.append(axisLab({ class: b.강조 ? "alab cat-hi" : "alab", x: labW, y: cy + 7, "text-anchor": "end" }, b.key));
+    svg.append(axisLab({ class: b.강조 ? "alab cat cat-hi" : "alab cat", x: labW, y: cy + 7, "text-anchor": "end" }, b.key));
     svg.append(el("rect", { class: b.강조 ? "b-worse" : b.색 === "evid" ? "b-evid" : "b-neutral", x: xa, y: cy - barH / 2, width: w, height: barH, rx: 4, "data-x": b.key, "data-y": b.value }));
     svg.append(el("text", { class: "vlab", x: b.value >= 0 ? px(b.value) + 12 : px(b.value) - 12, y: cy + 7, "text-anchor": b.value >= 0 ? "start" : "end" }, fmt(b.value, d.자릿수 ?? 1, true)));
   }
@@ -226,7 +236,7 @@ function starts(d, W, host) {
   svg.append(axisLab({ x: W, y: yTop - 16, "text-anchor": "end" }, c.열이름));
   for (const [i, r] of c.rows.entries()) {
     const cy = yTop + i * rowH + rowH / 2;
-    svg.append(axisLab({ class: r.강조 ? "alab cat-hi" : "alab", x: labW, y: cy + 7, "text-anchor": "end" }, r.key));
+    svg.append(axisLab({ class: r.강조 ? "alab cat cat-hi" : "alab cat", x: labW, y: cy + 7, "text-anchor": "end" }, r.key));
     svg.append(el("text", { class: "vlab", x: W, y: cy + 7, "text-anchor": "end" }, fmt(r.pct2036, 1)));
     if (!r.기준) { svg.append(axisLab({ x: x0, y: cy + 7 }, c.미도달)); continue; }
     const a = r.빠름 ?? r.기준, b = r.신중 ?? hi;
@@ -245,7 +255,8 @@ function starts(d, W, host) {
 
 // 6) 능력 경로 부채꼴: 로그 세로축, 시나리오 선 3개 + 직급 문턱 가로 점선 + 외삽 띠
 function capfan(d, W, host) {
-  const H = d.H ?? 560, x0 = 104, x1 = W - 296, yTop = 56, yBase = H - 72;
+  // 세로축 이름은 차트 제목('사람 기준 시간·로그 눈금')이 맡고, 가로축 이름은 눈금 줄 오른쪽에 둔다(플롯 높이 확보)
+  const H = d.H ?? 560, x0 = 104, x1 = W - 296, yTop = 16, yBase = H - 44;
   const svg = svgOf(W, H, d, host);
   const [lo, hi] = d.x범위;
   const ymin = Math.log10(d.y범위[0]), ymax = Math.log10(d.y범위[1]);
@@ -287,8 +298,7 @@ function capfan(d, W, host) {
     }
     if (c.주석) svg.append(el("text", { class: "note", x: px(c.주석.x), y: py(c.주석.y), "text-anchor": c.주석.anchor ?? "start" }, c.주석.text));
   }
-  svg.append(axisLab({ x: 0, y: yTop - 32 }, d.y이름));
-  if (d.x이름) svg.append(axisLab({ x: x1, y: yBase + 64, "text-anchor": "end" }, d.x이름));
+  if (d.x이름) svg.append(axisLab({ x: x1 + 16, y: yBase + 34 }, d.x이름));
   return svg;
 }
 
@@ -297,7 +307,10 @@ function gates(d) {
   const t = html("table", "plan gates");
   const yr = (v) => (v > 2036.99 ? `${Math.floor(v)}*` : String(Math.floor(v)));
   const hr = html("tr");
-  for (const h of ["직급", "맡는 업무 크기", "빠름", "기준", "신중"]) hr.append(html("th", "", h));
+  for (const h of ["직급", "맡는 업무 크기", "빠름", "기준", "신중"]) {
+    // 연도는 모두 시나리오 추정값이다. '추정' 라벨을 연도 열 머리(첫 줄 연도에서 64px 안)에 글자로 둔다
+    hr.append(html("th", "", ["빠름", "기준", "신중"].includes(h) && d.라벨?.[0] ? `${h} (${d.라벨[0]})` : h));
+  }
   const head = html("thead");
   head.append(hr);
   const tb = html("tbody");
@@ -317,15 +330,26 @@ function gates(d) {
 
 // 8) 직업군별 대체 시작: 포스터 줄 목록(taste-skill 「One item per poster line」)
 function poster(d) {
+  // 라벨 읽는 법(chart-data poster.라벨)은 안내판 위 한 줄, 추정 라벨은 줄마다 연도 바로 옆에
+  const out = document.createDocumentFragment();
+  const [meas, est] = d.라벨 ?? [];
+  if (est) {
+    const key = html("div", "poster-key", `${meas} = ‘이미 감소’와 각 줄의 실측 수치 · ${est} = 연도`);
+    key.style.marginBottom = "var(--g16)";
+    out.append(key);
+  }
   const wrap = html("div", "poster");
   for (const r of d.rows) {
     const it = html("div", "it");
     const f = html("span", "f");
-    f.append(html("span", "eta", r.eta), html("span", "s", `${r.range} · ${r.signal}`));
+    f.append(html("span", "s", `${r.range} · ${r.signal}`));
+    // 추정 연도는 알약 안에 '추정' 라벨을 함께 쓴다(실측 줄의 '이미 감소'와 구별)
+    f.append(html("span", "eta", r.status !== "arrived" && est ? `${r.eta} ${est.split("(")[0]}` : r.eta));
     it.append(html("span", "w", r.dest), f);
     wrap.append(it);
   }
-  return wrap;
+  out.append(wrap);
+  return out;
 }
 
 const KINDS = { logline, yearline, scatter, hbar, capfan, starts };

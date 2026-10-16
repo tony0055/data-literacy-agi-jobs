@@ -1,4 +1,4 @@
-구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 39(그중 자동만 통과·수동 확인 남음 11) · 실패 103 · 수동 5 · 오류 0 · 회귀 3(기준 baseline-cloud)
+구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 40(그중 자동만 통과·수동 확인 남음 11) · 실패 102 · 수동 5 · 오류 0 · 회귀 2(기준 baseline-cloud)
 
 # 시각 QA 보고서 — pr3
 
@@ -11,21 +11,20 @@
 | VG-01 | 전체 | NAV-01, NAV-02, CTL-01 | NAV-01 실패 · NAV-02 실패 · CTL-01 실패 | NAV-01: 왼쪽으로 80px(Δy 10): 장 5→5 (Δ0, 기대 +1) / NAV-01: 오른쪽으로 80px: 장 5→5 (Δ0, 기대 -1) / NAV-02: 390x844 터치: 이전·다음 버튼 없음(다음 0, 이전 0) / NAV-02: 1440x900 마우스: 이전·다음 버튼 없음(다음 0, 이전 0) |
 | VG-07 | 전체 | ONB-03, RSP-02 | ONB-03 실패 · RSP-02 실패 | ONB-03: 390x844 세로: 회전 안내·세로 읽기 모드 없음 / ONB-03: 375x812 세로: 회전 안내·세로 읽기 모드 없음 / RSP-02: 1장 1280×720 최소 실효 글자 9.33px(<12): span "데이터리터러시의이해 중간고사 과제" / RSP-02: 2장 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "사진: AI 생성 이미지(Gemini) · 이처럼 " |
 | V1-01 | 5 | TYP-03, LAY-06, STD-01 | TYP-03 실패 · LAY-06 실패 · STD-01 실패 | TYP-03: 5장 14px 3차 정보 아님: div.kicker.t-stagger-line "전체 구조" / TYP-03: 5장 12.97px(<14): text.n-s "학습 연산 연 4.1배" (svg 축소 0.811) / LAY-06: 5장 작은 글자(fit): 12개 — svg "연산과 전력에서 AI 능력, AI 개발 가속" text.n-s "학습 연산 연 4.1배" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만) / LAY-06: 5장 svg chain 축소 배율 0.811(<0.9) |
-| V8-01 | 13 | — | CHT-02 통과(자동)·수동 남음 · CHT-07 통과 · EVD-01 실패 | 잡지 못함 |
+| V8-01 | 13 | EVD-01 | CHT-02 통과(자동)·수동 남음 · CHT-07 통과 · EVD-01 실패 | EVD-01: 13장 occ_scatter 세로 범위 밖 값 10개가 축 끝값으로 그려져 그림 위치가 데이터 값과 다름 |
 
 ## 실행
 
-- 실행: 2026-10-16T13:25:47.321Z · 커밋 df91bbb (덱 파일 미커밋 변경 있음) · 덱 해시 0bf2f490478e · 594초
+- 실행: 2026-10-16T14:25:27.583Z · 커밋 8c7143b (덱 파일 미커밋 변경 있음) · 덱 해시 aa9f7e277cc2 · 486초
 - 명령: `cd presentation && bun scripts/visual-qa.ts --label pr3 --compare=baseline-cloud` · 파이썬 `python3`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
 - 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift, 이번 실행에선 못 씀)으로 IMG-02·RSP-02를 판정
 
 ## 기준(baseline-cloud) 대비
 
-회귀 3건 — 기준보다 나빠진 조건:
+회귀 2건 — 기준보다 나빠진 조건:
 - **CHT-10** 실패 → 실패 · 항목 1 → 1 · 새로 실패한 장 11
-- **EVD-01** 실패 → 실패 · 항목 1 → 5 · 새로 실패한 장 7, 17, 24, 26, 28
-- **NAV-04** 통과 → 실패 · 항목 0 → 1
+- **EVD-01** 실패 → 실패 · 항목 1 → 6 · 새로 실패한 장 7, 17, 24, 26, 28
 
 새로 통과: CON-04, CHT-01, CHT-02, CHT-04, CHT-05, CHT-06, CHT-07, CHT-08, CHT-09, CHT-11, CHT-12
 
@@ -37,7 +36,7 @@
 | [LAY-02](#lay-02) | automated | 자동 | 통과 |  |  |
 | [LAY-03](#lay-03) | automated | 자동 | 실패 | 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 열 시작점 밖 글 덩어리 4개: span "주제 설명과 데이터분석 계획 · 2026-10-16" x=1522.2 · div.kicker "AI가 AI 개발을 돕기 시작한 뒤의 10년" x=176 · span.pill |
 | [LAY-04](#lay-04) | automated | 자동 | 실패 | 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 33, 34 | token-check space 27건(src/deck.css:29  space  16px  (padding) · src/deck.css:48  space  32px  (padding) · src/deck.css:1 |
-| [LAY-05](#lay-05) | automated | 자동 | 실패 | 28 | 병렬 항목 6개(>5): div.poster "텔레마케터·상담이미 감소2023년부터 실측 · 미국" |
+| [LAY-05](#lay-05) | automated | 자동 | 실패 | 28 | 병렬 항목 6개(>5): div.poster "텔레마케터·상담2023년부터 실측 · 미국 텔레마케" |
 | [LAY-06](#lay-06) | automated | 자동 | 실패 | 5 | 작은 글자(fit): 12개 — svg "연산과 전력에서 AI 능력, AI 개발 가속" text.n-s "학습 연산 연 4.1배" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14p |
 | [LAY-07](#lay-07) | both | 자동+수동 | 실패 | 4, 8, 11, 12, 13, 14, 15, 16, 17, 21, 22, 23, 26, 27 | 3·4장 배치 서명 같음: 160:1600:3 |
 | [LAY-08](#lay-08) | automated | 자동 | 실패 | 4, 9, 15, 21, 30, 33 | div.tiles "105일AI가 맡을 수 있는 업무 크기가 두 배로 " 같은 행 형제 폭 579/463 · 높이 534/470/406 |
@@ -115,7 +114,7 @@
 | [CHT-11](#cht-11) | automated | 자동 | 통과 |  |  |
 | [CHT-12](#cht-12) | automated | 자동 | 통과 |  |  |
 | [CHT-13](#cht-13) | automated | 자동 | 통과 |  |  |
-| [EVD-01](#evd-01) | automated | 자동 | 실패 ⚠회귀 | 7, 17, 24, 26, 28 | 기준 대비 사라지거나 바뀐 숫자: 1, 40, 8 |
+| [EVD-01](#evd-01) | automated | 자동 | 실패 ⚠회귀 | 7, 13, 17, 24, 26, 28 | 기준 대비 사라지거나 바뀐 숫자: 1, 40, 8 |
 | [EVD-02](#evd-02) | automated | 자동 | 실패 | 4 | 라벨 "n=3"와 가장 가까운 숫자 127px(>64) |
 | [EVD-03](#evd-03) | automated | 자동 | 실패 | 1, 2, 3, 5, 6, 8, 9, 15, 16, 19, 21, 29, 30, 31, 32, 33, 34 | 출처에 연도 없음: "사진: AI 생성 이미지(Gemini) · 모든 수치에 출처와 라벨(기술" |
 | [EVD-04](#evd-04) | both | 자동+수동 | 실패 | 21 | 추정 라벨이 있는데 범위 표기 없음 |
@@ -124,7 +123,7 @@
 | [NAV-01](#nav-01) | automated | 자동 | 실패 | 덱 전체 | 왼쪽으로 80px(Δy 10): 장 5→5 (Δ0, 기대 +1) |
 | [NAV-02](#nav-02) | automated | 자동 | 실패 | 덱 전체 | 390x844 터치: 이전·다음 버튼 없음(다음 0, 이전 0) |
 | [NAV-03](#nav-03) | automated | 자동 | 통과 |  |  |
-| [NAV-04](#nav-04) | automated | 자동 | 실패 ⚠회귀 | 덱 전체 | 입력→다음 장 보임 중앙값 294.1ms(>100, 5회 587/294/149/96) |
+| [NAV-04](#nav-04) | automated | 자동 | 통과 |  |  |
 | [NAV-05](#nav-05) | automated | 자동 | 실패 | 덱 전체 | 390x844 터치: 이전·다음 버튼이 없어 비활성 모양을 확인할 수 없음 |
 | [NAV-06](#nav-06) | automated | 자동 | 실패 | 덱 전체 | #1에서 location.hash='#12' 후 장 1(hashchange 처리 없음) |
 | [NAV-07](#nav-07) | automated | 자동 | 실패 | 덱 전체 | history.back() 후 about:blank(기대 3장) |
@@ -158,20 +157,20 @@
 | [MOT-08](#mot-08) | both | 자동+수동 | 실패 | 2, 4, 8, 12, 18, 19, 21, 23 | 등장 순서가 읽기 순서와 어긋남 1곳 |
 | [MOT-09](#mot-09) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 모션 목록 절 없음 |
 | [MOT-10](#mot-10) | automated | 자동 | 통과 |  |  |
-| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 97/2290ms — 반쯤 그려진 채로 보임(3193ms 뒤 2290ms) |
+| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 105/2290ms — 반쯤 그려진 채로 보임(3168ms 뒤 2290ms) |
 | [A11Y-01](#a11y-01) | automated | 자동 | 실패 | 덱 전체 | 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33 |
 | [A11Y-02](#a11y-02) | automated | 자동 | 실패 | 덱 전체 | aria-live=polite 영역 없음 |
 | [A11Y-03](#a11y-03) | automated | 자동 | 실패 | 2, 4, 8, 11, 12, 13, 14, 15, 16, 18, 19, 21, 26 | h1·h2 0개(1 기대) — nohead 장은 숨긴 heading 필요 |
 | [A11Y-04](#a11y-04) | automated | 부분 | 실패 | 6, 9, 18, 19 | color-contrast: 대비 3.23:1 < 4.5 — div.kicker.t-stagger-line "재귀적 자기개선 · 지금 보이는 신호" 14px 600 (픽셀 최악 5%) |
 | [A11Y-05](#a11y-05) | automated | 자동 | 실패 | 덱 전체 | JS 끔: 빈 차트 9(metr_horizon, agi_forecast_shift, espai_two_clocks, occ_scatter, occ_quintile, kr_occupation_index, proj_ca |
 | [A11Y-06](#a11y-06) | automated | 자동 | 통과 |  |  |
-| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7912ms(>2500) |
+| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7844ms(>2500) |
 | [PERF-02](#perf-02) | automated | 자동 | 통과 |  |  |
 | [PERF-03](#perf-03) | automated | 자동 | 통과 |  |  |
 | [PERF-04](#perf-04) | automated | 자동 | 통과 |  |  |
 | [META-01](#meta-01) | automated | 자동 | 실패 | 덱 전체 | description 없음 |
 | [META-02](#meta-02) | automated | 자동 | 실패 | 덱 전체 | favicon(link rel=icon) 없음 |
-| [PRT-01](#prt-01) | both | 자동+수동 | 실패 | 7, 10, 11, 17, 24, 26 | print 미디어(CSS만)에서 흐린 글줄 6 |
+| [PRT-01](#prt-01) | both | 자동+수동 | 실패 | 7, 10, 11, 17, 24, 26 | print 미디어(CSS만)에서 흐린 글줄 100 |
 | [PRT-02](#prt-02) | automated | 자동 | 통과 |  |  |
 | [STD-01](#std-01) | both | 자동+수동 | 실패 | 덱 전체 | 34장 역할 표 행 0(<34) |
 | [STD-02](#std-02) | automated | 자동 | 실패 | 덱 전체 | token-check --strict 종료 1: off-token: 27 (space 27) |
@@ -249,21 +248,21 @@
 - 4장 · 고유 왼쪽 x 10개(>3): 176, 160, 208, 581, 835, 894, 1345, 1365
 - 5장 · 열 시작점 밖 글 덩어리 2개: div.kicker.t-stagger-line "전체 구조" x=176 · div.sowe.t-stagger-line "읽는 법컴퓨터 속 AI와 로봇을 따로 보지 않습니다" x=263.7
 - 7장 · 열 시작점 밖 글 덩어리 5개: div.kicker.t-stagger-line "AI 발전 속도 · 관계식 R1" x=176 · p.chart-title "AI가 절반 이상 성공하는 과제의 길이 2022–2" x=208 · p.chart-sub "세로축은 AI가 절반 이상 성공하는 과제를 사람이 " x=208
-- 7장 · 고유 왼쪽 x 4개(>3): 176, 160, 208, 470
+- 7장 · 고유 왼쪽 x 4개(>3): 176, 160, 208, 476
 - 8장 · 열 시작점 밖 글 덩어리 12개: div.kicker.t-stagger-line "AI 발전 속도 · 관계식 R1" x=176 · span.t-digit-group "188" x=208 · span.unit "일" x=318.8
 - 8장 · 고유 왼쪽 x 10개(>3): 176, 160, 208, 319, 757, 866, 1307, 1418
 - 9장 · 열 시작점 밖 글 덩어리 11개: div.kicker.t-stagger-line "AI 발전 속도 · 회사 대표들의 말" x=176 · p.name "OpenAI · 샘 올트먼" x=184 · p.quote "AI 연구를 스스로 하는 AI는 2028년 3월" x=184
 - 9장 · 고유 왼쪽 x 6개(>3): 176, 160, 184, 596, 1008, 1428
 - 10장 · 열 시작점 밖 글 덩어리 9개: div.kicker.t-stagger-line "전문가 예상 · 관계식 R2" x=176 · p.chart-title "전문가가 예상한 AGI 도달 연도 (2016–202" x=208 · p.chart-src "AI Impacts 전문가 설문 n = 4회(직접)" x=208
-- 10장 · 고유 왼쪽 x 6개(>3): 176, 160, 208, 603, 1307, 1610
-- 11장 · 열 시작점 밖 글 덩어리 11개: div.kicker.t-stagger-line "전문가 예상 · 관계식 R3" x=176 · p.chart-title "AGI와 모든 직업 자동화 예상 연도 (2016–2" x=208 · p.chart-src "같은 설문에서 같은 전문가에게 물은 두 예상 연도 " x=208
-- 11장 · 고유 왼쪽 x 6개(>3): 176, 160, 208, 497, 1307, 1418
+- 10장 · 고유 왼쪽 x 6개(>3): 176, 160, 208, 613, 1307, 1610
+- 11장 · 열 시작점 밖 글 덩어리 11개: div.kicker.t-stagger-line "전문가 예상 · 관계식 R3" x=176 · p.chart-title "AGI와 모든 직업 자동화 예상 연도 (2016–2" x=208 · p.chart-src "AI Impacts 전문가 설문(Expert Sur" x=208
+- 11장 · 고유 왼쪽 x 6개(>3): 176, 160, 208, 657, 1307, 1418
 - 12장 · 열 시작점 밖 글 덩어리 10개: div.kicker.t-stagger-line "전문가 예상 · 컨설팅 기관" x=176 · p "McKinsey 추정 · 지금 하는 업무의 절반이 " x=208 · span.t-digit-group "2045" x=208
 - 12장 · 고유 왼쪽 x 7개(>3): 176, 160, 208, 841, 1032, 1229, 1543
-- 13장 · 열 시작점 밖 글 덩어리 8개: div.kicker.t-stagger-line "실제 고용 1 · 미국 세부 직업 · 수업 7주 상" x=176 · p.chart-title "직업별 AI 노출도와 고용 변화율 2022→2025" x=208 · p.chart-src "점 하나 = 직업 하나(2022년 고용 1만 명 이" x=208
-- 13장 · 고유 왼쪽 x 5개(>3): 176, 160, 208, 485, 1307
+- 13장 · 열 시작점 밖 글 덩어리 8개: div.kicker.t-stagger-line "실제 고용 1 · 미국 세부 직업 · 수업 7주 상" x=176 · p.chart-title "직업별 AI 노출도와 고용 변화율 2022→2025" x=208 · p.chart-src "n = 639 직업(2022년 고용 1만 명 이상," x=208
+- 13장 · 고유 왼쪽 x 5개(>3): 176, 160, 208, 582, 1307
 - 14장 · 열 시작점 밖 글 덩어리 10개: div.kicker.t-stagger-line "실제 고용 1 · 노출 상위 직업" x=176 · p.chart-title "AI 노출도 5분위별 합계 고용 변화율 2022→2" x=208 · p.chart-src "분위마다 직업 154개 · 앞 장과 달리 고용 하한" x=208
-- 14장 · 고유 왼쪽 x 6개(>3): 176, 160, 208, 407, 1169, 1308
+- 14장 · 고유 왼쪽 x 6개(>3): 176, 160, 208, 412, 1169, 1308
 - … 외 34건(JSON 보고서에 전부)
 
 - 메모: 전면 사진 장(.bleed)은 풀블리드 예외로 뺐다
@@ -318,7 +317,7 @@
 
 실패 1건 · 장 28
 
-- 28장 · 병렬 항목 6개(>5): div.poster "텔레마케터·상담이미 감소2023년부터 실측 · 미국"
+- 28장 · 병렬 항목 6개(>5): div.poster "텔레마케터·상담2023년부터 실측 · 미국 텔레마케"
 
 근거: [slide-28.jpg](../shots/pr3/slide-28.jpg)
 
@@ -836,12 +835,11 @@
 > 색 면 위에서는 그 면 전용 글자색을 쓰고, 본문은 잉크로, 회색은 2차 정보에만, rgba·opacity로 흐린 글자는 없다  
 > 기준: 색 면 위 --note 0, --note 비율 >50% 장 0, 흐린 글자 0(애니메이션 완료 후)
 
-실패 33건 · 장 1, 3, 7, 8, 10, 11, 12, 13, 14, 15, 17, 20, 21, 22, 25, 26, 27, 29, 33
+실패 31건 · 장 1, 3, 7, 8, 10, 11, 12, 13, 14, 15, 17, 20, 21, 22, 25, 26, 27, 29, 33
 
 - 1장 · 18px 이상 글자 중 회색 비율 62%(>50%)
 - 3장 · 18px 이상 글자 중 회색 비율 58%(>50%)
 - 7장 · 색 면 위 --note 글자: span.tag "기술" (바탕 rgba(241,241,241,1))
-- 7장 · 18px 이상 글자 중 회색 비율 60%(>50%)
 - 8장 · 색 면 위 --note 글자: span.tag "시간순 검증" (바탕 rgba(226,229,238,1))
 - 10장 · 색 면 위 --note 글자: span.tag "기술" (바탕 rgba(241,241,241,1))
 - 10장 · 색 면 위 --note 글자: span.tag "n=3" (바탕 rgba(241,241,241,1))
@@ -853,7 +851,7 @@
 - 12장 · 18px 이상 글자 중 회색 비율 81%(>50%)
 - 13장 · 색 면 위 --note 글자: span.tag "기술" (바탕 rgba(241,241,241,1))
 - 13장 · 색 면 위 --note 글자: p "노출 지표를 Microsoft·Anthropic 것" (바탕 rgba(239,242,252,1))
-- 13장 · 18px 이상 글자 중 회색 비율 60%(>50%)
+- 13장 · 18px 이상 글자 중 회색 비율 52%(>50%)
 - 14장 · 색 면 위 --note 글자: span.tag "기술" (바탕 rgba(241,241,241,1))
 - 15장 · 색 면 위 --note 글자: p "경영·재무·관리처럼 노출이 큰 대분류가 경기 덕에 " (바탕 rgba(239,242,252,1))
 - 15장 · 색 면 위 --note 글자: p "금리 인상 뒤 테크 채용 조정 · 원격근무 확산 ·" (바탕 rgba(239,242,252,1))
@@ -863,7 +861,8 @@
 - 20장 · 18px 이상 글자 중 회색 비율 60%(>50%)
 - 21장 · 18px 이상 글자 중 회색 비율 64%(>50%)
 - 22장 · 색 면 위 --note 글자: p "Intel Hala Point 15 TOPS/W 이" (바탕 rgba(239,242,252,1))
-- … 외 8건(JSON 보고서에 전부)
+- 22장 · 18px 이상 글자 중 회색 비율 75%(>50%)
+- … 외 6건(JSON 보고서에 전부)
 
 근거: [slide-01.jpg](../shots/pr3/slide-01.jpg) · [slide-03.jpg](../shots/pr3/slide-03.jpg) · [slide-07.jpg](../shots/pr3/slide-07.jpg) · [slide-08.jpg](../shots/pr3/slide-08.jpg) · [slide-10.jpg](../shots/pr3/slide-10.jpg) · [slide-11.jpg](../shots/pr3/slide-11.jpg)
 
@@ -1234,7 +1233,7 @@
 > 한글 자간은 −0.02em보다 좁히지 않고, 16px 이하 라벨은 0 이상이며, 자간 넓힌 대문자 마이크로 라벨이 없다  
 > 기준: 한글 < −0.02em 0, 16px 이하 음수 0, 대문자 라벨 규칙 위반 0
 
-실패 297건 · 장 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
+실패 279건 · 장 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
 
 - 1장 · 16px 이하 음수 자간 -0.014em: span "데이터리터러시의이해 중간고사 과제"
 - 1장 · 16px 이하 음수 자간 -0.014em: span "주제 설명과 데이터분석 계획 · 2026-10-16"
@@ -1261,7 +1260,7 @@
 - 4장 · 한글 자간 -0.03em(< −0.02): h2.headline.t-stagger-line "결론은 세 숫자입니다"
 - 4장 · 16px 이하 음수 자간 -0.014em: span.tag "기술"
 - 4장 · 16px 이하 음수 자간 -0.014em: span.tag "n=3"
-- … 외 272건(JSON 보고서에 전부)
+- … 외 254건(JSON 보고서에 전부)
 
 근거: [slide-01.jpg](../shots/pr3/slide-01.jpg) · [slide-02.jpg](../shots/pr3/slide-02.jpg) · [slide-03.jpg](../shots/pr3/slide-03.jpg) · [slide-04.jpg](../shots/pr3/slide-04.jpg) · [slide-05.jpg](../shots/pr3/slide-05.jpg) · [slide-06.jpg](../shots/pr3/slide-06.jpg)
 
@@ -1315,10 +1314,10 @@
 - 1장 · 80px 문장 3줄: h1.t "AI는 언제쯤내 일을대신하게 될까요"
 - 6장 · 줄당 54자(>45): p "2024년 10월 → 2026년 4월. Anthro"
 - 6장 · 줄당 53자(>45): p "2025년 10월 "2026년 9월 인턴, 2028"
-- 7장 · 줄당 61자(>45): p.chart-sub "세로축은 AI가 절반 이상 성공하는 과제를 사람이 "
+- 7장 · 줄당 66자(>45): p.chart-sub "세로축은 AI가 절반 이상 성공하는 과제를 사람이 "
 - 7장 · 줄당 51자(>45): p.chart-src "METR Time Horizon 1.1 원본 YAM"
 - 10장 · 줄당 49자(>45): p.chart-src "AI Impacts 전문가 설문 n = 4회(직접)"
-- 11장 · 줄당 47자(>45): p.chart-src "같은 설문에서 같은 전문가에게 물은 두 예상 연도 "
+- 11장 · 줄당 54자(>45): p.chart-src "AI Impacts 전문가 설문(Expert Sur"
 - 17장 · 줄당 48자(>45): p.chart-src "KOSIS 직업별 취업자(DT_1DA7E08S_NE"
 - 21장 · 줄당 50자(>45): p "IEA 415TWh(2024) → 945TWh(20"
 - 22장 · 줄당 49자(>45): p "오가노이드 칩 CL1은 뉴런 약 80만 개, 대당 "
@@ -1561,8 +1560,8 @@
 
 - 6장 · 본문 255자(>220)
 - 23장 · 본문 284자(>220)
-- 25장 · 본문 337자(>220)
-- 28장 · 본문 281자(>220)
+- 25장 · 본문 349자(>220)
+- 28장 · 본문 326자(>220)
 - 29장 · 본문 313자(>220)
 - 30장 · 본문 295자(>220)
 - 31장 · 본문 292자(>220)
@@ -1789,15 +1788,16 @@
 > 덱의 모든 숫자가 chart-data.json·분석 출력과 일치하고 디자인 수정으로 숫자가 바뀌지 않는다  
 > 기준: unverified [] 종료 코드 0, 사라지거나 바뀐 숫자 0
 
-실패 5건 · 장 7, 17, 24, 26, 28
+실패 6건 · 장 7, 13, 17, 24, 26, 28
 
 - 7장 · 기준 대비 사라지거나 바뀐 숫자: 1, 40, 8
 - 17장 · 기준 대비 사라지거나 바뀐 숫자: 100, 100, 100
 - 24장 · 기준 대비 사라지거나 바뀐 숫자: 1, 1, 1, 8
 - 26장 · 기준 대비 사라지거나 바뀐 숫자: 173, 21
 - 28장 · 기준 대비 사라지거나 바뀐 숫자: 25, 25, 25
+- 13장 · occ_scatter 세로 범위 밖 값 10개가 축 끝값으로 그려져 그림 위치가 데이터 값과 다름
 
-근거: [slide-07.jpg](../shots/pr3/slide-07.jpg) · [slide-17.jpg](../shots/pr3/slide-17.jpg) · [slide-24.jpg](../shots/pr3/slide-24.jpg) · [slide-26.jpg](../shots/pr3/slide-26.jpg) · [slide-28.jpg](../shots/pr3/slide-28.jpg)
+근거: [slide-07.jpg](../shots/pr3/slide-07.jpg) · [slide-13.jpg](../shots/pr3/slide-13.jpg) · [slide-17.jpg](../shots/pr3/slide-17.jpg) · [slide-24.jpg](../shots/pr3/slide-24.jpg) · [slide-26.jpg](../shots/pr3/slide-26.jpg) · [slide-28.jpg](../shots/pr3/slide-28.jpg)
 
 ### EVD-02
 
@@ -1915,14 +1915,10 @@
 
 ### NAV-04
 
-실패 · 내비게이션·반응 · automated · 구현 auto · **회귀**
+통과 · 내비게이션·반응 · automated · 구현 auto
 
 > 입력 즉시 전환이 시작되고 연타해도 입력을 잃지 않으며 상태가 꼬이지 않는다  
 > 기준: current=10이고 current 장 1개, 입력→visible ≤100ms, is-hiding 잔존 0, opacity 1 아닌 줄 0, jsErrors 0
-
-실패 1건
-
-- 입력→다음 장 보임 중앙값 294.1ms(>100, 5회 587/294/149/96)
 
 - 메모: 글줄 불투명 확인은 마지막 입력 1.5초 뒤(글줄 등장 ≤1000ms 허용)
 
@@ -2355,11 +2351,11 @@
 - 7장 · 차트 빌드 2290ms(>1500)
 - 10장 · 차트 빌드 2490ms(>1500)
 - 11장 · 차트 빌드 2530ms(>1500)
-- 13장 · 차트 빌드 1776ms(>1500)
+- 13장 · 차트 빌드 1756ms(>1500)
 - 17장 · 차트 빌드 2370ms(>1500)
 - 24장 · 차트 빌드 2410ms(>1500)
 - 26장 · 차트 빌드 2450ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 0/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 606/2290ms)
 
 근거: [slide-07.jpg](../shots/pr3/slide-07.jpg) · [slide-10.jpg](../shots/pr3/slide-10.jpg) · [slide-11.jpg](../shots/pr3/slide-11.jpg) · [slide-13.jpg](../shots/pr3/slide-13.jpg) · [slide-17.jpg](../shots/pr3/slide-17.jpg) · [slide-24.jpg](../shots/pr3/slide-24.jpg)
 
@@ -2489,7 +2485,7 @@
 
 실패 1건 · 장 7
 
-- 7장 · 탭 복귀 100ms 뒤 차트 빌드 97/2290ms — 반쯤 그려진 채로 보임(3193ms 뒤 2290ms)
+- 7장 · 탭 복귀 100ms 뒤 차트 빌드 105/2290ms — 반쯤 그려진 채로 보임(3168ms 뒤 2290ms)
 
 - 메모: 탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과
 
@@ -2505,7 +2501,7 @@
 실패 2건
 
 - 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33
-- Tab 40회 중 다른 장으로 샌 포커스 20: other:34
+- Tab 40회 중 다른 장으로 샌 포커스 24: other:34
 
 ### A11Y-02
 
@@ -2627,8 +2623,8 @@
 
 실패 2건
 
-- LCP 7912ms(>2500)
-- 첫 화면 전송량 2.92MB(>1.5): 가장 큰 /assets/photos/altman.jpg 428KB, /assets/photos/amodei.jpg 414KB
+- LCP 7844ms(>2500)
+- 첫 화면 전송량 2.93MB(>1.5): 가장 큰 /assets/photos/altman.jpg 428KB, /assets/photos/amodei.jpg 414KB
 
 - 메모: Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public
 
@@ -2695,13 +2691,13 @@
 
 실패 8건 · 장 7, 10, 11, 17, 24, 26
 
-- print 미디어(CSS만)에서 흐린 글줄 6
+- print 미디어(CSS만)에서 흐린 글줄 100
 - @media print에 box-shadow: none 없음
 - 7장 · PDF 7쪽 꺾은선 1/1개가 끝까지 안 그려짐: metr_horizon:l-worse 0/52점(0%)
 - 10장 · PDF 10쪽 꺾은선 2/2개가 끝까지 안 그려짐: agi_forecast_shift:l-worse 0/21점(0%) · agi_forecast_shift:l-neutral 0/16점(0%)
 - 11장 · PDF 11쪽 꺾은선 2/2개가 끝까지 안 그려짐: espai_two_clocks:l-worse 0/20점(0%) · espai_two_clocks:l-evid 0/7점(0%)
 - 17장 · PDF 17쪽 꺾은선 3/3개가 끝까지 안 그려짐: kr_occupation_index:l-evid 0/18점(0%) · kr_occupation_index:l-worse 0/24점(0%) · kr_occupation_index:l-neutral 0/24점(0%)
-- 24장 · PDF 24쪽 꺾은선 3/3개가 끝까지 안 그려짐: proj_capability:l-evid 1/14점(7%) · proj_capability:l-worse 1/24점(4%) · proj_capability:l-neutral 3/42점(7%)
+- 24장 · PDF 24쪽 꺾은선 3/3개가 끝까지 안 그려짐: proj_capability:l-evid 1/12점(8%) · proj_capability:l-worse 1/20점(5%) · proj_capability:l-neutral 2/40점(5%)
 - 26장 · PDF 26쪽 꺾은선 4/4개가 끝까지 안 그려짐: proj_kr_jobs:l-evid 0/30점(0%) · proj_kr_jobs:l-worse 0/30점(0%) · proj_kr_jobs:l-neutral 5/30점(17%) · proj_kr_jobs:l-neutral dash-b 25/30점(83%)
 
 - 메모: 꺾은선 판정: 선 구간 안쪽 점(꼭짓점에서 10px 넘게 떨어진 곳, 24px 간격)마다 5×5 창 안에 선 색(RGB 거리 <48)이 있는지 렌더와 PDF 래스터(pdftoppm 1920×1080)에서 보고, 렌더에 있던 점의 90% 미만이 PDF에 있으면 실패

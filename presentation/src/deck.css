@@ -107,16 +107,18 @@ em { font-style: normal; font-weight: 700; color: var(--accent); }
 .chart { display: flex; flex-direction: column; gap: var(--g16); min-width: 0; padding: var(--g48); border-radius: var(--r-core); background: var(--paper); box-shadow: var(--bezel); }
 .chart.bare { padding: 0; background: none; box-shadow: none; border-radius: 0; }
 .chart-title { font: var(--t-title) var(--font); letter-spacing: -0.02em; }
-.chart-sub { font: var(--t-body) var(--font); color: var(--note); }
+.chart-sub { font: var(--t-body) var(--font); color: var(--ink); } /* 읽는 법 문장은 본문과 같은 잉크 */
 .chart-head { display: flex; flex-direction: column; gap: var(--g8); }
 .chart-src { font: var(--t-small) var(--font); color: var(--note); }
-.chart > .chart-src { max-width: 36em; } /* 차트 출처 줄은 한 줄 45자 안팎에서 줄바꿈 */
+.chart > .chart-src { max-width: 36em; letter-spacing: 0; } /* 차트 출처 줄은 한 줄 45자 안팎에서 줄바꿈, 작은 글자라 자간을 좁히지 않는다 */
 /* 차트 안: 글자는 잉크·회색만(계열은 옆의 점·선 색), 크기는 본문 프리셋 20px 하나, 굵기 400·600·700 */
 .chart svg { width: 100%; height: auto; overflow: visible; }
 .chart svg text { font-family: var(--font); font-size: 20px; font-weight: 400; fill: var(--note); font-variant-numeric: tabular-nums; }
 .chart svg .vlab { font-weight: 700; fill: var(--ink); }
 .chart svg .slab, .chart svg .note { font-weight: 600; fill: var(--ink); }
-.chart svg .cat-hi { font-weight: 700; fill: var(--ink); }
+.chart svg .cat { fill: var(--ink); }
+.chart svg .cat-hi { font-weight: 700; }
+.chart svg .edge-lab { font-weight: 600; fill: var(--ink); }
 .chart svg .band-lab, .chart svg .gate-lab { font-weight: 600; fill: var(--note); }
 /* 이름표 뒤 바탕색 테(점선·격자가 글자를 지나가도 읽히게) */
 .chart svg .vlab, .chart svg .slab, .chart svg .note, .chart svg .gate-lab { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
