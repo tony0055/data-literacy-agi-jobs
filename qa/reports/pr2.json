@@ -1,9 +1,9 @@
 {
  "label": "pr2",
- "date": "2026-10-16T18:25:49.384Z",
- "commit": "af08a74",
+ "date": "2026-10-16T19:39:06.132Z",
+ "commit": "cc72436",
  "deckDirty": true,
- "deckSha": "402dc721b669",
+ "deckSha": "7dc8b64f5b55",
  "seconds": 511,
  "summary": {
   "total": 147,
@@ -11,12 +11,12 @@
   "implemented": 142,
   "implementedAuto": 141,
   "autoTotal": 142,
-  "pass": 64,
-  "fail": 78,
+  "pass": 65,
+  "fail": 77,
   "manual": 5,
   "error": 0,
   "pendingManual": 9,
-  "regressions": 4
+  "regressions": 3
  },
  "compare": "baseline-cloud",
  "tools": {
@@ -70,7 +70,7 @@
   "lint": {
    "cmd": "node /home/user/product-design-system/13-tools-for-cloud/taste/lint.mjs index.html src --json",
    "code": 1,
-   "out": "{\n \"files\": 8,\n \"findings\": [\n  {\n   \"level\": \"WARN\",\n   \"id\": \"copy\",\n   \"file\": \"index.html\",\n   \"line\": 223,\n   \"match\": \"the future of\",\n   \"message\": \"Stock marketing phrase. Say the specific thing the product does.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/deck.css\",\n   \"line\": 55,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/deck.css\",\n   \"line\": 71,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 112,\n   \"match\": \".kicker,\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"WARN\",\n   \"id\": \"outlined-box\",\n   \"file\": \"src/deck.css\",\n   \"line\": 112,\n   \"match\": \"border: 1px solid\",\n   \"message\": \"A 1px outlined box. Prefer a filled surface or no box.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 121,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 122,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 162,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 178,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"src/fit.js\",\n   \"line\": 15,\n   \"match\": \".kicker,\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 41,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"gradient\",\n   \"file\": \"src/slides.css\",\n   \"line\": 155,\n   \"match\": \"linear-gradient(\",\n   \"message\": \"Gradient fill. Use a flat colour or a real image (a neutral scrim over a photo is the one exception).\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 169,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 201,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 217,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 455,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 480,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 534,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (",
+   "out": "{\n \"files\": 8,\n \"findings\": [\n  {\n   \"level\": \"WARN\",\n   \"id\": \"copy\",\n   \"file\": \"index.html\",\n   \"line\": 223,\n   \"match\": \"the future of\",\n   \"message\": \"Stock marketing phrase. Say the specific thing the product does.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/deck.css\",\n   \"line\": 56,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/deck.css\",\n   \"line\": 72,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 113,\n   \"match\": \".kicker,\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"WARN\",\n   \"id\": \"outlined-box\",\n   \"file\": \"src/deck.css\",\n   \"line\": 113,\n   \"match\": \"border: 1px solid\",\n   \"message\": \"A 1px outlined box. Prefer a filled surface or no box.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 122,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 123,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 163,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 179,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"src/fit.js\",\n   \"line\": 15,\n   \"match\": \".kicker,\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 41,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"gradient\",\n   \"file\": \"src/slides.css\",\n   \"line\": 155,\n   \"match\": \"linear-gradient(\",\n   \"message\": \"Gradient fill. Use a flat colour or a real image (a neutral scrim over a photo is the one exception).\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 169,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 201,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 217,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 452,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 476,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 527,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (",
    "err": ""
   }
  },
@@ -254,29 +254,29 @@
     "occupancy": {
      "1": 0.47,
      "2": 0.67,
-     "3": 0.5,
-     "4": 0.53,
+     "3": 0.44,
+     "4": 0.49,
      "5": 0.71,
      "6": 0.57,
      "7": 0.68,
-     "8": 0.51,
-     "9": 0.39,
+     "8": 0.45,
+     "9": 0.43,
      "10": 0.58,
      "11": 0.52,
-     "12": 0.57,
+     "12": 0.51,
      "13": 0.54,
      "14": 0.4,
      "15": 0.53,
-     "16": 0.57,
+     "16": 0.55,
      "17": 0.45,
      "18": 0.93,
      "19": 0.47,
      "20": 0.37,
-     "21": 0.46,
-     "22": 0.42,
-     "23": 0.49,
+     "21": 0.52,
+     "22": 0.4,
+     "23": 0.47,
      "24": 0.53,
-     "25": 0.36,
+     "25": 0.35,
      "26": 0.51,
      "27": 0.39,
      "28": 0.36,
@@ -526,7 +526,7 @@
    "measured": {
     "cardClass": 0,
     "withCards": 10,
-    "lead": 2
+    "lead": 0
    },
    "evidence": [],
    "manual": {
@@ -725,7 +725,7 @@
    "items": [],
    "failedSlides": [],
    "measured": {
-    "checked": 866,
+    "checked": 867,
     "viaPixels": 237
    },
    "notes": [
@@ -967,15 +967,15 @@
    "summary": "모든 글자가 로컬 Pretendard Variable 하나로 실제 렌더되고 모노스페이스는 없다",
    "items": [
     {
-     "msg": "다른 글꼴로 렌더: Deck Sans Subset (30348 글리프)"
+     "msg": "다른 글꼴로 렌더: Deck Sans Subset (30534 글리프)"
     }
    ],
    "failedSlides": [],
    "measured": {
     "families": {
-     "Deck Sans Subset": 30348
+     "Deck Sans Subset": 30534
     },
-    "nodes": 1266,
+    "nodes": 1285,
     "woffStatus": 200,
     "fontsCheck": true
    },
@@ -1241,13 +1241,13 @@
      "msg": "글꼴 preload 없음"
     },
     {
-     "msg": "Slow 4G 근사에서 글꼴 적용(h1 표시) 9365ms(>1500ms, 최악 3초 초과)"
+     "msg": "Slow 4G 근사에서 글꼴 적용(h1 표시) 9371ms(>1500ms, 최악 3초 초과)"
     }
    ],
    "failedSlides": [],
    "measured": {
-    "fontAt": 9365,
-    "fcp": 2984
+    "fontAt": 9371,
+    "fcp": 3040
    },
    "notes": [
     "CDP 네트워크 제한(150ms RTT·1.6Mbps)·CPU 4배로 근사. 실제 회선·기기 아님"
@@ -1303,7 +1303,7 @@
    ],
    "measured": {
     "formal": 42,
-    "noun": 179
+    "noun": 183
    },
    "evidence": [
     "shots/pr2/slide-05.jpg",
@@ -1752,7 +1752,7 @@
    ],
    "measured": {
     "p90": 35,
-    "sentences": 273
+    "sentences": 276
    },
    "evidence": [
     "shots/pr2/slide-06.jpg",
@@ -3160,6 +3160,7 @@
      "12": [
       "0",
       "10",
+      "10",
       "12",
       "2",
       "2",
@@ -3169,8 +3170,12 @@
       "2023",
       "2023",
       "2030",
+      "2045",
+      "2055",
       "2055",
       "21.5",
+      "21.5",
+      "29.5",
       "34",
       "4",
       "5",
@@ -3432,6 +3437,7 @@
       "1220",
       "2",
       "2.9",
+      "2.9",
       "20",
       "2026",
       "3",
@@ -3441,9 +3447,11 @@
       "3333",
       "34",
       "4.9",
+      "4.9",
       "5",
       "5",
       "6",
+      "7.8",
       "7.8",
       "8",
       "8"
@@ -3452,18 +3460,25 @@
       "1",
       "1",
       "1.41",
+      "1.41",
       "2",
+      "2.9",
+      "2024",
       "2024",
       "2028",
+      "2030",
       "2030",
       "2030",
       "21",
       "34",
       "4.1",
+      "4.1",
+      "415",
       "415",
       "5",
       "5",
       "9",
+      "945",
       "945"
      ],
      "22": [
@@ -4216,21 +4231,18 @@
    "area": "내비게이션·반응",
    "method": "automated",
    "implemented": "auto",
-   "status": "fail",
+   "status": "pass",
    "summary": "입력 즉시 전환이 시작되고 연타해도 입력을 잃지 않으며 상태가 꼬이지 않는다",
-   "items": [
-    {
-     "msg": "입력→다음 장 보임 중앙값 454.9ms(>100, 5회 518/455/134/53)"
-    }
-   ],
+   "items": [],
    "failedSlides": [],
    "measured": {
-    "firstVisibleMs": 454.8999999985099,
+    "firstVisibleMs": 66,
     "visibleSamples": [
-     517.5,
-     454.8999999985099,
-     134,
-     52.79999999701977
+     517.6999999992549,
+     50.30000000074506,
+     62.19999999925494,
+     66,
+     78.69999999925494
     ],
     "afterTen": {
      "cur": 10,
@@ -4248,13 +4260,7 @@
    "notes": [
     "글줄 불투명 확인은 마지막 입력 1.5초 뒤(글줄 등장 ≤1000ms 허용)"
    ],
-   "evidence": [],
-   "regression": {
-    "prevStatus": "pass",
-    "prevItems": 0,
-    "nowItems": 1,
-    "newSlides": []
-   }
+   "evidence": []
   },
   {
    "id": "NAV-05",
@@ -5194,7 +5200,7 @@
     },
     {
      "n": 10,
-     "msg": "844x390: button.replay-btn ↔ p \"예측 커뮤니티 Metaculus는 2025년 이후 \" 1498px² 외 1"
+     "msg": "844x390: button.replay-btn ↔ span.pg \"10 / 34\" 173px²"
     },
     {
      "n": 11,
@@ -5202,19 +5208,19 @@
     },
     {
      "n": 12,
-     "msg": "844x390: button.replay-btn ↔ p \"생성형 AI를 반영하기 전 추정은 21.5%였습니다\" 348px² 외 1"
+     "msg": "844x390: button.replay-btn ↔ span.pg \"12 / 34\" 170px²"
     },
     {
      "n": 13,
-     "msg": "844x390: button.replay-btn ↔ p \"노출 지표를 Microsoft·Anthropic 것\" 1498px² 외 1"
+     "msg": "844x390: button.replay-btn ↔ span.pg \"13 / 34\" 172px²"
     },
     {
      "n": 14,
-     "msg": "844x390: button.replay-btn ↔ li \"웹 개발자 −20.8%\" 492px² 외 2"
+     "msg": "844x390: button.replay-btn ↔ span.pg \"14 / 34\" 173px²"
     },
     {
      "n": 15,
-     "msg": "844x390: button.replay-btn ↔ p.k.lg \"전체 상관은 0에 가깝지만 사무·행정 ρ = −0.\" 348px² 외 1"
+     "msg": "844x390: button.replay-btn ↔ p.k.lg \"전체 상관은 0에 가깝지만 사무·행정 ρ = −0.\" 276px² 외 1"
     },
     {
      "n": 16,
@@ -5246,7 +5252,7 @@
     },
     {
      "n": 23,
-     "msg": "844x390: button.replay-btn ↔ td.r \"× 0.5\" 61px² 외 2"
+     "msg": "844x390: button.replay-btn ↔ span.pg \"23 / 34\" 179px²"
     },
     {
      "n": 24,
@@ -5254,7 +5260,7 @@
     },
     {
      "n": 25,
-     "msg": "844x390: button.replay-btn ↔ p \"모형상 본격화는 2030년(기준)이지만 신입 채용 \" 1426px² 외 1"
+     "msg": "844x390: button.replay-btn ↔ span.pg \"25 / 34\" 179px²"
     },
     {
      "n": 26,
@@ -5262,7 +5268,7 @@
     },
     {
      "n": 27,
-     "msg": "844x390: button.replay-btn ↔ h3.sm \"전문직은 대체보다 보조\" 61px² 외 2"
+     "msg": "844x390: button.replay-btn ↔ span.pg \"27 / 34\" 176px²"
     },
     {
      "n": 28,
@@ -5274,7 +5280,7 @@
     },
     {
      "n": 30,
-     "msg": "844x390: button.replay-btn ↔ td \"Klarna는 AI 상담 도입 뒤 품질 문제로 사람\" 1489px² 외 1"
+     "msg": "844x390: button.replay-btn ↔ p.ot \"Klarna는 AI 상담 도입 뒤 품질 문제로 사람\" 528px² 외 1"
     },
     {
      "n": 31,
@@ -5282,7 +5288,7 @@
     },
     {
      "n": 32,
-     "msg": "844x390: button.replay-btn ↔ td \"시간순 백테스트 · 민감도 (6주 보너스)\" 717px² 외 1"
+     "msg": "844x390: button.replay-btn ↔ td \"이중차분 · 사전 추세 점검 · 교란 3개 · 심슨\" 34px² 외 2"
     },
     {
      "n": 33,
@@ -5850,9 +5856,9 @@
       "blurIn": 3
      },
      {
-      "incoming": 5.75669,
-      "outgoing": -2.24331,
-      "blurIn": 2.15876
+      "incoming": 5.7622,
+      "outgoing": -2.2378,
+      "blurIn": 2.16083
      }
     ],
     "bwd": [
@@ -5862,19 +5868,19 @@
       "blurIn": 3
      },
      {
-      "incoming": -5.75767,
-      "outgoing": 2.24233,
-      "blurIn": 2.15913
+      "incoming": -5.75093,
+      "outgoing": 2.24907,
+      "blurIn": 2.1566
      },
      {
-      "incoming": -1.68366,
-      "outgoing": 6.31634,
-      "blurIn": 0.631372
+      "incoming": -3.94835,
+      "outgoing": 4.05165,
+      "blurIn": 1.48063
      },
      {
-      "incoming": -0.402023,
-      "outgoing": 7.59798,
-      "blurIn": 0.150759
+      "incoming": -0.401339,
+      "outgoing": 7.59866,
+      "blurIn": 0.150502
      }
     ],
     "property": "opacity, transform, filter, visibility",
@@ -5938,7 +5944,7 @@
     },
     {
      "n": 7,
-     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 0/2290ms)"
+     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 251/2290ms)"
     }
    ],
    "failedSlides": [
@@ -6233,10 +6239,10 @@
    "items": [],
    "failedSlides": [],
    "measured": {
-    "frames": 368,
+    "frames": 367,
     "long": 0,
-    "worst": 16.80000000000109,
-    "fps": 60
+    "worst": 33.30000000000018,
+    "fps": 59.7
    },
    "notes": [
     "CPU 4배 감속 에뮬레이션(390×844). 실기기 확인 아님"
@@ -6253,15 +6259,15 @@
    "items": [
     {
      "n": 7,
-     "msg": "탭 복귀 100ms 뒤 차트 빌드 99/2290ms — 반쯤 그려진 채로 보임(3191ms 뒤 2290ms)"
+     "msg": "탭 복귀 100ms 뒤 차트 빌드 90/2290ms — 반쯤 그려진 채로 보임(3200ms 뒤 2290ms)"
     }
    ],
    "failedSlides": [
     7
    ],
    "measured": {
-    "waitMs": 3191,
-    "early": 99,
+    "waitMs": 3200,
+    "early": 90,
     "cur": 6,
     "t": 2290,
     "d": 2290,
@@ -6592,14 +6598,14 @@
    "summary": "느린 모바일 회선에서도 첫 화면이 빠르고 흔들리지 않는다",
    "items": [
     {
-     "msg": "LCP 2984ms(>2500)"
+     "msg": "LCP 3040ms(>2500)"
     }
    ],
    "failedSlides": [],
    "measured": {
-    "lcp": 2984,
+    "lcp": 3040,
     "cls": 0.006067874408446835,
-    "transferKB": 1268
+    "transferKB": 1272
    },
    "notes": [
     "Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public"
@@ -6910,36 +6916,36 @@
    "measured": {
     "1": 0.9881,
     "2": 0.9881,
-    "3": 0.9886,
-    "4": 0.9911,
+    "3": 0.989,
+    "4": 0.9899,
     "5": 0.9849,
-    "6": 0.9889,
+    "6": 0.9887,
     "7": 0.9907,
-    "8": 0.9907,
-    "9": 0.9889,
-    "10": 0.9893,
-    "11": 0.9911,
-    "12": 0.9906,
-    "13": 0.9897,
-    "14": 0.99,
-    "15": 0.9894,
-    "16": 0.9907,
-    "17": 0.9854,
-    "18": 0.9864,
+    "8": 0.991,
+    "9": 0.9883,
+    "10": 0.9906,
+    "11": 0.9915,
+    "12": 0.9907,
+    "13": 0.9901,
+    "14": 0.9914,
+    "15": 0.9871,
+    "16": 0.9911,
+    "17": 0.9871,
+    "18": 0.9875,
     "19": 0.9908,
-    "20": 0.9898,
-    "21": 0.9911,
-    "22": 0.9906,
-    "23": 0.9872,
+    "20": 0.9891,
+    "21": 0.9876,
+    "22": 0.9891,
+    "23": 0.9875,
     "24": 0.9872,
-    "25": 0.9876,
-    "26": 0.9906,
-    "27": 0.9907,
+    "25": 0.9856,
+    "26": 0.9901,
+    "27": 0.9916,
     "28": 0.9882,
     "29": 0.9819,
-    "30": 0.9869,
+    "30": 0.9855,
     "31": 0.9883,
-    "32": 0.986,
+    "32": 0.9912,
     "33": 0.9887,
     "34": 0.9871
    },
