@@ -1,28 +1,42 @@
 /* 토큰 — soft-skill(high-end-visual-design) 「Soft Structuralism」 + Pretendard
- * 은회색 바탕 위에 둥근 이중 테두리 흰 카드, 넓게 퍼지는 연한 그림자, 포인트 색 둘(코발트·라임).
- * 대비는 실측값(design-standard/README.md). 모션 토큰은 transitions.dev _root.css 공유 스케일. */
+ * 장마다 바탕 면(스톤 · 흰 · 연세이지 · 세이지 · 스톤 한 단계 · 검정 · 사진)을 바꿔 장을 구성하고, 카드는 장당 0~1개.
+ * 포인트 색 둘(인디고 · 세이지)은 남기되 인디고는 장마다 핵심 한 곳에만. 쉬는 요소에는 그림자를 두지 않는다.
+ * 대비는 실측값(qa/pr/02/surface-plan.md). 모션 토큰은 transitions.dev _root.css 공유 스케일. */
 
 @font-face { font-family: "Pretendard Variable"; src: url("../assets/fonts/PretendardVariable.woff2") format("woff2-variations"); font-weight: 45 920; font-display: block; }
 
 :root {
-  /* 바탕·잉크: 아주 약하게 따뜻한 스톤 중립(OKLCH 색상각 75, 채도 0.005~0.008) */
-  --canvas: #f4f2ef;        /* oklch(.962 .005 75) */
-  --paper: #ffffff;
+  /* 바탕 면: 아주 약하게 따뜻한 스톤 중립(OKLCH 색상각 75, 채도 0.005~0.008) */
+  --canvas: #f4f2ef;        /* 스톤 바탕 */
+  --paper: #ffffff;         /* 흰 면 — 차트·표 장 */
+  --stone-100: #e9e5df;     /* 스톤 한 단계 진한 면(바탕과 ΔE 4.8) */
   --ink: #141210;           /* 은은한 따뜻한 검정 */
-  --note: #63605b;          /* 흰 6.26:1 · 바탕 5.60:1 */
+  --note: #63605b;          /* 흰 6.26:1 · 스톤 바탕 5.60:1 */
+  --muted: #55524d;         /* 밝은 면 전체(스톤·흰·연세이지·세이지·스톤 한 단계)에 같은 보조 글자 — 세이지 5.63:1 · 스톤 한 단계 6.20:1 · 흰 7.78:1 */
   --soot: #171512;
   --soot-2: #22201d;
   --note-on-soot: #b4b0ac;  /* 8.46:1 */
 
   /* 포인트 둘: 채도를 낮춘 인디고와 세이지(원색 대신 OKLCH 채도 0.07~0.135) */
-  --accent: #4c5eb2;        /* oklch(.51 .135 272) · 흰 바탕 글자 5.91:1, 위 흰 글자 5.91:1 */
+  --accent: #4c5eb2;        /* oklch(.51 .135 272) · 흰 5.91:1 · 스톤 5.29:1 · 연세이지 5.34:1 */
   --accent-50: #eff2fc;
   --accent-100: #dfe6fb;
-  --on-accent-note: #e6eaf9; /* 강조색 카드 위 보조 글자 */
-  --sage: #cce3b1;          /* oklch(.885 .07 128) · 채움 전용(잉크 글자 13.5:1), 어두운 바탕 글자 13.2:1 */
-  --sage-50: #eef6e6;
-  --on-sage-note: #404d2f;  /* 세이지 위 보조 글자 6.55:1 */
-  --sage-ink: #45572f;      /* 연한 세이지 위 글자 7.14:1 */
+  --on-accent-note: #e6eaf9; /* 강조색 위 보조 글자 */
+  --sage: #cce3b1;          /* oklch(.885 .07 128) · 세이지 면(잉크 글자 13.5:1) · 어두운 바탕 글자 13.2:1 */
+  --sage-50: #eef6e6;       /* 연세이지 면 */
+  --on-sage-note: #404d2f;  /* 세이지 면 위 보조 글자 6.55:1 */
+  --sage-ink: #45572f;      /* 연세이지 면 위 보조 글자 7.14:1 */
+
+  /* 선 · 라벨 */
+  --line: #d6d2cc;          /* 1px 구분선(결론 위 선 · 목록 사이) */
+  --line-strong: #7d7a75;   /* 도식 연결선 · 화살촉 — 흰 4.27:1(그래픽 3:1 이상) */
+  --tag-bg: rgba(20, 18, 16, .07);         /* 주장 라벨 알약 바탕(잉크 7%) */
+  --tag-bg-dark: rgba(255, 255, 255, .14); /* 어두운 면·사진 위 주장 라벨 바탕 */
+  --scrim: rgba(20, 18, 16, .78);          /* 사진 위 글자 그늘(중립 검정) */
+  --scrim-soft: rgba(20, 18, 16, .52);
+  --scrim-edge: rgba(20, 18, 16, .30);
+  --scrim-clear: rgba(20, 18, 16, 0);
+  --scrim-deep: rgba(20, 18, 16, .9);
 
   /* 차트 */
   --chart-hi: var(--accent);
@@ -33,9 +47,9 @@
   /* 그 밖의 중립 */
   --stage: #1b1916;         /* 발표 무대 바깥 */
   --line-dark: #302d2a;     /* 어두운 표 줄 */
-  --edge: #a19e99;          /* 도식 연결선 */
+  --edge: #a19e99;          /* (차트용) 옅은 연결선 */
   --photo-body: #e7e4e0;    /* 사진 위 본문 */
-  --photo-note: #cac7c2;    /* 사진·어두운 카드 위 보조 글자 */
+  --photo-note: #cac7c2;    /* 사진·어두운 면 위 보조 글자 */
   --ink-rgb: 20, 18, 16;
   --sage-rgb: 204, 227, 177;
   /* 어두운 바탕 위 흰 반투명(색 수를 묶어 둔다) */
@@ -44,38 +58,42 @@
   --on-dark-fill: rgba(255, 255, 255, .10);
   --on-dark-chip: rgba(255, 255, 255, .12);
 
+  /* 미세 그라데이션(소수 장의 바탕 · B5): 같은 색상각 안에서 명도만 0.02~0.04 움직인다 */
+  --grad-stone: linear-gradient(180deg, var(--paper) 0%, var(--canvas) 72%);
+  --grad-sage: linear-gradient(180deg, var(--sage-50) 0%, var(--paper) 100%);
+
   --font: "Pretendard Variable", "Pretendard", system-ui, sans-serif;
 
-  /* 글자 프리셋(헌법 제4조): 본문 20/32에서 출발해 크기로 위계를 만든다.
-     크기 14·16·20·24·32·48·64·80·96 아홉 단계, 굵기 400·600·700, 행간은 모두 4의 배수 */
-  --t-small: 400 14px/20px;          /* 차트 출처 */
-  --t-label: 600 14px/20px;          /* 킥커·태그·표 머리 */
-  --t-caption: 400 16px/24px;        /* 꼬리말·범례·보조 설명 */
-  --t-caption-strong: 600 16px/24px;
-  --t-body: 400 20px/32px;           /* 본문 */
-  --t-body-strong: 600 20px/32px;    /* 결론 띠·알약 */
-  --t-lead: 400 24px/36px;           /* 표지 설명 */
-  --t-title: 700 24px/32px;          /* 카드·차트 제목 */
-  --t-h3: 700 32px/40px;             /* 표 안 연도 */
-  --t-headline: 700 48px/64px;       /* 장 제목 */
-  --t-poster: 700 48px/56px;         /* 안내판 직업명 */
-  --t-number: 700 64px/64px;         /* 카드 숫자 */
-  --t-statement: 700 64px/80px;      /* 계단 문장 */
-  --t-display: 700 80px/88px;        /* 표지 제목 */
-  --t-hero: 700 96px/96px;           /* 결론 숫자 */
+  /* 글자 프리셋(헌법 제4조): 청중 본문 24/36에서 출발해 크기로 위계를 만든다.
+     크기 16·20·24·32·40·64·88·144 여덟 단계, 굵기 400·600·700, 행간은 모두 4의 배수.
+     행간 비율은 크기가 커질수록 줄어든다(1.75 → 1.6 → 1.5 → 1.25 → 1.2 → 1.125 → 1.0 → 1.0). */
+  --t-caption: 400 16px/28px;        /* 꼬리말 · 출처 · 쪽 번호 · 섹션명(3차 정보) */
+  --t-caption-strong: 600 16px/28px;
+  --t-small: 400 20px/32px;          /* 표 칸 · 차트 글자 · 도식 설명 */
+  --t-small-strong: 600 20px/32px;   /* 주장 라벨 · 표 머리 · 짧은 이름 */
+  --t-body: 400 24px/36px;           /* 청중 본문 */
+  --t-body-strong: 600 24px/36px;    /* 결론 줄 · 강조 문장 */
+  --t-lead: 700 24px/36px;           /* 차트 제목 · 짧은 소제목 */
+  --t-title: 700 32px/40px;          /* 묶음 제목 · 중간 숫자 */
+  --t-number: 700 40px/48px;         /* 보조 숫자(헤드라인보다 작게) */
+  --t-headline: 700 64px/72px;       /* 장 제목(한 줄 또는 의미 단위 두 줄) */
+  --t-figure: 700 88px/88px;         /* 표지 제목 · 장마다 핵심 숫자 하나(헤드라인의 1.375배) */
+  --t-hero: 700 144px/144px;         /* 영웅 숫자(덱에서 두 장만: 4 · 18) */
 
   /* 공간(헌법 제2·3조): 8의 배수만. 거터도 같은 단계 */
   --mx: 160px; --mt: 112px; --mb: 64px; --gutter: 48px;
+  --space: 8px 16px 24px 32px 48px 64px 96px 128px; /* 공간 단계 전체(token-check가 읽는 목록) */
   --g8: 8px; --g16: 16px; --g24: 24px; --g32: 32px; --g48: 48px; --g64: 64px; --g96: 96px;
 
-  /* 둥근 모서리·그림자(이중 테두리) */
   /* 모서리: 8 단계, 겹친 모양은 동심(안쪽 = 바깥 − 안쪽 여백, 헌법 제8조) */
   --r-shell: 32px;
   --r-core: 24px;
   --r-inner: 16px;
+  --r-small: 8px;
   --r-pill: 999px;
-  --sh-float: 0 1px 1px rgba(var(--ink-rgb), .03), 0 12px 24px -8px rgba(var(--ink-rgb), .06), 0 40px 80px -24px rgba(var(--ink-rgb), .14);
-  --bezel: 0 0 0 4px rgba(255, 255, 255, .72), 0 0 0 5px rgba(var(--ink-rgb), .05), var(--sh-float);
+  --r-photo: 0px;           /* 사진은 덱 전체에서 네모(전면 사진과 같은 처리). 둥근 모서리는 색 면·알약에 둔다 */
+  /* 그림자: 떠 있는 컨트롤 한 단계만(쉬는 카드에는 두지 않는다) */
+  --sh-float: 0 16px 32px -16px rgba(var(--ink-rgb), .16);
 
   /* 모션 토큰 (Transitions.dev — shared motion scale) */
   --duration-stagger: 40ms;

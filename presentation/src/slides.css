@@ -1,142 +1,220 @@
-/* 이 덱의 부품 — soft-skill 「Soft Structuralism」 옷 + taste-skill v2 장 구성 청사진. 값은 tokens.css만 쓴다. */
+/* 이 덱의 장 배치 — 카드 대신 바탕 면 · 둥근 색 면(장당 하나) · 1px 선 · 간격으로 나눈다. 값은 tokens.css만 쓴다.
+   장마다 면과 배치 단어(split · chart · statement · table · list · full-bleed)를 바꾼다(qa/pr/02/surface-plan.md). */
 
-/* ── 표지: 큰 굵은 제목 + 이중 테두리 사진 카드 ── */
-.cover { display: grid; grid-template-columns: 1fr 560px; grid-template-rows: auto 1fr auto; column-gap: 96px; padding: 72px var(--mx) var(--mb); }
-.cover .bar { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; font: var(--t-label) var(--font); color: var(--note); }
-.cover .left { align-self: center; }
-.cover .t { font: var(--t-display) var(--font); letter-spacing: -0.04em; }
-.cover .t .hl { color: var(--accent); }
-.cover .s { margin-top: var(--g32); max-width: 820px; font: var(--t-lead) var(--font); color: var(--note); }
-.cover .pills { margin-top: var(--g48); display: flex; flex-wrap: wrap; gap: 12px; }
-.cover .pill { display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: var(--r-pill); background: var(--paper); box-shadow: var(--sh-float); font: var(--t-body-strong) var(--font); }
-.cover .pill.on { background: var(--accent); color: var(--paper); }
-.cover .object { position: relative; align-self: center; width: 560px; height: 700px; border-radius: var(--r-shell); overflow: hidden; box-shadow: var(--bezel); }
-.cover .object img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1600ms var(--ease-soft); }
+/* ── 공통 글 덩어리 ── */
+.body h3 { font: var(--t-title) var(--font); letter-spacing: -0.01em; }
+.body h3.sm, .body .h-sm { font: var(--t-lead) var(--font); letter-spacing: 0; }
+.body :is(p, h3, .num, ul, .meta, .k) + :is(p, h3, .num, ul, .meta, .k) { margin-top: var(--g8); }
+.k { font: var(--t-body) var(--font); text-wrap: pretty; }
+.meta { font: var(--t-small) var(--font); color: var(--muted); }
+.sec { font: var(--t-caption) var(--font); }
+.plain { display: flex; flex-direction: column; gap: var(--g8); }
+.center-v { align-self: start; }
+
+/* 본문을 12열 격자로: 열이 본문 높이를 다 쓰고(늘임), 색 면은 열 하나에만 */
+.body.cols { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); column-gap: var(--gutter); align-items: stretch; }
+.body.cols > .grid { display: block; grid-column: auto / span 8; min-width: 0; }
+.body.cols.s7 > .grid { grid-column: auto / span 7; }
+.body.cols.mirror > .grid { order: 2; }
+.body.cols.mirror .chart[data-chart="espai_two_clocks"] .chart-src { max-width: none; } /* 출처 줄의 라벨이 차트 숫자 곁(64px 안)에 오게 한 줄로 */
+
+/* 둥근 색 면: 안쪽 여백만큼 바깥으로 넓혀 글자는 열 시작점에 그대로 둔다. 위·옆으로만 넓히고 아래는 본문 끝에 맞춘다 */
+.panel { display: flex; flex-direction: column; justify-content: space-between; gap: var(--g32); margin: calc(var(--g48) * -1) 0 0 calc(var(--g48) * -1); padding: var(--g48); border-radius: var(--r-shell); }
+.panel.end { margin-right: calc(var(--g48) * -1); }
+.at7 { grid-column-start: 7; } .at8 { grid-column-start: 8; } .at9 { grid-column-start: 9; }
+/* 색 면이 본문 밖(여백 쪽)으로 넓어져도 넘침으로 세지 않게 본문 상자에 같은 여백을 둔다 */
+.body { margin: 0 calc(var(--g48) * -1); padding: 0 var(--g48); }
+.p-sage { background: var(--sage); }
+.p-mist { background: var(--sage-50); }
+.p-paper { background: var(--paper); }
+.p-stone { background: var(--stone-100); }
+.p-ink { background: var(--soot); color: var(--paper); --muted: var(--note-on-soot); }
+.p-ink .body h3, .p-ink h3 { color: var(--paper); }
+.panel.hug { align-self: start; justify-content: flex-start; }
+
+/* 1px 선으로 나눈 줄이 본문 높이를 나눠 갖는다 */
+.fillrows { display: flex; flex-direction: column; }
+.fillrows > * { flex: 1 1 0; min-height: 0; }
+.rows.top > * { flex: 0 0 auto; }
+
+/* 차트 칸: 카드 껍데기 없이 장 바탕 위에 둔다. svg는 viewBox 폭(data-w) 그대로 그려 글자가 줄지 않게 한다 */
+.chart, .chart.bare { padding: 0; border-radius: 0; background: none; box-shadow: none; }
+.chart[data-w] { width: attr(data-w px, 100%); max-width: 100%; }
+.chart-title { order: -1; font: var(--t-lead) var(--font); letter-spacing: 0; }
+.chart-sub { order: -1; max-width: 32em; font: var(--t-body) var(--font); color: var(--ink); }
+.chart-src { max-width: 34em; font: var(--t-caption) var(--font); letter-spacing: 0; color: var(--muted); text-wrap: pretty; }
+.legend { font: var(--t-small) var(--font); color: var(--ink); }
+
+/* 사진: 네모(덱 전체 하나), 그림자 없음, 이미지가 막히면 중립 면이 자리를 지킨다 */
+.photo { position: relative; overflow: hidden; border-radius: var(--r-photo); }
+.photo img, .cover .object img { width: 100%; height: 100%; object-fit: cover; background-color: var(--stone-100); }
+
+/* ── 1 표지: 큰 제목 + 사진(교차 페이드) ── */
+.cover { grid-template-rows: minmax(0, 1fr) auto; }
+.cover-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: start; min-height: 0; }
+.cover .left { grid-column: span 7; }
+.cover .left > * + * { margin-top: var(--g48); }
+.cover .t { font: var(--t-figure) var(--font); letter-spacing: -0.02em; }
+.cover .dek { font: var(--t-body-strong) var(--font); color: var(--accent); }
+.cover .s { margin-top: var(--g16); max-width: 32em; font: var(--t-body) var(--font); text-wrap: pretty; }
+.cover .pills { display: flex; flex-direction: column; align-items: flex-start; gap: var(--g16); }
+.cover .pill { margin-left: calc(var(--g24) * -1); padding: var(--g8) var(--g24); border-radius: var(--r-pill); background: var(--paper); font: var(--t-body-strong) var(--font); }
+.cover .pill.on { background: var(--sage); }
+.cover .object { grid-column: 8 / span 5; position: relative; height: 704px; border-radius: var(--r-photo); overflow: hidden; }
+.cover .object img { position: absolute; inset: 0; opacity: 0; transition: opacity 1600ms var(--ease-soft); }
 .cover .object img.on { opacity: 1; }
-.cover .foot { grid-column: 1 / -1; }
 
-/* ── 계단 문장 ── */
-.stair { display: grid; grid-template-columns: 1fr 420px; gap: 96px; align-items: center; }
-.stair .lines { font: var(--t-statement) var(--font); letter-spacing: -0.045em; }
-.stair .lines span { display: block; }
-.stair .lines span:nth-child(2) { padding-left: 96px; }
-.stair .lines span:nth-child(3) { padding-left: 192px; color: var(--accent); }
-.stair .lines span:nth-child(4) { padding-left: 288px; }
-.stair .lines span:nth-child(5) { padding-left: 384px; }
-.stair .pics { display: flex; flex-direction: column; gap: 24px; }
-.stair .pics img { width: 420px; height: 280px; object-fit: cover; border-radius: var(--r-core); box-shadow: var(--bezel); }
-.qcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
+/* ── 2 전제: 세이지 면 위 두 줄 문장 + 사진 ── */
+.premise { align-items: end; }
+.premise .photo { height: 512px; align-self: end; }
+.premise .k { align-self: end; }
 
-/* ── 벤토 수치 타일 ── */
-.tiles { display: grid; grid-template-columns: 1.25fr 1fr 1fr; grid-template-rows: 1fr; gap: var(--gutter); height: 544px; }
-.tile { display: flex; flex-direction: column; justify-content: space-between; padding: var(--g48); border-radius: var(--r-shell); box-shadow: var(--bezel); }
-.tile .v { font: var(--t-hero) var(--font); letter-spacing: -0.055em; white-space: nowrap; }
-.tile .v small { margin-left: 8px; font: var(--t-title) var(--font); letter-spacing: -0.01em; }
-.tile .k { font: var(--t-body) var(--font); }
-.tile.t1 { background: var(--accent); color: var(--paper); }
-.tile.t2 { background: var(--soot); color: var(--paper); margin-top: 64px; }
-.tile.t3 { background: var(--sage); color: var(--ink); margin-top: 128px; }
-.tile.t1 .tag, .tile.t2 .tag { background: var(--on-dark-chip); color: var(--paper); } /* token-ok */
-.tile.t3 .tag { background: rgba(var(--ink-rgb),.08); color: var(--ink); } /* token-ok */
+/* ── 4 결론 숫자: 영웅 숫자 하나(세이지 면) + 보조 숫자 둘 ── */
+.lead-fig .k { max-width: 22em; }
 
-/* ── 사진 패널(안쪽으로 들인 둥근 패널) ── */
-.photo { position: relative; overflow: hidden; border-radius: var(--r-core); box-shadow: var(--bezel); background: var(--paper); }
-.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.bleed { padding: 0; display: block; background: var(--canvas); }
-.bleed > .bg { position: absolute; inset: 24px; border-radius: var(--r-shell); overflow: hidden; box-shadow: var(--sh-float); }
-.bleed > .bg img { width: 100%; height: 100%; object-fit: cover; }
-.bleed > .bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(var(--ink-rgb),.9) 0%, rgba(var(--ink-rgb),.74) 46%, rgba(var(--ink-rgb),.2) 80%, rgba(var(--ink-rgb),0) 100%); } /* token-ok taste-skill-ignore: 사진 위 글자 그늘 */
-.bleed > .inner { position: relative; height: 100%; padding: calc(var(--mt) + 8px) calc(var(--mx) + 16px) calc(var(--mb) + 16px); display: grid; grid-template-rows: auto 1fr auto; color: var(--paper); --note: var(--photo-note); } /* token-ok: 사진 위 보조 글자 */
-.bleed .kicker { background: rgba(var(--sage-rgb),.16); color: var(--sage); } /* token-ok */
-.bleed em { color: var(--sage); }
-.bleed .foot { color: var(--photo-note); } /* token-ok */
-.figs.on-dark .fig .v { color: var(--sage); }
-.figs.on-dark .fig .k { color: var(--photo-body); } /* token-ok: 사진 위 본문 */
-.points { display: flex; flex-direction: column; gap: 40px; max-width: 900px; }
-.points h3 { font: var(--t-title) var(--font); letter-spacing: -0.02em; }
-.points p { margin-top: 8px; color: var(--photo-body); } /* token-ok */
-.relation { margin-top: var(--g48); display: inline-flex; padding: 16px 24px; border-radius: var(--r-pill); background: var(--on-dark-fill); font: var(--t-body-strong) var(--font); color: var(--paper); } /* token-ok */
-.credit { font: var(--t-caption) var(--font); }
-
-/* ── 인물 발언 ── */
-.who { padding: 8px; border-radius: var(--r-shell); background: var(--paper); box-shadow: var(--bezel); }
-.who img { width: 100%; height: 360px; object-fit: cover; object-position: 50% 22%; border-radius: var(--r-core); }
-.who .say { padding: 24px 16px 16px; display: flex; flex-direction: column; gap: 8px; }
-.who .name { font: var(--t-label) var(--font); color: var(--note); }
-.who .quote { font: var(--t-title) var(--font); letter-spacing: -0.03em; }
-.who .when { font: var(--t-caption) var(--font); color: var(--note); }
-.who .when b { color: var(--accent); }
-.video { position: relative; display: block; overflow: hidden; border-radius: var(--r-shell); background: var(--soot); color: var(--paper); text-decoration: none; box-shadow: var(--bezel); }
-.video img { width: 100%; height: 100%; object-fit: cover; opacity: .8; }
-.video .play { position: absolute; left: 50%; top: 42%; width: 96px; height: 96px; margin: -48px 0 0 -48px; border-radius: 50%; background: var(--paper); display: flex; align-items: center; justify-content: center; transition: transform var(--duration-fast) var(--ease-soft); }
-.video:hover .play { transform: scale(1.06); }
-.video .play::after { content: ""; margin-left: 8px; border-left: 28px solid var(--accent); border-top: 17px solid transparent; border-bottom: 17px solid transparent; }
-.video .vcap { position: absolute; left: 8px; right: 8px; bottom: 8px; padding: 16px 24px; border-radius: var(--r-core); background: rgba(var(--ink-rgb),.82); font: var(--t-caption-strong) var(--font); } /* token-ok */
-
-/* ── 인과 사슬 그림 ── */
-.chainwrap { display: flex; flex-direction: column; min-height: 0; padding: 40px 48px; border-radius: var(--r-shell); background: var(--paper); box-shadow: var(--bezel); }
+/* ── 5 인과 사슬 도식: 카드 없이 장 바탕 위에 ── */
+.chainwrap { display: flex; flex-direction: column; min-height: 0; }
 .chain { width: 100%; height: auto; }
 .chain .node rect { fill: var(--canvas); }
 .chain .node.evid rect { fill: var(--accent); }
 .chain .node.evid .n-t, .chain .node.evid .n-s { fill: var(--paper); }
-.chain .node.worse rect { fill: var(--sage-50); }
+.chain .node.worse rect { fill: var(--sage); }
 .chain .node.ink rect { fill: var(--soot); }
-.chain .n-t { font: var(--t-title) var(--font); fill: var(--ink); text-anchor: middle; }
-.chain .n-s { font: var(--t-caption) var(--font); fill: var(--chart-mid); text-anchor: middle; } /* token-ok */
+.chain .n-t { font: var(--t-lead) var(--font); fill: var(--ink); text-anchor: middle; }
+.chain .n-s { font: var(--t-small) var(--font); fill: var(--chart-mid); text-anchor: middle; }
+.chain .node.worse .n-s { fill: var(--on-sage-note); }
 .chain .node.ink .n-t { fill: var(--paper); }
-.chain .node.ink .n-s { fill: var(--note-on-soot); text-anchor: middle; }
-.chain .edge { fill: none; stroke: var(--edge); stroke-width: 2.5; } /* token-ok: 연결선 */
+.chain .node.ink .n-s { fill: var(--note-on-soot); }
+.chain .edge { fill: none; stroke: var(--line-strong); stroke-width: 2.5; }
 .chain .edge.loop { stroke: var(--accent); stroke-width: 4; }
 .chain .edge.brake { stroke: var(--ink); stroke-dasharray: 8 6; }
-.chain .e-l { font: var(--t-caption-strong) var(--font); fill: var(--ink); }
-#ar path { fill: var(--edge); } /* token-ok */
+.chain .e-l { font: var(--t-small-strong) var(--font); fill: var(--ink); }
+#ar path { fill: var(--line-strong); }
+#lp path { fill: var(--accent); }
+#bk path { fill: var(--ink); }
 
-/* ── 여정표 슬립 ── */
-.slipwrap { display: grid; grid-template-columns: 1fr 600px; gap: 96px; align-items: center; }
-.slip { background: var(--paper); color: var(--ink); padding: 40px 48px 72px; border-radius: var(--r-core) var(--r-core) 0 0; filter: drop-shadow(0 30px 40px rgba(var(--ink-rgb),.10)); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), 96% 100%, 92% calc(100% - 16px), 88% 100%, 84% calc(100% - 16px), 80% 100%, 76% calc(100% - 16px), 72% 100%, 68% calc(100% - 16px), 64% 100%, 60% calc(100% - 16px), 56% 100%, 52% calc(100% - 16px), 48% 100%, 44% calc(100% - 16px), 40% 100%, 36% calc(100% - 16px), 32% 100%, 28% calc(100% - 16px), 24% 100%, 20% calc(100% - 16px), 16% 100%, 12% calc(100% - 16px), 8% 100%, 4% calc(100% - 16px), 0 100%); } /* token-ok: 영수증 그늘 */
-.slip h4 { margin-top: 32px; font: var(--t-body-strong) var(--font); color: var(--accent); }
-.slip h4:first-child { margin-top: 0; }
-.slip .r { display: flex; align-items: baseline; gap: 8px; margin-top: 8px; font: var(--t-body) var(--font); }
-.slip .r .d { flex: 1; border-bottom: 4px dotted var(--chart-lo); transform: translateY(-4px); }
-.slip .r b { font-weight: 700; }
-.slip .total { display: flex; justify-content: space-between; align-items: center; margin: 16px -16px 0; padding: 0 24px; height: 56px; border-radius: var(--r-pill); background: var(--accent); color: var(--paper); font: var(--t-body-strong) var(--font); }
+/* ── 6 대표 신호 하나를 크게 ── */
 
-/* ── 포스터 줄 목록(도착 안내) ── */
-.posterwrap { padding: 48px 64px; border-radius: var(--r-shell); background: var(--soot); color: var(--paper); box-shadow: var(--sh-float); }
-.poster { display: flex; flex-direction: column; gap: 4px; }
-.poster .it { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 48px; padding: 12px 0; transition: color var(--duration-fast) var(--ease-soft); }
-.poster .it + .it { border-top: 1px solid var(--line-dark); } /* token-ok: 안내판 줄(실제 표) taste-skill-ignore */
-.poster .it:hover { color: var(--sage); }
-.poster .w { font: var(--t-poster) var(--font); letter-spacing: -0.045em; white-space: nowrap; }
-.poster .f { display: flex; align-items: center; justify-content: flex-end; gap: 32px; text-align: right; }
-.poster .f .eta { display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: var(--r-pill); background: var(--sage); color: var(--ink); font: var(--t-title) var(--font); letter-spacing: -0.02em; }
-.poster .f .s { order: -1; max-width: 560px; font: var(--t-caption) var(--font); color: var(--note-on-soot); }
+/* ── 8 두 배 기간: 줄어드는 순서를 막대 길이로 ── */
+.bars { display: flex; flex-direction: column; justify-content: center; gap: var(--g48); }
+.bar-row .line { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--gutter); align-items: center; margin-top: var(--g8); }
+.bar-row .track { grid-column: span 4; }
+.bar-row .bar { display: block; height: var(--g32); width: calc(var(--d) / 188 * 100%); border-radius: var(--r-pill); background: var(--chart-lo); }
+.bar-row.on .bar { background: var(--accent); }
+.bar-row .num { grid-column: span 2; margin-top: 0; }
 
-/* ── 질문마다 한 띠(둥근 카드 줄) ── */
-.bands { display: flex; flex-direction: column; gap: var(--g16); }
-.band { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter); padding: 24px 40px; border-radius: var(--r-core); background: var(--paper); box-shadow: 0 0 0 1px rgba(var(--ink-rgb),.04), 0 10px 30px -14px rgba(var(--ink-rgb),.12); } /* token-ok: 띠 카드 */
-.band .q { grid-column: 1 / span 3; font: var(--t-title) var(--font); letter-spacing: -0.02em; }
-.band .a { grid-column: 4 / span 5; font: var(--t-body) var(--font); }
-.band .c { grid-column: 9 / span 4; font: var(--t-body) var(--font); color: var(--note); }
-.band.head-band { background: var(--accent); color: var(--paper); box-shadow: var(--bezel); }
-.band.head-band .q { font: var(--t-title) var(--font); }
-.band.head-band .a, .band.head-band .c { align-self: end; font: var(--t-label) var(--font); color: var(--on-accent-note); } /* token-ok */
+/* ── 9 인물 발언: 사진 작게 + 인용 크게, 영상은 어두운 면 위 글 링크 ── */
+.who { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); column-gap: var(--gutter); align-items: center; }
+.who .photo { grid-column: span 2; height: 144px; }
+.who .say { grid-column: span 5; }
+.who .quote { font: var(--t-title) var(--font); letter-spacing: -0.01em; }
+.who .meta { margin-top: var(--g8); }
+.video { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+.video .play { display: flex; align-items: center; justify-content: center; width: var(--g96); height: var(--g96); border-radius: var(--r-pill); background: var(--accent); }
+.video .play::after { content: ""; margin-left: var(--g8); border-left: 32px solid var(--paper); border-top: 20px solid transparent; border-bottom: 20px solid transparent; }
+.video .vtext { display: flex; flex-direction: column; gap: var(--g16); }
+.video .vcap { font: var(--t-body) var(--font); }
+.video .go { font: var(--t-body-strong) var(--font); color: var(--sage); }
+.video:hover .play { transform: scale(1.04); transition: transform var(--duration-fast) var(--ease-soft); }
 
-/* ── 타임라인(검정 장) ── */
-.timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-.phase { padding: 48px 32px; border-radius: var(--r-core); background: var(--soot-2); box-shadow: 0 0 0 4px var(--on-dark-ring-1), 0 0 0 5px var(--on-dark-ring-2); } /* token-ok */
-.phase .yr { display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: var(--r-pill); background: var(--sage); color: var(--ink); font: var(--t-body-strong) var(--font); }
-.phase h3 { margin-top: 24px; font: var(--t-title) var(--font); letter-spacing: -0.03em; color: var(--paper); }
-.phase p:not(.yr) { margin-top: 16px; font: var(--t-body) var(--font); color: var(--photo-note); } /* token-ok */
+/* ── 2개 비교 열(12·21): 같은 구조 ── */
+.fig-col { display: flex; flex-direction: column; justify-content: space-between; }
+.fig-col .num { align-self: flex-start; }
+.fig-col:not(.panel) { padding-top: 0; }
+.fig-col p { max-width: 26em; }
 
-/* ── 직급 표 ── */
-.gates td.yr b { display: block; font: var(--t-h3) var(--font); letter-spacing: -0.03em; }
-.gates td.yr span { font: var(--t-caption) var(--font); color: var(--note); }
-.gates td:nth-child(4) b { display: inline-block; padding: 4px 16px; margin-left: -16px; border-radius: var(--r-pill); background: var(--accent-50); color: var(--accent); }
+/* ── 18 전면 사진(어두운 장 1/2): 사진은 장 전체, 글자 쪽에 중립 그늘 ── */
+.bleed { background-color: var(--soot); color: var(--paper); --muted: var(--photo-note); }
+.bleed > .bg { position: absolute; top: 0; right: 0; left: 0; bottom: calc(var(--mb) + var(--g48) + var(--g8)); } /* 사진은 꼬리말 줄 위에서 끝나고, 꼬리말은 검정 바탕 위에 */
+.bleed > .bg img { width: 100%; height: 100%; object-fit: cover; background-color: var(--soot); }
+.bleed > .bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, var(--soot) 0%, var(--scrim-clear) 24%), linear-gradient(90deg, var(--scrim) 0%, var(--scrim) 62%, var(--scrim-soft) 100%); }
+.bleed > :not(.bg) { position: relative; }
+.bleed .body { justify-content: center; }
+.bleed .k { color: var(--photo-body); }
+.bleed .foot { color: var(--photo-body); }
+.bleed .num { color: var(--paper); }
+.bleed .num.hero { color: var(--sage); }
+.kpis { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; }
+.kpis > .lead-kpi { grid-column: span 6; }
+.kpis > .side-kpi { grid-column: span 3; }
+.relation { position: relative; margin-top: var(--g48); padding-top: var(--g16); font: var(--t-body-strong) var(--font); }
+.relation::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--photo-note); }
 
-.key { padding: 48px; border-radius: var(--r-core); background: var(--soot); color: var(--paper); box-shadow: var(--bezel); }
-.key .k { font: var(--t-label) var(--font); color: var(--sage); }
-.key .v { margin-top: var(--g8); font: var(--t-title) var(--font); letter-spacing: -0.02em; }
+/* ── 19 · 22 사진 칸 + 글 ── */
+.photo.tall, .photo.mid { align-self: stretch; max-height: 704px; }
+
+/* ── 20 따라잡는 시간 식 ── */
+.formula { font: var(--t-title) var(--font); letter-spacing: -0.01em; max-width: 30em; }
+.defs li { font: var(--t-body) var(--font); }
+
+/* ── 23 계산 과정: 2열 표(항목 | 값), 합계만 굵게 ── */
+.calc { justify-content: flex-start; }
+.calc td.r, .calc th.r, .plan td.r, .plan th.r { text-align: right; }
+.calc td, .tone-table td { padding-top: var(--g8); padding-bottom: var(--g8); }
+.calc tr.total td { border-top: 2px solid var(--ink); font-weight: 700; }
+
+/* ── 25 직급 표(열 폭을 격자에 맞추고 연도 칸은 오른쪽 정렬) ── */
+.gates th:nth-child(1) { width: 30.0839%; } /* 2열 ÷ 7열 칸 */
+.gates th:nth-child(n+3), .gates td.yr { text-align: right; }
+.gates td.yr b { display: block; font: var(--t-title) var(--font); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.gates td:nth-child(2) { white-space: nowrap; }
+.gates td.yr span { display: block; font: var(--t-small) var(--font); color: var(--muted); }
+.gates td:nth-child(4) b { color: var(--ink); }
+
+/* ── 28 도착 안내 줄 목록 ── */
+.poster { display: flex; flex-direction: column; }
+.poster .it { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: center; padding: var(--g16) 0; }
+.poster .it::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line); }
+.poster .w { grid-column: span 4; font: var(--t-title) var(--font); letter-spacing: -0.01em; white-space: nowrap; }
+.poster .f { grid-column: span 8; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); column-gap: var(--gutter); align-items: center; }
+.poster .f .s { grid-column: span 6; order: 1; font: var(--t-small) var(--font); color: var(--ink); }
+.poster .f .eta { grid-column: span 2; order: 2; justify-self: end; text-align: right; padding: 0 var(--g16); border-radius: var(--r-pill); background: var(--sage); color: var(--ink); font: var(--t-body-strong) var(--font); white-space: nowrap; }
+.poster .it:nth-child(-n+2) .eta { background: var(--soot); color: var(--paper); }
+.board { flex: 1 1 auto; display: flex; flex-direction: column; }
+.board .poster { flex: 1 1 auto; }
+.board .poster .it { flex: 1 1 0; }
+.board .poster .f .s { font: var(--t-body) var(--font); }
+
+/* ── 29 시간축(검정 장): 연도 열 + 설명 열, 네 줄이 본문 높이를 나눈다 ── */
+.timeline { display: flex; flex-direction: column; height: 100%; }
+.phase { flex: 1 1 0; position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; padding-top: var(--g16); }
+.phase::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line-dark); }
+.phase .yr { grid-column: span 3; font: var(--t-number) var(--font); color: var(--sage); white-space: nowrap; }
+.phase .ph { grid-column: span 9; }
+.phase h3 { color: var(--paper); }
+.phase p:not(.yr) { color: var(--photo-body); max-width: 36em; }
+
+/* ── 30 반대 증거: 같은 폭 두 근거 열 ── */
+.vs { height: 100%; }
+.vs td { font: var(--t-body) var(--font); font-variant-numeric: tabular-nums; }
+.vs td:first-child { font: var(--t-title) var(--font); }
+.vs th { font: var(--t-body-strong) var(--font); }
+
+/* ── 31·32·33·34 계획·한계·출처 ── */
+.steps td:first-child { font-weight: 400; }
+.steps td b { font-weight: 700; }
+.q1 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); margin-bottom: var(--g48); }
+.q1 > * { grid-column: span 4; margin-top: 0; }
+.q1 h3 + p { margin-top: 0; }
+.q1 p { font: var(--t-body) var(--font); }
+.sched { margin-top: var(--g48); }
+.plan.big td { font: var(--t-body) var(--font); font-variant-numeric: tabular-nums; }
+.sched.panel { width: calc(776px + var(--g96)); margin: var(--g96) 0 0 calc(var(--g48) * -1); justify-content: flex-start; gap: var(--g8); }
+.next { margin-top: var(--g32); }
+.next h3 { font: var(--t-lead) var(--font); }
+.next .plain { margin-top: var(--g8); }
+.links { margin-top: var(--g32); font: var(--t-small) var(--font); }
+.links a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+.links b { margin-right: var(--g16); }
+.org { font: var(--t-small) var(--font); color: var(--muted); }
+/* 표 첫 열 뒤에 깔린 색 띠(라벨 열) */
+.band { position: absolute; left: 0; top: calc(var(--g48) * -1); bottom: 0; border-radius: var(--r-shell); background: var(--sage-50); }
+.band.w4 { width: calc(501.333px + var(--g48) + var(--g24)); }
+.band.w2 { width: calc(226.667px + var(--g48) + var(--g24)); }
+.band.paper { background: var(--paper); }
+.band.dark { background: var(--soot-2); }
+.band.w3 { width: calc(364px + var(--g48) + var(--g24)); }
+.band ~ * { position: relative; }
 
 /* ===== Transitions.dev 스니펫 (https://transitions.dev) — 쓴 것만, 출처 주석 유지 ===== */
 
