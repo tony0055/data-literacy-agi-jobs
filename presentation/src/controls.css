@@ -191,38 +191,38 @@ body.overview .deck-ui:not(.deck-live) { display: none !important; }
   .cover .object img { transition: none !important; }
 }
 
-/* ── 세로 읽기 칸(그림자 DOM 안에서만 쓰인다): 지금 장을 한 줄로 다시 흘려 글자를 실제 크기로 ── */
+/* ── 세로 읽기 칸(그림자 DOM 안에서만 쓰인다): 지금 장을 한 열로 다시 흘려 글자를 실제 크기로 ──
+ * 장 클래스에 기대지 않는다. present.js가 원본의 계산 스타일을 보고 사본에 표시를 단다:
+ *   data-rd="stack"  : 원본이 flex·grid 상자 → 자식 순서대로 한 열
+ *   data-rd="inline" : inline-flex·inline-grid(라벨·알약) → 줄바꿈 허용
+ *   data-rd="abs"    : 절대·고정 배치 → 흐름 안으로(글자·그림이 없는 장식은 숨김)
+ * 큰 글자 프리셋만 휴대폰 크기로 줄인다(본문 20px·최소 14px은 그대로). */
 .read-root {
   --t-display: 700 48px/56px; --t-hero: 700 64px/64px; --t-number: 700 48px/48px; --t-statement: 700 32px/40px;
   --t-headline: 700 32px/40px; --t-poster: 700 32px/40px; --t-h3: 700 24px/32px; --t-lead: 400 20px/32px;
   padding: var(--g24) var(--g16) var(--g48);
-  font: var(--t-body) var(--font); color: var(--ink); letter-spacing: -0.01em; word-break: keep-all; font-variant-numeric: tabular-nums;
+  font: var(--t-body) var(--font); color: var(--ink); letter-spacing: -0.01em; word-break: keep-all; overflow-wrap: anywhere; font-variant-numeric: tabular-nums;
 }
-.read-root * { max-width: 100%; min-width: 0; }
-.read-root .r-slide { display: flex; flex-direction: column; gap: var(--g24); }
-.read-root .r-slide.dark, .read-root .r-slide.bleed { margin: 0 calc(var(--g16) * -1); padding: var(--g24) var(--g16); border-radius: var(--r-core); background: var(--soot); color: var(--paper); --note: var(--note-on-soot); }
-.read-root .head { margin: 0; }
-.read-root .kicker { height: auto; min-height: 32px; white-space: normal; }
-.read-root .grid, .read-root .figs, .read-root .tiles, .read-root .qcards, .read-root .timeline, .read-root .stair, .read-root .slipwrap,
-.read-root .points, .read-root .bands, .read-root .stack, .read-root .cover, .read-root .left { display: flex; flex-direction: column; gap: var(--g16); height: auto; margin: 0; }
-.read-root .body, .read-root .center-v { display: block; }
-.read-root .band, .read-root .poster .it { display: flex; flex-direction: column; align-items: flex-start; gap: var(--g8); padding: var(--g16); }
-.read-root .tile, .read-root .card, .read-root .chart, .read-root .eq, .read-root .key, .read-root .chainwrap, .read-root .posterwrap, .read-root .phase { margin: 0; padding: var(--g24); }
-.read-root .tile .v, .read-root .fig .v, .read-root .poster .w, .read-root .source { white-space: normal; }
-.read-root .stair .lines span { padding-left: 0; }
-.read-root img { width: 100%; height: auto; }
-.read-root .cover .object, .read-root .photo, .read-root .who img, .read-root .video { position: relative; width: 100%; height: auto; aspect-ratio: 4 / 3; }
-.read-root .cover .object img { position: absolute; inset: 0; height: 100%; }
-.read-root .bleed > .bg { position: relative; inset: auto; height: auto; aspect-ratio: 16 / 9; border-radius: var(--r-inner); }
-.read-root .bleed > .inner { height: auto; padding: 0; display: flex; flex-direction: column; gap: var(--g24); }
-.read-root .slip { padding: var(--g24) var(--g24) var(--g48); }
-.read-root .plan, .read-root .tone-table, .read-root .plan tbody, .read-root .tone-table tbody, .read-root .plan tr, .read-root .tone-table tr { display: block; width: 100%; }
-.read-root .plan thead, .read-root .tone-table thead { display: none; }
-.read-root .plan td, .read-root .tone-table td { display: block; padding: var(--g8) 0; white-space: normal; }
-.read-root .plan tr, .read-root .tone-table tr { padding: var(--g8) 0; border-bottom: 1px solid var(--chart-grid); }
-.read-root .foot { flex-direction: column; align-items: flex-start; gap: var(--g8); margin: 0; }
+.read-root .r-slide { display: flex; flex-direction: column; gap: var(--g24); margin: 0 calc(var(--g16) * -1); padding: var(--g24) var(--g16); border-radius: var(--r-core); }
+.read-root .r-slide *:not(svg):not(svg *) { max-width: 100%; min-width: 0; white-space: normal; text-overflow: clip; text-align: start; }
+.read-root [data-rd="stack"] { display: flex !important; flex-direction: column !important; align-items: stretch !important; justify-content: flex-start !important; gap: var(--g16) !important; width: auto !important; height: auto !important; min-height: 0 !important; margin-left: 0 !important; margin-right: 0 !important; }
+.read-root [data-rd="stack"] > * { flex: none !important; width: auto !important; height: auto !important; margin-top: 0 !important; margin-left: 0 !important; margin-right: 0 !important; align-self: stretch !important; }
+.read-root [data-rd="stack"] > :is(img, svg) { width: 100% !important; }
+.read-root [data-rd="inline"] { height: auto !important; min-height: 0; max-width: 100%; flex-wrap: wrap; }
+.read-root [data-rd="abs"] { position: static !important; inset: auto !important; transform: none !important; width: auto !important; height: auto !important; margin: 0 !important; }
+.read-root [data-rd="abs"]:empty:not(img, svg, video), .read-root img[alt=""] { display: none !important; }
+.read-root [data-rd="box"] { height: auto !important; min-height: 0 !important; aspect-ratio: auto !important; }
+.read-root img { width: 100% !important; height: auto !important; max-height: none; border-radius: var(--r-inner); }
+.read-root .r-scroll { overflow-x: auto; max-width: 100%; touch-action: pan-x pan-y; overscroll-behavior-x: contain; } /* 표는 원래 열을 지키고 옆으로 밀어 본다 */
+.read-root .r-scroll > table { min-width: 880px; max-width: none !important; }
+.read-root .r-slide .r-scroll :is(table, td, th, td *, th *) { max-width: none; overflow-wrap: normal; }
+.read-root .r-slide .r-scroll th { white-space: nowrap; }
+.read-root .r-slide .r-scroll :is(td, th) { min-width: 10em; }
+.read-root .r-slide .r-scroll :is(td, th):first-child { min-width: 6em; }
+.read-root :is(.t-num, .t-digit-group) { flex-wrap: nowrap !important; white-space: nowrap !important; }
+.read-root img { opacity: 1 !important; }
 .read-root .pg { display: none; }
-.read-root a[href] { display: flex; align-items: center; min-height: var(--ctl); margin: var(--g16) 0; }
-.read-root svg { width: 100%; height: auto; }
+.read-root a[href] { display: inline-flex; align-items: center; min-height: var(--ctl); margin: var(--g8) 0; }
+.read-root svg { max-width: 100%; height: auto; }
 .read-root .t-stagger-line { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
 .read-root .t-digit { animation: none !important; }

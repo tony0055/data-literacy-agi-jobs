@@ -171,9 +171,40 @@ const update = () => {
 };
 let readTimer = 0;
 // 읽기 칸에 넣을 사본: 차트 빌드 도중이어도 완성 모습으로(모션이 남긴 투명도·변형·선 길이 인라인 값을 지운다)
+const marks = new Map();
+const marksOf = (s) => {
+  if (marks.has(s)) return marks.get(s);
+  const out = [];
+  [...s.querySelectorAll("*")].forEach((o, i) => {
+    if (o instanceof SVGElement && o.tagName !== "svg") return;
+    const st = getComputedStyle(o);
+    const digits = o.matches(".t-num, .t-digit-group"); // 쪼갠 숫자 묶음은 한 줄 그대로
+    let rd = "";
+    if (/^(flex|grid)$/.test(st.display) && !digits && o.offsetWidth > 480) rd = "stack"; // 칸보다 넓은 가로 배치만 한 열로
+    else if (/^inline-(flex|grid)$/.test(st.display) && !digits) rd = "inline";
+    if (/^(absolute|fixed)$/.test(st.position)) rd = "abs";
+    else if (!rd && st.display === "block" && o.tagName !== "svg" && !o.querySelector("svg")) rd = "box";
+    const wide = ["paddingLeft", "paddingRight", "marginLeft"].filter((k) => parseFloat(st[k]) > 48); // 계단·들여쓰기는 좁은 칸에서 없앤다
+    if (rd || wide.length) out.push([i, rd, wide]);
+  });
+  marks.set(s, out);
+  return out;
+};
+const lum = (rgb) => { const m = rgb.match(/[\d.]+/g); if (!m) return 1; const [r, g, b] = m.map(Number); return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255; };
 const cloneSlide = (s) => {
   const c = s.cloneNode(true);
   c.className = `r-slide ${[...s.classList].filter((k) => !/^(slide|t-page|t-stagger|is-)/.test(k)).join(" ")}`;
+  // 원본 배치를 보고 한 열로 풀 상자를 표시한다(장 클래스와 무관). 1920 캔버스 배치는 화면과 상관없어 장마다 한 번만 잰다
+  const to = [...c.querySelectorAll("*")];
+  marksOf(s).forEach(([i, rd, wide]) => { const x = to[i]; if (!x) return; if (rd) x.dataset.rd = rd; for (const side of wide) x.style[side] = "0"; });
+  for (const t of c.querySelectorAll("table")) { const w = document.createElement("div"); w.className = "r-scroll"; t.replaceWith(w); w.append(t); }
+  // 바탕·글자색은 원본 장에서 가져온다. 사진 위 밝은 글자처럼 바탕이 비치지 않으면 어두운 바탕을 깐다
+  const ss = getComputedStyle(s);
+  const ink = getComputedStyle(s.querySelector(".headline, h1, h2, p") || s).color;
+  const bg = ss.backgroundColor;
+  c.style.background = lum(ink) > 0.6 && lum(bg) > 0.6 ? "var(--soot)" : bg;
+  c.style.color = ss.color;
+  c.style.setProperty("--note", ss.getPropertyValue("--note"));
   for (const x of c.querySelectorAll("a, button, [tabindex]")) x.setAttribute("tabindex", "-1");
   c.removeAttribute("inert");
   c.removeAttribute("aria-current");
@@ -187,6 +218,8 @@ const renderRead = () => {
   if (mode !== "panel") { readRoot.replaceChildren(); return; }
   readRoot.replaceChildren(cloneSlide(slides[current]));
   ui.read.scrollTop = 0;
+  const idle = window.requestIdleCallback || ((f) => setTimeout(f, FAST));
+  idle(() => [current + 1, current - 1].forEach((j) => slides[j] && marksOf(slides[j]))); // 옆 장 배치는 쉬는 틈에 미리 잰다
 };
 const go = (i, opts = {}) => {
   if (!Number.isFinite(i)) i = 0;
@@ -208,7 +241,7 @@ const go = (i, opts = {}) => {
   if (prev !== current || opts.force) { clearTimeout(hintTimer); toast(ui.hint, false, true); }
   update();
   clearTimeout(readTimer);
-  readTimer = setTimeout(renderRead, mode === "panel" ? QUICK : 0); // 장 전환이 시작된 다음에 읽기 칸을 다시 그린다
+  readTimer = setTimeout(renderRead, mode === "panel" ? FAST + QUICK : 0); // 장 전환이 끝난 다음에 읽기 칸을 다시 그린다(전환 프레임과 겹치지 않게)
   announce(`${current + 1} / ${total} · ${headOf(slides[current])}`);
   document.dispatchEvent(new CustomEvent("slidechange", { detail: { index: current, prev } }));
 };
