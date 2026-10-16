@@ -1,0 +1,78 @@
+series,forecast_date,predicted_year,quantile,source,url,check
+metaculus_5121_general_ai,2022-03,2058,community_median,Our World in Data quoting Metaculus,https://ourworldindata.org/ai-timelines,2차
+metaculus_5121_general_ai,2022-07,2040,community_median,Our World in Data quoting Metaculus,https://ourworldindata.org/ai-timelines,2차
+metaculus_5121_general_ai,2022-11,2040,community_median,Our World in Data quoting Metaculus,https://ourworldindata.org/ai-timelines,2차
+metaculus_5121_general_ai,2023-03-26,2031,community_median (2031-10),The Decoder quoting Metaculus,https://the-decoder.com/forecasting-community-metaculus-predicts-human-like-ai-by-2026/,2차
+metaculus_5121_general_ai,2024-01-02,2031,community_median (2031-01-26),LessWrong quoting Metaculus,https://www.lesswrong.com/posts/FCgpT4sj5BSEdeHHy/are-metaculus-ai-timelines-inconsistent,2차
+metaculus_5121_general_ai,2025-01,2027,community_25pct,80000 Hours quoting Metaculus,https://80000hours.org/2025/03/when-do-experts-expect-agi-to-arrive/,2차
+metaculus_5121_general_ai,2025-02-04,2030,community_median (about mid-2030),Alvin Anestrand Substack quoting Metaculus,https://forecastingaifutures.substack.com/p/forecasting-agi-insights-from-prediction-markets,2차
+metaculus_5121_general_ai,2026-02,2029,community_25pct,80000 Hours quoting Metaculus,https://80000hours.org/2025/03/when-do-experts-expect-agi-to-arrive/,2차
+metaculus_5121_general_ai,2026-02,2033,community_median,80000 Hours quoting Metaculus,https://80000hours.org/2025/03/when-do-experts-expect-agi-to-arrive/,2차
+metaculus_5121_general_ai,2026-07,2033,community_median (2033-01),AIToolsReview quoting Metaculus,https://aitoolsreview.co.uk/insights/agi-timeline-predictions-2026,2차
+metaculus_5121_general_ai,2026-08,2033,community_median,AIMultiple quoting Metaculus,https://aimultiple.com/artificial-general-intelligence-singularity-timing,2차
+metaculus_3479_weakly_general_ai,2020-01,2050,community_median,The Decoder quoting Metaculus,https://the-decoder.com/forecasting-community-metaculus-predicts-human-like-ai-by-2026/,2차
+metaculus_3479_weakly_general_ai,2022-03,2042,community_median (2042-10; a year before 2023-03-26),The Decoder quoting Metaculus,https://the-decoder.com/forecasting-community-metaculus-predicts-human-like-ai-by-2026/,2차
+metaculus_3479_weakly_general_ai,2023-03-26,2026,community_median (2026-01),The Decoder quoting Metaculus,https://the-decoder.com/forecasting-community-metaculus-predicts-human-like-ai-by-2026/,2차
+metaculus_3479_weakly_general_ai,2024-01-02,2026,community_median (2026-04-14),LessWrong quoting Metaculus,https://www.lesswrong.com/posts/FCgpT4sj5BSEdeHHy/are-metaculus-ai-timelines-inconsistent,2차
+metaculus_3479_weakly_general_ai,2025-02-24,2026,community_median (2026-10-10; reader comment),Anestrand Substack reader comment,https://forecastingaifutures.substack.com/p/forecasting-agi-insights-from-prediction-markets,"2차(독자 댓글, 신뢰도 낮음)"
+metaculus_3479_weakly_general_ai,2026-07,2028,community_median (2028-06),AIToolsReview quoting Metaculus,https://aitoolsreview.co.uk/insights/agi-timeline-predictions-2026,2차
+metaculus_3479_weakly_general_ai,2026-08,2028,community_median,AIMultiple quoting Metaculus,https://aimultiple.com/artificial-general-intelligence-singularity-timing,2차
+ai_impacts_espai_hlmi,2016,2061,mean_aggregate_50pct,AI Impacts ESPAI 2024 report,https://aiimpacts.org/wp-content/uploads/2026/09/ESPAI2024.pdf,직접
+ai_impacts_espai_hlmi,2022-06/08,2059,mean_aggregate_50pct (restated 2060 in 2023 paper),AI Impacts 2022 ESPAI page,https://aiimpacts.org/2022-expert-survey-on-progress-in-ai,직접
+ai_impacts_espai_hlmi,2023-10,2047,mean_aggregate_50pct,Grace et al. Thousands of AI Authors,https://arxiv.org/html/2401.02843v3,직접
+ai_impacts_espai_hlmi,2024-12,2042,mean_aggregate_50pct,AI Impacts ESPAI 2024 report (Sep 2026),https://aiimpacts.org/wp-content/uploads/2026/09/ESPAI2024.pdf,직접
+ai_impacts_espai_hlmi_10pct,2022-06/08,2029,mean_aggregate_10pct,Grace et al. Thousands of AI Authors,https://arxiv.org/html/2401.02843v3,직접
+ai_impacts_espai_hlmi_10pct,2023-10,2027,mean_aggregate_10pct,Grace et al. Thousands of AI Authors,https://arxiv.org/html/2401.02843v3,직접
+ai_impacts_espai_hlmi_10pct,2024-12,2027,mean_aggregate_10pct,AI Impacts ESPAI 2024 report (Sep 2026),https://aiimpacts.org/wp-content/uploads/2026/09/ESPAI2024.pdf,직접
+ai_impacts_espai_faol,2022-06/08,2164,mean_aggregate_50pct (2158 restated in 2024 report),Grace et al. Thousands of AI Authors,https://arxiv.org/html/2401.02843v3,직접
+ai_impacts_espai_faol,2023-10,2116,mean_aggregate_50pct (2115 restated in 2024 report),Grace et al. Thousands of AI Authors,https://arxiv.org/html/2401.02843v3,직접
+ai_impacts_espai_faol,2024-12,2098,mean_aggregate_50pct,AI Impacts ESPAI 2024 report (Sep 2026),https://aiimpacts.org/wp-content/uploads/2026/09/ESPAI2024.pdf,직접
+ai_impacts_espai_faol_10pct,2023-10,2037,mean_aggregate_10pct,AI Impacts ESPAI 2024 report (Sep 2026),https://aiimpacts.org/wp-content/uploads/2026/09/ESPAI2024.pdf,직접
+ai_impacts_espai_faol_10pct,2024-12,2035,mean_aggregate_10pct,AI Impacts ESPAI 2024 report (Sep 2026),https://aiimpacts.org/wp-content/uploads/2026/09/ESPAI2024.pdf,직접
+kokotajlo_agi_median,2024-01,2027,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+kokotajlo_agi_median,2025-01,2027,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+kokotajlo_agi_median,2025-02,2028,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+kokotajlo_agi_median,2025-04,2028,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+kokotajlo_agi_median,2025-08,2030,personal_median (about 2030.0),AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+kokotajlo_agi_median,2025-11,2030,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+kokotajlo_agi_median,2026-01,2031,personal_median (2030.95),AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+lifland_agi_median,2021,2060,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+lifland_agi_median,2022-07,2050,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+lifland_agi_median,2024-01,2038,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+lifland_agi_median,2024-12,2032,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+lifland_agi_median,2025-04,2031,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+lifland_agi_median,2025-07,2033,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+lifland_agi_median,2025-11,2035,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+lifland_agi_median,2026-01,2035,personal_median,AI Futures Project: Clarifying how our AI timelines forecasts have changed,https://blog.aifutures.org/p/clarifying-how-our-ai-timelines-forecasts,직접
+kokotajlo_automated_coder,2026-04-02,2029,median_before_update (late 2029),AI Futures Q1 2026 Timelines Update,https://blog.aifutures.org/p/q1-2026-timelines-update,직접
+kokotajlo_automated_coder,2026-04-02,2028,median_after_update (mid 2028),AI Futures Q1 2026 Timelines Update,https://blog.aifutures.org/p/q1-2026-timelines-update,직접
+lifland_automated_coder,2026-04-02,2032,median_before_update (early 2032),AI Futures Q1 2026 Timelines Update,https://blog.aifutures.org/p/q1-2026-timelines-update,직접
+lifland_automated_coder,2026-04-02,2030,median_after_update (mid 2030),AI Futures Q1 2026 Timelines Update,https://blog.aifutures.org/p/q1-2026-timelines-update,직접
+kokotajlo_automated_coder,2026-08-16,2027,p10 (2027-01),AI Futures Q2.5 2026 Timelines Update,https://blog.aifutures.org/p/q25-2026-timelines-update-uplift,직접
+kokotajlo_automated_coder,2026-08-16,2027,p50 (2027-11),AI Futures Q2.5 2026 Timelines Update,https://blog.aifutures.org/p/q25-2026-timelines-update-uplift,직접
+kokotajlo_automated_coder,2026-08-16,2030,p90 (2030-04),AI Futures Q2.5 2026 Timelines Update,https://blog.aifutures.org/p/q25-2026-timelines-update-uplift,직접
+lifland_automated_coder,2026-08-16,2027,p10 (2027-06),AI Futures Q2.5 2026 Timelines Update,https://blog.aifutures.org/p/q25-2026-timelines-update-uplift,직접
+lifland_automated_coder,2026-08-16,2030,p50 (2030-01),AI Futures Q2.5 2026 Timelines Update,https://blog.aifutures.org/p/q25-2026-timelines-update-uplift,직접
+lifland_automated_coder,2026-08-16,2070,p90 (2070-10),AI Futures Q2.5 2026 Timelines Update,https://blog.aifutures.org/p/q25-2026-timelines-update-uplift,직접
+samotsvety_agi,2026-01,2026,p10,AIMultiple quoting Samotsvety,https://aimultiple.com/artificial-general-intelligence-singularity-timing,2차
+samotsvety_agi,2026-01,2041,p50,AIMultiple quoting Samotsvety,https://aimultiple.com/artificial-general-intelligence-singularity-timing,2차
+samotsvety_agi,2026-01,2164,p90,AIMultiple quoting Samotsvety,https://aimultiple.com/artificial-general-intelligence-singularity-timing,2차
+manifold_agi_before_year,2025-02-04,2026,cumulative_probability=0.14,Anestrand Substack quoting Manifold,https://forecastingaifutures.substack.com/p/forecasting-agi-insights-from-prediction-markets,2차
+manifold_agi_before_year,2025-02-04,2027,cumulative_probability=0.34,Anestrand Substack quoting Manifold,https://forecastingaifutures.substack.com/p/forecasting-agi-insights-from-prediction-markets,2차
+manifold_agi_before_year,2025-02-04,2028,cumulative_probability=0.47,Anestrand Substack quoting Manifold,https://forecastingaifutures.substack.com/p/forecasting-agi-insights-from-prediction-markets,2차
+manifold_agi_before_year,2025-02-04,2029,cumulative_probability=0.57,Anestrand Substack quoting Manifold,https://forecastingaifutures.substack.com/p/forecasting-agi-insights-from-prediction-markets,2차
+manifold_agi_before_year,2025-02-04,2030,cumulative_probability=0.63,Anestrand Substack quoting Manifold,https://forecastingaifutures.substack.com/p/forecasting-agi-insights-from-prediction-markets,2차
+manifold_agi_before_year,2025-02-04,2031,cumulative_probability=0.65,Anestrand Substack quoting Manifold,https://forecastingaifutures.substack.com/p/forecasting-agi-insights-from-prediction-markets,2차
+lab_openai_automated_ai_research_intern,2025-10-28,2026,target (2026-09),Sam Altman X post / livestream,https://x.com/sama/status/1983584366547829073,2차
+lab_openai_automated_ai_researcher,2025-10-28,2028,target (2028-03),Sam Altman X post / livestream,https://x.com/sama/status/1983584366547829073,2차 (TechCrunch는 월 없이 2028로 인용: https://techcrunch.com/2025/10/28/sam-altman-says-openai-will-have-a-legitimate-ai-researcher-by-2028/ 직접)
+lab_openai_automated_ai_research_intern,2026-09-06,2026,claimed_achieved (self-measured; 3.1 agent-workdays per human workday),OpenAI: Research acceleration: The view inside OpenAI,https://openai.com/index/research-acceleration-view-inside-openai/,"2차 (openai.com 403; HelpNetSecurity, CellCog, AI Weekly 일치)"
+lab_openai_automated_ai_researcher,2026-09-06,2028,target (2028-03; reaffirmed),OpenAI: Research acceleration: The view inside OpenAI,https://aiweekly.co/alerts/openai-says-it-hit-automated-research-intern-milestone,2차
+lab_anthropic_powerful_ai,2025-03-06,2026,"forecast_earliest (""as soon as late 2026 or 2027"")",Anthropic response to OSTP RFI,https://www-cdn.anthropic.com/17a66ce2e943b82db8a021b974f0170baf6dce60.pdf,직접
+lab_anthropic_powerful_ai,2025-03-06,2027,"forecast_latest (""late 2026 or 2027"")",Anthropic response to OSTP RFI,https://www-cdn.anthropic.com/17a66ce2e943b82db8a021b974f0170baf6dce60.pdf,직접
+lab_anthropic_powerful_ai,2026-01,2028,"forecast (""as little as 1-2 years away"", derived: 2027-2028)","Dario Amodei, The Adolescence of Technology",https://darioamodei.com/essay/the-adolescence-of-technology,직접 (연도는 1~2년을 환산한 값)
+lab_deepmind_agi,2026-01,2030,"forecast_50pct (Hassabis, Davos)",Towards AI summary of Bloomberg interview,https://pub.towardsai.net/in-davos-demis-hassabis-says-agi-arrives-in-five-years-255458898ea1,2차
+lab_deepmind_agi,2026-06-04,2030,"forecast_central (""2030 plus or minus a year"")",Decrypt,https://decrypt.co/370080/google-deepmind-ceo-agi-coming,2차
+lab_deepmind_minimal_agi,2026-01,2028,"forecast_50pct (Shane Legg, minimal AGI)",AIMultiple quoting Legg,https://aimultiple.com/artificial-general-intelligence-singularity-timing,2차
+lab_xai_agi,2024-04,2026,"forecast (""smarter than the smartest human... probably next year, within two years"")",Gulf News quoting Reuters,https://gulfnews.com/technology/teslas-musk-predicts-ai-will-be-smarter-than-the-smartest-human-next-year-1.1712636705286,2차
+lab_xai_agi,2025-10,2026,"forecast_probability=0.10 (""Grok 5 ... 10% and rising""); 2026-09-14: ""That will be Grok 5""",Elon Musk X post and coverage,https://x.com/elonmusk/status/1968202372276163029,2차
+lab_openai_novel_insights_systems,2025-06,2026,"forecast (""2026 will likely see ... systems that can figure out novel insights"")","Sam Altman, The Gentle Singularity",https://blog.samaltman.com/the-gentle-singularity,직접

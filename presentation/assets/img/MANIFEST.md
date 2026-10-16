@@ -1,0 +1,17 @@
+# AI 생성 이미지 기록
+
+- 도구: Google Gemini 웹(gemini.google.com, Pro 모드, '이미지 만들기' Nano Banana 계열), 16:9, 2026-10-16 생성. 사용자 계정으로 ego-lite 브라우저에서 생성·원본 크기 다운로드.
+- 원본(2752×1536 PNG)은 `raw/`, 덱용은 같은 이름 `.jpg`(가로 1920, 품질 88).
+- 원본 오른쪽 아래의 Gemini 반짝이 표시는 `../../scripts/remove_watermark.py`로 지웠다: 별 템플릿으로 위치를 잡고 SAM 2.1(hiera small) 마스크 → OpenCV Telea 인페인팅 → 마스크 영역만 합성. 전후 비교는 `check/`, 처리 기록은 `check/watermark-log.json`.
+- 덱의 해당 장에는 'AI 생성 이미지(Gemini)'라고 표기한다. 데이터 차트를 대신하지 않는다.
+
+| 파일 | 프롬프트 |
+| --- | --- |
+| cover | Realistic editorial documentary photograph, 16:9 … split-flap departure board … empty modern open-plan office at dawn … (전문은 아래 tsv와 같은 형식) |
+| recursion | Realistic editorial documentary photograph, 16:9. Cool blue-gray palette with a single warm amber light accent, soft light, shallow depth of field, calm serious mood. Absolutely no readable text, letters, numbers or logos anywhere. Keep the left third as calm dark negative space for slide text. Scene: a data-center server corridor seen between two facing mirrors so the corridor repeats infinitely into the distance (recursive Droste effect). Inside the reflections a slim white robotic arm is carefully adjusting a server rack. Cool blue LED light with one small amber status light. |
+| desk | Realistic editorial documentary photograph, 16:9, top-down view. Cool blue-gray palette with a single warm amber desk lamp glow, shallow depth of field, calm serious mood. Absolutely no readable text, letters, numbers or logos anywhere: all paper text is blurred and unreadable, the laptop screen shows only abstract glowing blurred bars. Keep the left third relatively empty dark wood surface for slide text. Scene: a professional's desk at night with stacks of contract papers, a calculator, a fountain pen, an open laptop, a cup of coffee. |
+| entry | Realistic editorial documentary photograph, 16:9. Cool blue-gray palette with a single warm amber light accent, soft early-morning light, shallow depth of field, quiet lonely mood. Absolutely no readable text, letters, numbers or logos anywhere; monitors show only blurred light. Keep the left third as calm negative space for slide text. Scene: a single young Korean office worker seen from behind, sitting alone at the far end of a very long row of empty desks in a high-rise office in Seoul, early morning. |
+| seoul | Realistic editorial documentary photograph, 16:9. Cool blue-gray blue-hour palette with warm amber office window lights, light mist, calm serious mood. Absolutely no readable text, signs, letters, numbers or logos anywhere. Keep the left third as calm sky and water negative space for slide text. Scene: Yeouido business district skyline in Seoul seen across the Han River at blue hour, office tower windows lit, mist over the water. |
+| callcenter | Realistic editorial documentary photograph, 16:9. Cool blue-gray palette with one warm amber desk lamp, soft light, shallow depth of field, quiet empty mood. Absolutely no readable text, letters, numbers or logos anywhere; screens show only abstract blurred shapes. Keep the left third as calm negative space for slide text. Scene: an empty call-center floor at night, rows of workstations with headsets resting on the desks, chairs pushed in, screens glowing softly. |
+| robot | Realistic editorial documentary photograph … humanoid robot working at a car factory assembly line next to an empty human workstation … |
+| neurons | Realistic scientific editorial photograph … living brain organoid resting on a microelectrode array chip … |

@@ -1,0 +1,60 @@
+/* 토큰 — soft-skill(high-end-visual-design) 「Soft Structuralism」 + Pretendard
+ * 은회색 바탕 위에 둥근 이중 테두리 흰 카드, 넓게 퍼지는 연한 그림자, 포인트 색 둘(코발트·라임).
+ * 대비는 실측값(design-standard/README.md). 모션 토큰은 transitions.dev _root.css 공유 스케일. */
+
+@font-face { font-family: "Pretendard Variable"; src: url("../assets/fonts/PretendardVariable.woff2") format("woff2-variations"); font-weight: 45 920; font-display: block; }
+
+:root {
+  /* 바탕·잉크 */
+  --canvas: #f1f3f6;        /* 은회색 바탕 */
+  --paper: #ffffff;
+  --ink: #0b0d12;
+  --note: #5b6170;          /* 흰 6.2:1 · 은회색 5.57:1 */
+  --soot: #0b0d12;
+  --soot-2: #161a22;
+  --note-on-soot: #9aa1b0;  /* 7.5:1 */
+
+  /* 포인트 둘 */
+  --blue: #2448e8;          /* 흰 바탕 글자 6.63:1, 파랑 위 흰 글자 6.63:1 */
+  --blue-50: #eef2ff;
+  --blue-100: #dde5ff;
+  --lime: #d4f57a;          /* 채움 전용(잉크 글자 15.86:1). 어두운 바탕 글자 15.86:1 */
+  --lime-50: #f4fbe0;
+
+  /* 차트 */
+  --chart-hi: var(--blue);
+  --chart-mid: #3d4250;     /* 10.03:1 */
+  --chart-lo: #c3c8d2;
+  --chart-grid: #e7e9ee;
+
+  --font: "Pretendard Variable", "Pretendard", system-ui, sans-serif;
+
+  /* 글자 단계(1920×1080) */
+  --s-hero: 140px;
+  --s-head: 64px;
+  --s-sub: 30px;
+  --s-body: 22px;
+  --s-small: 16px;
+
+  /* 여백: 두 배 */
+  --mx: 144px; --mt: 112px; --mb: 64px; --gutter: 40px;
+  --g8: 8px; --g16: 16px; --g24: 24px; --g32: 32px; --g48: 48px; --g64: 64px; --g96: 96px;
+
+  /* 둥근 모서리·그림자(이중 테두리) */
+  --r-shell: 36px;
+  --r-core: 28px;
+  --r-pill: 999px;
+  --sh-float: 0 1px 1px rgba(11, 13, 18, .03), 0 12px 24px -8px rgba(11, 13, 18, .06), 0 40px 80px -24px rgba(11, 13, 18, .14);
+  --bezel: 0 0 0 8px rgba(255, 255, 255, .72), 0 0 0 9px rgba(11, 13, 18, .05), var(--sh-float);
+
+  /* 모션 토큰 (Transitions.dev — shared motion scale) */
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.32, 0.72, 0, 1); /* soft-skill 권장 이징 */
+}

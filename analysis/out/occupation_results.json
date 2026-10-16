@@ -1,0 +1,6734 @@
+{
+ "_about": "직업별 AI 노출도 × 미국 고용 변화 상관 (예비 분석). 한 행 = SOC 6자리 세부 직업",
+ "_seed": 42,
+ "_inputs": {
+  "eloundou": {
+   "path": "research/_data/raw/openai_gpts-are-gpts/occ_level.csv",
+   "sha256_16": "40c74f53de40aec9"
+  },
+  "microsoft": {
+   "path": "research/_data/raw/microsoft_working-with-ai/ai_applicability_scores.csv",
+   "sha256_16": "204c7e6a5ec70415"
+  },
+  "anthropic": {
+   "path": "research/_data/raw/anthropic_economic_index/labor_market_impacts/job_exposure.csv",
+   "sha256_16": "4f0a3adf5feeb2ec"
+  },
+  "oews2022": {
+   "path": "research/_data/raw/bls_oews/converted_csv/national_M2022_dl.csv",
+   "sha256_16": "12be2911a1875418"
+  },
+  "oews2023": {
+   "path": "research/_data/raw/bls_oews/converted_csv/national_M2023_dl.csv",
+   "sha256_16": "1af5807032392639"
+  },
+  "oews2025": {
+   "path": "research/_data/raw/bls_oews/converted_csv/national_M2025_dl.csv",
+   "sha256_16": "a3fb2cf56e1123cd"
+  },
+  "proj2434": {
+   "path": "research/_data/raw/bls_projections/converted_csv/occupation_2024-34__sheet03_Table_1.2.csv",
+   "sha256_16": "56f003ab84ea358a"
+  },
+  "proj2535": {
+   "path": "research/_data/raw/bls_projections/converted_csv/occupation_2025-35__sheet03_Table_1.2.csv",
+   "sha256_16": "9cd5d3a60aafecb7"
+  }
+ },
+ "_counts": {
+  "oews2022_detailed": 830,
+  "oews2025_detailed": 830,
+  "joined_2022_2025": 829
+ },
+ "_주의": [
+  "OEWS는 시계열 비교용으로 설계된 조사가 아니다(BLS 안내). 직업 단위 변화는 표본오차가 크다.",
+  "Eloundou β는 O*NET 8자리를 6자리로 단순 평균했다.",
+  "상관은 관찰 자료다. 인과 등급 주장을 하지 않는다."
+ ],
+ "corr": {
+  "eloundou_beta": {
+   "전체_22_25": {
+    "n": 770,
+    "pearson_r": 0.002,
+    "spearman_rho": 0.026,
+    "spearman_95ci_bootstrap": [
+     -0.045,
+     0.1
+    ]
+   },
+   "고용1만명이상_22_25": {
+    "n": 639,
+    "pearson_r": -0.04,
+    "spearman_rho": -0.017,
+    "spearman_95ci_bootstrap": [
+     -0.1,
+     0.065
+    ]
+   },
+   "변화폭_극단제외_22_25": {
+    "n": 757,
+    "pearson_r": 0.027,
+    "spearman_rho": 0.038,
+    "spearman_95ci_bootstrap": [
+     -0.036,
+     0.11
+    ]
+   },
+   "초기_22_23": {
+    "n": 770,
+    "pearson_r": 0.022,
+    "spearman_rho": 0.049,
+    "spearman_95ci_bootstrap": [
+     -0.021,
+     0.12
+    ]
+   },
+   "최근_23_25": {
+    "n": 770,
+    "pearson_r": -0.012,
+    "spearman_rho": 0.011,
+    "spearman_95ci_bootstrap": [
+     -0.06,
+     0.083
+    ]
+   },
+   "BLS전망개정_pp": {
+    "n": 770,
+    "pearson_r": -0.029,
+    "spearman_rho": 0.027,
+    "spearman_95ci_bootstrap": [
+     -0.048,
+     0.102
+    ]
+   },
+   "분위별_22_25": [
+    {
+     "분위": 1,
+     "n": 154,
+     "감소한_직업_비율_pct": 46.8,
+     "노출도_범위": [
+      0.0,
+      0.094
+     ],
+     "직업별_변화율_중앙값_pct": 1.4,
+     "합계고용_변화율_pct": 3.3
+    },
+    {
+     "분위": 2,
+     "n": 154,
+     "감소한_직업_비율_pct": 40.3,
+     "노출도_범위": [
+      0.094,
+      0.25
+     ],
+     "직업별_변화율_중앙값_pct": 3.8,
+     "합계고용_변화율_pct": 5.9
+    },
+    {
+     "분위": 3,
+     "n": 154,
+     "감소한_직업_비율_pct": 29.2,
+     "노출도_범위": [
+      0.25,
+      0.41
+     ],
+     "직업별_변화율_중앙값_pct": 5.6,
+     "합계고용_변화율_pct": 6.6
+    },
+    {
+     "분위": 4,
+     "n": 154,
+     "감소한_직업_비율_pct": 34.4,
+     "노출도_범위": [
+      0.41,
+      0.517
+     ],
+     "직업별_변화율_중앙값_pct": 4.7,
+     "합계고용_변화율_pct": 7.0
+    },
+    {
+     "분위": 5,
+     "n": 154,
+     "감소한_직업_비율_pct": 45.5,
+     "노출도_범위": [
+      0.519,
+      1.0
+     ],
+     "직업별_변화율_중앙값_pct": 1.5,
+     "합계고용_변화율_pct": 1.9
+    }
+   ],
+   "대분류별_22_25": {
+    "개인 서비스": {
+     "n": 28,
+     "pearson_r": 0.081,
+     "spearman_rho": 0.123,
+     "spearman_95ci_bootstrap": [
+      -0.314,
+      0.525
+     ]
+    },
+    "건설": {
+     "n": 56,
+     "pearson_r": 0.238,
+     "spearman_rho": 0.196,
+     "spearman_95ci_bootstrap": [
+      -0.079,
+      0.448
+     ]
+    },
+    "건축·공학": {
+     "n": 35,
+     "pearson_r": -0.004,
+     "spearman_rho": 0.03,
+     "spearman_95ci_bootstrap": [
+      -0.338,
+      0.402
+     ]
+    },
+    "경영·재무": {
+     "n": 30,
+     "pearson_r": 0.42,
+     "spearman_rho": -0.269,
+     "spearman_95ci_bootstrap": [
+      -0.598,
+      0.139
+     ]
+    },
+    "과학": {
+     "n": 47,
+     "pearson_r": -0.029,
+     "spearman_rho": -0.05,
+     "spearman_95ci_bootstrap": [
+      -0.302,
+      0.212
+     ]
+    },
+    "관리직": {
+     "n": 36,
+     "pearson_r": -0.074,
+     "spearman_rho": 0.029,
+     "spearman_95ci_bootstrap": [
+      -0.355,
+      0.4
+     ]
+    },
+    "교육": {
+     "n": 58,
+     "pearson_r": -0.273,
+     "spearman_rho": -0.185,
+     "spearman_95ci_bootstrap": [
+      -0.425,
+      0.075
+     ]
+    },
+    "보안": {
+     "n": 23,
+     "pearson_r": -0.256,
+     "spearman_rho": -0.21,
+     "spearman_95ci_bootstrap": [
+      -0.609,
+      0.25
+     ]
+    },
+    "사무·행정 지원": {
+     "n": 50,
+     "pearson_r": -0.201,
+     "spearman_rho": -0.286,
+     "spearman_95ci_bootstrap": [
+      -0.507,
+      -0.033
+     ]
+    },
+    "생산": {
+     "n": 98,
+     "pearson_r": 0.083,
+     "spearman_rho": 0.023,
+     "spearman_95ci_bootstrap": [
+      -0.179,
+      0.228
+     ]
+    },
+    "설치·정비": {
+     "n": 50,
+     "pearson_r": -0.326,
+     "spearman_rho": -0.283,
+     "spearman_95ci_bootstrap": [
+      -0.576,
+      0.04
+     ]
+    },
+    "예술·미디어": {
+     "n": 36,
+     "pearson_r": -0.159,
+     "spearman_rho": -0.326,
+     "spearman_95ci_bootstrap": [
+      -0.603,
+      0.0
+     ]
+    },
+    "운송": {
+     "n": 45,
+     "pearson_r": 0.082,
+     "spearman_rho": 0.062,
+     "spearman_95ci_bootstrap": [
+      -0.213,
+      0.337
+     ]
+    },
+    "음식 서비스": {
+     "n": 15,
+     "pearson_r": 0.266,
+     "spearman_rho": 0.393,
+     "spearman_95ci_bootstrap": [
+      -0.22,
+      0.856
+     ]
+    },
+    "의료 전문": {
+     "n": 67,
+     "pearson_r": -0.133,
+     "spearman_rho": -0.168,
+     "spearman_95ci_bootstrap": [
+      -0.4,
+      0.075
+     ]
+    },
+    "의료 지원": {
+     "n": 16,
+     "pearson_r": -0.844,
+     "spearman_rho": -0.653,
+     "spearman_95ci_bootstrap": [
+      -0.916,
+      -0.113
+     ]
+    },
+    "컴퓨터·수학": {
+     "n": 21,
+     "pearson_r": -0.422,
+     "spearman_rho": -0.354,
+     "spearman_95ci_bootstrap": [
+      -0.672,
+      0.091
+     ]
+    },
+    "판매": {
+     "n": 21,
+     "pearson_r": -0.192,
+     "spearman_rho": -0.181,
+     "spearman_95ci_bootstrap": [
+      -0.646,
+      0.354
+     ]
+    }
+   }
+  },
+  "microsoft_applicability": {
+   "전체_22_25": {
+    "n": 782,
+    "pearson_r": 0.043,
+    "spearman_rho": 0.051,
+    "spearman_95ci_bootstrap": [
+     -0.02,
+     0.12
+    ]
+   },
+   "고용1만명이상_22_25": {
+    "n": 651,
+    "pearson_r": 0.012,
+    "spearman_rho": 0.012,
+    "spearman_95ci_bootstrap": [
+     -0.063,
+     0.086
+    ]
+   },
+   "변화폭_극단제외_22_25": {
+    "n": 769,
+    "pearson_r": 0.044,
+    "spearman_rho": 0.047,
+    "spearman_95ci_bootstrap": [
+     -0.02,
+     0.121
+    ]
+   },
+   "초기_22_23": {
+    "n": 782,
+    "pearson_r": 0.083,
+    "spearman_rho": 0.109,
+    "spearman_95ci_bootstrap": [
+     0.04,
+     0.176
+    ]
+   },
+   "최근_23_25": {
+    "n": 782,
+    "pearson_r": -0.003,
+    "spearman_rho": -0.011,
+    "spearman_95ci_bootstrap": [
+     -0.082,
+     0.059
+    ]
+   },
+   "BLS전망개정_pp": {
+    "n": 782,
+    "pearson_r": -0.043,
+    "spearman_rho": -0.023,
+    "spearman_95ci_bootstrap": [
+     -0.094,
+     0.05
+    ]
+   },
+   "분위별_22_25": [
+    {
+     "분위": 1,
+     "n": 156,
+     "감소한_직업_비율_pct": 41.7,
+     "노출도_범위": [
+      0.0,
+      0.07
+     ],
+     "직업별_변화율_중앙값_pct": 2.6,
+     "합계고용_변화율_pct": 6.7
+    },
+    {
+     "분위": 2,
+     "n": 156,
+     "감소한_직업_비율_pct": 42.3,
+     "노출도_범위": [
+      0.07,
+      0.117
+     ],
+     "직업별_변화율_중앙값_pct": 2.9,
+     "합계고용_변화율_pct": 3.9
+    },
+    {
+     "분위": 3,
+     "n": 157,
+     "감소한_직업_비율_pct": 36.3,
+     "노출도_범위": [
+      0.117,
+      0.17
+     ],
+     "직업별_변화율_중앙값_pct": 4.7,
+     "합계고용_변화율_pct": 9.7
+    },
+    {
+     "분위": 4,
+     "n": 156,
+     "감소한_직업_비율_pct": 34.0,
+     "노출도_범위": [
+      0.17,
+      0.25
+     ],
+     "직업별_변화율_중앙값_pct": 5.2,
+     "합계고용_변화율_pct": 4.8
+    },
+    {
+     "분위": 5,
+     "n": 157,
+     "감소한_직업_비율_pct": 42.0,
+     "노출도_범위": [
+      0.25,
+      0.492
+     ],
+     "직업별_변화율_중앙값_pct": 1.8,
+     "합계고용_변화율_pct": 2.0
+    }
+   ],
+   "대분류별_22_25": {
+    "개인 서비스": {
+     "n": 29,
+     "pearson_r": 0.498,
+     "spearman_rho": 0.52,
+     "spearman_95ci_bootstrap": [
+      0.196,
+      0.749
+     ]
+    },
+    "건설": {
+     "n": 57,
+     "pearson_r": 0.141,
+     "spearman_rho": 0.084,
+     "spearman_95ci_bootstrap": [
+      -0.189,
+      0.341
+     ]
+    },
+    "건축·공학": {
+     "n": 35,
+     "pearson_r": 0.057,
+     "spearman_rho": 0.025,
+     "spearman_95ci_bootstrap": [
+      -0.315,
+      0.346
+     ]
+    },
+    "경영·재무": {
+     "n": 32,
+     "pearson_r": 0.161,
+     "spearman_rho": -0.183,
+     "spearman_95ci_bootstrap": [
+      -0.548,
+      0.203
+     ]
+    },
+    "과학": {
+     "n": 47,
+     "pearson_r": -0.118,
+     "spearman_rho": -0.13,
+     "spearman_95ci_bootstrap": [
+      -0.397,
+      0.144
+     ]
+    },
+    "관리직": {
+     "n": 36,
+     "pearson_r": 0.271,
+     "spearman_rho": 0.15,
+     "spearman_95ci_bootstrap": [
+      -0.232,
+      0.486
+     ]
+    },
+    "교육": {
+     "n": 60,
+     "pearson_r": -0.264,
+     "spearman_rho": -0.238,
+     "spearman_95ci_bootstrap": [
+      -0.472,
+      0.04
+     ]
+    },
+    "보안": {
+     "n": 23,
+     "pearson_r": -0.229,
+     "spearman_rho": -0.264,
+     "spearman_95ci_bootstrap": [
+      -0.647,
+      0.226
+     ]
+    },
+    "사무·행정 지원": {
+     "n": 50,
+     "pearson_r": -0.27,
+     "spearman_rho": -0.314,
+     "spearman_95ci_bootstrap": [
+      -0.559,
+      -0.035
+     ]
+    },
+    "생산": {
+     "n": 100,
+     "pearson_r": -0.03,
+     "spearman_rho": -0.071,
+     "spearman_95ci_bootstrap": [
+      -0.269,
+      0.12
+     ]
+    },
+    "설치·정비": {
+     "n": 50,
+     "pearson_r": -0.136,
+     "spearman_rho": -0.155,
+     "spearman_95ci_bootstrap": [
+      -0.438,
+      0.161
+     ]
+    },
+    "예술·미디어": {
+     "n": 36,
+     "pearson_r": 0.024,
+     "spearman_rho": -0.003,
+     "spearman_95ci_bootstrap": [
+      -0.334,
+      0.356
+     ]
+    },
+    "운송": {
+     "n": 46,
+     "pearson_r": 0.508,
+     "spearman_rho": 0.445,
+     "spearman_95ci_bootstrap": [
+      0.184,
+      0.654
+     ]
+    },
+    "음식 서비스": {
+     "n": 15,
+     "pearson_r": 0.196,
+     "spearman_rho": 0.046,
+     "spearman_95ci_bootstrap": [
+      -0.465,
+      0.526
+     ]
+    },
+    "의료 전문": {
+     "n": 68,
+     "pearson_r": -0.05,
+     "spearman_rho": -0.141,
+     "spearman_95ci_bootstrap": [
+      -0.341,
+      0.092
+     ]
+    },
+    "의료 지원": {
+     "n": 17,
+     "pearson_r": -0.513,
+     "spearman_rho": -0.373,
+     "spearman_95ci_bootstrap": [
+      -0.768,
+      0.242
+     ]
+    },
+    "컴퓨터·수학": {
+     "n": 21,
+     "pearson_r": -0.134,
+     "spearman_rho": -0.362,
+     "spearman_95ci_bootstrap": [
+      -0.74,
+      0.121
+     ]
+    },
+    "판매": {
+     "n": 21,
+     "pearson_r": 0.015,
+     "spearman_rho": -0.016,
+     "spearman_95ci_bootstrap": [
+      -0.537,
+      0.466
+     ]
+    }
+   }
+  },
+  "anthropic_observed": {
+   "전체_22_25": {
+    "n": 754,
+    "pearson_r": -0.083,
+    "spearman_rho": -0.032,
+    "spearman_95ci_bootstrap": [
+     -0.102,
+     0.038
+    ]
+   },
+   "고용1만명이상_22_25": {
+    "n": 628,
+    "pearson_r": -0.08,
+    "spearman_rho": -0.034,
+    "spearman_95ci_bootstrap": [
+     -0.113,
+     0.044
+    ]
+   },
+   "변화폭_극단제외_22_25": {
+    "n": 742,
+    "pearson_r": -0.05,
+    "spearman_rho": -0.015,
+    "spearman_95ci_bootstrap": [
+     -0.086,
+     0.058
+    ]
+   },
+   "초기_22_23": {
+    "n": 754,
+    "pearson_r": -0.024,
+    "spearman_rho": 0.02,
+    "spearman_95ci_bootstrap": [
+     -0.051,
+     0.09
+    ]
+   },
+   "최근_23_25": {
+    "n": 754,
+    "pearson_r": -0.088,
+    "spearman_rho": -0.037,
+    "spearman_95ci_bootstrap": [
+     -0.106,
+     0.034
+    ]
+   },
+   "BLS전망개정_pp": {
+    "n": 754,
+    "pearson_r": -0.114,
+    "spearman_rho": -0.042,
+    "spearman_95ci_bootstrap": [
+     -0.115,
+     0.026
+    ]
+   },
+   "분위별_22_25": [
+    {
+     "분위": 1,
+     "n": 150,
+     "감소한_직업_비율_pct": 22.0,
+     "노출도_범위": [
+      0.0,
+      0.0
+     ],
+     "직업별_변화율_중앙값_pct": 7.6,
+     "합계고용_변화율_pct": 9.9
+    },
+    {
+     "분위": 2,
+     "n": 151,
+     "감소한_직업_비율_pct": 45.0,
+     "노출도_범위": [
+      0.0,
+      0.0
+     ],
+     "직업별_변화율_중앙값_pct": 1.8,
+     "합계고용_변화율_pct": 4.0
+    },
+    {
+     "분위": 3,
+     "n": 151,
+     "감소한_직업_비율_pct": 53.0,
+     "노출도_범위": [
+      0.0,
+      0.03
+     ],
+     "직업별_변화율_중앙값_pct": -3.4,
+     "합계고용_변화율_pct": 2.2
+    },
+    {
+     "분위": 4,
+     "n": 151,
+     "감소한_직업_비율_pct": 30.5,
+     "노출도_범위": [
+      0.03,
+      0.138
+     ],
+     "직업별_변화율_중앙값_pct": 6.1,
+     "합계고용_변화율_pct": 6.4
+    },
+    {
+     "분위": 5,
+     "n": 151,
+     "감소한_직업_비율_pct": 49.0,
+     "노출도_범위": [
+      0.144,
+      0.745
+     ],
+     "직업별_변화율_중앙값_pct": 0.1,
+     "합계고용_변화율_pct": 1.8
+    }
+   ],
+   "대분류별_22_25": {
+    "개인 서비스": {
+     "n": 27,
+     "pearson_r": 0.242,
+     "spearman_rho": 0.113,
+     "spearman_95ci_bootstrap": [
+      -0.326,
+      0.503
+     ]
+    },
+    "건설": {
+     "n": 56,
+     "pearson_r": 0.2,
+     "spearman_rho": 0.227,
+     "spearman_95ci_bootstrap": [
+      0.046,
+      0.395
+     ]
+    },
+    "건축·공학": {
+     "n": 34,
+     "pearson_r": 0.033,
+     "spearman_rho": 0.06,
+     "spearman_95ci_bootstrap": [
+      -0.311,
+      0.402
+     ]
+    },
+    "경영·재무": {
+     "n": 29,
+     "pearson_r": 0.253,
+     "spearman_rho": 0.146,
+     "spearman_95ci_bootstrap": [
+      -0.224,
+      0.473
+     ]
+    },
+    "과학": {
+     "n": 46,
+     "pearson_r": -0.379,
+     "spearman_rho": -0.519,
+     "spearman_95ci_bootstrap": [
+      -0.702,
+      -0.271
+     ]
+    },
+    "관리직": {
+     "n": 34,
+     "pearson_r": 0.169,
+     "spearman_rho": 0.225,
+     "spearman_95ci_bootstrap": [
+      -0.129,
+      0.536
+     ]
+    },
+    "교육": {
+     "n": 57,
+     "pearson_r": -0.148,
+     "spearman_rho": -0.119,
+     "spearman_95ci_bootstrap": [
+      -0.364,
+      0.141
+     ]
+    },
+    "보안": {
+     "n": 21,
+     "pearson_r": -0.286,
+     "spearman_rho": -0.405,
+     "spearman_95ci_bootstrap": [
+      -0.668,
+      -0.016
+     ]
+    },
+    "사무·행정 지원": {
+     "n": 50,
+     "pearson_r": -0.274,
+     "spearman_rho": -0.279,
+     "spearman_95ci_bootstrap": [
+      -0.517,
+      -0.026
+     ]
+    },
+    "생산": {
+     "n": 98,
+     "pearson_r": 0.057,
+     "spearman_rho": -0.049,
+     "spearman_95ci_bootstrap": [
+      -0.262,
+      0.154
+     ]
+    },
+    "설치·정비": {
+     "n": 50,
+     "pearson_r": -0.114,
+     "spearman_rho": -0.037,
+     "spearman_95ci_bootstrap": [
+      -0.377,
+      0.31
+     ]
+    },
+    "예술·미디어": {
+     "n": 34,
+     "pearson_r": -0.253,
+     "spearman_rho": -0.493,
+     "spearman_95ci_bootstrap": [
+      -0.711,
+      -0.175
+     ]
+    },
+    "운송": {
+     "n": 44,
+     "pearson_r": 0.337,
+     "spearman_rho": 0.111,
+     "spearman_95ci_bootstrap": [
+      -0.258,
+      0.416
+     ]
+    },
+    "음식 서비스": {
+     "n": 15,
+     "pearson_r": -0.168,
+     "spearman_rho": -0.22,
+     "spearman_95ci_bootstrap": [
+      -0.595,
+      0.166
+     ]
+    },
+    "의료 전문": {
+     "n": 64,
+     "pearson_r": 0.031,
+     "spearman_rho": -0.021,
+     "spearman_95ci_bootstrap": [
+      -0.262,
+      0.233
+     ]
+    },
+    "의료 지원": {
+     "n": 16,
+     "pearson_r": -0.695,
+     "spearman_rho": -0.347,
+     "spearman_95ci_bootstrap": [
+      -0.765,
+      0.256
+     ]
+    },
+    "컴퓨터·수학": {
+     "n": 21,
+     "pearson_r": -0.247,
+     "spearman_rho": -0.138,
+     "spearman_95ci_bootstrap": [
+      -0.611,
+      0.323
+     ]
+    },
+    "판매": {
+     "n": 20,
+     "pearson_r": -0.165,
+     "spearman_rho": -0.199,
+     "spearman_95ci_bootstrap": [
+      -0.625,
+      0.347
+     ]
+    }
+   }
+  }
+ },
+ "major_summary": [
+  {
+   "대분류": "컴퓨터·수학",
+   "직업수": 21,
+   "고용_2022": 5003920,
+   "고용_2025": 5260120,
+   "변화율_pct": 5.1,
+   "노출도_beta_평균": 0.757
+  },
+  {
+   "대분류": "사무·행정 지원",
+   "직업수": 50,
+   "고용_2022": 18306500,
+   "고용_2025": 17388780,
+   "변화율_pct": -5.0,
+   "노출도_beta_평균": 0.609
+  },
+  {
+   "대분류": "경영·재무",
+   "직업수": 30,
+   "고용_2022": 9152860,
+   "고용_2025": 9988740,
+   "변화율_pct": 9.1,
+   "노출도_beta_평균": 0.525
+  },
+  {
+   "대분류": "법률",
+   "직업수": 7,
+   "고용_2022": 1170120,
+   "고용_2025": 1258860,
+   "변화율_pct": 7.6,
+   "노출도_beta_평균": 0.494
+  },
+  {
+   "대분류": "건축·공학",
+   "직업수": 35,
+   "고용_2022": 2463170,
+   "고용_2025": 2602660,
+   "변화율_pct": 5.7,
+   "노출도_beta_평균": 0.492
+  },
+  {
+   "대분류": "관리직",
+   "직업수": 36,
+   "고용_2022": 9767640,
+   "고용_2025": 11064420,
+   "변화율_pct": 13.3,
+   "노출도_beta_평균": 0.467
+  },
+  {
+   "대분류": "과학",
+   "직업수": 47,
+   "고용_2022": 1306050,
+   "고용_2025": 1465820,
+   "변화율_pct": 12.2,
+   "노출도_beta_평균": 0.46
+  },
+  {
+   "대분류": "예술·미디어",
+   "직업수": 36,
+   "고용_2022": 1994970,
+   "고용_2025": 1981270,
+   "변화율_pct": -0.7,
+   "노출도_beta_평균": 0.458
+  },
+  {
+   "대분류": "판매",
+   "직업수": 21,
+   "고용_2022": 13063750,
+   "고용_2025": 13331100,
+   "변화율_pct": 2.0,
+   "노출도_beta_평균": 0.458
+  },
+  {
+   "대분류": "교육",
+   "직업수": 58,
+   "고용_2022": 6567150,
+   "고용_2025": 7020580,
+   "변화율_pct": 6.9,
+   "노출도_beta_평균": 0.444
+  },
+  {
+   "대분류": "의료 전문",
+   "직업수": 67,
+   "고용_2022": 8677930,
+   "고용_2025": 9459730,
+   "변화율_pct": 9.0,
+   "노출도_beta_평균": 0.341
+  },
+  {
+   "대분류": "사회복지",
+   "직업수": 12,
+   "고용_2022": 1771770,
+   "고용_2025": 1961740,
+   "변화율_pct": 10.7,
+   "노출도_beta_평균": 0.335
+  },
+  {
+   "대분류": "보안",
+   "직업수": 23,
+   "고용_2022": 3414250,
+   "고용_2025": 3755910,
+   "변화율_pct": 10.0,
+   "노출도_beta_평균": 0.274
+  },
+  {
+   "대분류": "의료 지원",
+   "직업수": 16,
+   "고용_2022": 3288080,
+   "고용_2025": 3595860,
+   "변화율_pct": 9.4,
+   "노출도_beta_평균": 0.244
+  },
+  {
+   "대분류": "운송",
+   "직업수": 45,
+   "고용_2022": 12880650,
+   "고용_2025": 12968500,
+   "변화율_pct": 0.7,
+   "노출도_beta_평균": 0.203
+  },
+  {
+   "대분류": "개인 서비스",
+   "직업수": 28,
+   "고용_2022": 2717950,
+   "고용_2025": 3120670,
+   "변화율_pct": 14.8,
+   "노출도_beta_평균": 0.198
+  },
+  {
+   "대분류": "음식 서비스",
+   "직업수": 15,
+   "고용_2022": 12414120,
+   "고용_2025": 13576780,
+   "변화율_pct": 9.4,
+   "노출도_beta_평균": 0.14
+  },
+  {
+   "대분류": "농림어업",
+   "직업수": 11,
+   "고용_2022": 451410,
+   "고용_2025": 429000,
+   "변화율_pct": -5.0,
+   "노출도_beta_평균": 0.138
+  },
+  {
+   "대분류": "설치·정비",
+   "직업수": 50,
+   "고용_2022": 5812570,
+   "고용_2025": 6076810,
+   "변화율_pct": 4.5,
+   "노출도_beta_평균": 0.135
+  },
+  {
+   "대분류": "생산",
+   "직업수": 98,
+   "고용_2022": 6665900,
+   "고용_2025": 6562150,
+   "변화율_pct": -1.6,
+   "노출도_beta_평균": 0.131
+  },
+  {
+   "대분류": "건물 관리",
+   "직업수": 8,
+   "고용_2022": 4284680,
+   "고용_2025": 4517420,
+   "변화율_pct": 5.4,
+   "노출도_beta_평균": 0.126
+  },
+  {
+   "대분류": "건설",
+   "직업수": 56,
+   "고용_2022": 6009150,
+   "고용_2025": 6363330,
+   "변화율_pct": 5.9,
+   "노출도_beta_평균": 0.057
+  }
+ ],
+ "course_checks": {
+  "4주_분포요약_고용변화율_pct": {
+   "n": 770,
+   "평균": 3.43,
+   "중앙값": 3.35,
+   "평균-중앙값": 0.08,
+   "SD_표본_ddof1": 18.71,
+   "SD_모집단_ddof0": 18.7,
+   "왜도_모집단식": 1.91,
+   "Q1": -6.68,
+   "Q3": 12.13,
+   "IQR": 18.81,
+   "사분위수_방법": "statistics.quantiles inclusive",
+   "최소": {
+    "값": -68.1,
+    "직업": "Door-to-Door Sales Workers, News and Street Vendors, and Related Workers",
+    "soc": "41-9091"
+   },
+   "최대": {
+    "값": 197.0,
+    "직업": "Taxi Drivers",
+    "soc": "53-3054"
+   },
+   "판단": "평균과 중앙값 차이·왜도로 치우침을 본다. 직업 단위 변화율은 작은 직업의 표본오차가 커서 꼬리가 길다"
+  },
+  "5주_이상치후보": {
+   "z기준": "|z|>3, SD는 표본(ddof=1)",
+   "z후보수": 10,
+   "z후보": [
+    [
+     "11-9072",
+     "Entertainment and Recreation Managers, Except Gambling",
+     65.5,
+     3.32
+    ],
+    [
+     "15-2051",
+     "Data Scientists",
+     64.4,
+     3.26
+    ],
+    [
+     "29-2051",
+     "Dietetic Technicians",
+     60.3,
+     3.04
+    ],
+    [
+     "35-2013",
+     "Cooks, Private Household",
+     80.3,
+     4.11
+    ],
+    [
+     "41-9012",
+     "Models",
+     82.6,
+     4.23
+    ],
+    [
+     "41-9091",
+     "Door-to-Door Sales Workers, News and Street Vendors, and Related Workers",
+     -68.1,
+     -3.82
+    ],
+    [
+     "49-9045",
+     "Refractory Materials Repairers, Except Brickmasons",
+     86.2,
+     4.42
+    ],
+    [
+     "51-7031",
+     "Model Makers, Wood",
+     -61.1,
+     -3.45
+    ],
+    [
+     "53-3054",
+     "Taxi Drivers",
+     197.0,
+     10.35
+    ],
+    [
+     "53-6061",
+     "Passenger Attendants",
+     105.4,
+     5.45
+    ]
+   ],
+   "IQR기준": "Q1−1.5×IQR=-34.9 미만 또는 Q3+1.5×IQR=40.3 초과(양쪽)",
+   "IQR후보수": 30,
+   "IQR후보_예시": [
+    [
+     "41-9091",
+     "Door-to-Door Sales Workers, News and Street Vendors, and Related Workers",
+     -68.1
+    ],
+    [
+     "51-7031",
+     "Model Makers, Wood",
+     -61.1
+    ],
+    [
+     "43-9031",
+     "Desktop Publishers",
+     -48.9
+    ],
+    [
+     "27-2032",
+     "Choreographers",
+     -47.0
+    ],
+    [
+     "27-1014",
+     "Special Effects Artists and Animators",
+     -44.5
+    ],
+    [
+     "13-1074",
+     "Farm Labor Contractors",
+     -43.6
+    ],
+    [
+     "53-3054",
+     "Taxi Drivers",
+     197.0
+    ],
+    [
+     "53-6061",
+     "Passenger Attendants",
+     105.4
+    ],
+    [
+     "49-9045",
+     "Refractory Materials Repairers, Except Brickmasons",
+     86.2
+    ],
+    [
+     "41-9012",
+     "Models",
+     82.6
+    ],
+    [
+     "35-2013",
+     "Cooks, Private Household",
+     80.3
+    ],
+    [
+     "11-9072",
+     "Entertainment and Recreation Managers, Except Gambling",
+     65.5
+    ]
+   ],
+   "교집합": 10,
+   "IQR에만": 20,
+   "z에만": 0,
+   "처리": "삭제하지 않음. 후보는 실제 극단(직업 재분류·작은 직업 표본오차)일 수 있어 민감도로만 쓴다"
+  },
+  "7주_이상치_민감도": {
+   "전체": {
+    "n": 770,
+    "pearson_r": 0.002,
+    "spearman_rho": 0.026,
+    "spearman_95ci_bootstrap": [
+     -0.045,
+     0.1
+    ]
+   },
+   "IQR후보_제외": {
+    "n": 740,
+    "pearson_r": 0.019,
+    "spearman_rho": 0.033,
+    "spearman_95ci_bootstrap": [
+     -0.04,
+     0.111
+    ]
+   }
+  },
+  "6주_히스토그램": [
+   {
+    "폭": 5,
+    "구간": [
+     -60,
+     -55,
+     -50,
+     -45,
+     -40,
+     -35,
+     -30,
+     -25,
+     -20,
+     -15,
+     -10,
+     -5,
+     0,
+     5,
+     10,
+     15,
+     20,
+     25,
+     30,
+     35,
+     40,
+     45,
+     50,
+     55,
+     60
+    ],
+    "개수": [
+     0,
+     0,
+     2,
+     2,
+     4,
+     10,
+     15,
+     22,
+     32,
+     58,
+     76,
+     79,
+     131,
+     103,
+     95,
+     47,
+     33,
+     21,
+     14,
+     4,
+     2,
+     4,
+     3,
+     3
+    ],
+    "범위밖_아래": 2,
+    "범위밖_위": 8
+   },
+   {
+    "폭": 10,
+    "구간": [
+     -60,
+     -50,
+     -40,
+     -30,
+     -20,
+     -10,
+     0,
+     10,
+     20,
+     30,
+     40,
+     50,
+     60
+    ],
+    "개수": [
+     0,
+     4,
+     14,
+     37,
+     90,
+     155,
+     234,
+     142,
+     54,
+     18,
+     6,
+     6
+    ],
+    "범위밖_아래": 2,
+    "범위밖_위": 8
+   }
+  ],
+  "9주_심슨점검": {
+   "전체_spearman": 0.026,
+   "대분류안_음의상관": [
+    [
+     "의료 지원",
+     -0.653
+    ],
+    [
+     "컴퓨터·수학",
+     -0.354
+    ],
+    [
+     "예술·미디어",
+     -0.326
+    ],
+    [
+     "사무·행정 지원",
+     -0.286
+    ],
+    [
+     "설치·정비",
+     -0.283
+    ],
+    [
+     "경영·재무",
+     -0.269
+    ],
+    [
+     "보안",
+     -0.21
+    ],
+    [
+     "교육",
+     -0.185
+    ],
+    [
+     "판매",
+     -0.181
+    ],
+    [
+     "의료 전문",
+     -0.168
+    ],
+    [
+     "과학",
+     -0.05
+    ]
+   ],
+   "대분류평균끼리_pearson": -0.076,
+   "대분류수": 22,
+   "대분류안_상관_집단평균제거": {
+    "n": 770,
+    "pearson_r": -0.078,
+    "spearman_rho_순위편차": -0.083,
+    "pearson_95ci_bootstrap": [
+     -0.16,
+     0.004
+    ]
+   },
+   "판단": "전체로는 0에 가깝지만 사무·행정, 컴퓨터·수학 등 여러 대분류 안에서는 음의 상관이다. 고노출 대분류(경영·재무·관리)가 경기·구성 요인으로 함께 늘어 전체 관계를 덮는 구조 — 집단을 섞으면 관계가 사라지는 심슨형 패턴",
+   "교란후보": [
+    "금리 인상·팬데믹 과잉채용 반동(테크 채용 둔화)",
+    "원격근무 확산(NY Fed: 청년 대졸 실업 증가의 64% 설명)",
+    "직업 내 연령 구성·인구 고령화",
+    "해외 이전(오프쇼어링)·업무 재분류"
+   ]
+  }
+ },
+ "tails": {
+  "beta_상위10pct": {
+   "n": 77,
+   "고용_2022": 18218170,
+   "고용_2025": 18268240,
+   "합계변화율_pct": 0.3,
+   "감소한_직업_비율_pct": 62.3,
+   "beta_하한": 0.591
+  },
+  "beta_나머지90pct": {
+   "n": 693,
+   "고용_2022": 118966420,
+   "고용_2025": 125482010,
+   "합계변화율_pct": 5.5,
+   "감소한_직업_비율_pct": 36.7
+  },
+  "사무행정_노출상위절반": {
+   "n": 25,
+   "고용_2022": 6993660,
+   "고용_2025": 6755540,
+   "합계변화율_pct": -3.4,
+   "감소한_직업_비율_pct": 84.0
+  },
+  "사무행정_노출하위절반": {
+   "n": 25,
+   "고용_2022": 11312840,
+   "고용_2025": 10633240,
+   "합계변화율_pct": -6.0,
+   "감소한_직업_비율_pct": 72.0
+  },
+  "전체": {
+   "n": 770,
+   "고용_2022": 137184590,
+   "고용_2025": 143750250,
+   "합계변화율_pct": 4.8,
+   "감소한_직업_비율_pct": 39.2
+  }
+ },
+ "scatter_eloundou": [
+  {
+   "soc": "11-1011",
+   "title": "Chief Executives",
+   "major": "관리직",
+   "x": 0.508,
+   "y": 2.6,
+   "emp2022": 199240
+  },
+  {
+   "soc": "11-1021",
+   "title": "General and Operations Managers",
+   "major": "관리직",
+   "x": 0.481,
+   "y": 3.7,
+   "emp2022": 3376680
+  },
+  {
+   "soc": "11-2011",
+   "title": "Advertising and Promotions Managers",
+   "major": "관리직",
+   "x": 0.477,
+   "y": -2.5,
+   "emp2022": 22010
+  },
+  {
+   "soc": "11-2021",
+   "title": "Marketing Managers",
+   "major": "관리직",
+   "x": 0.5,
+   "y": 20.3,
+   "emp2022": 328570
+  },
+  {
+   "soc": "11-2022",
+   "title": "Sales Managers",
+   "major": "관리직",
+   "x": 0.45,
+   "y": 18.8,
+   "emp2022": 536390
+  },
+  {
+   "soc": "11-2032",
+   "title": "Public Relations Managers",
+   "major": "관리직",
+   "x": 0.55,
+   "y": 16.4,
+   "emp2022": 64280
+  },
+  {
+   "soc": "11-2033",
+   "title": "Fundraising Managers",
+   "major": "관리직",
+   "x": 0.562,
+   "y": 47.9,
+   "emp2022": 26240
+  },
+  {
+   "soc": "11-3012",
+   "title": "Administrative Services Managers",
+   "major": "관리직",
+   "x": 0.391,
+   "y": 11.6,
+   "emp2022": 236570
+  },
+  {
+   "soc": "11-3013",
+   "title": "Facilities Managers",
+   "major": "관리직",
+   "x": 0.4,
+   "y": 33.5,
+   "emp2022": 116980
+  },
+  {
+   "soc": "11-3021",
+   "title": "Computer and Information Systems Managers",
+   "major": "관리직",
+   "x": 0.53,
+   "y": 25.8,
+   "emp2022": 533220
+  },
+  {
+   "soc": "11-3031",
+   "title": "Financial Managers",
+   "major": "관리직",
+   "x": 0.485,
+   "y": 13.6,
+   "emp2022": 740780
+  },
+  {
+   "soc": "11-3051",
+   "title": "Industrial Production Managers",
+   "major": "관리직",
+   "x": 0.406,
+   "y": 16.3,
+   "emp2022": 211710
+  },
+  {
+   "soc": "11-3061",
+   "title": "Purchasing Managers",
+   "major": "관리직",
+   "x": 0.586,
+   "y": 12.3,
+   "emp2022": 75070
+  },
+  {
+   "soc": "11-3071",
+   "title": "Transportation, Storage, and Distribution Managers",
+   "major": "관리직",
+   "x": 0.487,
+   "y": 30.2,
+   "emp2022": 169910
+  },
+  {
+   "soc": "11-3111",
+   "title": "Compensation and Benefits Managers",
+   "major": "관리직",
+   "x": 0.513,
+   "y": 36.1,
+   "emp2022": 16850
+  },
+  {
+   "soc": "11-3121",
+   "title": "Human Resources Managers",
+   "major": "관리직",
+   "x": 0.48,
+   "y": 21.7,
+   "emp2022": 181360
+  },
+  {
+   "soc": "11-3131",
+   "title": "Training and Development Managers",
+   "major": "관리직",
+   "x": 0.5,
+   "y": 21.5,
+   "emp2022": 39550
+  },
+  {
+   "soc": "11-9021",
+   "title": "Construction Managers",
+   "major": "관리직",
+   "x": 0.444,
+   "y": 25.4,
+   "emp2022": 303220
+  },
+  {
+   "soc": "11-9031",
+   "title": "Education and Childcare Administrators, Preschool and Daycare",
+   "major": "관리직",
+   "x": 0.469,
+   "y": 22.7,
+   "emp2022": 60010
+  },
+  {
+   "soc": "11-9032",
+   "title": "Education Administrators, Kindergarten through Secondary",
+   "major": "관리직",
+   "x": 0.418,
+   "y": 14.8,
+   "emp2022": 285910
+  },
+  {
+   "soc": "11-9033",
+   "title": "Education Administrators, Postsecondary",
+   "major": "관리직",
+   "x": 0.439,
+   "y": 8.0,
+   "emp2022": 167060
+  },
+  {
+   "soc": "11-9041",
+   "title": "Architectural and Engineering Managers",
+   "major": "관리직",
+   "x": 0.443,
+   "y": 11.7,
+   "emp2022": 197180
+  },
+  {
+   "soc": "11-9051",
+   "title": "Food Service Managers",
+   "major": "관리직",
+   "x": 0.417,
+   "y": 3.2,
+   "emp2022": 231100
+  },
+  {
+   "soc": "11-9072",
+   "title": "Entertainment and Recreation Managers, Except Gambling",
+   "major": "관리직",
+   "x": 0.353,
+   "y": 65.5,
+   "emp2022": 22950
+  },
+  {
+   "soc": "11-9081",
+   "title": "Lodging Managers",
+   "major": "관리직",
+   "x": 0.457,
+   "y": 6.9,
+   "emp2022": 39870
+  },
+  {
+   "soc": "11-9111",
+   "title": "Medical and Health Services Managers",
+   "major": "관리직",
+   "x": 0.429,
+   "y": 25.2,
+   "emp2022": 476750
+  },
+  {
+   "soc": "11-9121",
+   "title": "Natural Sciences Managers",
+   "major": "관리직",
+   "x": 0.531,
+   "y": 31.6,
+   "emp2022": 82570
+  },
+  {
+   "soc": "11-9131",
+   "title": "Postmasters and Mail Superintendents",
+   "major": "관리직",
+   "x": 0.524,
+   "y": 2.6,
+   "emp2022": 13460
+  },
+  {
+   "soc": "11-9141",
+   "title": "Property, Real Estate, and Community Association Managers",
+   "major": "관리직",
+   "x": 0.443,
+   "y": 19.2,
+   "emp2022": 261120
+  },
+  {
+   "soc": "11-9151",
+   "title": "Social and Community Service Managers",
+   "major": "관리직",
+   "x": 0.393,
+   "y": 28.5,
+   "emp2022": 162880
+  },
+  {
+   "soc": "11-9161",
+   "title": "Emergency Management Directors",
+   "major": "관리직",
+   "x": 0.422,
+   "y": 19.6,
+   "emp2022": 11290
+  },
+  {
+   "soc": "11-9171",
+   "title": "Funeral Home Managers",
+   "major": "관리직",
+   "x": 0.429,
+   "y": 1.7,
+   "emp2022": 13680
+  },
+  {
+   "soc": "11-9199",
+   "title": "Managers, All Other",
+   "major": "관리직",
+   "x": 0.491,
+   "y": 14.5,
+   "emp2022": 543290
+  },
+  {
+   "soc": "13-1011",
+   "title": "Agents and Business Managers of Artists, Performers, and Athletes",
+   "major": "경영·재무",
+   "x": 0.543,
+   "y": -3.9,
+   "emp2022": 13130
+  },
+  {
+   "soc": "13-1031",
+   "title": "Claims Adjusters, Examiners, and Investigators",
+   "major": "경영·재무",
+   "x": 0.52,
+   "y": 13.7,
+   "emp2022": 285270
+  },
+  {
+   "soc": "13-1032",
+   "title": "Insurance Appraisers, Auto Damage",
+   "major": "경영·재무",
+   "x": 0.5,
+   "y": 1.1,
+   "emp2022": 11430
+  },
+  {
+   "soc": "13-1041",
+   "title": "Compliance Officers",
+   "major": "경영·재무",
+   "x": 0.526,
+   "y": 16.0,
+   "emp2022": 359640
+  },
+  {
+   "soc": "13-1051",
+   "title": "Cost Estimators",
+   "major": "경영·재무",
+   "x": 0.5,
+   "y": -0.5,
+   "emp2022": 225310
+  },
+  {
+   "soc": "13-1071",
+   "title": "Human Resources Specialists",
+   "major": "경영·재무",
+   "x": 0.644,
+   "y": 9.2,
+   "emp2022": 835360
+  },
+  {
+   "soc": "13-1075",
+   "title": "Labor Relations Specialists",
+   "major": "경영·재무",
+   "x": 0.547,
+   "y": 4.2,
+   "emp2022": 62200
+  },
+  {
+   "soc": "13-1081",
+   "title": "Logisticians",
+   "major": "경영·재무",
+   "x": 0.528,
+   "y": 23.7,
+   "emp2022": 202970
+  },
+  {
+   "soc": "13-1082",
+   "title": "Project Management Specialists",
+   "major": "경영·재무",
+   "x": 0.55,
+   "y": 26.4,
+   "emp2022": 843910
+  },
+  {
+   "soc": "13-1111",
+   "title": "Management Analysts",
+   "major": "경영·재무",
+   "x": 0.405,
+   "y": 11.1,
+   "emp2022": 808860
+  },
+  {
+   "soc": "13-1121",
+   "title": "Meeting, Convention, and Event Planners",
+   "major": "경영·재무",
+   "x": 0.486,
+   "y": 27.5,
+   "emp2022": 112070
+  },
+  {
+   "soc": "13-1131",
+   "title": "Fundraisers",
+   "major": "경영·재무",
+   "x": 0.519,
+   "y": 17.3,
+   "emp2022": 94630
+  },
+  {
+   "soc": "13-1141",
+   "title": "Compensation, Benefits, and Job Analysis Specialists",
+   "major": "경영·재무",
+   "x": 0.474,
+   "y": 20.1,
+   "emp2022": 93550
+  },
+  {
+   "soc": "13-1151",
+   "title": "Training and Development Specialists",
+   "major": "경영·재무",
+   "x": 0.553,
+   "y": 24.8,
+   "emp2022": 367180
+  },
+  {
+   "soc": "13-1161",
+   "title": "Market Research Analysts and Marketing Specialists",
+   "major": "경영·재무",
+   "x": 0.525,
+   "y": 12.6,
+   "emp2022": 798620
+  },
+  {
+   "soc": "13-1199",
+   "title": "Business Operations Specialists, All Other",
+   "major": "경영·재무",
+   "x": 0.583,
+   "y": 0.5,
+   "emp2022": 1081230
+  },
+  {
+   "soc": "13-2011",
+   "title": "Accountants and Auditors",
+   "major": "경영·재무",
+   "x": 0.56,
+   "y": 3.4,
+   "emp2022": 1402420
+  },
+  {
+   "soc": "13-2031",
+   "title": "Budget Analysts",
+   "major": "경영·재무",
+   "x": 0.52,
+   "y": -2.6,
+   "emp2022": 48430
+  },
+  {
+   "soc": "13-2041",
+   "title": "Credit Analysts",
+   "major": "경영·재무",
+   "x": 0.556,
+   "y": -10.5,
+   "emp2022": 71960
+  },
+  {
+   "soc": "13-2051",
+   "title": "Financial and Investment Analysts",
+   "major": "경영·재무",
+   "x": 0.462,
+   "y": 24.2,
+   "emp2022": 291370
+  },
+  {
+   "soc": "13-2052",
+   "title": "Personal Financial Advisors",
+   "major": "경영·재무",
+   "x": 0.5,
+   "y": -5.7,
+   "emp2022": 283060
+  },
+  {
+   "soc": "13-2053",
+   "title": "Insurance Underwriters",
+   "major": "경영·재무",
+   "x": 0.571,
+   "y": -0.5,
+   "emp2022": 105900
+  },
+  {
+   "soc": "13-2054",
+   "title": "Financial Risk Specialists",
+   "major": "경영·재무",
+   "x": 0.533,
+   "y": 14.4,
+   "emp2022": 55800
+  },
+  {
+   "soc": "13-2061",
+   "title": "Financial Examiners",
+   "major": "경영·재무",
+   "x": 0.5,
+   "y": 7.0,
+   "emp2022": 63370
+  },
+  {
+   "soc": "13-2071",
+   "title": "Credit Counselors",
+   "major": "경영·재무",
+   "x": 0.625,
+   "y": -4.5,
+   "emp2022": 29090
+  },
+  {
+   "soc": "13-2072",
+   "title": "Loan Officers",
+   "major": "경영·재무",
+   "x": 0.591,
+   "y": -20.6,
+   "emp2022": 345550
+  },
+  {
+   "soc": "13-2081",
+   "title": "Tax Examiners and Collectors, and Revenue Agents",
+   "major": "경영·재무",
+   "x": 0.581,
+   "y": 11.9,
+   "emp2022": 50610
+  },
+  {
+   "soc": "13-2082",
+   "title": "Tax Preparers",
+   "major": "경영·재무",
+   "x": 0.625,
+   "y": -7.2,
+   "emp2022": 82370
+  },
+  {
+   "soc": "13-2099",
+   "title": "Financial Specialists, All Other",
+   "major": "경영·재무",
+   "x": 0.583,
+   "y": 4.0,
+   "emp2022": 127020
+  },
+  {
+   "soc": "15-1211",
+   "title": "Computer Systems Analysts",
+   "major": "컴퓨터·수학",
+   "x": 0.617,
+   "y": 2.8,
+   "emp2022": 505210
+  },
+  {
+   "soc": "15-1212",
+   "title": "Information Security Analysts",
+   "major": "컴퓨터·수학",
+   "x": 0.652,
+   "y": 16.5,
+   "emp2022": 163690
+  },
+  {
+   "soc": "15-1221",
+   "title": "Computer and Information Research Scientists",
+   "major": "컴퓨터·수학",
+   "x": 0.635,
+   "y": 10.1,
+   "emp2022": 33780
+  },
+  {
+   "soc": "15-1231",
+   "title": "Computer Network Support Specialists",
+   "major": "컴퓨터·수학",
+   "x": 0.635,
+   "y": -13.5,
+   "emp2022": 168920
+  },
+  {
+   "soc": "15-1232",
+   "title": "Computer User Support Specialists",
+   "major": "컴퓨터·수학",
+   "x": 0.611,
+   "y": 2.9,
+   "emp2022": 696830
+  },
+  {
+   "soc": "15-1241",
+   "title": "Computer Network Architects",
+   "major": "컴퓨터·수학",
+   "x": 0.635,
+   "y": 3.3,
+   "emp2022": 173920
+  },
+  {
+   "soc": "15-1242",
+   "title": "Database Administrators",
+   "major": "컴퓨터·수학",
+   "x": 0.935,
+   "y": -13.1,
+   "emp2022": 80520
+  },
+  {
+   "soc": "15-1243",
+   "title": "Database Architects",
+   "major": "컴퓨터·수학",
+   "x": 0.911,
+   "y": 7.5,
+   "emp2022": 62470
+  },
+  {
+   "soc": "15-1244",
+   "title": "Network and Computer Systems Administrators",
+   "major": "컴퓨터·수학",
+   "x": 0.73,
+   "y": -3.6,
+   "emp2022": 325930
+  },
+  {
+   "soc": "15-1251",
+   "title": "Computer Programmers",
+   "major": "컴퓨터·수학",
+   "x": 0.95,
+   "y": -30.5,
+   "emp2022": 132740
+  },
+  {
+   "soc": "15-1252",
+   "title": "Software Developers",
+   "major": "컴퓨터·수학",
+   "x": 0.868,
+   "y": 10.0,
+   "emp2022": 1534790
+  },
+  {
+   "soc": "15-1253",
+   "title": "Software Quality Assurance Analysts and Testers",
+   "major": "컴퓨터·수학",
+   "x": 0.877,
+   "y": -4.9,
+   "emp2022": 196420
+  },
+  {
+   "soc": "15-1254",
+   "title": "Web Developers",
+   "major": "컴퓨터·수학",
+   "x": 0.933,
+   "y": -20.8,
+   "emp2022": 88620
+  },
+  {
+   "soc": "15-1255",
+   "title": "Web and Digital Interface Designers",
+   "major": "컴퓨터·수학",
+   "x": 0.75,
+   "y": 16.4,
+   "emp2022": 97350
+  },
+  {
+   "soc": "15-1299",
+   "title": "Computer Occupations, All Other",
+   "major": "컴퓨터·수학",
+   "x": 0.736,
+   "y": 4.6,
+   "emp2022": 416320
+  },
+  {
+   "soc": "15-2011",
+   "title": "Actuaries",
+   "major": "컴퓨터·수학",
+   "x": 0.5,
+   "y": 6.6,
+   "emp2022": 25010
+  },
+  {
+   "soc": "15-2031",
+   "title": "Operations Research Analysts",
+   "major": "컴퓨터·수학",
+   "x": 0.629,
+   "y": 3.3,
+   "emp2022": 105080
+  },
+  {
+   "soc": "15-2041",
+   "title": "Statisticians",
+   "major": "컴퓨터·수학",
+   "x": 0.725,
+   "y": -5.7,
+   "emp2022": 30780
+  },
+  {
+   "soc": "15-2051",
+   "title": "Data Scientists",
+   "major": "컴퓨터·수학",
+   "x": 0.695,
+   "y": 64.4,
+   "emp2022": 159630
+  },
+  {
+   "soc": "17-1011",
+   "title": "Architects, Except Landscape and Naval",
+   "major": "건축·공학",
+   "x": 0.488,
+   "y": -0.7,
+   "emp2022": 107490
+  },
+  {
+   "soc": "17-1012",
+   "title": "Landscape Architects",
+   "major": "건축·공학",
+   "x": 0.421,
+   "y": 8.2,
+   "emp2022": 18120
+  },
+  {
+   "soc": "17-1021",
+   "title": "Cartographers and Photogrammetrists",
+   "major": "건축·공학",
+   "x": 0.52,
+   "y": 7.5,
+   "emp2022": 13270
+  },
+  {
+   "soc": "17-1022",
+   "title": "Surveyors",
+   "major": "건축·공학",
+   "x": 0.51,
+   "y": 6.4,
+   "emp2022": 47770
+  },
+  {
+   "soc": "17-2011",
+   "title": "Aerospace Engineers",
+   "major": "건축·공학",
+   "x": 0.571,
+   "y": 10.0,
+   "emp2022": 61580
+  },
+  {
+   "soc": "17-2031",
+   "title": "Bioengineers and Biomedical Engineers",
+   "major": "건축·공학",
+   "x": 0.59,
+   "y": 22.2,
+   "emp2022": 19210
+  },
+  {
+   "soc": "17-2041",
+   "title": "Chemical Engineers",
+   "major": "건축·공학",
+   "x": 0.462,
+   "y": 3.4,
+   "emp2022": 20380
+  },
+  {
+   "soc": "17-2051",
+   "title": "Civil Engineers",
+   "major": "건축·공학",
+   "x": 0.482,
+   "y": 19.6,
+   "emp2022": 307570
+  },
+  {
+   "soc": "17-2061",
+   "title": "Computer Hardware Engineers",
+   "major": "건축·공학",
+   "x": 0.727,
+   "y": 2.7,
+   "emp2022": 74640
+  },
+  {
+   "soc": "17-2071",
+   "title": "Electrical Engineers",
+   "major": "건축·공학",
+   "x": 0.562,
+   "y": 9.1,
+   "emp2022": 182210
+  },
+  {
+   "soc": "17-2072",
+   "title": "Electronics Engineers, Except Computer",
+   "major": "건축·공학",
+   "x": 0.62,
+   "y": -9.1,
+   "emp2022": 106640
+  },
+  {
+   "soc": "17-2081",
+   "title": "Environmental Engineers",
+   "major": "건축·공학",
+   "x": 0.556,
+   "y": -15.6,
+   "emp2022": 45440
+  },
+  {
+   "soc": "17-2111",
+   "title": "Health and Safety Engineers, Except Mining Safety Engineers and Inspectors",
+   "major": "건축·공학",
+   "x": 0.504,
+   "y": -0.3,
+   "emp2022": 21520
+  },
+  {
+   "soc": "17-2112",
+   "title": "Industrial Engineers",
+   "major": "건축·공학",
+   "x": 0.554,
+   "y": 13.8,
+   "emp2022": 321400
+  },
+  {
+   "soc": "17-2131",
+   "title": "Materials Engineers",
+   "major": "건축·공학",
+   "x": 0.488,
+   "y": 5.9,
+   "emp2022": 21510
+  },
+  {
+   "soc": "17-2141",
+   "title": "Mechanical Engineers",
+   "major": "건축·공학",
+   "x": 0.531,
+   "y": 6.9,
+   "emp2022": 277560
+  },
+  {
+   "soc": "17-2161",
+   "title": "Nuclear Engineers",
+   "major": "건축·공학",
+   "x": 0.55,
+   "y": 24.7,
+   "emp2022": 12250
+  },
+  {
+   "soc": "17-2171",
+   "title": "Petroleum Engineers",
+   "major": "건축·공학",
+   "x": 0.528,
+   "y": -12.1,
+   "emp2022": 20540
+  },
+  {
+   "soc": "17-2199",
+   "title": "Engineers, All Other",
+   "major": "건축·공학",
+   "x": 0.523,
+   "y": 2.4,
+   "emp2022": 150420
+  },
+  {
+   "soc": "17-3011",
+   "title": "Architectural and Civil Drafters",
+   "major": "건축·공학",
+   "x": 0.54,
+   "y": -2.1,
+   "emp2022": 105960
+  },
+  {
+   "soc": "17-3012",
+   "title": "Electrical and Electronics Drafters",
+   "major": "건축·공학",
+   "x": 0.574,
+   "y": -14.4,
+   "emp2022": 20930
+  },
+  {
+   "soc": "17-3013",
+   "title": "Mechanical Drafters",
+   "major": "건축·공학",
+   "x": 0.5,
+   "y": -15.9,
+   "emp2022": 47540
+  },
+  {
+   "soc": "17-3022",
+   "title": "Civil Engineering Technologists and Technicians",
+   "major": "건축·공학",
+   "x": 0.591,
+   "y": 9.9,
+   "emp2022": 62350
+  },
+  {
+   "soc": "17-3023",
+   "title": "Electrical and Electronic Engineering Technologists and Technicians",
+   "major": "건축·공학",
+   "x": 0.406,
+   "y": -4.0,
+   "emp2022": 99050
+  },
+  {
+   "soc": "17-3024",
+   "title": "Electro-Mechanical and Mechatronics Technologists and Technicians",
+   "major": "건축·공학",
+   "x": 0.387,
+   "y": 6.7,
+   "emp2022": 14540
+  },
+  {
+   "soc": "17-3025",
+   "title": "Environmental Engineering Technologists and Technicians",
+   "major": "건축·공학",
+   "x": 0.408,
+   "y": -9.0,
+   "emp2022": 13400
+  },
+  {
+   "soc": "17-3026",
+   "title": "Industrial Engineering Technologists and Technicians",
+   "major": "건축·공학",
+   "x": 0.419,
+   "y": 13.5,
+   "emp2022": 66560
+  },
+  {
+   "soc": "17-3027",
+   "title": "Mechanical Engineering Technologists and Technicians",
+   "major": "건축·공학",
+   "x": 0.379,
+   "y": -8.6,
+   "emp2022": 39610
+  },
+  {
+   "soc": "17-3028",
+   "title": "Calibration Technologists and Technicians",
+   "major": "건축·공학",
+   "x": 0.4,
+   "y": 53.3,
+   "emp2022": 10790
+  },
+  {
+   "soc": "17-3029",
+   "title": "Engineering Technologists and Technicians, Except Drafters, All Other",
+   "major": "건축·공학",
+   "x": 0.269,
+   "y": -14.7,
+   "emp2022": 70250
+  },
+  {
+   "soc": "17-3031",
+   "title": "Surveying and Mapping Technicians",
+   "major": "건축·공학",
+   "x": 0.5,
+   "y": 2.5,
+   "emp2022": 56580
+  },
+  {
+   "soc": "19-1012",
+   "title": "Food Scientists and Technologists",
+   "major": "과학",
+   "x": 0.346,
+   "y": -11.3,
+   "emp2022": 14720
+  },
+  {
+   "soc": "19-1013",
+   "title": "Soil and Plant Scientists",
+   "major": "과학",
+   "x": 0.489,
+   "y": -1.7,
+   "emp2022": 16010
+  },
+  {
+   "soc": "19-1021",
+   "title": "Biochemists and Biophysicists",
+   "major": "과학",
+   "x": 0.455,
+   "y": 4.1,
+   "emp2022": 32500
+  },
+  {
+   "soc": "19-1022",
+   "title": "Microbiologists",
+   "major": "과학",
+   "x": 0.396,
+   "y": -3.9,
+   "emp2022": 19710
+  },
+  {
+   "soc": "19-1023",
+   "title": "Zoologists and Wildlife Biologists",
+   "major": "과학",
+   "x": 0.452,
+   "y": 4.1,
+   "emp2022": 17410
+  },
+  {
+   "soc": "19-1029",
+   "title": "Biological Scientists, All Other",
+   "major": "과학",
+   "x": 0.549,
+   "y": 1.0,
+   "emp2022": 55300
+  },
+  {
+   "soc": "19-1031",
+   "title": "Conservation Scientists",
+   "major": "과학",
+   "x": 0.439,
+   "y": 13.4,
+   "emp2022": 22880
+  },
+  {
+   "soc": "19-1042",
+   "title": "Medical Scientists, Except Epidemiologists",
+   "major": "과학",
+   "x": 0.523,
+   "y": 55.9,
+   "emp2022": 110550
+  },
+  {
+   "soc": "19-2012",
+   "title": "Physicists",
+   "major": "과학",
+   "x": 0.75,
+   "y": 8.4,
+   "emp2022": 18840
+  },
+  {
+   "soc": "19-2031",
+   "title": "Chemists",
+   "major": "과학",
+   "x": 0.38,
+   "y": -1.4,
+   "emp2022": 83940
+  },
+  {
+   "soc": "19-2041",
+   "title": "Environmental Scientists and Specialists, Including Health",
+   "major": "과학",
+   "x": 0.522,
+   "y": 15.5,
+   "emp2022": 77270
+  },
+  {
+   "soc": "19-2042",
+   "title": "Geoscientists, Except Hydrologists and Geographers",
+   "major": "과학",
+   "x": 0.467,
+   "y": -7.0,
+   "emp2022": 25230
+  },
+  {
+   "soc": "19-2099",
+   "title": "Physical Scientists, All Other",
+   "major": "과학",
+   "x": 0.457,
+   "y": 12.5,
+   "emp2022": 19820
+  },
+  {
+   "soc": "19-3011",
+   "title": "Economists",
+   "major": "과학",
+   "x": 0.553,
+   "y": 8.7,
+   "emp2022": 16370
+  },
+  {
+   "soc": "19-3033",
+   "title": "Clinical and Counseling Psychologists",
+   "major": "과학",
+   "x": 0.37,
+   "y": 20.8,
+   "emp2022": 62880
+  },
+  {
+   "soc": "19-3034",
+   "title": "School Psychologists",
+   "major": "과학",
+   "x": 0.392,
+   "y": 6.1,
+   "emp2022": 60250
+  },
+  {
+   "soc": "19-3039",
+   "title": "Psychologists, All Other",
+   "major": "과학",
+   "x": 0.454,
+   "y": 35.4,
+   "emp2022": 13900
+  },
+  {
+   "soc": "19-3051",
+   "title": "Urban and Regional Planners",
+   "major": "과학",
+   "x": 0.477,
+   "y": 10.9,
+   "emp2022": 39880
+  },
+  {
+   "soc": "19-3099",
+   "title": "Social Scientists and Related Workers, All Other",
+   "major": "과학",
+   "x": 0.523,
+   "y": 11.7,
+   "emp2022": 33210
+  },
+  {
+   "soc": "19-4012",
+   "title": "Agricultural Technicians",
+   "major": "과학",
+   "x": 0.41,
+   "y": 15.1,
+   "emp2022": 13140
+  },
+  {
+   "soc": "19-4013",
+   "title": "Food Science Technicians",
+   "major": "과학",
+   "x": 0.357,
+   "y": 1.7,
+   "emp2022": 14350
+  },
+  {
+   "soc": "19-4021",
+   "title": "Biological Technicians",
+   "major": "과학",
+   "x": 0.417,
+   "y": -5.5,
+   "emp2022": 73710
+  },
+  {
+   "soc": "19-4031",
+   "title": "Chemical Technicians",
+   "major": "과학",
+   "x": 0.393,
+   "y": 2.7,
+   "emp2022": 56030
+  },
+  {
+   "soc": "19-4042",
+   "title": "Environmental Science and Protection Technicians, Including Health",
+   "major": "과학",
+   "x": 0.456,
+   "y": 2.2,
+   "emp2022": 33920
+  },
+  {
+   "soc": "19-4061",
+   "title": "Social Science Research Assistants",
+   "major": "과학",
+   "x": 0.667,
+   "y": 6.7,
+   "emp2022": 28720
+  },
+  {
+   "soc": "19-4071",
+   "title": "Forest and Conservation Technicians",
+   "major": "과학",
+   "x": 0.327,
+   "y": 4.4,
+   "emp2022": 29120
+  },
+  {
+   "soc": "19-4092",
+   "title": "Forensic Science Technicians",
+   "major": "과학",
+   "x": 0.387,
+   "y": 8.7,
+   "emp2022": 17590
+  },
+  {
+   "soc": "19-4099",
+   "title": "Life, Physical, and Social Science Technicians, All Other",
+   "major": "과학",
+   "x": 0.535,
+   "y": 4.4,
+   "emp2022": 70770
+  },
+  {
+   "soc": "19-5011",
+   "title": "Occupational Health and Safety Specialists",
+   "major": "과학",
+   "x": 0.333,
+   "y": 28.5,
+   "emp2022": 109430
+  },
+  {
+   "soc": "19-5012",
+   "title": "Occupational Health and Safety Technicians",
+   "major": "과학",
+   "x": 0.396,
+   "y": 29.2,
+   "emp2022": 23670
+  },
+  {
+   "soc": "21-1012",
+   "title": "Educational, Guidance, and Career Counselors and Advisors",
+   "major": "사회복지",
+   "x": 0.289,
+   "y": 14.7,
+   "emp2022": 308000
+  },
+  {
+   "soc": "21-1013",
+   "title": "Marriage and Family Therapists",
+   "major": "사회복지",
+   "x": 0.111,
+   "y": 7.5,
+   "emp2022": 62080
+  },
+  {
+   "soc": "21-1015",
+   "title": "Rehabilitation Counselors",
+   "major": "사회복지",
+   "x": 0.355,
+   "y": 14.9,
+   "emp2022": 82420
+  },
+  {
+   "soc": "21-1021",
+   "title": "Child, Family, and School Social Workers",
+   "major": "사회복지",
+   "x": 0.243,
+   "y": 13.9,
+   "emp2022": 344770
+  },
+  {
+   "soc": "21-1022",
+   "title": "Healthcare Social Workers",
+   "major": "사회복지",
+   "x": 0.344,
+   "y": 2.9,
+   "emp2022": 182420
+  },
+  {
+   "soc": "21-1023",
+   "title": "Mental Health and Substance Abuse Social Workers",
+   "major": "사회복지",
+   "x": 0.271,
+   "y": 23.0,
+   "emp2022": 107940
+  },
+  {
+   "soc": "21-1091",
+   "title": "Health Education Specialists",
+   "major": "사회복지",
+   "x": 0.532,
+   "y": 16.9,
+   "emp2022": 56190
+  },
+  {
+   "soc": "21-1092",
+   "title": "Probation Officers and Correctional Treatment Specialists",
+   "major": "사회복지",
+   "x": 0.395,
+   "y": -0.6,
+   "emp2022": 89920
+  },
+  {
+   "soc": "21-1093",
+   "title": "Social and Human Service Assistants",
+   "major": "사회복지",
+   "x": 0.393,
+   "y": 9.6,
+   "emp2022": 399560
+  },
+  {
+   "soc": "21-1094",
+   "title": "Community Health Workers",
+   "major": "사회복지",
+   "x": 0.319,
+   "y": 0.6,
+   "emp2022": 61300
+  },
+  {
+   "soc": "21-2011",
+   "title": "Clergy",
+   "major": "사회복지",
+   "x": 0.333,
+   "y": 7.6,
+   "emp2022": 53140
+  },
+  {
+   "soc": "21-2021",
+   "title": "Directors, Religious Activities and Education",
+   "major": "사회복지",
+   "x": 0.439,
+   "y": -7.8,
+   "emp2022": 24030
+  },
+  {
+   "soc": "23-1011",
+   "title": "Lawyers",
+   "major": "법률",
+   "x": 0.425,
+   "y": 6.7,
+   "emp2022": 707160
+  },
+  {
+   "soc": "23-1012",
+   "title": "Judicial Law Clerks",
+   "major": "법률",
+   "x": 0.517,
+   "y": -14.5,
+   "emp2022": 15540
+  },
+  {
+   "soc": "23-1021",
+   "title": "Administrative Law Judges, Adjudicators, and Hearing Officers",
+   "major": "법률",
+   "x": 0.5,
+   "y": 31.1,
+   "emp2022": 12490
+  },
+  {
+   "soc": "23-1023",
+   "title": "Judges, Magistrate Judges, and Magistrates",
+   "major": "법률",
+   "x": 0.417,
+   "y": -14.9,
+   "emp2022": 28230
+  },
+  {
+   "soc": "23-2011",
+   "title": "Paralegals and Legal Assistants",
+   "major": "법률",
+   "x": 0.525,
+   "y": 13.8,
+   "emp2022": 345240
+  },
+  {
+   "soc": "23-2093",
+   "title": "Title Examiners, Abstractors, and Searchers",
+   "major": "법률",
+   "x": 0.571,
+   "y": -9.5,
+   "emp2022": 53680
+  },
+  {
+   "soc": "25-1011",
+   "title": "Business Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.489,
+   "y": 4.8,
+   "emp2022": 78410
+  },
+  {
+   "soc": "25-1021",
+   "title": "Computer Science Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.512,
+   "y": 4.8,
+   "emp2022": 33870
+  },
+  {
+   "soc": "25-1022",
+   "title": "Mathematical Science Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.541,
+   "y": 2.4,
+   "emp2022": 46560
+  },
+  {
+   "soc": "25-1032",
+   "title": "Engineering Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.5,
+   "y": 11.8,
+   "emp2022": 36010
+  },
+  {
+   "soc": "25-1042",
+   "title": "Biological Science Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.469,
+   "y": 0.5,
+   "emp2022": 49920
+  },
+  {
+   "soc": "25-1051",
+   "title": "Atmospheric, Earth, Marine, and Space Sciences Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.475,
+   "y": -11.2,
+   "emp2022": 11150
+  },
+  {
+   "soc": "25-1052",
+   "title": "Chemistry Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.431,
+   "y": -3.2,
+   "emp2022": 20650
+  },
+  {
+   "soc": "25-1054",
+   "title": "Physics Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.419,
+   "y": 1.8,
+   "emp2022": 12860
+  },
+  {
+   "soc": "25-1063",
+   "title": "Economics Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.476,
+   "y": -0.7,
+   "emp2022": 11640
+  },
+  {
+   "soc": "25-1065",
+   "title": "Political Science Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.476,
+   "y": 11.7,
+   "emp2022": 15190
+  },
+  {
+   "soc": "25-1066",
+   "title": "Psychology Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.48,
+   "y": 3.7,
+   "emp2022": 40050
+  },
+  {
+   "soc": "25-1067",
+   "title": "Sociology Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.432,
+   "y": -1.5,
+   "emp2022": 12030
+  },
+  {
+   "soc": "25-1071",
+   "title": "Health Specialties Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.475,
+   "y": 6.5,
+   "emp2022": 207700
+  },
+  {
+   "soc": "25-1072",
+   "title": "Nursing Instructors and Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.402,
+   "y": 12.7,
+   "emp2022": 69190
+  },
+  {
+   "soc": "25-1081",
+   "title": "Education Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.488,
+   "y": 4.4,
+   "emp2022": 58280
+  },
+  {
+   "soc": "25-1111",
+   "title": "Criminal Justice and Law Enforcement Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.5,
+   "y": -5.4,
+   "emp2022": 13900
+  },
+  {
+   "soc": "25-1112",
+   "title": "Law Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.45,
+   "y": 35.3,
+   "emp2022": 14830
+  },
+  {
+   "soc": "25-1113",
+   "title": "Social Work Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.42,
+   "y": 4.6,
+   "emp2022": 12050
+  },
+  {
+   "soc": "25-1121",
+   "title": "Art, Drama, and Music Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.438,
+   "y": -4.4,
+   "emp2022": 97830
+  },
+  {
+   "soc": "25-1122",
+   "title": "Communications Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.425,
+   "y": 7.6,
+   "emp2022": 27350
+  },
+  {
+   "soc": "25-1123",
+   "title": "English Language and Literature Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.527,
+   "y": 0.1,
+   "emp2022": 57680
+  },
+  {
+   "soc": "25-1124",
+   "title": "Foreign Language and Literature Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.533,
+   "y": 1.6,
+   "emp2022": 19520
+  },
+  {
+   "soc": "25-1125",
+   "title": "History Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.511,
+   "y": 3.0,
+   "emp2022": 18250
+  },
+  {
+   "soc": "25-1126",
+   "title": "Philosophy and Religion Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.511,
+   "y": -5.4,
+   "emp2022": 21620
+  },
+  {
+   "soc": "25-1193",
+   "title": "Recreation and Fitness Studies Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.558,
+   "y": -5.7,
+   "emp2022": 13400
+  },
+  {
+   "soc": "25-1194",
+   "title": "Career/Technical Education Teachers, Postsecondary",
+   "major": "교육",
+   "x": 0.487,
+   "y": 10.7,
+   "emp2022": 103100
+  },
+  {
+   "soc": "25-2011",
+   "title": "Preschool Teachers, Except Special Education",
+   "major": "교육",
+   "x": 0.227,
+   "y": 15.3,
+   "emp2022": 415360
+  },
+  {
+   "soc": "25-2012",
+   "title": "Kindergarten Teachers, Except Special Education",
+   "major": "교육",
+   "x": 0.233,
+   "y": -8.7,
+   "emp2022": 119250
+  },
+  {
+   "soc": "25-2021",
+   "title": "Elementary School Teachers, Except Special Education",
+   "major": "교육",
+   "x": 0.311,
+   "y": -0.4,
+   "emp2022": 1394200
+  },
+  {
+   "soc": "25-2022",
+   "title": "Middle School Teachers, Except Special and Career/Technical Education",
+   "major": "교육",
+   "x": 0.348,
+   "y": 1.5,
+   "emp2022": 611120
+  },
+  {
+   "soc": "25-2023",
+   "title": "Career/Technical Education Teachers, Middle School",
+   "major": "교육",
+   "x": 0.323,
+   "y": 51.8,
+   "emp2022": 11110
+  },
+  {
+   "soc": "25-2031",
+   "title": "Secondary School Teachers, Except Special and Career/Technical Education",
+   "major": "교육",
+   "x": 0.333,
+   "y": 2.2,
+   "emp2022": 1042090
+  },
+  {
+   "soc": "25-2032",
+   "title": "Career/Technical Education Teachers, Secondary School",
+   "major": "교육",
+   "x": 0.333,
+   "y": 26.2,
+   "emp2022": 88280
+  },
+  {
+   "soc": "25-2051",
+   "title": "Special Education Teachers, Preschool",
+   "major": "교육",
+   "x": 0.2,
+   "y": 28.5,
+   "emp2022": 22970
+  },
+  {
+   "soc": "25-2057",
+   "title": "Special Education Teachers, Middle School",
+   "major": "교육",
+   "x": 0.305,
+   "y": 14.7,
+   "emp2022": 82970
+  },
+  {
+   "soc": "25-2058",
+   "title": "Special Education Teachers, Secondary School",
+   "major": "교육",
+   "x": 0.301,
+   "y": 7.5,
+   "emp2022": 152490
+  },
+  {
+   "soc": "25-2059",
+   "title": "Special Education Teachers, All Other",
+   "major": "교육",
+   "x": 0.475,
+   "y": -20.7,
+   "emp2022": 42780
+  },
+  {
+   "soc": "25-3011",
+   "title": "Adult Basic Education, Adult Secondary Education, and English as a Second Language Instructors",
+   "major": "교육",
+   "x": 0.404,
+   "y": 2.2,
+   "emp2022": 36490
+  },
+  {
+   "soc": "25-3021",
+   "title": "Self-Enrichment Teachers",
+   "major": "교육",
+   "x": 0.36,
+   "y": 33.8,
+   "emp2022": 248150
+  },
+  {
+   "soc": "25-3031",
+   "title": "Substitute Teachers, Short-Term",
+   "major": "교육",
+   "x": 0.361,
+   "y": 32.1,
+   "emp2022": 397200
+  },
+  {
+   "soc": "25-3041",
+   "title": "Tutors",
+   "major": "교육",
+   "x": 0.543,
+   "y": 0.1,
+   "emp2022": 174980
+  },
+  {
+   "soc": "25-4012",
+   "title": "Curators",
+   "major": "교육",
+   "x": 0.5,
+   "y": 4.6,
+   "emp2022": 11620
+  },
+  {
+   "soc": "25-4013",
+   "title": "Museum Technicians and Conservators",
+   "major": "교육",
+   "x": 0.237,
+   "y": 0.6,
+   "emp2022": 12240
+  },
+  {
+   "soc": "25-4022",
+   "title": "Librarians and Media Collections Specialists",
+   "major": "교육",
+   "x": 0.535,
+   "y": 1.6,
+   "emp2022": 131680
+  },
+  {
+   "soc": "25-4031",
+   "title": "Library Technicians",
+   "major": "교육",
+   "x": 0.567,
+   "y": -6.3,
+   "emp2022": 73330
+  },
+  {
+   "soc": "25-9031",
+   "title": "Instructional Coordinators",
+   "major": "교육",
+   "x": 0.488,
+   "y": 14.6,
+   "emp2022": 198660
+  },
+  {
+   "soc": "25-9044",
+   "title": "Teaching Assistants, Postsecondary",
+   "major": "교육",
+   "x": 0.53,
+   "y": 21.4,
+   "emp2022": 135160
+  },
+  {
+   "soc": "27-1011",
+   "title": "Art Directors",
+   "major": "예술·미디어",
+   "x": 0.5,
+   "y": -2.6,
+   "emp2022": 54470
+  },
+  {
+   "soc": "27-1013",
+   "title": "Fine Artists, Including Painters, Sculptors, and Illustrators",
+   "major": "예술·미디어",
+   "x": 0.425,
+   "y": -7.1,
+   "emp2022": 12080
+  },
+  {
+   "soc": "27-1014",
+   "title": "Special Effects Artists and Animators",
+   "major": "예술·미디어",
+   "x": 0.525,
+   "y": -44.5,
+   "emp2022": 35990
+  },
+  {
+   "soc": "27-1021",
+   "title": "Commercial and Industrial Designers",
+   "major": "예술·미디어",
+   "x": 0.466,
+   "y": 10.0,
+   "emp2022": 30450
+  },
+  {
+   "soc": "27-1022",
+   "title": "Fashion Designers",
+   "major": "예술·미디어",
+   "x": 0.391,
+   "y": 4.3,
+   "emp2022": 20560
+  },
+  {
+   "soc": "27-1023",
+   "title": "Floral Designers",
+   "major": "예술·미디어",
+   "x": 0.2,
+   "y": -5.3,
+   "emp2022": 42840
+  },
+  {
+   "soc": "27-1024",
+   "title": "Graphic Designers",
+   "major": "예술·미디어",
+   "x": 0.5,
+   "y": -6.6,
+   "emp2022": 211890
+  },
+  {
+   "soc": "27-1025",
+   "title": "Interior Designers",
+   "major": "예술·미디어",
+   "x": 0.5,
+   "y": 11.2,
+   "emp2022": 64290
+  },
+  {
+   "soc": "27-1026",
+   "title": "Merchandise Displayers and Window Trimmers",
+   "major": "예술·미디어",
+   "x": 0.305,
+   "y": -4.6,
+   "emp2022": 173110
+  },
+  {
+   "soc": "27-2011",
+   "title": "Actors",
+   "major": "예술·미디어",
+   "x": 0.188,
+   "y": 1.6,
+   "emp2022": 54160
+  },
+  {
+   "soc": "27-2012",
+   "title": "Producers and Directors",
+   "major": "예술·미디어",
+   "x": 0.47,
+   "y": -6.9,
+   "emp2022": 153770
+  },
+  {
+   "soc": "27-2021",
+   "title": "Athletes and Sports Competitors",
+   "major": "예술·미디어",
+   "x": 0.0,
+   "y": 26.3,
+   "emp2022": 11930
+  },
+  {
+   "soc": "27-2022",
+   "title": "Coaches and Scouts",
+   "major": "예술·미디어",
+   "x": 0.3,
+   "y": 13.7,
+   "emp2022": 218970
+  },
+  {
+   "soc": "27-2023",
+   "title": "Umpires, Referees, and Other Sports Officials",
+   "major": "예술·미디어",
+   "x": 0.312,
+   "y": 24.1,
+   "emp2022": 12720
+  },
+  {
+   "soc": "27-2041",
+   "title": "Music Directors and Composers",
+   "major": "예술·미디어",
+   "x": 0.711,
+   "y": 7.3,
+   "emp2022": 11690
+  },
+  {
+   "soc": "27-2042",
+   "title": "Musicians and Singers",
+   "major": "예술·미디어",
+   "x": 0.408,
+   "y": 14.0,
+   "emp2022": 31750
+  },
+  {
+   "soc": "27-3011",
+   "title": "Broadcast Announcers and Radio Disc Jockeys",
+   "major": "예술·미디어",
+   "x": 0.65,
+   "y": -20.8,
+   "emp2022": 26820
+  },
+  {
+   "soc": "27-3023",
+   "title": "News Analysts, Reporters, and Journalists",
+   "major": "예술·미디어",
+   "x": 0.65,
+   "y": -11.9,
+   "emp2022": 44530
+  },
+  {
+   "soc": "27-3031",
+   "title": "Public Relations Specialists",
+   "major": "예술·미디어",
+   "x": 0.591,
+   "y": 7.0,
+   "emp2022": 264750
+  },
+  {
+   "soc": "27-3041",
+   "title": "Editors",
+   "major": "예술·미디어",
+   "x": 0.647,
+   "y": -9.6,
+   "emp2022": 101430
+  },
+  {
+   "soc": "27-3042",
+   "title": "Technical Writers",
+   "major": "예술·미디어",
+   "x": 0.7,
+   "y": -6.4,
+   "emp2022": 48620
+  },
+  {
+   "soc": "27-3043",
+   "title": "Writers and Authors",
+   "major": "예술·미디어",
+   "x": 0.877,
+   "y": -11.2,
+   "emp2022": 54010
+  },
+  {
+   "soc": "27-3091",
+   "title": "Interpreters and Translators",
+   "major": "예술·미디어",
+   "x": 0.88,
+   "y": -0.2,
+   "emp2022": 52160
+  },
+  {
+   "soc": "27-3092",
+   "title": "Court Reporters and Simultaneous Captioners",
+   "major": "예술·미디어",
+   "x": 0.958,
+   "y": -9.6,
+   "emp2022": 14240
+  },
+  {
+   "soc": "27-4011",
+   "title": "Audio and Video Technicians",
+   "major": "예술·미디어",
+   "x": 0.438,
+   "y": 25.2,
+   "emp2022": 56110
+  },
+  {
+   "soc": "27-4012",
+   "title": "Broadcast Technicians",
+   "major": "예술·미디어",
+   "x": 0.524,
+   "y": -36.1,
+   "emp2022": 33020
+  },
+  {
+   "soc": "27-4014",
+   "title": "Sound Engineering Technicians",
+   "major": "예술·미디어",
+   "x": 0.426,
+   "y": -2.5,
+   "emp2022": 13420
+  },
+  {
+   "soc": "27-4021",
+   "title": "Photographers",
+   "major": "예술·미디어",
+   "x": 0.385,
+   "y": 9.2,
+   "emp2022": 47380
+  },
+  {
+   "soc": "27-4031",
+   "title": "Camera Operators, Television, Video, and Film",
+   "major": "예술·미디어",
+   "x": 0.424,
+   "y": -6.2,
+   "emp2022": 22970
+  },
+  {
+   "soc": "27-4032",
+   "title": "Film and Video Editors",
+   "major": "예술·미디어",
+   "x": 0.528,
+   "y": -20.2,
+   "emp2022": 32080
+  },
+  {
+   "soc": "29-1011",
+   "title": "Chiropractors",
+   "major": "의료 전문",
+   "x": 0.455,
+   "y": 5.0,
+   "emp2022": 37740
+  },
+  {
+   "soc": "29-1021",
+   "title": "Dentists, General",
+   "major": "의료 전문",
+   "x": 0.25,
+   "y": 3.0,
+   "emp2022": 120740
+  },
+  {
+   "soc": "29-1031",
+   "title": "Dietitians and Nutritionists",
+   "major": "의료 전문",
+   "x": 0.549,
+   "y": 11.0,
+   "emp2022": 69880
+  },
+  {
+   "soc": "29-1041",
+   "title": "Optometrists",
+   "major": "의료 전문",
+   "x": 0.3,
+   "y": 5.3,
+   "emp2022": 40640
+  },
+  {
+   "soc": "29-1051",
+   "title": "Pharmacists",
+   "major": "의료 전문",
+   "x": 0.429,
+   "y": -1.1,
+   "emp2022": 325480
+  },
+  {
+   "soc": "29-1071",
+   "title": "Physician Assistants",
+   "major": "의료 전문",
+   "x": 0.271,
+   "y": 15.1,
+   "emp2022": 140910
+  },
+  {
+   "soc": "29-1122",
+   "title": "Occupational Therapists",
+   "major": "의료 전문",
+   "x": 0.289,
+   "y": 20.4,
+   "emp2022": 134980
+  },
+  {
+   "soc": "29-1123",
+   "title": "Physical Therapists",
+   "major": "의료 전문",
+   "x": 0.191,
+   "y": 16.4,
+   "emp2022": 229740
+  },
+  {
+   "soc": "29-1124",
+   "title": "Radiation Therapists",
+   "major": "의료 전문",
+   "x": 0.28,
+   "y": 10.1,
+   "emp2022": 15510
+  },
+  {
+   "soc": "29-1125",
+   "title": "Recreational Therapists",
+   "major": "의료 전문",
+   "x": 0.318,
+   "y": -6.2,
+   "emp2022": 15920
+  },
+  {
+   "soc": "29-1126",
+   "title": "Respiratory Therapists",
+   "major": "의료 전문",
+   "x": 0.202,
+   "y": 7.6,
+   "emp2022": 129910
+  },
+  {
+   "soc": "29-1127",
+   "title": "Speech-Language Pathologists",
+   "major": "의료 전문",
+   "x": 0.451,
+   "y": 12.7,
+   "emp2022": 162760
+  },
+  {
+   "soc": "29-1129",
+   "title": "Therapists, All Other",
+   "major": "의료 전문",
+   "x": 0.366,
+   "y": 33.8,
+   "emp2022": 16920
+  },
+  {
+   "soc": "29-1131",
+   "title": "Veterinarians",
+   "major": "의료 전문",
+   "x": 0.27,
+   "y": 6.5,
+   "emp2022": 78810
+  },
+  {
+   "soc": "29-1141",
+   "title": "Registered Nurses",
+   "major": "의료 전문",
+   "x": 0.38,
+   "y": 10.0,
+   "emp2022": 3072700
+  },
+  {
+   "soc": "29-1151",
+   "title": "Nurse Anesthetists",
+   "major": "의료 전문",
+   "x": 0.167,
+   "y": 11.4,
+   "emp2022": 46540
+  },
+  {
+   "soc": "29-1171",
+   "title": "Nurse Practitioners",
+   "major": "의료 전문",
+   "x": 0.481,
+   "y": 25.1,
+   "emp2022": 258230
+  },
+  {
+   "soc": "29-1181",
+   "title": "Audiologists",
+   "major": "의료 전문",
+   "x": 0.455,
+   "y": -2.0,
+   "emp2022": 13940
+  },
+  {
+   "soc": "29-1211",
+   "title": "Anesthesiologists",
+   "major": "의료 전문",
+   "x": 0.25,
+   "y": 3.6,
+   "emp2022": 37430
+  },
+  {
+   "soc": "29-1212",
+   "title": "Cardiologists",
+   "major": "의료 전문",
+   "x": 0.346,
+   "y": 2.5,
+   "emp2022": 16870
+  },
+  {
+   "soc": "29-1213",
+   "title": "Dermatologists",
+   "major": "의료 전문",
+   "x": 0.382,
+   "y": -2.3,
+   "emp2022": 11640
+  },
+  {
+   "soc": "29-1214",
+   "title": "Emergency Medicine Physicians",
+   "major": "의료 전문",
+   "x": 0.441,
+   "y": 12.4,
+   "emp2022": 29260
+  },
+  {
+   "soc": "29-1215",
+   "title": "Family Medicine Physicians",
+   "major": "의료 전문",
+   "x": 0.438,
+   "y": 6.5,
+   "emp2022": 100940
+  },
+  {
+   "soc": "29-1216",
+   "title": "General Internal Medicine Physicians",
+   "major": "의료 전문",
+   "x": 0.457,
+   "y": -0.1,
+   "emp2022": 67220
+  },
+  {
+   "soc": "29-1217",
+   "title": "Neurologists",
+   "major": "의료 전문",
+   "x": 0.457,
+   "y": -6.6,
+   "emp2022": 11340
+  },
+  {
+   "soc": "29-1218",
+   "title": "Obstetricians and Gynecologists",
+   "major": "의료 전문",
+   "x": 0.393,
+   "y": -0.9,
+   "emp2022": 21450
+  },
+  {
+   "soc": "29-1221",
+   "title": "Pediatricians, General",
+   "major": "의료 전문",
+   "x": 0.483,
+   "y": 17.8,
+   "emp2022": 33430
+  },
+  {
+   "soc": "29-1222",
+   "title": "Physicians, Pathologists",
+   "major": "의료 전문",
+   "x": 0.47,
+   "y": -9.8,
+   "emp2022": 12320
+  },
+  {
+   "soc": "29-1223",
+   "title": "Psychiatrists",
+   "major": "의료 전문",
+   "x": 0.478,
+   "y": 5.6,
+   "emp2022": 26500
+  },
+  {
+   "soc": "29-1224",
+   "title": "Radiologists",
+   "major": "의료 전문",
+   "x": 0.489,
+   "y": -8.5,
+   "emp2022": 29250
+  },
+  {
+   "soc": "29-1229",
+   "title": "Physicians, All Other",
+   "major": "의료 전문",
+   "x": 0.416,
+   "y": 12.3,
+   "emp2022": 305260
+  },
+  {
+   "soc": "29-1241",
+   "title": "Ophthalmologists, Except Pediatric",
+   "major": "의료 전문",
+   "x": 0.426,
+   "y": -28.9,
+   "emp2022": 12580
+  },
+  {
+   "soc": "29-1242",
+   "title": "Orthopedic Surgeons, Except Pediatric",
+   "major": "의료 전문",
+   "x": 0.333,
+   "y": -26.0,
+   "emp2022": 19060
+  },
+  {
+   "soc": "29-1292",
+   "title": "Dental Hygienists",
+   "major": "의료 전문",
+   "x": 0.188,
+   "y": 3.7,
+   "emp2022": 214700
+  },
+  {
+   "soc": "29-1299",
+   "title": "Healthcare Diagnosing or Treating Practitioners, All Other",
+   "major": "의료 전문",
+   "x": 0.496,
+   "y": -4.8,
+   "emp2022": 30080
+  },
+  {
+   "soc": "29-2031",
+   "title": "Cardiovascular Technologists and Technicians",
+   "major": "의료 전문",
+   "x": 0.357,
+   "y": 12.9,
+   "emp2022": 55750
+  },
+  {
+   "soc": "29-2032",
+   "title": "Diagnostic Medical Sonographers",
+   "major": "의료 전문",
+   "x": 0.303,
+   "y": 11.2,
+   "emp2022": 81080
+  },
+  {
+   "soc": "29-2033",
+   "title": "Nuclear Medicine Technologists",
+   "major": "의료 전문",
+   "x": 0.29,
+   "y": 1.0,
+   "emp2022": 16910
+  },
+  {
+   "soc": "29-2034",
+   "title": "Radiologic Technologists and Technicians",
+   "major": "의료 전문",
+   "x": 0.377,
+   "y": 6.8,
+   "emp2022": 215820
+  },
+  {
+   "soc": "29-2035",
+   "title": "Magnetic Resonance Imaging Technologists",
+   "major": "의료 전문",
+   "x": 0.322,
+   "y": 13.1,
+   "emp2022": 38380
+  },
+  {
+   "soc": "29-2042",
+   "title": "Emergency Medical Technicians",
+   "major": "의료 전문",
+   "x": 0.208,
+   "y": 7.6,
+   "emp2022": 167720
+  },
+  {
+   "soc": "29-2043",
+   "title": "Paramedics",
+   "major": "의료 전문",
+   "x": 0.154,
+   "y": 5.4,
+   "emp2022": 95440
+  },
+  {
+   "soc": "29-2051",
+   "title": "Dietetic Technicians",
+   "major": "의료 전문",
+   "x": 0.543,
+   "y": 60.3,
+   "emp2022": 19690
+  },
+  {
+   "soc": "29-2052",
+   "title": "Pharmacy Technicians",
+   "major": "의료 전문",
+   "x": 0.426,
+   "y": 4.0,
+   "emp2022": 453630
+  },
+  {
+   "soc": "29-2053",
+   "title": "Psychiatric Technicians",
+   "major": "의료 전문",
+   "x": 0.12,
+   "y": 55.5,
+   "emp2022": 100950
+  },
+  {
+   "soc": "29-2055",
+   "title": "Surgical Technologists",
+   "major": "의료 전문",
+   "x": 0.067,
+   "y": 9.4,
+   "emp2022": 107400
+  },
+  {
+   "soc": "29-2056",
+   "title": "Veterinary Technologists and Technicians",
+   "major": "의료 전문",
+   "x": 0.164,
+   "y": 8.7,
+   "emp2022": 118750
+  },
+  {
+   "soc": "29-2057",
+   "title": "Ophthalmic Medical Technicians",
+   "major": "의료 전문",
+   "x": 0.329,
+   "y": 7.5,
+   "emp2022": 66060
+  },
+  {
+   "soc": "29-2061",
+   "title": "Licensed Practical and Licensed Vocational Nurses",
+   "major": "의료 전문",
+   "x": 0.25,
+   "y": 2.6,
+   "emp2022": 632020
+  },
+  {
+   "soc": "29-2072",
+   "title": "Medical Records Specialists",
+   "major": "의료 전문",
+   "x": 0.618,
+   "y": 3.7,
+   "emp2022": 187720
+  },
+  {
+   "soc": "29-2081",
+   "title": "Opticians, Dispensing",
+   "major": "의료 전문",
+   "x": 0.286,
+   "y": 0.1,
+   "emp2022": 73460
+  },
+  {
+   "soc": "29-2092",
+   "title": "Hearing Aid Specialists",
+   "major": "의료 전문",
+   "x": 0.2,
+   "y": 11.8,
+   "emp2022": 10080
+  },
+  {
+   "soc": "29-2099",
+   "title": "Health Technologists and Technicians, All Other",
+   "major": "의료 전문",
+   "x": 0.411,
+   "y": 12.2,
+   "emp2022": 162800
+  },
+  {
+   "soc": "29-9021",
+   "title": "Health Information Technologists and Medical Registrars",
+   "major": "의료 전문",
+   "x": 0.656,
+   "y": 7.3,
+   "emp2022": 35500
+  },
+  {
+   "soc": "29-9091",
+   "title": "Athletic Trainers",
+   "major": "의료 전문",
+   "x": 0.279,
+   "y": 2.6,
+   "emp2022": 29720
+  },
+  {
+   "soc": "29-9093",
+   "title": "Surgical Assistants",
+   "major": "의료 전문",
+   "x": 0.039,
+   "y": 19.4,
+   "emp2022": 18650
+  },
+  {
+   "soc": "29-9099",
+   "title": "Healthcare Practitioners and Technical Workers, All Other",
+   "major": "의료 전문",
+   "x": 0.379,
+   "y": -14.9,
+   "emp2022": 41130
+  },
+  {
+   "soc": "31-1131",
+   "title": "Nursing Assistants",
+   "major": "의료 지원",
+   "x": 0.102,
+   "y": 10.6,
+   "emp2022": 1310090
+  },
+  {
+   "soc": "31-1132",
+   "title": "Orderlies",
+   "major": "의료 지원",
+   "x": 0.0,
+   "y": 17.1,
+   "emp2022": 44790
+  },
+  {
+   "soc": "31-1133",
+   "title": "Psychiatric Aides",
+   "major": "의료 지원",
+   "x": 0.125,
+   "y": 16.1,
+   "emp2022": 30590
+  },
+  {
+   "soc": "31-2011",
+   "title": "Occupational Therapy Assistants",
+   "major": "의료 지원",
+   "x": 0.267,
+   "y": 17.1,
+   "emp2022": 43810
+  },
+  {
+   "soc": "31-2021",
+   "title": "Physical Therapist Assistants",
+   "major": "의료 지원",
+   "x": 0.154,
+   "y": 15.0,
+   "emp2022": 97740
+  },
+  {
+   "soc": "31-2022",
+   "title": "Physical Therapist Aides",
+   "major": "의료 지원",
+   "x": 0.182,
+   "y": 12.5,
+   "emp2022": 42800
+  },
+  {
+   "soc": "31-9011",
+   "title": "Massage Therapists",
+   "major": "의료 지원",
+   "x": 0.074,
+   "y": 14.5,
+   "emp2022": 86270
+  },
+  {
+   "soc": "31-9091",
+   "title": "Dental Assistants",
+   "major": "의료 지원",
+   "x": 0.267,
+   "y": 6.6,
+   "emp2022": 363880
+  },
+  {
+   "soc": "31-9092",
+   "title": "Medical Assistants",
+   "major": "의료 지원",
+   "x": 0.359,
+   "y": 8.7,
+   "emp2022": 752460
+  },
+  {
+   "soc": "31-9093",
+   "title": "Medical Equipment Preparers",
+   "major": "의료 지원",
+   "x": 0.111,
+   "y": 21.2,
+   "emp2022": 63890
+  },
+  {
+   "soc": "31-9094",
+   "title": "Medical Transcriptionists",
+   "major": "의료 지원",
+   "x": 0.875,
+   "y": -14.6,
+   "emp2022": 48680
+  },
+  {
+   "soc": "31-9095",
+   "title": "Pharmacy Aides",
+   "major": "의료 지원",
+   "x": 0.38,
+   "y": -8.6,
+   "emp2022": 43230
+  },
+  {
+   "soc": "31-9096",
+   "title": "Veterinary Assistants and Laboratory Animal Caretakers",
+   "major": "의료 지원",
+   "x": 0.222,
+   "y": 13.1,
+   "emp2022": 111880
+  },
+  {
+   "soc": "31-9097",
+   "title": "Phlebotomists",
+   "major": "의료 지원",
+   "x": 0.183,
+   "y": 4.7,
+   "emp2022": 137090
+  },
+  {
+   "soc": "31-9099",
+   "title": "Healthcare Support Workers, All Other",
+   "major": "의료 지원",
+   "x": 0.365,
+   "y": 2.4,
+   "emp2022": 107170
+  },
+  {
+   "soc": "33-1011",
+   "title": "First-Line Supervisors of Correctional Officers",
+   "major": "보안",
+   "x": 0.283,
+   "y": -4.5,
+   "emp2022": 55900
+  },
+  {
+   "soc": "33-1012",
+   "title": "First-Line Supervisors of Police and Detectives",
+   "major": "보안",
+   "x": 0.329,
+   "y": 17.3,
+   "emp2022": 131860
+  },
+  {
+   "soc": "33-1021",
+   "title": "First-Line Supervisors of Firefighting and Prevention Workers",
+   "major": "보안",
+   "x": 0.415,
+   "y": 18.0,
+   "emp2022": 84040
+  },
+  {
+   "soc": "33-1091",
+   "title": "First-Line Supervisors of Security Workers",
+   "major": "보안",
+   "x": 0.405,
+   "y": 36.9,
+   "emp2022": 59520
+  },
+  {
+   "soc": "33-2011",
+   "title": "Firefighters",
+   "major": "보안",
+   "x": 0.14,
+   "y": 7.6,
+   "emp2022": 321450
+  },
+  {
+   "soc": "33-2021",
+   "title": "Fire Inspectors and Investigators",
+   "major": "보안",
+   "x": 0.288,
+   "y": -4.9,
+   "emp2022": 14510
+  },
+  {
+   "soc": "33-3011",
+   "title": "Bailiffs",
+   "major": "보안",
+   "x": 0.036,
+   "y": 5.1,
+   "emp2022": 16470
+  },
+  {
+   "soc": "33-3012",
+   "title": "Correctional Officers and Jailers",
+   "major": "보안",
+   "x": 0.261,
+   "y": 4.7,
+   "emp2022": 363250
+  },
+  {
+   "soc": "33-3021",
+   "title": "Detectives and Criminal Investigators",
+   "major": "보안",
+   "x": 0.397,
+   "y": 6.5,
+   "emp2022": 107400
+  },
+  {
+   "soc": "33-3051",
+   "title": "Police and Sheriff's Patrol Officers",
+   "major": "보안",
+   "x": 0.351,
+   "y": 2.2,
+   "emp2022": 655890
+  },
+  {
+   "soc": "33-9011",
+   "title": "Animal Control Workers",
+   "major": "보안",
+   "x": 0.35,
+   "y": 5.0,
+   "emp2022": 11490
+  },
+  {
+   "soc": "33-9021",
+   "title": "Private Detectives and Investigators",
+   "major": "보안",
+   "x": 0.389,
+   "y": 11.0,
+   "emp2022": 32050
+  },
+  {
+   "soc": "33-9031",
+   "title": "Gambling Surveillance Officers and Gambling Investigators",
+   "major": "보안",
+   "x": 0.438,
+   "y": -9.3,
+   "emp2022": 10500
+  },
+  {
+   "soc": "33-9032",
+   "title": "Security Guards",
+   "major": "보안",
+   "x": 0.167,
+   "y": 14.1,
+   "emp2022": 1124890
+  },
+  {
+   "soc": "33-9091",
+   "title": "Crossing Guards and Flaggers",
+   "major": "보안",
+   "x": 0.105,
+   "y": 3.4,
+   "emp2022": 91270
+  },
+  {
+   "soc": "33-9092",
+   "title": "Lifeguards, Ski Patrol, and Other Recreational Protective Service Workers",
+   "major": "보안",
+   "x": 0.08,
+   "y": 46.0,
+   "emp2022": 107930
+  },
+  {
+   "soc": "33-9093",
+   "title": "Transportation Security Screeners",
+   "major": "보안",
+   "x": 0.26,
+   "y": 5.8,
+   "emp2022": 47550
+  },
+  {
+   "soc": "33-9094",
+   "title": "School Bus Monitors",
+   "major": "보안",
+   "x": 0.167,
+   "y": 22.3,
+   "emp2022": 64100
+  },
+  {
+   "soc": "33-9099",
+   "title": "Protective Service Workers, All Other",
+   "major": "보안",
+   "x": 0.378,
+   "y": -13.2,
+   "emp2022": 93840
+  },
+  {
+   "soc": "35-1011",
+   "title": "Chefs and Head Cooks",
+   "major": "음식 서비스",
+   "x": 0.262,
+   "y": 24.9,
+   "emp2022": 160190
+  },
+  {
+   "soc": "35-1012",
+   "title": "First-Line Supervisors of Food Preparation and Serving Workers",
+   "major": "음식 서비스",
+   "x": 0.511,
+   "y": 4.6,
+   "emp2022": 1169620
+  },
+  {
+   "soc": "35-2011",
+   "title": "Cooks, Fast Food",
+   "major": "음식 서비스",
+   "x": 0.0,
+   "y": -11.6,
+   "emp2022": 725590
+  },
+  {
+   "soc": "35-2012",
+   "title": "Cooks, Institution and Cafeteria",
+   "major": "음식 서비스",
+   "x": 0.121,
+   "y": 5.6,
+   "emp2022": 417780
+  },
+  {
+   "soc": "35-2014",
+   "title": "Cooks, Restaurant",
+   "major": "음식 서비스",
+   "x": 0.095,
+   "y": 6.7,
+   "emp2022": 1321480
+  },
+  {
+   "soc": "35-2015",
+   "title": "Cooks, Short Order",
+   "major": "음식 서비스",
+   "x": 0.0,
+   "y": 4.0,
+   "emp2022": 133290
+  },
+  {
+   "soc": "35-2021",
+   "title": "Food Preparation Workers",
+   "major": "음식 서비스",
+   "x": 0.037,
+   "y": -1.2,
+   "emp2022": 904330
+  },
+  {
+   "soc": "35-3011",
+   "title": "Bartenders",
+   "major": "음식 서비스",
+   "x": 0.194,
+   "y": 23.4,
+   "emp2022": 613070
+  },
+  {
+   "soc": "35-3023",
+   "title": "Fast Food and Counter Workers",
+   "major": "음식 서비스",
+   "x": 0.097,
+   "y": 15.9,
+   "emp2022": 3325050
+  },
+  {
+   "soc": "35-3031",
+   "title": "Waiters and Waitresses",
+   "major": "음식 서비스",
+   "x": 0.184,
+   "y": 7.0,
+   "emp2022": 2122210
+  },
+  {
+   "soc": "35-3041",
+   "title": "Food Servers, Nonrestaurant",
+   "major": "음식 서비스",
+   "x": 0.13,
+   "y": 18.1,
+   "emp2022": 248870
+  },
+  {
+   "soc": "35-9011",
+   "title": "Dining Room and Cafeteria Attendants and Bartender Helpers",
+   "major": "음식 서비스",
+   "x": 0.0,
+   "y": 23.4,
+   "emp2022": 439770
+  },
+  {
+   "soc": "35-9021",
+   "title": "Dishwashers",
+   "major": "음식 서비스",
+   "x": 0.0,
+   "y": 10.6,
+   "emp2022": 431840
+  },
+  {
+   "soc": "35-9031",
+   "title": "Hosts and Hostesses, Restaurant, Lounge, and Coffee Shop",
+   "major": "음식 서비스",
+   "x": 0.229,
+   "y": 8.1,
+   "emp2022": 400420
+  },
+  {
+   "soc": "37-1011",
+   "title": "First-Line Supervisors of Housekeeping and Janitorial Workers",
+   "major": "건물 관리",
+   "x": 0.265,
+   "y": 7.8,
+   "emp2022": 165750
+  },
+  {
+   "soc": "37-1012",
+   "title": "First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",
+   "major": "건물 관리",
+   "x": 0.355,
+   "y": 6.4,
+   "emp2022": 122910
+  },
+  {
+   "soc": "37-2011",
+   "title": "Janitors and Cleaners, Except Maids and Housekeeping Cleaners",
+   "major": "건물 관리",
+   "x": 0.0,
+   "y": 2.9,
+   "emp2022": 2148350
+  },
+  {
+   "soc": "37-2012",
+   "title": "Maids and Housekeeping Cleaners",
+   "major": "건물 관리",
+   "x": 0.0,
+   "y": 11.6,
+   "emp2022": 771390
+  },
+  {
+   "soc": "37-2021",
+   "title": "Pest Control Workers",
+   "major": "건물 관리",
+   "x": 0.25,
+   "y": 12.6,
+   "emp2022": 91160
+  },
+  {
+   "soc": "37-3011",
+   "title": "Landscaping and Groundskeeping Workers",
+   "major": "건물 관리",
+   "x": 0.024,
+   "y": 4.2,
+   "emp2022": 914230
+  },
+  {
+   "soc": "37-3012",
+   "title": "Pesticide Handlers, Sprayers, and Applicators, Vegetation",
+   "major": "건물 관리",
+   "x": 0.056,
+   "y": 19.0,
+   "emp2022": 22740
+  },
+  {
+   "soc": "37-3013",
+   "title": "Tree Trimmers and Pruners",
+   "major": "건물 관리",
+   "x": 0.061,
+   "y": 14.6,
+   "emp2022": 48150
+  },
+  {
+   "soc": "39-1013",
+   "title": "First-Line Supervisors of Gambling Services Workers",
+   "major": "개인 서비스",
+   "x": 0.433,
+   "y": 18.8,
+   "emp2022": 21900
+  },
+  {
+   "soc": "39-1014",
+   "title": "First-Line Supervisors of Entertainment and Recreation Workers, Except Gambling Services",
+   "major": "개인 서비스",
+   "x": 0.368,
+   "y": 30.5,
+   "emp2022": 79060
+  },
+  {
+   "soc": "39-1022",
+   "title": "First-Line Supervisors of Personal Service Workers",
+   "major": "개인 서비스",
+   "x": 0.414,
+   "y": 9.2,
+   "emp2022": 104480
+  },
+  {
+   "soc": "39-2011",
+   "title": "Animal Trainers",
+   "major": "개인 서비스",
+   "x": 0.103,
+   "y": 6.0,
+   "emp2022": 17710
+  },
+  {
+   "soc": "39-2021",
+   "title": "Animal Caretakers",
+   "major": "개인 서비스",
+   "x": 0.273,
+   "y": 4.0,
+   "emp2022": 256670
+  },
+  {
+   "soc": "39-3011",
+   "title": "Gambling Dealers",
+   "major": "개인 서비스",
+   "x": 0.135,
+   "y": 17.7,
+   "emp2022": 71290
+  },
+  {
+   "soc": "39-3031",
+   "title": "Ushers, Lobby Attendants, and Ticket Takers",
+   "major": "개인 서비스",
+   "x": 0.143,
+   "y": 23.8,
+   "emp2022": 98350
+  },
+  {
+   "soc": "39-3091",
+   "title": "Amusement and Recreation Attendants",
+   "major": "개인 서비스",
+   "x": 0.212,
+   "y": 22.6,
+   "emp2022": 324580
+  },
+  {
+   "soc": "39-3093",
+   "title": "Locker Room, Coatroom, and Dressing Room Attendants",
+   "major": "개인 서비스",
+   "x": 0.065,
+   "y": 28.3,
+   "emp2022": 12130
+  },
+  {
+   "soc": "39-4021",
+   "title": "Funeral Attendants",
+   "major": "개인 서비스",
+   "x": 0.178,
+   "y": -5.6,
+   "emp2022": 32950
+  },
+  {
+   "soc": "39-4031",
+   "title": "Morticians, Undertakers, and Funeral Arrangers",
+   "major": "개인 서비스",
+   "x": 0.163,
+   "y": 4.8,
+   "emp2022": 23940
+  },
+  {
+   "soc": "39-5011",
+   "title": "Barbers",
+   "major": "개인 서비스",
+   "x": 0.162,
+   "y": 18.2,
+   "emp2022": 12690
+  },
+  {
+   "soc": "39-5012",
+   "title": "Hairdressers, Hairstylists, and Cosmetologists",
+   "major": "개인 서비스",
+   "x": 0.079,
+   "y": 2.6,
+   "emp2022": 298050
+  },
+  {
+   "soc": "39-5092",
+   "title": "Manicurists and Pedicurists",
+   "major": "개인 서비스",
+   "x": 0.083,
+   "y": 10.7,
+   "emp2022": 138020
+  },
+  {
+   "soc": "39-5094",
+   "title": "Skincare Specialists",
+   "major": "개인 서비스",
+   "x": 0.197,
+   "y": 17.6,
+   "emp2022": 61990
+  },
+  {
+   "soc": "39-6011",
+   "title": "Baggage Porters and Bellhops",
+   "major": "개인 서비스",
+   "x": 0.148,
+   "y": 7.5,
+   "emp2022": 26520
+  },
+  {
+   "soc": "39-6012",
+   "title": "Concierges",
+   "major": "개인 서비스",
+   "x": 0.467,
+   "y": 31.0,
+   "emp2022": 37600
+  },
+  {
+   "soc": "39-9011",
+   "title": "Childcare Workers",
+   "major": "개인 서비스",
+   "x": 0.141,
+   "y": 12.9,
+   "emp2022": 459460
+  },
+  {
+   "soc": "39-9031",
+   "title": "Exercise Trainers and Group Fitness Instructors",
+   "major": "개인 서비스",
+   "x": 0.015,
+   "y": 28.9,
+   "emp2022": 250540
+  },
+  {
+   "soc": "39-9032",
+   "title": "Recreation Workers",
+   "major": "개인 서비스",
+   "x": 0.238,
+   "y": 22.6,
+   "emp2022": 270380
+  },
+  {
+   "soc": "39-9041",
+   "title": "Residential Advisors",
+   "major": "개인 서비스",
+   "x": 0.24,
+   "y": -2.3,
+   "emp2022": 86770
+  },
+  {
+   "soc": "41-1011",
+   "title": "First-Line Supervisors of Retail Sales Workers",
+   "major": "판매",
+   "x": 0.486,
+   "y": 2.2,
+   "emp2022": 1097160
+  },
+  {
+   "soc": "41-1012",
+   "title": "First-Line Supervisors of Non-Retail Sales Workers",
+   "major": "판매",
+   "x": 0.537,
+   "y": -9.7,
+   "emp2022": 237520
+  },
+  {
+   "soc": "41-2011",
+   "title": "Cashiers",
+   "major": "판매",
+   "x": 0.209,
+   "y": -6.3,
+   "emp2022": 3296040
+  },
+  {
+   "soc": "41-2012",
+   "title": "Gambling Change Persons and Booth Cashiers",
+   "major": "판매",
+   "x": 0.262,
+   "y": 14.5,
+   "emp2022": 18800
+  },
+  {
+   "soc": "41-2021",
+   "title": "Counter and Rental Clerks",
+   "major": "판매",
+   "x": 0.532,
+   "y": 8.1,
+   "emp2022": 370770
+  },
+  {
+   "soc": "41-2022",
+   "title": "Parts Salespersons",
+   "major": "판매",
+   "x": 0.343,
+   "y": 4.2,
+   "emp2022": 259280
+  },
+  {
+   "soc": "41-2031",
+   "title": "Retail Salespersons",
+   "major": "판매",
+   "x": 0.342,
+   "y": 7.1,
+   "emp2022": 3640040
+  },
+  {
+   "soc": "41-3011",
+   "title": "Advertising Sales Agents",
+   "major": "판매",
+   "x": 0.538,
+   "y": -13.9,
+   "emp2022": 106560
+  },
+  {
+   "soc": "41-3021",
+   "title": "Insurance Sales Agents",
+   "major": "판매",
+   "x": 0.576,
+   "y": 7.5,
+   "emp2022": 445540
+  },
+  {
+   "soc": "41-3031",
+   "title": "Securities, Commodities, and Financial Services Sales Agents",
+   "major": "판매",
+   "x": 0.606,
+   "y": 10.5,
+   "emp2022": 443220
+  },
+  {
+   "soc": "41-3041",
+   "title": "Travel Agents",
+   "major": "판매",
+   "x": 0.562,
+   "y": 3.6,
+   "emp2022": 53180
+  },
+  {
+   "soc": "41-3091",
+   "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+   "major": "판매",
+   "x": 0.633,
+   "y": 16.8,
+   "emp2022": 1075750
+  },
+  {
+   "soc": "41-4011",
+   "title": "Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",
+   "major": "판매",
+   "x": 0.498,
+   "y": -2.1,
+   "emp2022": 290830
+  },
+  {
+   "soc": "41-4012",
+   "title": "Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",
+   "major": "판매",
+   "x": 0.621,
+   "y": -2.8,
+   "emp2022": 1273400
+  },
+  {
+   "soc": "41-9011",
+   "title": "Demonstrators and Product Promoters",
+   "major": "판매",
+   "x": 0.128,
+   "y": 48.6,
+   "emp2022": 43410
+  },
+  {
+   "soc": "41-9021",
+   "title": "Real Estate Brokers",
+   "major": "판매",
+   "x": 0.5,
+   "y": -11.9,
+   "emp2022": 52310
+  },
+  {
+   "soc": "41-9022",
+   "title": "Real Estate Sales Agents",
+   "major": "판매",
+   "x": 0.438,
+   "y": 0.2,
+   "emp2022": 193010
+  },
+  {
+   "soc": "41-9031",
+   "title": "Sales Engineers",
+   "major": "판매",
+   "x": 0.511,
+   "y": -13.2,
+   "emp2022": 59700
+  },
+  {
+   "soc": "41-9041",
+   "title": "Telemarketers",
+   "major": "판매",
+   "x": 0.806,
+   "y": -39.5,
+   "emp2022": 96520
+  },
+  {
+   "soc": "43-1011",
+   "title": "First-Line Supervisors of Office and Administrative Support Workers",
+   "major": "사무·행정 지원",
+   "x": 0.49,
+   "y": -3.9,
+   "emp2022": 1495440
+  },
+  {
+   "soc": "43-2011",
+   "title": "Switchboard Operators, Including Answering Service",
+   "major": "사무·행정 지원",
+   "x": 0.629,
+   "y": -27.7,
+   "emp2022": 47430
+  },
+  {
+   "soc": "43-3011",
+   "title": "Bill and Account Collectors",
+   "major": "사무·행정 지원",
+   "x": 0.696,
+   "y": -21.7,
+   "emp2022": 202840
+  },
+  {
+   "soc": "43-3021",
+   "title": "Billing and Posting Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.774,
+   "y": -8.6,
+   "emp2022": 441980
+  },
+  {
+   "soc": "43-3031",
+   "title": "Bookkeeping, Accounting, and Auditing Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.802,
+   "y": -11.4,
+   "emp2022": 1550750
+  },
+  {
+   "soc": "43-3041",
+   "title": "Gambling Cage Workers",
+   "major": "사무·행정 지원",
+   "x": 0.419,
+   "y": 23.0,
+   "emp2022": 11730
+  },
+  {
+   "soc": "43-3051",
+   "title": "Payroll and Timekeeping Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.838,
+   "y": -3.8,
+   "emp2022": 159190
+  },
+  {
+   "soc": "43-3061",
+   "title": "Procurement Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.614,
+   "y": -11.9,
+   "emp2022": 63340
+  },
+  {
+   "soc": "43-3071",
+   "title": "Tellers",
+   "major": "사무·행정 지원",
+   "x": 0.542,
+   "y": -6.5,
+   "emp2022": 352440
+  },
+  {
+   "soc": "43-4011",
+   "title": "Brokerage Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.767,
+   "y": -15.8,
+   "emp2022": 42700
+  },
+  {
+   "soc": "43-4031",
+   "title": "Court, Municipal, and License Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.7,
+   "y": 12.5,
+   "emp2022": 159760
+  },
+  {
+   "soc": "43-4041",
+   "title": "Credit Authorizers, Checkers, and Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.65,
+   "y": -26.2,
+   "emp2022": 16290
+  },
+  {
+   "soc": "43-4051",
+   "title": "Customer Service Representatives",
+   "major": "사무·행정 지원",
+   "x": 0.568,
+   "y": -9.9,
+   "emp2022": 2879840
+  },
+  {
+   "soc": "43-4061",
+   "title": "Eligibility Interviewers, Government Programs",
+   "major": "사무·행정 지원",
+   "x": 0.68,
+   "y": 3.4,
+   "emp2022": 149760
+  },
+  {
+   "soc": "43-4071",
+   "title": "File Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.794,
+   "y": -15.8,
+   "emp2022": 87250
+  },
+  {
+   "soc": "43-4081",
+   "title": "Hotel, Motel, and Resort Desk Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.5,
+   "y": 7.5,
+   "emp2022": 243180
+  },
+  {
+   "soc": "43-4111",
+   "title": "Interviewers, Except Eligibility and Loan",
+   "major": "사무·행정 지원",
+   "x": 0.672,
+   "y": -12.2,
+   "emp2022": 168680
+  },
+  {
+   "soc": "43-4121",
+   "title": "Library Assistants, Clerical",
+   "major": "사무·행정 지원",
+   "x": 0.534,
+   "y": 10.1,
+   "emp2022": 77660
+  },
+  {
+   "soc": "43-4131",
+   "title": "Loan Interviewers and Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.594,
+   "y": -32.1,
+   "emp2022": 242630
+  },
+  {
+   "soc": "43-4141",
+   "title": "New Accounts Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.56,
+   "y": -18.4,
+   "emp2022": 45170
+  },
+  {
+   "soc": "43-4151",
+   "title": "Order Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.714,
+   "y": -33.7,
+   "emp2022": 113500
+  },
+  {
+   "soc": "43-4161",
+   "title": "Human Resources Assistants, Except Payroll and Timekeeping",
+   "major": "사무·행정 지원",
+   "x": 0.621,
+   "y": -13.0,
+   "emp2022": 103680
+  },
+  {
+   "soc": "43-4171",
+   "title": "Receptionists and Information Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.533,
+   "y": -10.0,
+   "emp2022": 1011170
+  },
+  {
+   "soc": "43-4181",
+   "title": "Reservation and Transportation Ticket Agents and Travel Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.457,
+   "y": -0.4,
+   "emp2022": 119130
+  },
+  {
+   "soc": "43-5011",
+   "title": "Cargo and Freight Agents",
+   "major": "사무·행정 지원",
+   "x": 0.527,
+   "y": 4.5,
+   "emp2022": 93480
+  },
+  {
+   "soc": "43-5021",
+   "title": "Couriers and Messengers",
+   "major": "사무·행정 지원",
+   "x": 0.31,
+   "y": -9.4,
+   "emp2022": 75800
+  },
+  {
+   "soc": "43-5031",
+   "title": "Public Safety Telecommunicators",
+   "major": "사무·행정 지원",
+   "x": 0.656,
+   "y": 7.1,
+   "emp2022": 95730
+  },
+  {
+   "soc": "43-5032",
+   "title": "Dispatchers, Except Police, Fire, and Ambulance",
+   "major": "사무·행정 지원",
+   "x": 0.674,
+   "y": -1.7,
+   "emp2022": 206370
+  },
+  {
+   "soc": "43-5041",
+   "title": "Meter Readers, Utilities",
+   "major": "사무·행정 지원",
+   "x": 0.437,
+   "y": -5.0,
+   "emp2022": 20460
+  },
+  {
+   "soc": "43-5051",
+   "title": "Postal Service Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.315,
+   "y": -5.1,
+   "emp2022": 77690
+  },
+  {
+   "soc": "43-5052",
+   "title": "Postal Service Mail Carriers",
+   "major": "사무·행정 지원",
+   "x": 0.231,
+   "y": 0.6,
+   "emp2022": 326760
+  },
+  {
+   "soc": "43-5053",
+   "title": "Postal Service Mail Sorters, Processors, and Processing Machine Operators",
+   "major": "사무·행정 지원",
+   "x": 0.1,
+   "y": -12.0,
+   "emp2022": 119530
+  },
+  {
+   "soc": "43-5061",
+   "title": "Production, Planning, and Expediting Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.596,
+   "y": 0.1,
+   "emp2022": 389920
+  },
+  {
+   "soc": "43-5071",
+   "title": "Shipping, Receiving, and Inventory Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.5,
+   "y": -3.7,
+   "emp2022": 848240
+  },
+  {
+   "soc": "43-5111",
+   "title": "Weighers, Measurers, Checkers, and Samplers, Recordkeeping",
+   "major": "사무·행정 지원",
+   "x": 0.293,
+   "y": 1.3,
+   "emp2022": 52610
+  },
+  {
+   "soc": "43-6011",
+   "title": "Executive Secretaries and Executive Administrative Assistants",
+   "major": "사무·행정 지원",
+   "x": 0.649,
+   "y": -3.2,
+   "emp2022": 475240
+  },
+  {
+   "soc": "43-6012",
+   "title": "Legal Secretaries and Administrative Assistants",
+   "major": "사무·행정 지원",
+   "x": 0.696,
+   "y": -2.3,
+   "emp2022": 159940
+  },
+  {
+   "soc": "43-6013",
+   "title": "Medical Secretaries and Administrative Assistants",
+   "major": "사무·행정 지원",
+   "x": 0.667,
+   "y": 40.9,
+   "emp2022": 682630
+  },
+  {
+   "soc": "43-6014",
+   "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+   "major": "사무·행정 지원",
+   "x": 0.644,
+   "y": -6.6,
+   "emp2022": 1826710
+  },
+  {
+   "soc": "43-9021",
+   "title": "Data Entry Keyers",
+   "major": "사무·행정 지원",
+   "x": 0.893,
+   "y": -19.3,
+   "emp2022": 157380
+  },
+  {
+   "soc": "43-9022",
+   "title": "Word Processors and Typists",
+   "major": "사무·행정 지원",
+   "x": 0.743,
+   "y": -16.6,
+   "emp2022": 41990
+  },
+  {
+   "soc": "43-9041",
+   "title": "Insurance Claims and Policy Processing Clerks",
+   "major": "사무·행정 지원",
+   "x": 0.833,
+   "y": -5.9,
+   "emp2022": 227580
+  },
+  {
+   "soc": "43-9051",
+   "title": "Mail Clerks and Mail Machine Operators, Except Postal Service",
+   "major": "사무·행정 지원",
+   "x": 0.216,
+   "y": -18.5,
+   "emp2022": 67750
+  },
+  {
+   "soc": "43-9061",
+   "title": "Office Clerks, General",
+   "major": "사무·행정 지원",
+   "x": 0.576,
+   "y": -2.1,
+   "emp2022": 2517350
+  },
+  {
+   "soc": "43-9071",
+   "title": "Office Machine Operators, Except Computer",
+   "major": "사무·행정 지원",
+   "x": 0.397,
+   "y": -17.4,
+   "emp2022": 30410
+  },
+  {
+   "soc": "45-1011",
+   "title": "First-Line Supervisors of Farming, Fishing, and Forestry Workers",
+   "major": "농림어업",
+   "x": 0.281,
+   "y": 1.0,
+   "emp2022": 27670
+  },
+  {
+   "soc": "45-2011",
+   "title": "Agricultural Inspectors",
+   "major": "농림어업",
+   "x": 0.292,
+   "y": 2.9,
+   "emp2022": 14000
+  },
+  {
+   "soc": "45-2041",
+   "title": "Graders and Sorters, Agricultural Products",
+   "major": "농림어업",
+   "x": 0.1,
+   "y": 8.2,
+   "emp2022": 23280
+  },
+  {
+   "soc": "45-2091",
+   "title": "Agricultural Equipment Operators",
+   "major": "농림어업",
+   "x": 0.0,
+   "y": -1.1,
+   "emp2022": 28830
+  },
+  {
+   "soc": "45-2092",
+   "title": "Farmworkers and Laborers, Crop, Nursery, and Greenhouse",
+   "major": "농림어업",
+   "x": 0.143,
+   "y": -6.5,
+   "emp2022": 284000
+  },
+  {
+   "soc": "45-2093",
+   "title": "Farmworkers, Farm, Ranch, and Aquacultural Animals",
+   "major": "농림어업",
+   "x": 0.062,
+   "y": -0.6,
+   "emp2022": 33020
+  },
+  {
+   "soc": "45-4022",
+   "title": "Logging Equipment Operators",
+   "major": "농림어업",
+   "x": 0.188,
+   "y": -15.0,
+   "emp2022": 24780
+  },
+  {
+   "soc": "47-1011",
+   "title": "First-Line Supervisors of Construction Trades and Extraction Workers",
+   "major": "건설",
+   "x": 0.417,
+   "y": 12.7,
+   "emp2022": 720900
+  },
+  {
+   "soc": "47-2011",
+   "title": "Boilermakers",
+   "major": "건설",
+   "x": 0.03,
+   "y": -24.9,
+   "emp2022": 13570
+  },
+  {
+   "soc": "47-2021",
+   "title": "Brickmasons and Blockmasons",
+   "major": "건설",
+   "x": 0.038,
+   "y": -5.4,
+   "emp2022": 55530
+  },
+  {
+   "soc": "47-2022",
+   "title": "Stonemasons",
+   "major": "건설",
+   "x": 0.0,
+   "y": -23.5,
+   "emp2022": 10220
+  },
+  {
+   "soc": "47-2031",
+   "title": "Carpenters",
+   "major": "건설",
+   "x": 0.144,
+   "y": -2.9,
+   "emp2022": 689770
+  },
+  {
+   "soc": "47-2041",
+   "title": "Carpet Installers",
+   "major": "건설",
+   "x": 0.062,
+   "y": -20.8,
+   "emp2022": 17400
+  },
+  {
+   "soc": "47-2042",
+   "title": "Floor Layers, Except Carpet, Wood, and Hard Tiles",
+   "major": "건설",
+   "x": 0.0,
+   "y": 14.1,
+   "emp2022": 20710
+  },
+  {
+   "soc": "47-2044",
+   "title": "Tile and Stone Setters",
+   "major": "건설",
+   "x": 0.088,
+   "y": -12.0,
+   "emp2022": 40760
+  },
+  {
+   "soc": "47-2051",
+   "title": "Cement Masons and Concrete Finishers",
+   "major": "건설",
+   "x": 0.0,
+   "y": 4.8,
+   "emp2022": 196730
+  },
+  {
+   "soc": "47-2061",
+   "title": "Construction Laborers",
+   "major": "건설",
+   "x": 0.05,
+   "y": 8.3,
+   "emp2022": 1012780
+  },
+  {
+   "soc": "47-2071",
+   "title": "Paving, Surfacing, and Tamping Equipment Operators",
+   "major": "건설",
+   "x": 0.0,
+   "y": 0.8,
+   "emp2022": 41470
+  },
+  {
+   "soc": "47-2073",
+   "title": "Operating Engineers and Other Construction Equipment Operators",
+   "major": "건설",
+   "x": 0.054,
+   "y": 13.0,
+   "emp2022": 423040
+  },
+  {
+   "soc": "47-2081",
+   "title": "Drywall and Ceiling Tile Installers",
+   "major": "건설",
+   "x": 0.042,
+   "y": -9.3,
+   "emp2022": 91590
+  },
+  {
+   "soc": "47-2082",
+   "title": "Tapers",
+   "major": "건설",
+   "x": 0.0,
+   "y": -10.1,
+   "emp2022": 14290
+  },
+  {
+   "soc": "47-2111",
+   "title": "Electricians",
+   "major": "건설",
+   "x": 0.146,
+   "y": 9.7,
+   "emp2022": 690050
+  },
+  {
+   "soc": "47-2121",
+   "title": "Glaziers",
+   "major": "건설",
+   "x": 0.083,
+   "y": 13.3,
+   "emp2022": 51630
+  },
+  {
+   "soc": "47-2131",
+   "title": "Insulation Workers, Floor, Ceiling, and Wall",
+   "major": "건설",
+   "x": 0.05,
+   "y": 34.1,
+   "emp2022": 33130
+  },
+  {
+   "soc": "47-2132",
+   "title": "Insulation Workers, Mechanical",
+   "major": "건설",
+   "x": 0.045,
+   "y": 0.0,
+   "emp2022": 25660
+  },
+  {
+   "soc": "47-2141",
+   "title": "Painters, Construction and Maintenance",
+   "major": "건설",
+   "x": 0.057,
+   "y": 4.4,
+   "emp2022": 215680
+  },
+  {
+   "soc": "47-2151",
+   "title": "Pipelayers",
+   "major": "건설",
+   "x": 0.036,
+   "y": -8.4,
+   "emp2022": 36070
+  },
+  {
+   "soc": "47-2152",
+   "title": "Plumbers, Pipefitters, and Steamfitters",
+   "major": "건설",
+   "x": 0.075,
+   "y": 8.9,
+   "emp2022": 427920
+  },
+  {
+   "soc": "47-2161",
+   "title": "Plasterers and Stucco Masons",
+   "major": "건설",
+   "x": 0.077,
+   "y": -25.6,
+   "emp2022": 25950
+  },
+  {
+   "soc": "47-2171",
+   "title": "Reinforcing Iron and Rebar Workers",
+   "major": "건설",
+   "x": 0.071,
+   "y": -20.1,
+   "emp2022": 17270
+  },
+  {
+   "soc": "47-2181",
+   "title": "Roofers",
+   "major": "건설",
+   "x": 0.04,
+   "y": 2.7,
+   "emp2022": 131980
+  },
+  {
+   "soc": "47-2211",
+   "title": "Sheet Metal Workers",
+   "major": "건설",
+   "x": 0.066,
+   "y": -0.9,
+   "emp2022": 120810
+  },
+  {
+   "soc": "47-2221",
+   "title": "Structural Iron and Steel Workers",
+   "major": "건설",
+   "x": 0.029,
+   "y": 2.3,
+   "emp2022": 66810
+  },
+  {
+   "soc": "47-2231",
+   "title": "Solar Photovoltaic Installers",
+   "major": "건설",
+   "x": 0.11,
+   "y": 12.9,
+   "emp2022": 27760
+  },
+  {
+   "soc": "47-3011",
+   "title": "Helpers--Brickmasons, Blockmasons, Stonemasons, and Tile and Marble Setters",
+   "major": "건설",
+   "x": 0.0,
+   "y": -20.1,
+   "emp2022": 17730
+  },
+  {
+   "soc": "47-3012",
+   "title": "Helpers--Carpenters",
+   "major": "건설",
+   "x": 0.0,
+   "y": -11.8,
+   "emp2022": 24580
+  },
+  {
+   "soc": "47-3013",
+   "title": "Helpers--Electricians",
+   "major": "건설",
+   "x": 0.024,
+   "y": -10.4,
+   "emp2022": 71000
+  },
+  {
+   "soc": "47-3015",
+   "title": "Helpers--Pipelayers, Plumbers, Pipefitters, and Steamfitters",
+   "major": "건설",
+   "x": 0.0,
+   "y": -5.2,
+   "emp2022": 46760
+  },
+  {
+   "soc": "47-4011",
+   "title": "Construction and Building Inspectors",
+   "major": "건설",
+   "x": 0.334,
+   "y": 13.8,
+   "emp2022": 128950
+  },
+  {
+   "soc": "47-4021",
+   "title": "Elevator and Escalator Installers and Repairers",
+   "major": "건설",
+   "x": 0.184,
+   "y": -2.4,
+   "emp2022": 24380
+  },
+  {
+   "soc": "47-4031",
+   "title": "Fence Erectors",
+   "major": "건설",
+   "x": 0.051,
+   "y": -9.5,
+   "emp2022": 27060
+  },
+  {
+   "soc": "47-4041",
+   "title": "Hazardous Materials Removal Workers",
+   "major": "건설",
+   "x": 0.081,
+   "y": 10.5,
+   "emp2022": 46780
+  },
+  {
+   "soc": "47-4051",
+   "title": "Highway Maintenance Workers",
+   "major": "건설",
+   "x": 0.016,
+   "y": 8.1,
+   "emp2022": 143330
+  },
+  {
+   "soc": "47-4061",
+   "title": "Rail-Track Laying and Maintenance Equipment Operators",
+   "major": "건설",
+   "x": 0.0,
+   "y": 5.3,
+   "emp2022": 18600
+  },
+  {
+   "soc": "47-4071",
+   "title": "Septic Tank Servicers and Sewer Pipe Cleaners",
+   "major": "건설",
+   "x": 0.078,
+   "y": 10.8,
+   "emp2022": 27660
+  },
+  {
+   "soc": "47-5011",
+   "title": "Derrick Operators, Oil and Gas",
+   "major": "건설",
+   "x": 0.0,
+   "y": -3.3,
+   "emp2022": 10950
+  },
+  {
+   "soc": "47-5012",
+   "title": "Rotary Drill Operators, Oil and Gas",
+   "major": "건설",
+   "x": 0.053,
+   "y": 3.4,
+   "emp2022": 12190
+  },
+  {
+   "soc": "47-5013",
+   "title": "Service Unit Operators, Oil and Gas",
+   "major": "건설",
+   "x": 0.065,
+   "y": 18.8,
+   "emp2022": 36320
+  },
+  {
+   "soc": "47-5022",
+   "title": "Excavating and Loading Machine and Dragline Operators, Surface Mining",
+   "major": "건설",
+   "x": 0.0,
+   "y": 2.4,
+   "emp2022": 33670
+  },
+  {
+   "soc": "47-5023",
+   "title": "Earth Drillers, Except Oil and Gas",
+   "major": "건설",
+   "x": 0.136,
+   "y": 2.3,
+   "emp2022": 19010
+  },
+  {
+   "soc": "47-5041",
+   "title": "Continuous Mining Machine Operators",
+   "major": "건설",
+   "x": 0.0,
+   "y": 3.7,
+   "emp2022": 13500
+  },
+  {
+   "soc": "47-5071",
+   "title": "Roustabouts, Oil and Gas",
+   "major": "건설",
+   "x": 0.0,
+   "y": 15.0,
+   "emp2022": 39100
+  },
+  {
+   "soc": "49-1011",
+   "title": "First-Line Supervisors of Mechanics, Installers, and Repairers",
+   "major": "설치·정비",
+   "x": 0.41,
+   "y": 10.5,
+   "emp2022": 559050
+  },
+  {
+   "soc": "49-2011",
+   "title": "Computer, Automated Teller, and Office Machine Repairers",
+   "major": "설치·정비",
+   "x": 0.367,
+   "y": -19.4,
+   "emp2022": 81440
+  },
+  {
+   "soc": "49-2021",
+   "title": "Radio, Cellular, and Tower Equipment Installers and Repairers",
+   "major": "설치·정비",
+   "x": 0.107,
+   "y": -14.4,
+   "emp2022": 13020
+  },
+  {
+   "soc": "49-2022",
+   "title": "Telecommunications Equipment Installers and Repairers, Except Line Installers",
+   "major": "설치·정비",
+   "x": 0.281,
+   "y": -16.2,
+   "emp2022": 168180
+  },
+  {
+   "soc": "49-2091",
+   "title": "Avionics Technicians",
+   "major": "설치·정비",
+   "x": 0.24,
+   "y": -6.8,
+   "emp2022": 20200
+  },
+  {
+   "soc": "49-2092",
+   "title": "Electric Motor, Power Tool, and Related Repairers",
+   "major": "설치·정비",
+   "x": 0.106,
+   "y": -6.1,
+   "emp2022": 15390
+  },
+  {
+   "soc": "49-2094",
+   "title": "Electrical and Electronics Repairers, Commercial and Industrial Equipment",
+   "major": "설치·정비",
+   "x": 0.308,
+   "y": 25.9,
+   "emp2022": 51650
+  },
+  {
+   "soc": "49-2095",
+   "title": "Electrical and Electronics Repairers, Powerhouse, Substation, and Relay",
+   "major": "설치·정비",
+   "x": 0.34,
+   "y": -18.6,
+   "emp2022": 25440
+  },
+  {
+   "soc": "49-2097",
+   "title": "Audiovisual Equipment Installers and Repairers",
+   "major": "설치·정비",
+   "x": 0.238,
+   "y": -10.9,
+   "emp2022": 22200
+  },
+  {
+   "soc": "49-2098",
+   "title": "Security and Fire Alarm Systems Installers",
+   "major": "설치·정비",
+   "x": 0.167,
+   "y": 7.0,
+   "emp2022": 80720
+  },
+  {
+   "soc": "49-3011",
+   "title": "Aircraft Mechanics and Service Technicians",
+   "major": "설치·정비",
+   "x": 0.134,
+   "y": 3.0,
+   "emp2022": 134070
+  },
+  {
+   "soc": "49-3021",
+   "title": "Automotive Body and Related Repairers",
+   "major": "설치·정비",
+   "x": 0.043,
+   "y": 7.6,
+   "emp2022": 138760
+  },
+  {
+   "soc": "49-3022",
+   "title": "Automotive Glass Installers and Repairers",
+   "major": "설치·정비",
+   "x": 0.0,
+   "y": 16.9,
+   "emp2022": 17370
+  },
+  {
+   "soc": "49-3023",
+   "title": "Automotive Service Technicians and Mechanics",
+   "major": "설치·정비",
+   "x": 0.082,
+   "y": 6.1,
+   "emp2022": 664070
+  },
+  {
+   "soc": "49-3031",
+   "title": "Bus and Truck Mechanics and Diesel Engine Specialists",
+   "major": "설치·정비",
+   "x": 0.0,
+   "y": 6.7,
+   "emp2022": 271720
+  },
+  {
+   "soc": "49-3041",
+   "title": "Farm Equipment Mechanics and Service Technicians",
+   "major": "설치·정비",
+   "x": 0.115,
+   "y": 7.3,
+   "emp2022": 35280
+  },
+  {
+   "soc": "49-3042",
+   "title": "Mobile Heavy Equipment Mechanics, Except Engines",
+   "major": "설치·정비",
+   "x": 0.1,
+   "y": 11.5,
+   "emp2022": 158350
+  },
+  {
+   "soc": "49-3043",
+   "title": "Rail Car Repairers",
+   "major": "설치·정비",
+   "x": 0.097,
+   "y": 7.7,
+   "emp2022": 19830
+  },
+  {
+   "soc": "49-3051",
+   "title": "Motorboat Mechanics and Service Technicians",
+   "major": "설치·정비",
+   "x": 0.077,
+   "y": -6.8,
+   "emp2022": 24920
+  },
+  {
+   "soc": "49-3052",
+   "title": "Motorcycle Mechanics",
+   "major": "설치·정비",
+   "x": 0.0,
+   "y": -8.1,
+   "emp2022": 14700
+  },
+  {
+   "soc": "49-3053",
+   "title": "Outdoor Power Equipment and Other Small Engine Mechanics",
+   "major": "설치·정비",
+   "x": 0.179,
+   "y": 1.4,
+   "emp2022": 35570
+  },
+  {
+   "soc": "49-3091",
+   "title": "Bicycle Repairers",
+   "major": "설치·정비",
+   "x": 0.103,
+   "y": -11.6,
+   "emp2022": 13760
+  },
+  {
+   "soc": "49-3092",
+   "title": "Recreational Vehicle Service Technicians",
+   "major": "설치·정비",
+   "x": 0.061,
+   "y": 1.4,
+   "emp2022": 17190
+  },
+  {
+   "soc": "49-3093",
+   "title": "Tire Repairers and Changers",
+   "major": "설치·정비",
+   "x": 0.0,
+   "y": 8.4,
+   "emp2022": 99980
+  },
+  {
+   "soc": "49-9011",
+   "title": "Mechanical Door Repairers",
+   "major": "설치·정비",
+   "x": 0.136,
+   "y": -0.8,
+   "emp2022": 27330
+  },
+  {
+   "soc": "49-9012",
+   "title": "Control and Valve Installers and Repairers, Except Mechanical Door",
+   "major": "설치·정비",
+   "x": 0.131,
+   "y": 3.9,
+   "emp2022": 46410
+  },
+  {
+   "soc": "49-9021",
+   "title": "Heating, Air Conditioning, and Refrigeration Mechanics and Installers",
+   "major": "설치·정비",
+   "x": 0.105,
+   "y": 9.3,
+   "emp2022": 374770
+  },
+  {
+   "soc": "49-9031",
+   "title": "Home Appliance Repairers",
+   "major": "설치·정비",
+   "x": 0.145,
+   "y": 9.5,
+   "emp2022": 29370
+  },
+  {
+   "soc": "49-9041",
+   "title": "Industrial Machinery Mechanics",
+   "major": "설치·정비",
+   "x": 0.274,
+   "y": 13.9,
+   "emp2022": 386120
+  },
+  {
+   "soc": "49-9043",
+   "title": "Maintenance Workers, Machinery",
+   "major": "설치·정비",
+   "x": 0.143,
+   "y": -4.4,
+   "emp2022": 62770
+  },
+  {
+   "soc": "49-9044",
+   "title": "Millwrights",
+   "major": "설치·정비",
+   "x": 0.022,
+   "y": -1.5,
+   "emp2022": 40930
+  },
+  {
+   "soc": "49-9051",
+   "title": "Electrical Power-Line Installers and Repairers",
+   "major": "설치·정비",
+   "x": 0.0,
+   "y": 9.7,
+   "emp2022": 119510
+  },
+  {
+   "soc": "49-9052",
+   "title": "Telecommunications Line Installers and Repairers",
+   "major": "설치·정비",
+   "x": 0.031,
+   "y": -9.2,
+   "emp2022": 107670
+  },
+  {
+   "soc": "49-9062",
+   "title": "Medical Equipment Repairers",
+   "major": "설치·정비",
+   "x": 0.303,
+   "y": 12.2,
+   "emp2022": 58830
+  },
+  {
+   "soc": "49-9071",
+   "title": "Maintenance and Repair Workers, General",
+   "major": "설치·정비",
+   "x": 0.137,
+   "y": 2.9,
+   "emp2022": 1485990
+  },
+  {
+   "soc": "49-9091",
+   "title": "Coin, Vending, and Amusement Machine Servicers and Repairers",
+   "major": "설치·정비",
+   "x": 0.321,
+   "y": -26.2,
+   "emp2022": 35790
+  },
+  {
+   "soc": "49-9094",
+   "title": "Locksmiths and Safe Repairers",
+   "major": "설치·정비",
+   "x": 0.08,
+   "y": -1.3,
+   "emp2022": 15240
+  },
+  {
+   "soc": "49-9096",
+   "title": "Riggers",
+   "major": "설치·정비",
+   "x": 0.0,
+   "y": 17.0,
+   "emp2022": 19260
+  },
+  {
+   "soc": "49-9098",
+   "title": "Helpers--Installation, Maintenance, and Repair Workers",
+   "major": "설치·정비",
+   "x": 0.033,
+   "y": 2.1,
+   "emp2022": 93650
+  },
+  {
+   "soc": "49-9099",
+   "title": "Installation, Maintenance, and Repair Workers, All Other",
+   "major": "설치·정비",
+   "x": 0.21,
+   "y": 1.9,
+   "emp2022": 172980
+  },
+  {
+   "soc": "51-1011",
+   "title": "First-Line Supervisors of Production and Operating Workers",
+   "major": "생산",
+   "x": 0.4,
+   "y": 2.0,
+   "emp2022": 659930
+  },
+  {
+   "soc": "51-2011",
+   "title": "Aircraft Structure, Surfaces, Rigging, and Systems Assemblers",
+   "major": "생산",
+   "x": 0.025,
+   "y": 5.8,
+   "emp2022": 32140
+  },
+  {
+   "soc": "51-2021",
+   "title": "Coil Winders, Tapers, and Finishers",
+   "major": "생산",
+   "x": 0.222,
+   "y": 18.2,
+   "emp2022": 10860
+  },
+  {
+   "soc": "51-2031",
+   "title": "Engine and Other Machine Assemblers",
+   "major": "생산",
+   "x": 0.095,
+   "y": -32.2,
+   "emp2022": 50120
+  },
+  {
+   "soc": "51-2041",
+   "title": "Structural Metal Fabricators and Fitters",
+   "major": "생산",
+   "x": 0.023,
+   "y": -11.1,
+   "emp2022": 58870
+  },
+  {
+   "soc": "51-2051",
+   "title": "Fiberglass Laminators and Fabricators",
+   "major": "생산",
+   "x": 0.021,
+   "y": -26.2,
+   "emp2022": 21910
+  },
+  {
+   "soc": "51-3011",
+   "title": "Bakers",
+   "major": "생산",
+   "x": 0.265,
+   "y": 15.1,
+   "emp2022": 205300
+  },
+  {
+   "soc": "51-3021",
+   "title": "Butchers and Meat Cutters",
+   "major": "생산",
+   "x": 0.132,
+   "y": 5.4,
+   "emp2022": 129400
+  },
+  {
+   "soc": "51-3022",
+   "title": "Meat, Poultry, and Fish Cutters and Trimmers",
+   "major": "생산",
+   "x": 0.0,
+   "y": 9.2,
+   "emp2022": 133460
+  },
+  {
+   "soc": "51-3023",
+   "title": "Slaughterers and Meat Packers",
+   "major": "생산",
+   "x": 0.0,
+   "y": -11.1,
+   "emp2022": 78660
+  },
+  {
+   "soc": "51-3091",
+   "title": "Food and Tobacco Roasting, Baking, and Drying Machine Operators and Tenders",
+   "major": "생산",
+   "x": 0.067,
+   "y": 1.8,
+   "emp2022": 20010
+  },
+  {
+   "soc": "51-3092",
+   "title": "Food Batchmakers",
+   "major": "생산",
+   "x": 0.115,
+   "y": 4.8,
+   "emp2022": 166520
+  },
+  {
+   "soc": "51-3093",
+   "title": "Food Cooking Machine Operators and Tenders",
+   "major": "생산",
+   "x": 0.129,
+   "y": 16.9,
+   "emp2022": 26740
+  },
+  {
+   "soc": "51-4021",
+   "title": "Extruding and Drawing Machine Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.021,
+   "y": -4.2,
+   "emp2022": 63490
+  },
+  {
+   "soc": "51-4022",
+   "title": "Forging Machine Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.042,
+   "y": -16.2,
+   "emp2022": 10650
+  },
+  {
+   "soc": "51-4023",
+   "title": "Rolling Machine Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.176,
+   "y": -9.5,
+   "emp2022": 27900
+  },
+  {
+   "soc": "51-4031",
+   "title": "Cutting, Punching, and Press Machine Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.01,
+   "y": -6.2,
+   "emp2022": 182460
+  },
+  {
+   "soc": "51-4033",
+   "title": "Grinding, Lapping, Polishing, and Buffing Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.065,
+   "y": -9.2,
+   "emp2022": 73800
+  },
+  {
+   "soc": "51-4034",
+   "title": "Lathe and Turning Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.161,
+   "y": -13.9,
+   "emp2022": 19410
+  },
+  {
+   "soc": "51-4035",
+   "title": "Milling and Planing Machine Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.241,
+   "y": -19.5,
+   "emp2022": 15480
+  },
+  {
+   "soc": "51-4041",
+   "title": "Machinists",
+   "major": "생산",
+   "x": 0.235,
+   "y": -9.4,
+   "emp2022": 316860
+  },
+  {
+   "soc": "51-4051",
+   "title": "Metal-Refining Furnace Operators and Tenders",
+   "major": "생산",
+   "x": 0.104,
+   "y": -13.1,
+   "emp2022": 19320
+  },
+  {
+   "soc": "51-4071",
+   "title": "Foundry Mold and Coremakers",
+   "major": "생산",
+   "x": 0.0,
+   "y": 12.9,
+   "emp2022": 11330
+  },
+  {
+   "soc": "51-4072",
+   "title": "Molding, Coremaking, and Casting Machine Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.081,
+   "y": -9.3,
+   "emp2022": 165820
+  },
+  {
+   "soc": "51-4081",
+   "title": "Multiple Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.103,
+   "y": -9.1,
+   "emp2022": 137060
+  },
+  {
+   "soc": "51-4111",
+   "title": "Tool and Die Makers",
+   "major": "생산",
+   "x": 0.188,
+   "y": -7.8,
+   "emp2022": 61730
+  },
+  {
+   "soc": "51-4121",
+   "title": "Welders, Cutters, Solderers, and Brazers",
+   "major": "생산",
+   "x": 0.088,
+   "y": 1.8,
+   "emp2022": 408990
+  },
+  {
+   "soc": "51-4122",
+   "title": "Welding, Soldering, and Brazing Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.068,
+   "y": 2.1,
+   "emp2022": 30940
+  },
+  {
+   "soc": "51-4191",
+   "title": "Heat Treating Equipment Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.176,
+   "y": -10.3,
+   "emp2022": 15600
+  },
+  {
+   "soc": "51-4193",
+   "title": "Plating Machine Setters, Operators, and Tenders, Metal and Plastic",
+   "major": "생산",
+   "x": 0.104,
+   "y": 1.1,
+   "emp2022": 32050
+  },
+  {
+   "soc": "51-5111",
+   "title": "Prepress Technicians and Workers",
+   "major": "생산",
+   "x": 0.438,
+   "y": -5.6,
+   "emp2022": 25250
+  },
+  {
+   "soc": "51-5112",
+   "title": "Printing Press Operators",
+   "major": "생산",
+   "x": 0.288,
+   "y": -3.8,
+   "emp2022": 150010
+  },
+  {
+   "soc": "51-5113",
+   "title": "Print Binding and Finishing Workers",
+   "major": "생산",
+   "x": 0.09,
+   "y": -15.0,
+   "emp2022": 39030
+  },
+  {
+   "soc": "51-6011",
+   "title": "Laundry and Dry-Cleaning Workers",
+   "major": "생산",
+   "x": 0.05,
+   "y": 12.7,
+   "emp2022": 175730
+  },
+  {
+   "soc": "51-6021",
+   "title": "Pressers, Textile, Garment, and Related Materials",
+   "major": "생산",
+   "x": 0.01,
+   "y": -8.6,
+   "emp2022": 28570
+  },
+  {
+   "soc": "51-6031",
+   "title": "Sewing Machine Operators",
+   "major": "생산",
+   "x": 0.081,
+   "y": -10.2,
+   "emp2022": 116750
+  },
+  {
+   "soc": "51-6052",
+   "title": "Tailors, Dressmakers, and Custom Sewers",
+   "major": "생산",
+   "x": 0.091,
+   "y": -17.5,
+   "emp2022": 16870
+  },
+  {
+   "soc": "51-6062",
+   "title": "Textile Cutting Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.161,
+   "y": -15.9,
+   "emp2022": 10700
+  },
+  {
+   "soc": "51-6063",
+   "title": "Textile Knitting and Weaving Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.156,
+   "y": -22.9,
+   "emp2022": 16900
+  },
+  {
+   "soc": "51-6064",
+   "title": "Textile Winding, Twisting, and Drawing Out Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.086,
+   "y": -7.6,
+   "emp2022": 23830
+  },
+  {
+   "soc": "51-6091",
+   "title": "Extruding and Forming Machine Setters, Operators, and Tenders, Synthetic and Glass Fibers",
+   "major": "생산",
+   "x": 0.069,
+   "y": -11.1,
+   "emp2022": 14460
+  },
+  {
+   "soc": "51-6093",
+   "title": "Upholsterers",
+   "major": "생산",
+   "x": 0.191,
+   "y": -25.4,
+   "emp2022": 26990
+  },
+  {
+   "soc": "51-7011",
+   "title": "Cabinetmakers and Bench Carpenters",
+   "major": "생산",
+   "x": 0.118,
+   "y": -19.6,
+   "emp2022": 95980
+  },
+  {
+   "soc": "51-7021",
+   "title": "Furniture Finishers",
+   "major": "생산",
+   "x": 0.029,
+   "y": -3.4,
+   "emp2022": 14990
+  },
+  {
+   "soc": "51-7041",
+   "title": "Sawing Machine Setters, Operators, and Tenders, Wood",
+   "major": "생산",
+   "x": 0.059,
+   "y": -12.0,
+   "emp2022": 46400
+  },
+  {
+   "soc": "51-7042",
+   "title": "Woodworking Machine Setters, Operators, and Tenders, Except Sawing",
+   "major": "생산",
+   "x": 0.065,
+   "y": -3.5,
+   "emp2022": 63680
+  },
+  {
+   "soc": "51-8013",
+   "title": "Power Plant Operators",
+   "major": "생산",
+   "x": 0.155,
+   "y": -7.2,
+   "emp2022": 31590
+  },
+  {
+   "soc": "51-8021",
+   "title": "Stationary Engineers and Boiler Operators",
+   "major": "생산",
+   "x": 0.163,
+   "y": -10.2,
+   "emp2022": 31470
+  },
+  {
+   "soc": "51-8031",
+   "title": "Water and Wastewater Treatment Plant and System Operators",
+   "major": "생산",
+   "x": 0.125,
+   "y": 7.7,
+   "emp2022": 119350
+  },
+  {
+   "soc": "51-8091",
+   "title": "Chemical Plant and System Operators",
+   "major": "생산",
+   "x": 0.152,
+   "y": -11.2,
+   "emp2022": 18710
+  },
+  {
+   "soc": "51-8092",
+   "title": "Gas Plant Operators",
+   "major": "생산",
+   "x": 0.094,
+   "y": 26.2,
+   "emp2022": 14290
+  },
+  {
+   "soc": "51-8093",
+   "title": "Petroleum Pump System Operators, Refinery Operators, and Gaugers",
+   "major": "생산",
+   "x": 0.195,
+   "y": 5.7,
+   "emp2022": 31360
+  },
+  {
+   "soc": "51-8099",
+   "title": "Plant and System Operators, All Other",
+   "major": "생산",
+   "x": 0.095,
+   "y": -8.4,
+   "emp2022": 15370
+  },
+  {
+   "soc": "51-9011",
+   "title": "Chemical Equipment Operators and Tenders",
+   "major": "생산",
+   "x": 0.152,
+   "y": 21.0,
+   "emp2022": 115370
+  },
+  {
+   "soc": "51-9012",
+   "title": "Separating, Filtering, Clarifying, Precipitating, and Still Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.143,
+   "y": 14.5,
+   "emp2022": 52470
+  },
+  {
+   "soc": "51-9021",
+   "title": "Crushing, Grinding, and Polishing Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.108,
+   "y": -4.8,
+   "emp2022": 27320
+  },
+  {
+   "soc": "51-9022",
+   "title": "Grinding and Polishing Workers, Hand",
+   "major": "생산",
+   "x": 0.036,
+   "y": -25.9,
+   "emp2022": 14190
+  },
+  {
+   "soc": "51-9023",
+   "title": "Mixing and Blending Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.111,
+   "y": -12.8,
+   "emp2022": 108900
+  },
+  {
+   "soc": "51-9032",
+   "title": "Cutting and Slicing Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.068,
+   "y": -16.9,
+   "emp2022": 54110
+  },
+  {
+   "soc": "51-9041",
+   "title": "Extruding, Forming, Pressing, and Compacting Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.075,
+   "y": 0.1,
+   "emp2022": 58740
+  },
+  {
+   "soc": "51-9051",
+   "title": "Furnace, Kiln, Oven, Drier, and Kettle Operators and Tenders",
+   "major": "생산",
+   "x": 0.16,
+   "y": -5.0,
+   "emp2022": 15030
+  },
+  {
+   "soc": "51-9061",
+   "title": "Inspectors, Testers, Sorters, Samplers, and Weighers",
+   "major": "생산",
+   "x": 0.417,
+   "y": 3.0,
+   "emp2022": 579740
+  },
+  {
+   "soc": "51-9071",
+   "title": "Jewelers and Precious Stone and Metal Workers",
+   "major": "생산",
+   "x": 0.205,
+   "y": -14.6,
+   "emp2022": 26280
+  },
+  {
+   "soc": "51-9081",
+   "title": "Dental Laboratory Technicians",
+   "major": "생산",
+   "x": 0.042,
+   "y": 3.2,
+   "emp2022": 33330
+  },
+  {
+   "soc": "51-9082",
+   "title": "Medical Appliance Technicians",
+   "major": "생산",
+   "x": 0.138,
+   "y": -28.1,
+   "emp2022": 15680
+  },
+  {
+   "soc": "51-9083",
+   "title": "Ophthalmic Laboratory Technicians",
+   "major": "생산",
+   "x": 0.094,
+   "y": -7.6,
+   "emp2022": 20200
+  },
+  {
+   "soc": "51-9111",
+   "title": "Packaging and Filling Machine Operators and Tenders",
+   "major": "생산",
+   "x": 0.0,
+   "y": 2.6,
+   "emp2022": 369330
+  },
+  {
+   "soc": "51-9123",
+   "title": "Painting, Coating, and Decorating Workers",
+   "major": "생산",
+   "x": 0.0,
+   "y": -33.8,
+   "emp2022": 11990
+  },
+  {
+   "soc": "51-9124",
+   "title": "Coating, Painting, and Spraying Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.043,
+   "y": 4.4,
+   "emp2022": 152120
+  },
+  {
+   "soc": "51-9141",
+   "title": "Semiconductor Processing Technicians",
+   "major": "생산",
+   "x": 0.234,
+   "y": 31.9,
+   "emp2022": 23860
+  },
+  {
+   "soc": "51-9161",
+   "title": "Computer Numerically Controlled Tool Operators",
+   "major": "생산",
+   "x": 0.25,
+   "y": -5.5,
+   "emp2022": 179360
+  },
+  {
+   "soc": "51-9162",
+   "title": "Computer Numerically Controlled Tool Programmers",
+   "major": "생산",
+   "x": 0.804,
+   "y": 1.4,
+   "emp2022": 28120
+  },
+  {
+   "soc": "51-9191",
+   "title": "Adhesive Bonding Machine Operators and Tenders",
+   "major": "생산",
+   "x": 0.065,
+   "y": 1.6,
+   "emp2022": 11320
+  },
+  {
+   "soc": "51-9192",
+   "title": "Cleaning, Washing, and Metal Pickling Equipment Operators and Tenders",
+   "major": "생산",
+   "x": 0.105,
+   "y": 11.8,
+   "emp2022": 13200
+  },
+  {
+   "soc": "51-9195",
+   "title": "Molders, Shapers, and Casters, Except Metal and Plastic",
+   "major": "생산",
+   "x": 0.071,
+   "y": -15.0,
+   "emp2022": 39060
+  },
+  {
+   "soc": "51-9196",
+   "title": "Paper Goods Machine Setters, Operators, and Tenders",
+   "major": "생산",
+   "x": 0.0,
+   "y": 4.4,
+   "emp2022": 92050
+  },
+  {
+   "soc": "51-9197",
+   "title": "Tire Builders",
+   "major": "생산",
+   "x": 0.019,
+   "y": 13.1,
+   "emp2022": 18360
+  },
+  {
+   "soc": "51-9198",
+   "title": "Helpers--Production Workers",
+   "major": "생산",
+   "x": 0.089,
+   "y": -13.1,
+   "emp2022": 190680
+  },
+  {
+   "soc": "53-2011",
+   "title": "Airline Pilots, Copilots, and Flight Engineers",
+   "major": "운송",
+   "x": 0.352,
+   "y": 15.6,
+   "emp2022": 89580
+  },
+  {
+   "soc": "53-2012",
+   "title": "Commercial Pilots",
+   "major": "운송",
+   "x": 0.239,
+   "y": -2.3,
+   "emp2022": 48750
+  },
+  {
+   "soc": "53-2021",
+   "title": "Air Traffic Controllers",
+   "major": "운송",
+   "x": 0.341,
+   "y": 5.9,
+   "emp2022": 21250
+  },
+  {
+   "soc": "53-2022",
+   "title": "Airfield Operations Specialists",
+   "major": "운송",
+   "x": 0.366,
+   "y": 2.9,
+   "emp2022": 14760
+  },
+  {
+   "soc": "53-2031",
+   "title": "Flight Attendants",
+   "major": "운송",
+   "x": 0.167,
+   "y": 21.4,
+   "emp2022": 108480
+  },
+  {
+   "soc": "53-3031",
+   "title": "Driver/Sales Workers",
+   "major": "운송",
+   "x": 0.333,
+   "y": -16.4,
+   "emp2022": 489510
+  },
+  {
+   "soc": "53-3032",
+   "title": "Heavy and Tractor-Trailer Truck Drivers",
+   "major": "운송",
+   "x": 0.279,
+   "y": 3.9,
+   "emp2022": 1984180
+  },
+  {
+   "soc": "53-3033",
+   "title": "Light Truck Drivers",
+   "major": "운송",
+   "x": 0.365,
+   "y": -7.2,
+   "emp2022": 1059840
+  },
+  {
+   "soc": "53-3051",
+   "title": "Bus Drivers, School",
+   "major": "운송",
+   "x": 0.324,
+   "y": 9.9,
+   "emp2022": 366550
+  },
+  {
+   "soc": "53-3052",
+   "title": "Bus Drivers, Transit and Intercity",
+   "major": "운송",
+   "x": 0.241,
+   "y": 12.5,
+   "emp2022": 141530
+  },
+  {
+   "soc": "53-3053",
+   "title": "Shuttle Drivers and Chauffeurs",
+   "major": "운송",
+   "x": 0.25,
+   "y": 23.6,
+   "emp2022": 201070
+  },
+  {
+   "soc": "53-3054",
+   "title": "Taxi Drivers",
+   "major": "운송",
+   "x": 0.281,
+   "y": 197.0,
+   "emp2022": 13820
+  },
+  {
+   "soc": "53-4011",
+   "title": "Locomotive Engineers",
+   "major": "운송",
+   "x": 0.286,
+   "y": -8.2,
+   "emp2022": 36440
+  },
+  {
+   "soc": "53-4022",
+   "title": "Railroad Brake, Signal, and Switch Operators and Locomotive Firers",
+   "major": "운송",
+   "x": 0.167,
+   "y": -12.7,
+   "emp2022": 14210
+  },
+  {
+   "soc": "53-4031",
+   "title": "Railroad Conductors and Yardmasters",
+   "major": "운송",
+   "x": 0.278,
+   "y": 13.4,
+   "emp2022": 40940
+  },
+  {
+   "soc": "53-5011",
+   "title": "Sailors and Marine Oilers",
+   "major": "운송",
+   "x": 0.043,
+   "y": 11.1,
+   "emp2022": 28500
+  },
+  {
+   "soc": "53-5021",
+   "title": "Captains, Mates, and Pilots of Water Vessels",
+   "major": "운송",
+   "x": 0.264,
+   "y": 5.5,
+   "emp2022": 34940
+  },
+  {
+   "soc": "53-6021",
+   "title": "Parking Attendants",
+   "major": "운송",
+   "x": 0.107,
+   "y": 31.0,
+   "emp2022": 105290
+  },
+  {
+   "soc": "53-6031",
+   "title": "Automotive and Watercraft Service Attendants",
+   "major": "운송",
+   "x": 0.13,
+   "y": 2.4,
+   "emp2022": 99600
+  },
+  {
+   "soc": "53-6032",
+   "title": "Aircraft Service Attendants",
+   "major": "운송",
+   "x": 0.139,
+   "y": 58.7,
+   "emp2022": 19720
+  },
+  {
+   "soc": "53-6051",
+   "title": "Transportation Inspectors",
+   "major": "운송",
+   "x": 0.413,
+   "y": 0.3,
+   "emp2022": 24420
+  },
+  {
+   "soc": "53-6061",
+   "title": "Passenger Attendants",
+   "major": "운송",
+   "x": 0.222,
+   "y": 105.4,
+   "emp2022": 13200
+  },
+  {
+   "soc": "53-7011",
+   "title": "Conveyor Operators and Tenders",
+   "major": "운송",
+   "x": 0.103,
+   "y": -17.5,
+   "emp2022": 27780
+  },
+  {
+   "soc": "53-7021",
+   "title": "Crane and Tower Operators",
+   "major": "운송",
+   "x": 0.184,
+   "y": -5.1,
+   "emp2022": 45210
+  },
+  {
+   "soc": "53-7051",
+   "title": "Industrial Truck and Tractor Operators",
+   "major": "운송",
+   "x": 0.031,
+   "y": -0.8,
+   "emp2022": 780890
+  },
+  {
+   "soc": "53-7061",
+   "title": "Cleaners of Vehicles and Equipment",
+   "major": "운송",
+   "x": 0.083,
+   "y": 5.8,
+   "emp2022": 359530
+  },
+  {
+   "soc": "53-7062",
+   "title": "Laborers and Freight, Stock, and Material Movers, Hand",
+   "major": "운송",
+   "x": 0.042,
+   "y": 0.6,
+   "emp2022": 2934050
+  },
+  {
+   "soc": "53-7063",
+   "title": "Machine Feeders and Offbearers",
+   "major": "운송",
+   "x": 0.091,
+   "y": -17.0,
+   "emp2022": 51010
+  },
+  {
+   "soc": "53-7064",
+   "title": "Packers and Packagers, Hand",
+   "major": "운송",
+   "x": 0.1,
+   "y": -14.4,
+   "emp2022": 653870
+  },
+  {
+   "soc": "53-7065",
+   "title": "Stockers and Order Fillers",
+   "major": "운송",
+   "x": 0.182,
+   "y": -0.3,
+   "emp2022": 2842060
+  },
+  {
+   "soc": "53-7072",
+   "title": "Pump Operators, Except Wellhead Pumpers",
+   "major": "운송",
+   "x": 0.25,
+   "y": -10.0,
+   "emp2022": 10870
+  },
+  {
+   "soc": "53-7073",
+   "title": "Wellhead Pumpers",
+   "major": "운송",
+   "x": 0.0,
+   "y": 23.6,
+   "emp2022": 14550
+  },
+  {
+   "soc": "53-7081",
+   "title": "Refuse and Recyclable Material Collectors",
+   "major": "운송",
+   "x": 0.196,
+   "y": 11.3,
+   "emp2022": 132240
+  },
+  {
+   "soc": "53-7121",
+   "title": "Tank Car, Truck, and Ship Loaders",
+   "major": "운송",
+   "x": 0.071,
+   "y": -14.2,
+   "emp2022": 12470
+  }
+ ],
+ "top_exposed": [
+  {
+   "soc": "15-1251",
+   "title": "Computer Programmers",
+   "major": "컴퓨터·수학",
+   "beta": 0.95,
+   "ms": 0.31,
+   "anthropic": 0.7451,
+   "emp_2022": 132740,
+   "emp_2025": 92230,
+   "변화율_pct": -30.5,
+   "전망개정_pp": -1.3
+  },
+  {
+   "soc": "15-1242",
+   "title": "Database Administrators",
+   "major": "컴퓨터·수학",
+   "beta": 0.935,
+   "ms": 0.297,
+   "anthropic": 0.3315,
+   "emp_2022": 80520,
+   "emp_2025": 69990,
+   "변화율_pct": -13.1,
+   "전망개정_pp": 0.6
+  },
+  {
+   "soc": "15-1254",
+   "title": "Web Developers",
+   "major": "컴퓨터·수학",
+   "beta": 0.933,
+   "ms": 0.353,
+   "anthropic": 0.4802,
+   "emp_2022": 88620,
+   "emp_2025": 70190,
+   "변화율_pct": -20.8,
+   "전망개정_pp": -3.7
+  },
+  {
+   "soc": "15-1243",
+   "title": "Database Architects",
+   "major": "컴퓨터·수학",
+   "beta": 0.911,
+   "ms": 0.312,
+   "anthropic": 0.5787,
+   "emp_2022": 62470,
+   "emp_2025": 67140,
+   "변화율_pct": 7.5,
+   "전망개정_pp": 0.7
+  },
+  {
+   "soc": "43-9021",
+   "title": "Data Entry Keyers",
+   "major": "사무·행정 지원",
+   "beta": 0.893,
+   "ms": 0.315,
+   "anthropic": 0.6707,
+   "emp_2022": 157380,
+   "emp_2025": 127080,
+   "변화율_pct": -19.3,
+   "전망개정_pp": 0.4
+  },
+  {
+   "soc": "27-3091",
+   "title": "Interpreters and Translators",
+   "major": "예술·미디어",
+   "beta": 0.88,
+   "ms": 0.492,
+   "anthropic": 0.4304,
+   "emp_2022": 52160,
+   "emp_2025": 52060,
+   "변화율_pct": -0.2,
+   "전망개정_pp": 0.3
+  },
+  {
+   "soc": "15-1253",
+   "title": "Software Quality Assurance Analysts and Testers",
+   "major": "컴퓨터·수학",
+   "beta": 0.877,
+   "ms": 0.328,
+   "anthropic": 0.5195,
+   "emp_2022": 196420,
+   "emp_2025": 186740,
+   "변화율_pct": -4.9,
+   "전망개정_pp": -4.3
+  },
+  {
+   "soc": "27-3043",
+   "title": "Writers and Authors",
+   "major": "예술·미디어",
+   "beta": 0.877,
+   "ms": 0.454,
+   "anthropic": 0.2462,
+   "emp_2022": 54010,
+   "emp_2025": 47940,
+   "변화율_pct": -11.2,
+   "전망개정_pp": -3.9
+  },
+  {
+   "soc": "15-1252",
+   "title": "Software Developers",
+   "major": "컴퓨터·수학",
+   "beta": 0.868,
+   "ms": 0.278,
+   "anthropic": 0.288,
+   "emp_2022": 1534790,
+   "emp_2025": 1687890,
+   "변화율_pct": 10.0,
+   "전망개정_pp": -5.6
+  },
+  {
+   "soc": "43-3051",
+   "title": "Payroll and Timekeeping Clerks",
+   "major": "사무·행정 지원",
+   "beta": 0.838,
+   "ms": 0.218,
+   "anthropic": 0.0487,
+   "emp_2022": 159190,
+   "emp_2025": 153140,
+   "변화율_pct": -3.8,
+   "전망개정_pp": 0.8
+  },
+  {
+   "soc": "43-9041",
+   "title": "Insurance Claims and Policy Processing Clerks",
+   "major": "사무·행정 지원",
+   "beta": 0.833,
+   "ms": 0.307,
+   "anthropic": 0.1467,
+   "emp_2022": 227580,
+   "emp_2025": 214260,
+   "변화율_pct": -5.9,
+   "전망개정_pp": 1.8
+  },
+  {
+   "soc": "41-9041",
+   "title": "Telemarketers",
+   "major": "판매",
+   "beta": 0.806,
+   "ms": 0.404,
+   "anthropic": 0.2852,
+   "emp_2022": 96520,
+   "emp_2025": 58430,
+   "변화율_pct": -39.5,
+   "전망개정_pp": 0.7
+  },
+  {
+   "soc": "43-3031",
+   "title": "Bookkeeping, Accounting, and Auditing Clerks",
+   "major": "사무·행정 지원",
+   "beta": 0.802,
+   "ms": 0.244,
+   "anthropic": 0.3104,
+   "emp_2022": 1550750,
+   "emp_2025": 1373680,
+   "변화율_pct": -11.4,
+   "전망개정_pp": 0.2
+  },
+  {
+   "soc": "43-4071",
+   "title": "File Clerks",
+   "major": "사무·행정 지원",
+   "beta": 0.794,
+   "ms": 0.25,
+   "anthropic": 0.1568,
+   "emp_2022": 87250,
+   "emp_2025": 73440,
+   "변화율_pct": -15.8,
+   "전망개정_pp": 0.1
+  },
+  {
+   "soc": "43-3021",
+   "title": "Billing and Posting Clerks",
+   "major": "사무·행정 지원",
+   "beta": 0.774,
+   "ms": 0.223,
+   "anthropic": 0.1924,
+   "emp_2022": 441980,
+   "emp_2025": 404060,
+   "변화율_pct": -8.6,
+   "전망개정_pp": 0.3
+  }
+ ]
+}
