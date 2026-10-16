@@ -1,27 +1,28 @@
 {
  "label": "baseline",
- "date": "2026-10-16T09:05:53.560Z",
- "commit": "da07164",
+ "date": "2026-10-16T09:43:28.008Z",
+ "commit": "73b782e",
  "deckDirty": false,
  "deckSha": "a2bf7b988014",
- "seconds": 305,
+ "seconds": 300,
  "summary": {
   "total": 147,
   "checked": 147,
   "implemented": 143,
   "implementedAuto": 142,
   "autoTotal": 142,
-  "pass": 29,
-  "fail": 114,
+  "pass": 28,
+  "fail": 115,
   "manual": 4,
   "error": 0,
+  "pendingManual": 5,
   "regressions": 0
  },
  "compare": null,
  "tools": {
-  "python": "<tmp>/sam-env/bin/python",
+  "python": "python3",
   "skill": "~/.agents/skills/designing-decks-and-motion/scripts",
-  "taste": null,
+  "taste": "~/Documents/school-projects/2026-2/data-literacy/.agi-deck/tools/taste",
   "net": false,
   "publicUrl": null,
   "axe": false,
@@ -57,13 +58,19 @@
   "render": {
    "cmd": "bun scripts/render.ts index.html",
    "code": 0,
-   "out": "{\n \"slides\": 34,\n \"outDir\": \"presentation/renders/index\",\n \"pdf\": null,\n \"issues\": [\n  {\n   \"n\": 5,\n   \"over\": [],\n   \"clipped\": [],\n   \"headLines\": 1,\n   \"allowed\": 1,\n   \"tiny\": [\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"학습 연산 연 4.1배\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"전력은 연 15% 증가\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"맡을 수 있는 업무 크기\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"105일마다 두 배\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"사내 코드 75~90% AI 작성\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"능력 2배마다 AGI 3.2년 당김\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"코딩 · 상담 · 사무\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"신입 업무부터\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"원격조작 · 시뮬레이션\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"데이터 기업이 축적\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"생산 · 물류 · 판매 현장\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"3~8년 늦게 같은 변화\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\"\n   ]\n  }\n ],\n \"excepted\": [\n  {\n   \"n\": 1,\n   \"excepted\": [\n    \"span. \\\"데이터리터러시의이해 중간고사 과제\\\" 14px — 예외로 넘김(.cover .bar *)\",\n    \"span. \\\"주제 설명과 데이터분석 계획 · 2026-1\\\" 14px — 예외로 넘김(.cover .bar *)\",\n    \"div.kicker \\\"AI가 AI 개발을 돕기 시작한 뒤의 10년\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.source.credit \\\"사진: AI 생성 이미지(Gemini) · \\\" 16px — 예외로 넘김(.credit)\",\n    \"b. \\\"1\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 2,\n   \"excepted\": [\n    \"span.source.credit \\\"사진: AI 생성 이미지(Gemini) · \\\" 16px — 예외로 넘김(.credit)\",\n    \"b. \\\"2\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 3,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"이 발표가 답하려는 것\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.source \\\"AGI 정의는 회사마다 다릅니다. 정의가 다\\\" 16px — 예외로 넘김(.foot *)\",\n    \"b. \\\"3\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 4,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"결론 먼저\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.tag \\\"기술\\\" 14px — 예외로 넘김(.tile .tag)\",\n    \"span.tag \\\"n=3\\\" 14px — 예외로 넘김(.tile .tag)\",\n    \"span.tag \\\"한국은행\\\" 14px — 예외로 넘김(.tile .tag)\",\n    \"span.tag.est \\\"추정\\\" 14px — 예외로 넘김(.tag)\",\n    \"span.source \\\"METR · AI Impacts 전문가 설문\\\" 16px — 예외로 넘김(.foot *)\",\n    \"b. \\\"4\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 5,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"전체 구조\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.source \\\"Epoch AI · IEA · METR · \\\" 16px — 예외로 넘김(.foot *)\",\n    \"b. \\\"5\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 6,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"재귀적 자기개선 · 지금 보이는 신호\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.tag \\\"2차 · 자체 보고\\\" 14px — 예외로 넘김(.tag)\",\n    \"span.tag \\\"2차\\\" 14px — 예외로 넘김(.tag)\",\n    \"span.tag \\\"직접\\\" 14px — 예외로 넘김(.tag)\",\n    \"span.source.credit \\\"배경: AI 생성 이미지(Gemini) · \\\" 16px — 예외로 넘김(.credit)\",\n    \"b. \\\"6\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 7,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"AI 발전 속도 · 관계식 R1\\\" 14px — 예외로 넘김(.kicker)\",\n    \"p.chart-s",
+   "out": "{\n \"slides\": 34,\n \"outDir\": \"presentation/renders/index\",\n \"pdf\": null,\n \"issues\": [\n  {\n   \"n\": 5,\n   \"over\": [],\n   \"clipped\": [],\n   \"headLines\": 1,\n   \"allowed\": 1,\n   \"tiny\": [\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"학습 연산 연 4.1배\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"전력은 연 15% 증가\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"맡을 수 있는 업무 크기\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"105일마다 두 배\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"사내 코드 75~90% AI 작성\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"능력 2배마다 AGI 3.2년 당김\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"코딩 · 상담 · 사무\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"신입 업무부터\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"원격조작 · 시뮬레이션\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"데이터 기업이 축적\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"생산 · 물류 · 판매 현장\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\",\n    \"svg \\\"연산과 전력에서 AI 능력, AI 개발 가속\\\" text.n-s \\\"3~8년 늦게 같은 변화\\\" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14px 미만)\"\n   ]\n  }\n ],\n \"excepted\": [\n  {\n   \"n\": 1,\n   \"excepted\": [\n    \"span. \\\"데이터리터러시의이해 중간고사 과제\\\" 14px — 예외로 넘김(.cover .bar *)\",\n    \"span. \\\"주제 설명과 데이터분석 계획 · 2026-1\\\" 14px — 예외로 넘김(.cover .bar *)\",\n    \"div.kicker \\\"AI가 AI 개발을 돕기 시작한 뒤의 10년\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.source.credit \\\"사진: AI 생성 이미지(Gemini) · \\\" 16px — 예외로 넘김(.credit)\",\n    \"b. \\\"1\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 2,\n   \"excepted\": [\n    \"span.source.credit \\\"사진: AI 생성 이미지(Gemini) · \\\" 16px — 예외로 넘김(.credit)\",\n    \"b. \\\"2\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 3,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"이 발표가 답하려는 것\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.source \\\"AGI 정의는 회사마다 다릅니다. 정의가 다\\\" 16px — 예외로 넘김(.foot *)\",\n    \"b. \\\"3\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 4,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"결론 먼저\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.tag \\\"기술\\\" 14px — 예외로 넘김(.tile .tag)\",\n    \"span.tag \\\"n=3\\\" 14px — 예외로 넘김(.tile .tag)\",\n    \"span.tag \\\"한국은행\\\" 14px — 예외로 넘김(.tile .tag)\",\n    \"span.tag.est \\\"추정\\\" 14px — 예외로 넘김(.tag)\",\n    \"span.source \\\"METR · AI Impacts 전문가 설문\\\" 16px — 예외로 넘김(.foot *)\",\n    \"b. \\\"4\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 5,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"전체 구조\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.source \\\"Epoch AI · IEA · METR · \\\" 16px — 예외로 넘김(.foot *)\",\n    \"b. \\\"5\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 6,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"재귀적 자기개선 · 지금 보이는 신호\\\" 14px — 예외로 넘김(.kicker)\",\n    \"span.tag \\\"2차 · 자체 보고\\\" 14px — 예외로 넘김(.tag)\",\n    \"span.tag \\\"2차\\\" 14px — 예외로 넘김(.tag)\",\n    \"span.tag \\\"직접\\\" 14px — 예외로 넘김(.tag)\",\n    \"span.source.credit \\\"배경: AI 생성 이미지(Gemini) · \\\" 16px — 예외로 넘김(.credit)\",\n    \"b. \\\"6\\\" 16px — 예외로 넘김(.foot *)\",\n    \"span.tot \\\"34\\\" 16px — 예외로 넘김(.foot *)\"\n   ]\n  },\n  {\n   \"n\": 7,\n   \"excepted\": [\n    \"div.kicker.t-stagger-line \\\"AI 발전 속도 · 관계식 R1\\\" 14px — 예외로 넘김(.kicker)\",\n    \"p.chart-sub \\\"세",
    "err": ""
   },
   "probeNav": {
    "cmd": "bun scripts/probe-nav.ts",
    "code": 1,
    "out": "{\n \"window\": {\n  \"width\": 1512,\n  \"height\": 900\n },\n \"geometry\": {\n  \"zoom\": \"1\",\n  \"mismatches\": [\n   {\n    \"scrolledTo\": 2,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 3,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 4,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 5,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 6,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 7,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 8,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 9,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 10,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 11,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 12,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 13,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 14,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 15,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 16,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 17,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 18,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 19,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 20,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 21,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 22,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 23,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 24,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 25,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 26,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 27,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 28,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 29,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 30,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 31,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 32,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 33,\n    \"reported\": 1\n   },\n   {\n    \"scrolledTo\": 34,\n    \"reported\": 1\n   }\n  ],\n  \"checked\": 34\n },\n \"walk\": {\n  \"down\": [\n   1,\n   2,\n   3,\n   4,\n   5,\n   6,\n   7,\n   8,\n   9,\n   10,\n   11,\n   12,\n   13,\n   14,\n   15,\n   16,\n   17,\n   18,\n   19,\n   20,\n   21,\n   22,\n   23,\n   24,\n   25,\n   26,\n   27,\n   28,\n   29,\n   30,\n   31,\n   32,\n   33,\n   34,\n   34,\n   34\n  ],\n  \"up\": [\n   33,\n   32,\n   31,\n   30\n  ],\n  \"total\": 34\n },\n \"downOk\": true,\n \"upOk\": true\n}",
+   "err": ""
+  },
+  "lint": {
+   "cmd": "node ~/Documents/school-projects/2026-2/data-literacy/.agi-deck/tools/taste/lint.mjs index.html src --json",
+   "code": 1,
+   "out": "{\n \"files\": 8,\n \"findings\": [\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 17,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 40,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 57,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 74,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 113,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 130,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 145,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 163,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 185,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 205,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 225,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"WARN\",\n   \"id\": \"copy\",\n   \"file\": \"index.html\",\n   \"line\": 234,\n   \"match\": \"the future of\",\n   \"message\": \"Stock marketing phrase. Say the specific thing the product does.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 240,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 260,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 281,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 296,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 325,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 348,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 368,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 385,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 402,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 418,\n   \"match\": \"class=\\\"kicker\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"index.html\",\n   \"line\": 4",
    "err": ""
   }
  },
@@ -1230,6 +1237,14 @@
      "msg": "div.grid \"사무 · φ 0.05+23.0%판매 · φ 0.4+\" 같은 행 형제 자식 구조 다름"
     },
     {
+     "n": 30,
+     "msg": "div.bands \"쟁점AI 영향으로 볼 수 있는 근거다른 원인으로 설\" 1번째 행 칸 3개 첫 줄 기준선 3.5px 어긋남(위끝 13px 차, 정렬 기준 아래끝): p.q y=374 · p.a y=387 · p.c y=387"
+    },
+    {
+     "n": 30,
+     "msg": "div.bands \"쟁점AI 영향으로 볼 수 있는 근거다른 원인으로 설\" 행마다 칸 정렬 기준이 다름: 1행 아래끝 · 2행 기준선 · 3행 기준선 · 4행 기준선 · 5행 기준선"
+    },
+    {
      "n": 32,
      "msg": "div.grid \"단계무엇을방법 · 수업 연결 5 관계노출 × 청년 \" 같은 행 형제 폭 1051/501 · 높이 425/220"
     },
@@ -1258,6 +1273,7 @@
     25,
     26,
     27,
+    30,
     32,
     33
    ],
@@ -2628,7 +2644,7 @@
     33
    ],
    "measured": {
-    "lintShadow": null
+    "lintShadow": 22
    },
    "evidence": [
     "shots/baseline/slide-01.jpg",
@@ -3299,6 +3315,7 @@
    "summary": "색별 의미 표(인디고=핵심 계열·주장, 세이지=보조 면, 스톤=비교 기준)가 color.md에 있고, 그 밖 용도가 없으며 같은 대상은 차트가 바뀌어도 같은 색이다",
    "items": [],
    "failedSlides": [],
+   "pendingManual": true,
    "evidence": [],
    "manual": {
     "procedure": "color.md 표를 읽고 var(--accent) 사용처를 CSS·인라인·JS에서 모아 용도를 분류한다. chart-data.json에서 여러 차트에 나오는 대상 이름의 계열 클래스를 대조한다",
@@ -3956,6 +3973,7 @@
    "summary": "그라데이션을 쓴 장은 소수이고 의미 구분에는 쓰지 않으며, 그라데이션 글자는 대비를 다시 확인한다",
    "items": [],
    "failedSlides": [],
+   "pendingManual": true,
    "measured": {
     "slidesWith": [
      6,
@@ -6912,7 +6930,7 @@
     12
    ],
    "measured": {
-    "lintCopy": null
+    "lintCopy": 1
    },
    "evidence": [
     "shots/baseline/slide-12.jpg"
@@ -7059,41 +7077,23 @@
      "msg": "같은 숫자 3회 이상: 2026×4"
     },
     {
-     "n": 9,
-     "msg": "같은 숫자 3회 이상: 2026×3, 2025×3"
-    },
-    {
      "n": 25,
      "msg": "같은 숫자 3회 이상: 2030×3"
     },
     {
      "n": 28,
      "msg": "같은 숫자 3회 이상: 25×3"
-    },
-    {
-     "n": 30,
-     "msg": "같은 숫자 3회 이상: 1×3"
-    },
-    {
-     "n": 34,
-     "msg": "같은 숫자 3회 이상: 2025×4, 2026×3"
     }
    ],
    "failedSlides": [
     6,
-    9,
     25,
-    28,
-    30,
-    34
+    28
    ],
    "evidence": [
     "shots/baseline/slide-06.jpg",
-    "shots/baseline/slide-09.jpg",
     "shots/baseline/slide-25.jpg",
-    "shots/baseline/slide-28.jpg",
-    "shots/baseline/slide-30.jpg",
-    "shots/baseline/slide-34.jpg"
+    "shots/baseline/slide-28.jpg"
    ],
    "manual": {
     "procedure": "장 내 블록 쌍과 연속 장 헤드라인의 2-gram 자카드, 장별 숫자 토큰 빈도를 계산한 뒤 장마다 '메시지 한 문장'을 적는다",
@@ -7893,6 +7893,7 @@
    "summary": "의미 있는 이미지는 내용 alt, 장식 이미지는 alt=\"\"이고 실존 인물·기관명을 생성 이미지 alt에 쓰지 않는다",
    "items": [],
    "failedSlides": [],
+   "pendingManual": true,
    "evidence": [],
    "manual": {
     "procedure": "모든 img의 alt를 나열해 장식/내용 분류표와 대조한다",
@@ -8549,15 +8550,31 @@
    "summary": "눈금은 깔끔한 수열, 막대는 0 기준, 연도 축은 실제 날짜 간격으로 왼→오른 증가한다",
    "items": [
     {
+     "n": 7,
+     "msg": "metr_horizon 로그 눈금 배수가 일정하지 않음: 1분·10분·1시간·8시간·40시간 (이웃 배수 10/6/8/5)"
+    },
+    {
      "n": 13,
      "msg": "occ_scatter 범위 밖 10개 점이 축 끝(y=441.4)에 실제 값처럼 그려짐(끝선 위 점 10개, 다른 모양·표시 없음)"
+    },
+    {
+     "n": 24,
+     "msg": "proj_capability 로그 눈금 배수가 일정하지 않음: 1시간·하루·1주·1달·분기·1년·8년 (이웃 배수 24/7/4.3/3/4.1/8)"
+    },
+    {
+     "n": 24,
+     "msg": "proj_capability 축 눈금 4개가 가정선(gate)과 같은 높이: 하루·1주·1달·분기"
     }
    ],
    "failedSlides": [
-    13
+    7,
+    13,
+    24
    ],
    "evidence": [
-    "shots/baseline/slide-13.jpg"
+    "shots/baseline/slide-07.jpg",
+    "shots/baseline/slide-13.jpg",
+    "shots/baseline/slide-24.jpg"
    ]
   },
   {
@@ -8662,11 +8679,20 @@
    "area": "차트·형식",
    "method": "both",
    "implemented": "auto+manual",
-   "status": "pass",
+   "status": "fail",
    "summary": "차트 형태가 데이터의 일에 맞고, 값이 3개 이하인 데이터는 차트가 아니라 큰 숫자 타이포로, 낯선 형식(두 계열 시점·파동·관계식 체인)은 '읽는 법' 한 문장을 갖는다",
-   "items": [],
-   "failedSlides": [],
-   "evidence": [],
+   "items": [
+    {
+     "n": 27,
+     "msg": "proj_wave 헤드라인은 순서·시점(\"사무직부터 시작해 판매와 생산 현장으로 이어집니다\")인데 차트는 시간 축 없는 값 막대이고 값 순도 아님(23, 26.4, 25.6, 10, 5.2, 0.6)"
+    }
+   ],
+   "failedSlides": [
+    27
+   ],
+   "evidence": [
+    "shots/baseline/slide-27.jpg"
+   ],
    "manual": {
     "procedure": "'장 / 맡은 일 / 현재 형태 / 맞는 형태' 표를 만들고 svg 데이터 마크 수, 기타 형식 장의 읽는 법 요소, 세로축 척도 수를 확인한다",
     "bundle": [
@@ -8691,15 +8717,21 @@
    "summary": "같은 데이터를 다루는 차트 쌍(7↔22장 METR, 17↔25·26장 직업군)은 계열 색·마커·단위·이름 표기가 같고, 이어지는 장은 축·위치를 유지한다",
    "items": [
     {
+     "n": 14,
+     "msg": "이어지는 차트 장 13·14 모집단 다름: 직업 639개 / 770개, 다른 이유 설명 없음"
+    },
+    {
      "n": 11,
      "msg": "연속 차트 장 10·11 축 범위 다름: 세로 2020~2070 · 가로 2016~2027 / 세로 2030~2170 · 가로 2016~2025"
     }
    ],
    "failedSlides": [
-    11
+    11,
+    14
    ],
    "evidence": [
-    "shots/baseline/slide-11.jpg"
+    "shots/baseline/slide-11.jpg",
+    "shots/baseline/slide-14.jpg"
    ]
   },
   {
@@ -9959,10 +9991,6 @@
    "summary": "추정값은 같은 블록에 '추정' 라벨과 범위를 갖고, 외삽 장마다 한계 문구가 있으며 한계 장은 구체 가정과 수치 범위를 말한다. 인과 동사는 근거 등급을 넘지 않는다",
    "items": [
     {
-     "n": 3,
-     "msg": "2036 외삽 장에 한계 문구 없음"
-    },
-    {
      "n": 21,
      "msg": "추정 라벨이 있는데 범위 표기 없음"
     },
@@ -9973,38 +10001,33 @@
     {
      "n": 26,
      "msg": "추정 라벨이 있는데 범위 표기 없음"
-    },
-    {
-     "n": 32,
-     "msg": "2036 외삽 장에 한계 문구 없음"
-    },
-    {
-     "n": 34,
-     "msg": "2036 외삽 장에 한계 문구 없음"
     }
    ],
    "failedSlides": [
-    3,
     21,
     23,
-    26,
-    32,
-    34
+    26
    ],
+   "measured": {
+    "extrapolation": [
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29
+    ]
+   },
    "evidence": [
-    "shots/baseline/slide-03.jpg",
     "shots/baseline/slide-21.jpg",
     "shots/baseline/slide-23.jpg",
-    "shots/baseline/slide-26.jpg",
-    "shots/baseline/slide-32.jpg",
-    "shots/baseline/slide-34.jpg"
+    "shots/baseline/slide-26.jpg"
    ],
    "manual": {
     "procedure": "추정 수치 요소 가장 가까운 블록의 .tag.est·범위 표기, 2036 외삽 장의 한계 문구, 한계 장 정규식(숫자~숫자|±), /때문에|초래|입증|증명/ 문장의 라벨 등급을 확인한다",
     "bundle": [
-     "shots/baseline/slide-01.jpg",
-     "shots/baseline/slide-03.jpg",
-     "shots/baseline/slide-04.jpg",
      "shots/baseline/slide-22.jpg",
      "shots/baseline/slide-23.jpg",
      "shots/baseline/slide-24.jpg",
@@ -10012,10 +10035,7 @@
      "shots/baseline/slide-26.jpg",
      "shots/baseline/slide-27.jpg",
      "shots/baseline/slide-28.jpg",
-     "shots/baseline/slide-29.jpg",
-     "shots/baseline/slide-32.jpg",
-     "shots/baseline/slide-33.jpg",
-     "shots/baseline/slide-34.jpg"
+     "shots/baseline/slide-29.jpg"
     ]
    }
   },
@@ -10215,13 +10235,13 @@
    "items": [],
    "failedSlides": [],
    "measured": {
-    "firstVisibleMs": 41.700000047683716,
+    "firstVisibleMs": 45.89999997615814,
     "visibleSamples": [
-     29.799999952316284,
-     41.700000047683716,
-     36.200000047683716,
-     48.199999928474426,
-     43.800000071525574
+     326.2000000476837,
+     57.800000071525574,
+     36.799999952316284,
+     33.799999952316284,
+     45.89999997615814
     ],
     "afterTen": {
      "cur": 10,
@@ -11593,6 +11613,7 @@
    "summary": "모든 QA 뷰포트에서 캔버스가 16:9로 가운데 맞춰지고 가로 스크롤과 잘림이 없다",
    "items": [],
    "failedSlides": [],
+   "pendingManual": true,
    "notes": [
     "뷰포트마다 10장 한 장을 찍어 묶음으로 낸다(34장 × 11뷰포트 전부는 찍지 않음, 덱 상자는 장과 무관)"
    ],
@@ -11961,6 +11982,7 @@
    "summary": "핀치·브라우저 확대를 막지 않고, 200% 확대에서도 장 전체가 보이거나 읽기 모드에서 글자가 실제로 커진다",
    "items": [],
    "failedSlides": [],
+   "pendingManual": true,
    "notes": [
     "읽기 모드 실효 크기 1.8배·핀치 후 화면은 수동"
    ],
@@ -12011,19 +12033,19 @@
       "blurIn": 3
      },
      {
-      "incoming": 5.75215,
-      "outgoing": -2.24785,
-      "blurIn": 2.15706
+      "incoming": 5.74885,
+      "outgoing": -2.25116,
+      "blurIn": 2.15582
      },
      {
-      "incoming": 3.93987,
-      "outgoing": -4.06013,
-      "blurIn": 1.47745
+      "incoming": 3.94675,
+      "outgoing": -4.05325,
+      "blurIn": 1.48003
      },
      {
-      "incoming": 1.68163,
-      "outgoing": -6.31837,
-      "blurIn": 0.63061
+      "incoming": 2.60677,
+      "outgoing": -5.39323,
+      "blurIn": 0.977538
      }
     ],
     "bwd": [
@@ -12038,14 +12060,14 @@
       "blurIn": 3
      },
      {
-      "incoming": -5.76098,
-      "outgoing": 2.23902,
-      "blurIn": 2.16037
+      "incoming": -5.76184,
+      "outgoing": 2.23816,
+      "blurIn": 2.16069
      },
      {
-      "incoming": -3.94665,
-      "outgoing": 4.05335,
-      "blurIn": 1.47999
+      "incoming": -3.94731,
+      "outgoing": 4.05269,
+      "blurIn": 1.48024
      }
     ],
     "property": "opacity, transform, filter, visibility",
@@ -12117,7 +12139,7 @@
     },
     {
      "n": 7,
-     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 263/2290ms)"
+     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 240/2290ms)"
     }
    ],
    "failedSlides": [
@@ -12425,7 +12447,7 @@
    "items": [],
    "failedSlides": [],
    "measured": {
-    "frames": 362,
+    "frames": 361,
     "long": 0,
     "worst": 16.800000000000182,
     "fps": 60
@@ -12445,15 +12467,15 @@
    "items": [
     {
      "n": 7,
-     "msg": "탭 복귀 100ms 뒤 차트 빌드 169/2290ms — 반쯤 그려진 채로 보임(3121ms 뒤 2290ms)"
+     "msg": "탭 복귀 100ms 뒤 차트 빌드 162/2290ms — 반쯤 그려진 채로 보임(3128ms 뒤 2290ms)"
     }
    ],
    "failedSlides": [
     7
    ],
    "measured": {
-    "waitMs": 3121,
-    "early": 169,
+    "waitMs": 3128,
+    "early": 162,
     "cur": 6,
     "t": 2290,
     "d": 2290,
@@ -12891,7 +12913,7 @@
    "summary": "느린 모바일 회선에서도 첫 화면이 빠르고 흔들리지 않는다",
    "items": [
     {
-     "msg": "LCP 7740ms(>2500)"
+     "msg": "LCP 7748ms(>2500)"
     },
     {
      "msg": "첫 화면 전송량 1.59MB(>1.5): 가장 큰 /assets/img/desk.jpg 305KB, /assets/img/recursion.jpg 242KB"
@@ -12899,7 +12921,7 @@
    ],
    "failedSlides": [],
    "measured": {
-    "lcp": 7740,
+    "lcp": 7748,
     "cls": 0,
     "transferKB": 1629
    },

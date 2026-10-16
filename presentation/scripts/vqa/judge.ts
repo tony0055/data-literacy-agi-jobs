@@ -6,7 +6,7 @@ export type Item = { n?: number; msg: string };
 export type Result = {
   id: string; area: string; method: string; implemented: "auto" | "auto+manual" | "partial" | "manual";
   status: "pass" | "fail" | "manual" | "error"; summary: string; items: Item[]; failedSlides: number[];
-  excepted?: Item[]; measured?: any; notes?: string[]; evidence?: string[]; manual?: { procedure: string; bundle: string[] };
+  excepted?: Item[]; pendingManual?: boolean; measured?: any; notes?: string[]; evidence?: string[]; manual?: { procedure: string; bundle: string[] };
   regression?: any; fixed?: boolean;
 };
 export type Data = {
@@ -25,6 +25,11 @@ const hit = (a: any, b: any) => Math.max(0, Math.min(a.r ?? a.x + a.w, b.r ?? b.
 const dist = (a: any, b: any) => { const dx = Math.max(0, b.x - (a.x + a.w), a.x - (b.x + b.w)); const dy = Math.max(0, b.y - (a.y + a.h), a.y - (b.y + b.h)); return Math.hypot(dx, dy); };
 const norm = (s: string) => s.replace(/[\s·]/g, "").replace(/(직|직군|직업)$/, "");
 const nums = (s: string) => (s.match(/\d+(?:[.,]\d+)*/g) ?? []).map((x) => x.replace(/,/g, ""));
+// 같은 숫자 반복(TXT-05)에서 빼는 것: 영문과 붙은 자료 식별자(DT_1DA7E08S, GPT-4, R1), 범위·호수의 끝값(2022~2025, 1~9월, 2026-19), 순위(1위)
+const claimNums = (s: string) => nums(s
+  .replace(/[A-Za-z_]+-?\d[\w.-]*|\d+[A-Za-z_]+\d[\w-]*/g, " ")
+  .replace(/\d+(?:[.,]\d+)*\s*[~–]\s*\d+(?:[.,]\d+)*|\d+-\d+/g, " ")
+  .replace(/\d+\s*(?:위|번째|순위)/g, " "));
 const allCss = (D: Data) => [D.files.tokens, D.files.deck, D.files.slides, ...Object.values(D.files.extraCss ?? {})].join("\n");
 const allJs = (D: Data) => Object.values(D.files.js).join("\n");
 const stripComments = (s: string) => s.replace(/\/\*[\s\S]*?\*\//g, " ");
@@ -216,6 +221,22 @@ J["LAY-08"] = (D) => {
       const w = row.map((k) => k.rect.w), h = row.map((k) => k.rect.h);
       if (Math.max(...w) - Math.min(...w) > 8 || Math.max(...h) - Math.min(...h) > 8) items.push({ n, msg: `${g.label} 같은 행 형제 폭 ${uniq(w.map((x) => r1(x, 0))).join("/")} · 높이 ${uniq(h.map((x) => r1(x, 0))).join("/")}` });
       if (uniq(row.map((k) => k.kidCls)).length > 1) items.push({ n, msg: `${g.label} 같은 행 형제 자식 구조 다름` });
+    }
+    // 세로로 쌓인 행 묶음(.bands 같은 표 모양): 한 행 안 칸들의 첫 줄 세로 정렬. 기준선은 상자 위 + 0.952em(Pretendard 어센트)
+    if (rows.length >= 2 && rows.every((r) => r.length === 1)) {
+      const modes: string[] = [];
+      for (const [ri, [k]] of rows.entries()) {
+        const inside = s.texts.filter((t: any) => t.block && !t.inSvg && !isTertiary(t) && !t.ctx.some((c: string) => ["tag", "pill", "kicker"].includes(c)) && !/\b(tag|pill)\b/.test(t.cls) && t.rect.x >= k.rect.x - 1 && t.rect.r <= k.rect.r + 1 && t.rect.y >= k.rect.y - 1 && t.rect.b <= k.rect.b + 1).sort((a: any, b: any) => a.rect.x - b.rect.x);
+        const cols: any[] = [];
+        for (const t of inside) { const c = cols.find((c) => Math.abs(c.rect.x - t.rect.x) <= 40); if (!c) cols.push(t); else if (t.rect.y < c.rect.y) cols[cols.indexOf(c)] = t; }
+        if (cols.length < 2) continue;
+        const spread = (f: (t: any) => number) => { const v = cols.map(f); return Math.max(...v) - Math.min(...v); };
+        const top = spread((t) => t.rect.y), base = spread((t) => t.rect.y + 0.952 * t.fs), bot = spread((t) => t.rect.y + 1.2 * t.fs);
+        const mode = base <= 1.5 ? "기준선" : top <= 1.5 ? "위끝" : bot <= 1.5 ? "아래끝" : "없음";
+        modes.push(mode);
+        if (base > 2) items.push({ n, msg: `${g.label} ${ri + 1}번째 행 칸 ${cols.length}개 첫 줄 기준선 ${r1(base)}px 어긋남(위끝 ${r1(top)}px 차, 정렬 기준 ${mode}): ${cols.map((t: any) => `${t.label.split(" ")[0]} y=${r1(t.rect.y, 0)}`).join(" · ")}` });
+      }
+      if (uniq(modes).length > 1) items.push({ n, msg: `${g.label} 행마다 칸 정렬 기준이 다름: ${modes.map((m, i) => `${i + 1}행 ${m}`).join(" · ")}` });
     }
   }
   return { items };
@@ -1013,7 +1034,7 @@ J["TXT-05"] = (D) => {
     }
     const txt = [s.headline?.text ?? "", s.bodyText, s.soweInfo?.text ?? ""].join(" ");
     const cnt = new Map<string, number>();
-    for (const x of nums(txt)) cnt.set(x, (cnt.get(x) ?? 0) + 1);
+    for (const x of claimNums(txt)) cnt.set(x, (cnt.get(x) ?? 0) + 1);
     const rep = [...cnt].filter(([, c]) => c > 2);
     if (rep.length) items.push({ n, msg: `같은 숫자 3회 이상: ${rep.map(([k, c]) => `${k}×${c}`).join(", ")}` });
   }
@@ -1299,15 +1320,38 @@ J["CHT-06"] = (D) => {
   return { items };
 };
 
+// 시간 눈금('1분'·'8시간'·'하루'·'분기'·'8년')을 분으로. 숫자만 있으면 그 숫자
+const MIN: Record<string, number> = { 초: 1 / 60, 분: 1, 시간: 60, 일: 1440, 하루: 1440, 주: 10080, 달: 43200, 개월: 43200, 분기: 129600, 년: 525600 };
+const tickValue = (txt: string) => {
+  const t = txt.replace(/[,%+\s]/g, "").replace("−", "-");
+  if (/^-?\d+(\.\d+)?$/.test(t)) return { v: Number(t), dur: false };
+  const m = t.match(/^(\d+(?:\.\d+)?)?(초|분|시간|하루|일|주|개월|달|분기|년)$/);
+  return m ? { v: Number(m[1] ?? 1) * MIN[m[2]], dur: true } : null;
+};
+const cvOf = (a: number[]) => { const m = a.reduce((x, y) => x + y, 0) / a.length; return m ? Math.sqrt(a.reduce((x, y) => x + (y - m) ** 2, 0) / a.length) / Math.abs(m) : Infinity; };
 J["CHT-07"] = (D) => {
   const items: Item[] = [];
   const clean = (d: number) => { if (d <= 0) return false; const e = 10 ** Math.floor(Math.log10(d)); return [1, 2, 2.5, 5, 10].some((m) => Math.abs(d / e - m) < 1e-6); };
   for (const [n, v] of charts(D)) {
-    const ticks = v.texts.filter((t: any) => /tick/.test(t.cls)).map((t: any) => ({ v: Number(t.text.replace(/[,%+\s]/g, "").replace("−", "-")), y: t.rect.y })).filter((t: any) => Number.isFinite(t.v));
-    if (ticks.length >= 3 && v.kind !== "logline") {
-      const vs = uniq(ticks.map((t: any) => t.v)).sort((a: any, b: any) => a - b) as number[];
-      const ds = uniq(vs.slice(1).map((x, i) => r1(x - vs[i], 4)));
-      if (ds.length > 1 || !clean(ds[0])) items.push({ n, msg: `${v.chart} 눈금 간격 ${ds.join("/")}` });
+    const tk = v.texts.filter((t: any) => /tick/.test(t.cls)).map((t: any) => ({ t, p: tickValue(t.text) })).filter((x: any) => x.p && Number.isFinite(x.p.v));
+    const ticks = uniq(tk.map((x: any) => x.p.v)).map((val) => { const x = tk.find((k: any) => k.p.v === val)!; return { v: val as number, y: x.t.rect.y + x.t.rect.h / 2, dur: x.p.dur }; }).sort((a, b) => a.v - b.v);
+    if (ticks.length >= 3) {
+      // 로그 축: 눈금 위치가 값보다 log 값에 비례한다(위치 간격/log 간격의 변동계수가 더 작다). 시간 눈금 축과 logline은 로그로 본다
+      const step = (f: (x: number) => number) => cvOf(ticks.slice(1).map((t, i) => (t.y - ticks[i].y) / (f(t.v) - f(ticks[i].v))));
+      const isLog = ticks.every((t) => t.v > 0) && (v.kind === "logline" || ticks.some((t) => t.dur) || step(Math.log10) < step((x) => x));
+      if (isLog) {
+        const ratios = ticks.slice(1).map((t, i) => t.v / ticks[i].v);
+        if (cvOf(ratios) >= 0.02) items.push({ n, msg: `${v.chart} 로그 눈금 배수가 일정하지 않음: ${tk.map((x: any) => x.t.text).join("·")} (이웃 배수 ${ratios.map((r) => r1(r, 1)).join("/")})` });
+        else if (![2, 10].some((m) => Math.abs(ratios[0] - m) < 0.05)) items.push({ n, msg: `${v.chart} 로그 눈금 배수 ${r1(ratios[0], 2)}(2·10배 아님)` });
+      } else {
+        const vs = ticks.map((t) => t.v);
+        const ds = uniq(vs.slice(1).map((x, i) => r1(x - vs[i], 4)));
+        if (ds.length > 1 || !clean(ds[0])) items.push({ n, msg: `${v.chart} 눈금 간격 ${ds.join("/")}` });
+      }
+      // 눈금선과 가정선(문턱·기준선)이 같은 높이에 겹치면 축 눈금과 가정이 구분되지 않는다
+      const refs = v.lines.filter((l: any) => /gate|thresh|ref|target/.test(l.cls));
+      const same = ticks.filter((t) => refs.some((l: any) => Math.abs(l.rect.y - t.y) <= 2));
+      if (same.length) items.push({ n, msg: `${v.chart} 축 눈금 ${same.length}개가 가정선(${uniq(refs.map((l: any) => l.cls)).join(",")})과 같은 높이: ${same.map((t) => tk.find((x: any) => x.p.v === t.v)!.t.text).join("·")}` });
     }
     const years = v.texts.filter((t: any) => /alab/.test(t.cls) && /^\d{4}$/.test(t.text)).map((t: any) => ({ y: +t.text, x: t.rect.x + t.rect.w / 2 })).sort((a: any, b: any) => a.y - b.y);
     if (years.length >= 3) {
@@ -1356,6 +1400,14 @@ J["CHT-09"] = (D) => {
     const tk = v.texts.filter((t: any) => /tick/.test(t.cls));
     const left = tk.filter((t: any) => t.rect.x < v.rect.x + v.rect.w * 0.2).length, right = tk.filter((t: any) => t.rect.x > v.rect.x + v.rect.w * 0.8).length;
     if (left >= 2 && right >= 2) items.push({ n, msg: `${v.chart} 이중 세로축` });
+    // 헤드라인이 순서·시점을 말하는데 차트에 시간 축이 없고 막대가 값 순으로도 놓이지 않았으면, 차트가 그 주장을 보여 주지 못한다
+    const head = D.slides[n]?.headline?.text ?? "";
+    const hasYearAxis = v.texts.some((t: any) => /alab|tick/.test(t.cls) && /^\d{4}$/.test(t.text));
+    if (v.kind === "hbar" && /부터|먼저|이어|차례|다음으로|순서/.test(head) && !hasYearAxis) {
+      const vals = v.texts.filter((t: any) => /vlab/.test(t.cls)).sort((a: any, b: any) => a.rect.y - b.rect.y).map((t: any) => Number(t.text.replace(/[,%+\s]/g, "").replace("−", "-"))).filter(Number.isFinite);
+      const sorted = vals.every((x: number, i: number) => i === 0 || x <= vals[i - 1]) || vals.every((x: number, i: number) => i === 0 || x >= vals[i - 1]);
+      if (vals.length >= 3 && !sorted) items.push({ n, msg: `${v.chart} 헤드라인은 순서·시점("${head.slice(0, 30)}")인데 차트는 시간 축 없는 값 막대이고 값 순도 아님(${vals.join(", ")})` });
+    }
   }
   return { items, implemented: "auto+manual", manual: chartShots(D) };
 };
@@ -1377,6 +1429,24 @@ J["CHT-10"] = (D) => {
     for (const x of na) for (const y of nb) if (x !== y && norm(x) === norm(y) && norm(x).length >= 2) items.push({ n: B.n, msg: `${a}↔${b} 이름 표기 다름 "${x}" / "${y}"` });
     const sa = seriesLabel(A.v), sb = seriesLabel(B.v);
     for (const [k, st] of sa) if (sb.has(k) && sb.get(k) !== st) items.push({ n: B.n, msg: `${a}↔${b} 같은 이름 계열 '${k}' 선 모양 다름 ${st} / ${sb.get(k)}` });
+  }
+  // 이어지는 차트 장의 모집단: '직업 N개'·'N개 직업'(분위마다 ×5, 상위 10% ×10)으로 센 전체 수가 다르면, 뒤 장이 앞 장의 수나 차이 이유를 밝혀야 한다
+  const pop = (s: any) => {
+    const t = s.slideText as string, out = new Set<number>();
+    for (const m of t.matchAll(/(분위마다|상위\s*(\d+)%)?\s*직업\s*(\d[\d,]*)\s*개|(\d[\d,]*)\s*개\s*직업(?!\s*(?:대분류|군))/g)) {
+      const k = Number((m[3] ?? m[4]).replace(/,/g, ""));
+      out.add(m[1] === "분위마다" ? k * 5 : m[2] ? Math.round(k * 100 / Number(m[2])) : k);
+    }
+    return [...out];
+  };
+  const CS = uniq(charts(D).map(([n]) => n));
+  for (let i = 1; i < CS.length; i++) {
+    const m = CS[i - 1], n = CS[i];
+    if (n !== m + 1) continue;
+    const a = pop(D.slides[m]), b = pop(D.slides[n]);
+    if (!a.length || !b.length || a.some((x) => b.includes(x))) continue;
+    const said = a.some((x) => (D.slides[n].slideText as string).replace(/,/g, "").includes(String(x))) || /모집단|고용\s*하한|기준이\s*다르|대상이\s*다르/.test(D.slides[n].slideText);
+    if (!said) items.push({ n, msg: `이어지는 차트 장 ${m}·${n} 모집단 다름: 직업 ${a.join("/")}개 / ${b.join("/")}개, 다른 이유 설명 없음` });
   }
   const C = charts(D);
   for (let i = 1; i < C.length; i++) {
@@ -1478,17 +1548,22 @@ J["EVD-03"] = (D) => {
   return { items };
 };
 
+// 2036 외삽 장: 2036이 나오는 것만으로는 아니다(안내·분석 계획·출처 장도 2036을 말한다). 그 장이 추정을 내놓는다는 표시
+// — 추정 라벨(.tag.est), 연장 차트(proj_*), 키커의 '추정', 헤드라인의 2036, 본문의 '시나리오별' 값 — 가 함께 있어야 외삽 장으로 본다
+const kickerText = (s: any) => (typeof s.kicker === "string" ? s.kicker : s.kicker?.text) ?? "";
+const isExtrapolation = (s: any) => /2036/.test((s.headline?.text ?? "") + s.bodyText + kickerText(s))
+  && (s.tags.some((t: any) => /\best\b/.test(t.cls) || /추정/.test(t.text)) || s.svgs.some((v: any) => /^proj_/.test(v.chart ?? "")) || /추정/.test(kickerText(s)) || /2036/.test(s.headline?.text ?? "") || /시나리오/.test(s.bodyText));
 J["EVD-04"] = (D) => {
   const items: Item[] = [];
   for (const [n, s] of slidesOf(D)) {
     const est = s.tags.filter((t: any) => /추정|est/.test(t.text + t.cls));
     if (est.length && !/\d\s*[~–]\s*\d|±|범위|\d+\s*~/.test(s.slideText)) items.push({ n, msg: "추정 라벨이 있는데 범위 표기 없음" });
-    if (/2036/.test((s.headline?.text ?? "") + s.bodyText) && !/한계|가정|불확실|조건|시나리오/.test(s.slideText)) items.push({ n, msg: "2036 외삽 장에 한계 문구 없음" });
+    if (isExtrapolation(s) && !/한계|가정|불확실|조건|시나리오/.test(s.slideText)) items.push({ n, msg: "2036 외삽 장에 한계 문구 없음" });
     if (/한계/.test(s.headline?.text ?? "") && !/\d+\s*[~–]\s*\d+|±/.test(s.slideText)) items.push({ n, msg: "한계 장에 수치 범위 없음" });
     const causal = s.slideText.match(/[^.]*?(때문에|초래|입증|증명)[^.]*/g);
     if (causal && !s.tags.some((t: any) => /인과|검증/.test(t.text))) items.push({ n, msg: `근거 등급(기술·추정)을 넘는 인과 동사: "${causal[0].trim().slice(0, 40)}"` });
   }
-  return { items, implemented: "auto+manual", manual: slidesOf(D).filter(([, s]) => /2036/.test(s.slideText)).map(([n]) => shotOf(D, n)) };
+  return { items, implemented: "auto+manual", manual: slidesOf(D).filter(([, s]) => isExtrapolation(s)).map(([n]) => shotOf(D, n)), measured: { extrapolation: slidesOf(D).filter(([, s]) => isExtrapolation(s)).map(([n]) => n) } };
 };
 
 J["EVD-05"] = (D) => {
@@ -2413,8 +2488,10 @@ export function judgeAll(D: Data, criteria: any[]): Result[] {
       const impl = r.implemented === "manual" ? "manual" : c.verify_method === "both" && r.implemented !== "partial" ? "auto+manual" : r.implemented ?? "auto";
       const status = impl === "manual" ? "manual" : items.length ? "fail" : "pass";
       const failedSlides = uniq(items.map((i) => i.n).filter((n): n is number => typeof n === "number")).sort((a, b) => a - b);
+      // both 조건은 자동 부분이 통과해도 사람 확인이 끝나야 통과다. 'pass'로 두되 수동 확인이 남았다고 표시한다
+      const pendingManual = status === "pass" && (impl === "auto+manual" || c.verify_method === "both") ? true : undefined;
       out.push({
-        ...base, implemented: impl, status, summary: c.criterion, items, failedSlides, excepted: excepted.length ? excepted : undefined, measured: r.measured, notes: r.notes,
+        ...base, implemented: impl, status, summary: c.criterion, items, failedSlides, excepted: excepted.length ? excepted : undefined, pendingManual, measured: r.measured, notes: r.notes,
         evidence: [...(r.evidence ?? []), ...failedSlides.slice(0, 6).map((n) => shotOf(D, n))].filter(exists),
         manual: impl === "auto+manual" || impl === "manual" || c.verify_method === "both" ? { procedure: c.verify_procedure, bundle: expand(r.manual ?? ["contact"]) } : undefined,
       });

@@ -1,4 +1,4 @@
-구현 143/147 조건 (automated·both 142개 중 142개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 29 · 실패 114 · 수동 4 · 오류 0
+구현 143/147 조건 (automated·both 142개 중 142개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 28(그중 자동만 통과·수동 확인 남음 5) · 실패 115 · 수동 4 · 오류 0
 
 # 시각 QA 보고서 — baseline
 
@@ -15,8 +15,8 @@
 
 ## 실행
 
-- 실행: 2026-10-16T09:05:53.560Z · 커밋 da07164 · 덱 해시 a2bf7b988014 · 305초
-- 명령: `cd presentation && bun scripts/visual-qa.ts --label baseline` · 파이썬 `<tmp>/sam-env/bin/python`
+- 실행: 2026-10-16T09:43:28.008Z · 커밋 73b782e · 덱 해시 a2bf7b988014 · 300초
+- 명령: `cd presentation && bun scripts/visual-qa.ts --label baseline` · 파이썬 `python3`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
 - 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift)으로 IMG-02·RSP-02를 판정
 
@@ -31,7 +31,7 @@
 | [LAY-05](#lay-05) | automated | 자동 | 실패 | 28 | 병렬 항목 6개(>5): div.poster "텔레마케터·상담이미 감소2023년부터 실측 · 미국" |
 | [LAY-06](#lay-06) | automated | 자동 | 실패 | 5, 10, 11, 17 | 작은 글자(fit): 12개 — svg "연산과 전력에서 AI 능력, AI 개발 가속" text.n-s "학습 연산 연 4.1배" 축소 0.81 → 글자 13.0px (예외 목록 .chain text에 있어도 14p |
 | [LAY-07](#lay-07) | both | 자동+수동 | 실패 | 4, 8, 11, 12, 13, 14, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27 | 3·4장 배치 서명 같음: 160:1600:3 |
-| [LAY-08](#lay-08) | automated | 자동 | 실패 | 4, 9, 10, 11, 13, 14, 15, 16, 17, 20, 21, 22, 25, 26, 27, 32, 33 | div.tiles "105일AI가 맡을 수 있는 업무 크기가 두 배로 " 같은 행 형제 폭 579/463 · 높이 534/470/406 |
+| [LAY-08](#lay-08) | automated | 자동 | 실패 | 4, 9, 10, 11, 13, 14, 15, 16, 17, 20, 21, 22, 25, 26, 27, 30, 32, 33 | div.tiles "105일AI가 맡을 수 있는 업무 크기가 두 배로 " 같은 행 형제 폭 579/463 · 높이 534/470/406 |
 | [LAY-09](#lay-09) | both | 자동+수동 | 실패 | 3, 12, 20, 34 | 콘텐츠 점유율 0.33(0.35~0.85 밖) |
 | [LAY-10](#lay-10) | automated | 자동 | 실패 | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 헤드라인이 DOM 첫 텍스트가 아님(킥커·표지 띠가 앞섬) |
 | [SURF-01](#surf-01) | automated | 자동 | 실패 | 3, 4, 22, 23, 26, 27 | 1·2·3장 같은 면 #f4f2ef |
@@ -51,7 +51,7 @@
 | [COL-01](#col-01) | automated | 자동 | 실패 | 4, 6, 9, 29 | 토큰 밖 계산 색 background rgba(20,18,16,0.08) — 장 4 |
 | [COL-02](#col-02) | automated | 자동 | 통과 |  |  |
 | [COL-03](#col-03) | automated | 자동 | 실패 | 1, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 26, 27, 30, 33 | 인디고 요소 4개(>2, svg는 1로 셈) |
-| [COL-04](#col-04) | both | 자동+수동 | 통과 |  |  |
+| [COL-04](#col-04) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [COL-05](#col-05) | automated | 자동 | 실패 | 1, 3, 7, 8, 10, 11, 12, 13, 14, 15, 17, 20, 21, 22, 25, 26, 27, 29, 33 | 18px 이상 글자 중 회색 비율 62%(>50%) |
 | [CON-01](#con-01) | automated | 부분 | 실패 | 6, 9, 18, 19 | 대비 3.32:1 < 4.5 — div.kicker.t-stagger-line "재귀적 자기개선 · 지금 보이는 신호" 14px 600 (픽셀 최악 5%) |
 | [CON-02](#con-02) | automated | 자동 | 실패 | 6, 9, 18, 19 | 사진 위 글자 최악 5% 대비 3.32:1 < 4.5 — div.kicker.t-stagger-line "재귀적 자기개선 · 지금 보이는 신호" |
@@ -59,7 +59,7 @@
 | [CON-04](#con-04) | both | 자동+수동 | 실패 | 11, 17, 24, 26 | espai_two_clocks 프로젝터 모사 인접 계열 ΔL* 8.1(<15) |
 | [CON-05](#con-05) | visual | 자동+수동 | 실패 | 1, 7, 13, 17 | forced-colors에서 라벨 알약 3/3개 경계 없음(테두리·외곽선 0, 바탕·그림자는 지워짐): div.kicker, span.pill, span.pill.on |
 | [GRAD-01](#grad-01) | automated | 자동 | 통과 |  |  |
-| [GRAD-02](#grad-02) | both | 자동+수동 | 통과 |  |  |
+| [GRAD-02](#grad-02) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [GRAD-03](#grad-03) | automated | 자동 | 통과 |  |  |
 | [TYP-01](#typ-01) | automated | 자동 | 통과 |  |  |
 | [TYP-02](#typ-02) | automated | 자동 | 실패 | 5, 7, 10, 17, 24 | svg 축소로 프리셋 밖 실효 크기 19.5px — 장 5,14,27 |
@@ -79,7 +79,7 @@
 | [TXT-02](#txt-02) | automated | 자동 | 실패 | 5, 31 | '~다'로 끝남: "이 로봇 데이터가 쌓이는 만큼 늦게 현장 일로 넘어간다" |
 | [TXT-03](#txt-03) | both | 자동+수동 | 실패 | 12 | 금지 표현: the future of |
 | [TXT-04](#txt-04) | both | 자동+수동 | 실패 | 7, 8, 10, 11, 14, 15, 16, 18, 20, 21, 24, 25, 26, 27 | 화면 snake_case: benchmark_results_1_1, timeline_analysis |
-| [TXT-05](#txt-05) | both | 자동+수동 | 실패 | 6, 9, 25, 28, 30, 34 | 같은 숫자 3회 이상: 2026×4 |
+| [TXT-05](#txt-05) | both | 자동+수동 | 실패 | 6, 25, 28 | 같은 숫자 3회 이상: 2026×4 |
 | [TXT-06](#txt-06) | both | 자동+수동 | 실패 | 7, 13, 14, 17, 27 | 차트 장 헤드라인에 숫자 없음: "AI가 맡을 수 있는 업무는 갈수록 빠르게 커집니다" |
 | [TXT-07](#txt-07) | automated | 자동 | 통과 |  |  |
 | [TXT-08](#txt-08) | automated | 부분 | 실패 | 4, 6, 7, 9, 11, 13, 17, 18, 19, 27, 28, 34 | em dash 3개(>2) |
@@ -90,7 +90,7 @@
 | [IMG-02](#img-02) | both | 자동+수동 | 실패 | 2, 9 | openai-livestream-thumb.jpg 안 글자 'OpenAl Update'(Vision 확신도 1, 원본 (746, 334) 463×67) |
 | [IMG-03](#img-03) | automated | 자동 | 실패 | 1, 2, 6, 9, 18, 19, 22 | cover.jpg width·height 속성 없음 |
 | [IMG-04](#img-04) | automated | 자동 | 실패 | 덱 전체 | desk.jpg 305KB(>300) |
-| [IMG-05](#img-05) | both | 자동+수동 | 통과 |  |  |
+| [IMG-05](#img-05) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [IMG-06](#img-06) | automated | 자동 | 실패 | 6, 18 | assets/img/entry.jpg 2장에서 재사용: 1,18 |
 | [IMG-07](#img-07) | visual | 수동 | 수동 |  |  |
 | [CHT-01](#cht-01) | automated | 자동 | 실패 | 7, 10, 11, 13, 14, 17, 24, 26, 27 | metr_horizon 차트 제목 0개 |
@@ -99,17 +99,17 @@
 | [CHT-04](#cht-04) | both | 자동+수동 | 실패 | 26 | proj_kr_jobs 같은 색·같은 점선·같은 굵기 계열 쌍(l-neutral, l-neutral) |
 | [CHT-05](#cht-05) | both | 자동+수동 | 실패 | 10, 11, 13, 17 | agi_forecast_shift 글자 겹침 "2042" ↔ "전문가 설문 (HLMI)" 5px² |
 | [CHT-06](#cht-06) | automated | 자동 | 실패 | 7, 10, 11, 13, 14, 17, 26, 27 | metr_horizon 점 바탕색 고리 없음 ×16 |
-| [CHT-07](#cht-07) | automated | 자동 | 실패 | 13 | occ_scatter 범위 밖 10개 점이 축 끝(y=441.4)에 실제 값처럼 그려짐(끝선 위 점 10개, 다른 모양·표시 없음) |
+| [CHT-07](#cht-07) | automated | 자동 | 실패 | 7, 13, 24 | metr_horizon 로그 눈금 배수가 일정하지 않음: 1분·10분·1시간·8시간·40시간 (이웃 배수 10/6/8/5) |
 | [CHT-08](#cht-08) | automated | 자동 | 실패 | 7, 10, 11, 13, 14, 17, 24, 26, 27 | metr_horizon 차트 글자 색 rgb(76, 94, 178)(잉크·회색 밖) |
-| [CHT-09](#cht-09) | both | 자동+수동 | 통과 |  |  |
-| [CHT-10](#cht-10) | automated | 자동 | 실패 | 11 | 연속 차트 장 10·11 축 범위 다름: 세로 2020~2070 · 가로 2016~2027 / 세로 2030~2170 · 가로 2016~2025 |
+| [CHT-09](#cht-09) | both | 자동+수동 | 실패 | 27 | proj_wave 헤드라인은 순서·시점("사무직부터 시작해 판매와 생산 현장으로 이어집니다")인데 차트는 시간 축 없는 값 막대이고 값 순도 아님(23, 26.4, 25.6, 10, 5.2, 0.6) |
+| [CHT-10](#cht-10) | automated | 자동 | 실패 | 11, 14 | 이어지는 차트 장 13·14 모집단 다름: 직업 639개 / 770개, 다른 이유 설명 없음 |
 | [CHT-11](#cht-11) | automated | 자동 | 실패 | 7, 10, 11, 13, 14, 17, 24, 26, 27 | metr_horizon 설명 숫자 1개(<2): "AI가 맡을 수 있는 업무 크기 (METR 50% 시간지평)" |
 | [CHT-12](#cht-12) | automated | 자동 | 실패 | 덱 전체 | charts.js:104 하드코딩 숫자 배열: for (const t of [0, 0.25, 0.5, 0.75, 1]) svg.append(el("text", { class: "alab",  |
 | [CHT-13](#cht-13) | automated | 자동 | 통과 |  |  |
 | [EVD-01](#evd-01) | automated | 자동 | 실패 | 13 | occ_scatter 세로 범위 밖 값 10개가 축 끝값으로 그려져 그림 위치가 데이터 값과 다름 |
 | [EVD-02](#evd-02) | automated | 자동 | 실패 | 4 | 라벨 "n=3"와 가장 가까운 숫자 127px(>64) |
 | [EVD-03](#evd-03) | automated | 자동 | 실패 | 1, 2, 3, 5, 6, 8, 9, 14, 15, 16, 19, 21, 29, 30, 31, 32, 33, 34 | 출처에 연도 없음: "사진: AI 생성 이미지(Gemini) · 모든 수치에 출처와 라벨(기술" |
-| [EVD-04](#evd-04) | both | 자동+수동 | 실패 | 3, 21, 23, 26, 32, 34 | 2036 외삽 장에 한계 문구 없음 |
+| [EVD-04](#evd-04) | both | 자동+수동 | 실패 | 21, 23, 26 | 추정 라벨이 있는데 범위 표기 없음 |
 | [EVD-05](#evd-05) | automated | 자동 | 실패 | 33 | 4장 핵심 수치 "105"가 33장에 없음 |
 | [EVD-06](#evd-06) | automated | 자동 | 통과 |  |  |
 | [NAV-01](#nav-01) | automated | 자동 | 실패 | 덱 전체 | 왼쪽으로 80px(Δy 10): 장 5→5 (Δ0, 기대 +1) |
@@ -135,9 +135,9 @@
 | [ONB-02](#onb-02) | automated | 자동 | 실패 | 덱 전체 | 390x844 터치 화면에 키 표기: (R) |
 | [ONB-03](#onb-03) | both | 자동+수동 | 실패 | 덱 전체 | 390x844 세로: 회전 안내·세로 읽기 모드 없음 |
 | [ONB-04](#onb-04) | automated | 자동 | 통과 |  |  |
-| [RSP-01](#rsp-01) | both | 자동+수동 | 통과 |  |  |
+| [RSP-01](#rsp-01) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [RSP-02](#rsp-02) | automated | 자동 | 실패 | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 1280×720 최소 실효 글자 9.33px(<12): span "데이터리터러시의이해 중간고사 과제" |
-| [RSP-03](#rsp-03) | both | 자동+수동 | 통과 |  |  |
+| [RSP-03](#rsp-03) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [RSP-04](#rsp-04) | automated | 자동 | 실패 | 덱 전체 | 첫 페인트에 가로 스크롤 |
 | [MOT-01](#mot-01) | automated | 자동 | 통과 |  |  |
 | [MOT-02](#mot-02) | automated | 자동 | 실패 | 7, 10, 11, 13, 17, 24, 26 | 글줄 등장 1220ms(>1000) |
@@ -149,14 +149,14 @@
 | [MOT-08](#mot-08) | both | 자동+수동 | 실패 | 2, 4, 8, 12, 18, 19, 21, 23 | 등장 순서가 읽기 순서와 어긋남 1곳 |
 | [MOT-09](#mot-09) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 모션 목록 절 없음 |
 | [MOT-10](#mot-10) | automated | 자동 | 통과 |  |  |
-| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 169/2290ms — 반쯤 그려진 채로 보임(3121ms 뒤 2290ms) |
+| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 162/2290ms — 반쯤 그려진 채로 보임(3128ms 뒤 2290ms) |
 | [A11Y-01](#a11y-01) | automated | 자동 | 실패 | 덱 전체 | 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33 |
 | [A11Y-02](#a11y-02) | automated | 자동 | 실패 | 덱 전체 | aria-live=polite 영역 없음 |
 | [A11Y-03](#a11y-03) | automated | 자동 | 실패 | 2, 4, 8, 11, 12, 13, 14, 15, 16, 18, 19, 21, 26 | h1·h2 0개(1 기대) — nohead 장은 숨긴 heading 필요 |
 | [A11Y-04](#a11y-04) | automated | 부분 | 실패 | 6, 9, 18, 19 | color-contrast: 대비 3.32:1 < 4.5 — div.kicker.t-stagger-line "재귀적 자기개선 · 지금 보이는 신호" 14px 600 (픽셀 최악 5%) |
 | [A11Y-05](#a11y-05) | automated | 자동 | 실패 | 덱 전체 | JS 끔: 빈 차트 9(metr_horizon, agi_forecast_shift, espai_two_clocks, occ_scatter, occ_quintile, kr_occupation_index, proj_ca |
 | [A11Y-06](#a11y-06) | automated | 자동 | 통과 |  |  |
-| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7740ms(>2500) |
+| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7748ms(>2500) |
 | [PERF-02](#perf-02) | automated | 자동 | 통과 |  |  |
 | [PERF-03](#perf-03) | automated | 자동 | 통과 |  |  |
 | [PERF-04](#perf-04) | automated | 자동 | 통과 |  |  |
@@ -370,7 +370,7 @@
 > 같은 행의 형제 블록(.figs·.tiles·.bands·질문 묶음)은 폭·높이·자식 구조가 같다  
 > 기준: 폭·높이 차 ≤8px, 자식 클래스 집합 동일. 의도된 비대칭은 README 예외 목록
 
-실패 31건 · 장 4, 9, 10, 11, 13, 14, 15, 16, 17, 20, 21, 22, 25, 26, 27, 32, 33
+실패 33건 · 장 4, 9, 10, 11, 13, 14, 15, 16, 17, 20, 21, 22, 25, 26, 27, 30, 32, 33
 
 - 4장 · div.tiles "105일AI가 맡을 수 있는 업무 크기가 두 배로 " 같은 행 형제 폭 579/463 · 높이 534/470/406
 - 9장 · div.grid "OpenAI · 샘 올트먼AI 연구를 스스로 하는 " 같은 행 형제 폭 364 · 높이 540/508
@@ -397,7 +397,7 @@
 - 25장 · div.grid "직급맡는 업무 크기빠름기준신중신입·인턴하루짜리 일2" 같은 행 형제 폭 1051/501 · 높이 554/528
 - 25장 · div.grid "직급맡는 업무 크기빠름기준신중신입·인턴하루짜리 일2" 같은 행 형제 자식 구조 다름
 - 26장 · div.grid "0100200300400202620272028202" 같은 행 형제 폭 1051/501 · 높이 657/480
-- … 외 6건(JSON 보고서에 전부)
+- … 외 8건(JSON 보고서에 전부)
 
 근거: [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-09.jpg](../shots/baseline/slide-09.jpg) · [slide-10.jpg](../shots/baseline/slide-10.jpg) · [slide-11.jpg](../shots/baseline/slide-11.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-14.jpg](../shots/baseline/slide-14.jpg)
 
@@ -835,7 +835,7 @@
 
 ### COL-04
 
-통과 · 색·의미 일관 · both · 구현 auto+manual
+통과(자동)·수동 남음 · 색·의미 일관 · both · 구현 auto+manual
 
 > 색별 의미 표(인디고=핵심 계열·주장, 세이지=보조 면, 스톤=비교 기준)가 color.md에 있고, 그 밖 용도가 없으며 같은 대상은 차트가 바뀌어도 같은 색이다  
 > 기준: 의미 표에 없는 용도 0, 같은 대상 다른 색 0
@@ -1028,7 +1028,7 @@
 
 ### GRAD-02
 
-통과 · 그라데이션 · both · 구현 auto+manual
+통과(자동)·수동 남음 · 그라데이션 · both · 구현 auto+manual
 
 > 그라데이션을 쓴 장은 소수이고 의미 구분에는 쓰지 않으며, 그라데이션 글자는 대비를 다시 확인한다  
 > 기준: 그라데이션 장 ≤8(34장의 1/4), 의미 구분 용도 0, 그라데이션 글자 대비 통과
@@ -1471,16 +1471,13 @@
 > 한 장에서 제목·본문·결론이 같은 말을 되풀이하지 않고, 같은 숫자는 2회 이하, 연속 장 헤드라인도 겹치지 않는다  
 > 기준: 유사도 ≥0.5 쌍 0, 같은 숫자 >2회 0, 메시지 2개 이상 장 0
 
-실패 6건 · 장 6, 9, 25, 28, 30, 34
+실패 3건 · 장 6, 25, 28
 
 - 6장 · 같은 숫자 3회 이상: 2026×4
-- 9장 · 같은 숫자 3회 이상: 2026×3, 2025×3
 - 25장 · 같은 숫자 3회 이상: 2030×3
 - 28장 · 같은 숫자 3회 이상: 25×3
-- 30장 · 같은 숫자 3회 이상: 1×3
-- 34장 · 같은 숫자 3회 이상: 2025×4, 2026×3
 
-근거: [slide-06.jpg](../shots/baseline/slide-06.jpg) · [slide-09.jpg](../shots/baseline/slide-09.jpg) · [slide-25.jpg](../shots/baseline/slide-25.jpg) · [slide-28.jpg](../shots/baseline/slide-28.jpg) · [slide-30.jpg](../shots/baseline/slide-30.jpg) · [slide-34.jpg](../shots/baseline/slide-34.jpg)
+근거: [slide-06.jpg](../shots/baseline/slide-06.jpg) · [slide-25.jpg](../shots/baseline/slide-25.jpg) · [slide-28.jpg](../shots/baseline/slide-28.jpg)
 
 수동 확인 절차: 장 내 블록 쌍과 연속 장 헤드라인의 2-gram 자카드, 장별 숫자 토큰 빈도를 계산한 뒤 장마다 '메시지 한 문장'을 적는다
 볼 것: [contact-1.jpg](../shots/baseline/contact-1.jpg) · [contact-2.jpg](../shots/baseline/contact-2.jpg)
@@ -1677,7 +1674,7 @@
 
 ### IMG-05
 
-통과 · 이미지·대체 텍스트 · both · 구현 auto+manual
+통과(자동)·수동 남음 · 이미지·대체 텍스트 · both · 구현 auto+manual
 
 > 의미 있는 이미지는 내용 alt, 장식 이미지는 alt=""이고 실존 인물·기관명을 생성 이미지 alt에 쓰지 않는다  
 > 기준: alt 속성 누락 0, 내용 이미지 alt <5자 0, 생성 이미지 alt 실명 0
@@ -1860,11 +1857,14 @@
 > 눈금은 깔끔한 수열, 막대는 0 기준, 연도 축은 실제 날짜 간격으로 왼→오른 증가한다  
 > 기준: 간격 ∉{1,2,2.5,5}×10^k 0, 0 기준 위반 0, 변동계수 <2%, 쉼표 규칙 위반 0
 
-실패 1건 · 장 13
+실패 4건 · 장 7, 13, 24
 
+- 7장 · metr_horizon 로그 눈금 배수가 일정하지 않음: 1분·10분·1시간·8시간·40시간 (이웃 배수 10/6/8/5)
 - 13장 · occ_scatter 범위 밖 10개 점이 축 끝(y=441.4)에 실제 값처럼 그려짐(끝선 위 점 10개, 다른 모양·표시 없음)
+- 24장 · proj_capability 로그 눈금 배수가 일정하지 않음: 1시간·하루·1주·1달·분기·1년·8년 (이웃 배수 24/7/4.3/3/4.1/8)
+- 24장 · proj_capability 축 눈금 4개가 가정선(gate)과 같은 높이: 하루·1주·1달·분기
 
-근거: [slide-13.jpg](../shots/baseline/slide-13.jpg)
+근거: [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg)
 
 ### CHT-08
 
@@ -1897,10 +1897,16 @@
 
 ### CHT-09
 
-통과 · 차트·형식 · both · 구현 auto+manual
+실패 · 차트·형식 · both · 구현 auto+manual
 
 > 차트 형태가 데이터의 일에 맞고, 값이 3개 이하인 데이터는 차트가 아니라 큰 숫자 타이포로, 낯선 형식(두 계열 시점·파동·관계식 체인)은 '읽는 법' 한 문장을 갖는다  
 > 기준: 형태 불일치 0, 마크 ≤3인 svg 0, 읽는 법 누락 0, 이중 세로축 0
+
+실패 1건 · 장 27
+
+- 27장 · proj_wave 헤드라인은 순서·시점("사무직부터 시작해 판매와 생산 현장으로 이어집니다")인데 차트는 시간 축 없는 값 막대이고 값 순도 아님(23, 26.4, 25.6, 10, 5.2, 0.6)
+
+근거: [slide-27.jpg](../shots/baseline/slide-27.jpg)
 
 수동 확인 절차: '장 / 맡은 일 / 현재 형태 / 맞는 형태' 표를 만들고 svg 데이터 마크 수, 기타 형식 장의 읽는 법 요소, 세로축 척도 수를 확인한다
 볼 것: [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-10.jpg](../shots/baseline/slide-10.jpg) · [slide-11.jpg](../shots/baseline/slide-11.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-14.jpg](../shots/baseline/slide-14.jpg) · [slide-17.jpg](../shots/baseline/slide-17.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg) · [slide-27.jpg](../shots/baseline/slide-27.jpg)
@@ -1912,11 +1918,12 @@
 > 같은 데이터를 다루는 차트 쌍(7↔22장 METR, 17↔25·26장 직업군)은 계열 색·마커·단위·이름 표기가 같고, 이어지는 장은 축·위치를 유지한다  
 > 기준: 불일치 0, 연속 장 bbox 차 ≤8px
 
-실패 1건 · 장 11
+실패 2건 · 장 11, 14
 
+- 14장 · 이어지는 차트 장 13·14 모집단 다름: 직업 639개 / 770개, 다른 이유 설명 없음
 - 11장 · 연속 차트 장 10·11 축 범위 다름: 세로 2020~2070 · 가로 2016~2027 / 세로 2030~2170 · 가로 2016~2025
 
-근거: [slide-11.jpg](../shots/baseline/slide-11.jpg)
+근거: [slide-11.jpg](../shots/baseline/slide-11.jpg) · [slide-14.jpg](../shots/baseline/slide-14.jpg)
 
 ### CHT-11
 
@@ -2029,19 +2036,16 @@
 > 추정값은 같은 블록에 '추정' 라벨과 범위를 갖고, 외삽 장마다 한계 문구가 있으며 한계 장은 구체 가정과 수치 범위를 말한다. 인과 동사는 근거 등급을 넘지 않는다  
 > 기준: 누락 0, 등급 초과 인과 동사 0
 
-실패 6건 · 장 3, 21, 23, 26, 32, 34
+실패 3건 · 장 21, 23, 26
 
-- 3장 · 2036 외삽 장에 한계 문구 없음
 - 21장 · 추정 라벨이 있는데 범위 표기 없음
 - 23장 · 추정 라벨이 있는데 범위 표기 없음
 - 26장 · 추정 라벨이 있는데 범위 표기 없음
-- 32장 · 2036 외삽 장에 한계 문구 없음
-- 34장 · 2036 외삽 장에 한계 문구 없음
 
-근거: [slide-03.jpg](../shots/baseline/slide-03.jpg) · [slide-21.jpg](../shots/baseline/slide-21.jpg) · [slide-23.jpg](../shots/baseline/slide-23.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg) · [slide-32.jpg](../shots/baseline/slide-32.jpg) · [slide-34.jpg](../shots/baseline/slide-34.jpg)
+근거: [slide-21.jpg](../shots/baseline/slide-21.jpg) · [slide-23.jpg](../shots/baseline/slide-23.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg)
 
 수동 확인 절차: 추정 수치 요소 가장 가까운 블록의 .tag.est·범위 표기, 2036 외삽 장의 한계 문구, 한계 장 정규식(숫자~숫자\|±), /때문에\|초래\|입증\|증명/ 문장의 라벨 등급을 확인한다
-볼 것: [slide-01.jpg](../shots/baseline/slide-01.jpg) · [slide-03.jpg](../shots/baseline/slide-03.jpg) · [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-22.jpg](../shots/baseline/slide-22.jpg) · [slide-23.jpg](../shots/baseline/slide-23.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg) · [slide-25.jpg](../shots/baseline/slide-25.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg) · [slide-27.jpg](../shots/baseline/slide-27.jpg) · [slide-28.jpg](../shots/baseline/slide-28.jpg) · [slide-29.jpg](../shots/baseline/slide-29.jpg) · [slide-32.jpg](../shots/baseline/slide-32.jpg)
+볼 것: [slide-22.jpg](../shots/baseline/slide-22.jpg) · [slide-23.jpg](../shots/baseline/slide-23.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg) · [slide-25.jpg](../shots/baseline/slide-25.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg) · [slide-27.jpg](../shots/baseline/slide-27.jpg) · [slide-28.jpg](../shots/baseline/slide-28.jpg) · [slide-29.jpg](../shots/baseline/slide-29.jpg)
 
 ### EVD-05
 
@@ -2439,7 +2443,7 @@
 
 ### RSP-01
 
-통과 · 화면 크기·비율 · both · 구현 auto+manual
+통과(자동)·수동 남음 · 화면 크기·비율 · both · 구현 auto+manual
 
 > 모든 QA 뷰포트에서 캔버스가 16:9로 가운데 맞춰지고 가로 스크롤과 잘림이 없다  
 > 기준: 비율 오차 ≤0.5%, scrollWidth>innerWidth 0, deck rect 뷰포트 밖 0, 여백 차 ≤1px
@@ -2493,7 +2497,7 @@
 
 ### RSP-03
 
-통과 · 화면 크기·확대 · both · 구현 auto+manual
+통과(자동)·수동 남음 · 화면 크기·확대 · both · 구현 auto+manual
 
 > 핀치·브라우저 확대를 막지 않고, 200% 확대에서도 장 전체가 보이거나 읽기 모드에서 글자가 실제로 커진다  
 > 기준: 확대 차단 0, 네 모서리 뷰포트 안, 읽기 모드 실효 크기 ≥1.8배
@@ -2548,7 +2552,7 @@
 - 17장 · 차트 빌드 2570ms(>1500)
 - 24장 · 차트 빌드 1830ms(>1500)
 - 26장 · 차트 빌드 3220ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 263/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 240/2290ms)
 
 근거: [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-10.jpg](../shots/baseline/slide-10.jpg) · [slide-11.jpg](../shots/baseline/slide-11.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-17.jpg](../shots/baseline/slide-17.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg)
 
@@ -2678,7 +2682,7 @@
 
 실패 1건 · 장 7
 
-- 7장 · 탭 복귀 100ms 뒤 차트 빌드 169/2290ms — 반쯤 그려진 채로 보임(3121ms 뒤 2290ms)
+- 7장 · 탭 복귀 100ms 뒤 차트 빌드 162/2290ms — 반쯤 그려진 채로 보임(3128ms 뒤 2290ms)
 
 - 메모: 탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과
 
@@ -2813,7 +2817,7 @@
 
 실패 2건
 
-- LCP 7740ms(>2500)
+- LCP 7748ms(>2500)
 - 첫 화면 전송량 1.59MB(>1.5): 가장 큰 /assets/img/desk.jpg 305KB, /assets/img/recursion.jpg 242KB
 
 - 메모: Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public
@@ -3016,6 +3020,8 @@
 - `bun scripts/check-numbers.ts` → 종료 0
   -  "unverified": [] / }
 - `bun scripts/render.ts index.html` → 종료 0
-  -     "div.kicker.t-stagger-line \"AI 발전 속도 · 관계식 R1\" 14px — 예외로 넘김(.kicker)", /     "p.chart-s
+  -     "div.kicker.t-stagger-line \"AI 발전 속도 · 관계식 R1\" 14px — 예외로 넘김(.kicker)", /     "p.chart-sub \"세
 - `bun scripts/probe-nav.ts` → 종료 1
   -  "upOk": true / }
+- `node ~/Documents/school-projects/2026-2/data-literacy/.agi-deck/tools/taste/lint.mjs index.html src --json` → 종료 1
+  -    "file": "index.html", /    "line": 4

@@ -1269,7 +1269,7 @@ const autoIds = criteriaAll.filter((c) => c.verify_method !== "visual").map((c) 
 const implemented = results.filter((r) => r.implemented !== "manual").length;
 const implementedAuto = results.filter((r) => r.implemented !== "manual" && methodOf.get(r.id) !== "visual").length;
 const count = (s: string) => results.filter((r) => r.status === s).length;
-const summary = { total: criteriaAll.length, checked: results.length, implemented, implementedAuto, autoTotal: autoIds.length, pass: count("pass"), fail: count("fail"), manual: count("manual"), error: count("error"), regressions: results.filter((r) => r.regression).length };
+const summary = { total: criteriaAll.length, checked: results.length, implemented, implementedAuto, autoTotal: autoIds.length, pass: count("pass"), fail: count("fail"), manual: count("manual"), error: count("error"), pendingManual: results.filter((r) => r.pendingManual).length, regressions: results.filter((r) => r.regression).length };
 const report = {
   label, date: new Date().toISOString(), commit, deckDirty: !!dirty, deckSha, seconds: Math.round((Date.now() - t0) / 1000), summary, compare: compareLabel ?? null,
   tools: { python: PY, skill: SKILL, taste: TASTE, net: useNet, publicUrl: publicUrl ?? null, axe: false, lighthouse: false, tesseract: false, ocr: D.ix.ocr?.available ? "macOS Vision" : false },
@@ -1281,6 +1281,6 @@ const scrub = (t: string) => t.split(repo + "/").join("").split(repo).join(".").
 await Bun.write(join(reportsDir, `${label}.json`), scrub(JSON.stringify(report, null, 1)));
 const { renderMarkdown } = await import("./vqa/report.ts");
 await Bun.write(join(reportsDir, `${label}.md`), scrub(renderMarkdown(report, criteriaAll, violations)));
-log(`보고서: ${relative(repo, join(reportsDir, label + ".md"))} · 통과 ${summary.pass} · 실패 ${summary.fail} · 수동 ${summary.manual} · 오류 ${summary.error} · ${report.seconds}s`);
+log(`보고서: ${relative(repo, join(reportsDir, label + ".md"))} · 통과 ${summary.pass}(수동 확인 남음 ${summary.pendingManual}) · 실패 ${summary.fail} · 수동 ${summary.manual} · 오류 ${summary.error} · ${report.seconds}s`);
 console.log(JSON.stringify({ report: relative(repo, join(reportsDir, `${label}.json`)), ...summary }, null, 1));
 process.exit(summary.fail + summary.error > 0 ? 1 : 0);

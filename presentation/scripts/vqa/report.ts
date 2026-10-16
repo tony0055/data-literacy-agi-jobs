@@ -2,11 +2,13 @@
 const esc = (s: string) => String(s ?? "").replace(/\|/g, "\\|").replace(/\n/g, " ");
 const link = (p: string) => (p.startsWith("design-standard/") ? `../../presentation/${p}` : /^(shots|before|evidence|pr)\//.test(p) ? `../${p}` : p.startsWith("README") ? "../../README.md" : p);
 const icon: Record<string, string> = { pass: "통과", fail: "실패", manual: "수동", error: "오류" };
+// both 조건이 자동 부분만 통과한 경우: 통과로 세되 사람 확인이 남았다고 붙인다
+const mark = (r: any) => (r.status === "pass" && r.pendingManual ? "통과(자동)·수동 남음" : icon[r.status]);
 
 export function renderMarkdown(rep: any, criteria: any[], violations: any[]) {
   const s = rep.summary;
   const L: string[] = [];
-  L.push(`구현 ${s.implemented}/${s.total} 조건 (automated·both ${s.autoTotal}개 중 ${s.implementedAuto}개 자동 판정, visual ${s.total - s.autoTotal}개 중 ${s.implemented - s.implementedAuto}개 부분 자동·${s.total - s.autoTotal - (s.implemented - s.implementedAuto)}개 수동) · 통과 ${s.pass} · 실패 ${s.fail} · 수동 ${s.manual} · 오류 ${s.error}${rep.compare ? ` · 회귀 ${s.regressions}(기준 ${rep.compare})` : ""}`);
+  L.push(`구현 ${s.implemented}/${s.total} 조건 (automated·both ${s.autoTotal}개 중 ${s.implementedAuto}개 자동 판정, visual ${s.total - s.autoTotal}개 중 ${s.implemented - s.implementedAuto}개 부분 자동·${s.total - s.autoTotal - (s.implemented - s.implementedAuto)}개 수동) · 통과 ${s.pass}${s.pendingManual ? `(그중 자동만 통과·수동 확인 남음 ${s.pendingManual})` : ""} · 실패 ${s.fail} · 수동 ${s.manual} · 오류 ${s.error}${rep.compare ? ` · 회귀 ${s.regressions}(기준 ${rep.compare})` : ""}`);
   L.push("");
   L.push(`# 시각 QA 보고서 — ${rep.label}`);
   L.push("");
@@ -27,7 +29,7 @@ export function renderMarkdown(rep: any, criteria: any[], violations: any[]) {
       const caught = rel.filter((r) => r.status === "fail" && r.items.some(related));
       const ev = caught.flatMap((r) => r.items.filter(related).slice(0, 2).map((i: any) => `${r.id}: ${i.n ? `${i.n}장 ` : ""}${i.msg}`)).slice(0, 4);
       const sl = v.slides.length > 30 ? "전체" : v.slides.join(", ");
-      L.push(`| ${v.id} | ${sl} | ${caught.map((r) => r.id).join(", ") || "—"} | ${rel.map((r) => `${r.id} ${icon[r.status]}`).join(" · ")} | ${esc(ev.join(" / ").slice(0, 600)) || "잡지 못함"} |`);
+      L.push(`| ${v.id} | ${sl} | ${caught.map((r) => r.id).join(", ") || "—"} | ${rel.map((r) => `${r.id} ${mark(r)}`).join(" · ")} | ${esc(ev.join(" / ").slice(0, 600)) || "잡지 못함"} |`);
     }
     L.push("");
   }
@@ -59,7 +61,7 @@ export function renderMarkdown(rep: any, criteria: any[], violations: any[]) {
   L.push("| --- | --- | --- | --- | --- | --- |");
   for (const r of rep.results) {
     const impl = { auto: "자동", "auto+manual": "자동+수동", partial: "부분", manual: "수동" }[r.implemented as string];
-    L.push(`| [${r.id}](#${r.id.toLowerCase()}) | ${r.method} | ${impl} | ${icon[r.status]}${r.regression ? " ⚠회귀" : ""} | ${r.failedSlides.join(", ") || (r.status === "fail" ? "덱 전체" : "")} | ${esc((r.items[0]?.msg ?? "").slice(0, 120))} |`);
+    L.push(`| [${r.id}](#${r.id.toLowerCase()}) | ${r.method} | ${impl} | ${mark(r)}${r.regression ? " ⚠회귀" : ""} | ${r.failedSlides.join(", ") || (r.status === "fail" ? "덱 전체" : "")} | ${esc((r.items[0]?.msg ?? "").slice(0, 120))} |`);
   }
   L.push("");
 
@@ -69,7 +71,7 @@ export function renderMarkdown(rep: any, criteria: any[], violations: any[]) {
     const c = criteria.find((x) => x.id === r.id);
     L.push(`### ${r.id}`);
     L.push("");
-    L.push(`${icon[r.status]} · ${r.area} · ${r.method} · 구현 ${r.implemented}${r.regression ? " · **회귀**" : ""}`);
+    L.push(`${mark(r)} · ${r.area} · ${r.method} · 구현 ${r.implemented}${r.regression ? " · **회귀**" : ""}`);
     L.push("");
     L.push(`> ${esc(c?.criterion ?? r.summary)}  `);
     L.push(`> 기준: ${esc(c?.threshold ?? "")}`);
