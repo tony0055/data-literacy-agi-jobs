@@ -226,6 +226,7 @@ def main():
         "y눈금": [{"v": 60 * 10 ** i, "label": f"{10 ** i:,}"} for i in range(5)],
         "x범위": [2026, 2037], "x간격": 2,
         "외삽": {"v": 960, "label": "16시간 위는 측정이 아닌 외삽"},
+        "상한표시": "▲ 1만 시간에서 멈춘 선",
         "문턱": [{"v": m, "label": f"{g['직급']} · {g['업무']}"} for g, m in zip(pj["가정"]["직급별_업무단위"], gate_min)],
         "series": [{"key": n, "색": {"빠름": "evid", "기준": "worse", "신중": "neutral"}[n],
                     **{"빠름": {"keyDx": 12, "keyDy": 8, "keyAnchor": "start"}, "기준": {"keyDx": 14, "keyDy": 6, "keyAnchor": "start"},
@@ -247,7 +248,7 @@ def main():
                     **({"label": cross[n], "anchor": "start", "dx": 12, "dy": 28} if n == "신중" else {})} for n in ("빠름", "기준", "신중")],
         # 점은 문턱선 위에, 연도는 선이 지나지 않는 아래쪽 빈 자리에 한 줄 주석으로
         "주석": {"x": 2029.4, "y": 150, "anchor": "start",
-                 "text": f"한 달짜리 일을 해내기 시작하는 해 · 빠름 {cross['빠름']} · 기준 {cross['기준']} · 신중 {cross['신중']}"},
+                 "text": f"한 달짜리 일을 해내기 시작하는 해(추정) · 빠름 {cross['빠름']} · 기준 {cross['기준']} · 신중 {cross['신중']}"},
     }
     start = pj["가정"]["METR_출발점"]
     data["proj_capability"]["설명"] = (

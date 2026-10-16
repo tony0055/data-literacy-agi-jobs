@@ -56,9 +56,10 @@ function annotate(svg, a, px, py) {
     svg.append(el("line", { class: "leader", x1: tx + (a.anchor === "end" ? 8 : -8), y1: ty - 7, x2: px(sx) - 6, y2: ty - 7 }));
   }
   if (a.to) {
+    // 지시선은 글자 상자 밖(대상이 위면 글자 위 가장자리, 아래면 아래 가장자리)에서 시작한다
     const [ex, ey] = [px(a.to[0]), py(a.to[1])];
-    const sx = a.anchor === "end" ? tx + 8 : a.anchor === "start" ? tx - 8 : tx;
-    svg.append(el("line", { class: "leader", x1: sx, y1: ty - 7, x2: ex, y2: ey }));
+    const sx = a.anchor === "end" ? tx - 16 : tx + 16, sy = ey < ty - 7 ? ty - 24 : ty + 8;
+    svg.append(el("line", { class: "leader", x1: sx, y1: sy, x2: ex, y2: ey }));
   }
   svg.append(el("text", { class: "note", x: tx, y: ty, "text-anchor": a.anchor ?? "start" }, a.text));
 }
@@ -141,7 +142,7 @@ function yearline(d, W, host) {
 //    강조점 이름표는 오른쪽 여백의 한 열에 두고 지시선으로 잇는다(이름표끼리·점과 겹치지 않게).
 function scatter(d, W, host) {
   // 세로축 이름은 차트 제목('… 고용 변화율 (%)')이 맡고, 가로축 이름은 눈금 줄 오른쪽 여백에 둔다(플롯 높이 확보)
-  const H = d.H ?? 560, x0 = 96, x1 = W - 216, yTop = 16, yBase = H - 40;
+  const H = d.H ?? 560, x0 = 96, x1 = W - 216, yTop = 20, yBase = H - 40;
   const svg = svgOf(W, H, d, host);
   const [ylo, yhi] = d.y범위;
   const px = (v) => x0 + v * (x1 - x0);
@@ -156,12 +157,22 @@ function scatter(d, W, host) {
   svg.append(axisLab({ x: x1 + 40, y: yBase + 34 }, d.x이름));
   const hl = new Set(d.강조 ?? []);
   const out = { up: 0, down: 0 };
+  // 범위를 넘는 점: 끝에 붙인 원이 아니라 다른 모양(위·아래 삼각형)으로, 축 선에서 4px 떨어진 바깥쪽에 그린다.
+  // 너비 14인 삼각형끼리 겹치면 가운데를 기준으로 좌우로 벌려 16px 간격을 둔다(실제 값은 data-x·data-y)
+  const tri = { up: [], down: [] };
+  for (const p of d.points) if (p.y > yhi || p.y < ylo) tri[p.y > yhi ? "up" : "down"].push(p);
+  const triX = new Map();
+  for (const side of ["up", "down"]) {
+    const xs = tri[side].map((p) => ({ p, x: px(p.x) })).sort((u, v) => u.x - v.x);
+    const groups = [];
+    for (const t of xs) { const gl = groups.at(-1); if (gl && t.x - gl.at(-1).x < 16) gl.push(t); else groups.push([t]); }
+    for (const gl of groups) { const mid = (gl[0].x + gl.at(-1).x) / 2; gl.forEach((t, i) => triX.set(t.p, mid + (i - (gl.length - 1) / 2) * 16)); }
+  }
   const mark = (p, cls, r) => {
     if (p.y > yhi || p.y < ylo) {
-      // 범위를 넘는 점: 끝에 붙인 원이 아니라 다른 모양(위·아래 삼각형)으로, 축 바깥쪽에 그린다
-      const up = p.y > yhi, y = up ? yTop : yBase, k = up ? -1 : 1;
+      const up = p.y > yhi, y = up ? yTop : yBase, k = up ? -1 : 1, cx = triX.get(p);
       out[up ? "up" : "down"]++;
-      svg.append(el("path", { class: `${cls} clip`, d: `M${px(p.x) - 7},${y - k * 2} L${px(p.x) + 7},${y - k * 2} L${px(p.x)},${y + k * 12} Z`, "data-x": p.x, "data-y": p.y }));
+      svg.append(el("path", { class: `${cls} clip`, d: `M${cx - 7},${y + k * 4} L${cx + 7},${y + k * 4} L${cx},${y + k * 16} Z`, "data-x": p.x, "data-y": p.y }));
       return;
     }
     svg.append(el("circle", { class: cls, cx: px(p.x), cy: py(p.y), r, "data-x": p.x, "data-y": p.y }));
@@ -178,7 +189,7 @@ function scatter(d, W, host) {
   const ys = ann.map(({ p }) => (prev = Math.max(py(p.y) + 7, prev + gap)));
   const shift = Math.max(0, ys.at(-1) - (yBase - 8));
   // 지시선이 다른 점을 지나지 않게: 후보 경로(가로로 간 뒤 꺾기 · 곧장 · 위/아래로 비켜 가기) 중 지나는 점이 가장 적은 것
-  const dots = d.points.filter((q) => q.y <= yhi && q.y >= ylo).map((q) => ({ q, x: px(q.x), y: py(q.y), r: Math.max(4.5, Math.min(14, Math.sqrt(q.emp2022 / 20000))) + 3 }));
+  const dots = d.points.filter((q) => q.y <= yhi && q.y >= ylo).map((q) => ({ q, x: px(q.x), y: py(q.y), r: Math.max(4.5, Math.min(14, Math.sqrt(q.emp2022 / 20000))) + 6 }));
   const segD = (P, A, B) => { const dx = B[0] - A[0], dy = B[1] - A[1], L = dx * dx + dy * dy || 1, t = Math.max(0, Math.min(1, ((P.x - A[0]) * dx + (P.y - A[1]) * dy) / L)); return Math.hypot(P.x - A[0] - t * dx, P.y - A[1] - t * dy); };
   const hits = (pts, self) => dots.filter((o) => o.q !== self && pts.slice(1).some((B, k) => segD(o, pts[k], B) < o.r)).length;
   ann.forEach(({ a, p }, i) => {
@@ -268,7 +279,8 @@ function capfan(d, W, host) {
   }
   const g = gridGroup(svg);
   for (const t of d.y눈금) {
-    g.append(el("line", { x1: x0, y1: py(t.v), x2: x1, y2: py(t.v) }));
+    // 직급 문턱 점선과 8px 안에 놓이는 격자선은 그리지 않는다(눈금 글자는 둔다)
+    if (!d.문턱.some((q) => Math.abs(py(q.v) - py(t.v)) <= 8)) g.append(el("line", { x1: x0, y1: py(t.v), x2: x1, y2: py(t.v) }));
     svg.append(tick({ x: x0 - 14, y: py(t.v) + 7, "text-anchor": "end" }, t.label));
   }
   svg.append(gridWrap(g));
@@ -283,8 +295,18 @@ function capfan(d, W, host) {
     if (ly - 7 - y > 2) svg.append(el("path", { class: "leader", fill: "none", d: `M${x1},${y} L${x1 + 6},${y} L${x1 + 10},${ly - 7}` }));
     svg.append(el("text", { class: "gate-lab", x: x1 + 16, y: ly }, t.label));
   }
+  let clipped = 0;
   for (const s of d.series) {
-    const pts = s.points.filter((p) => p.y <= d.y범위[1]);
+    // 세로 상한을 넘는 구간은 그리지 않는다. 선은 상한과 만나는 자리(로그 보간)에서 멈추고 위 방향 삼각 표식을 단다
+    const top = d.y범위[1], k = s.points.findIndex((p) => p.y > top);
+    const pts = k < 0 ? s.points : s.points.slice(0, k);
+    if (k > 0) {
+      const a = s.points[k - 1], b = s.points[k], f = (Math.log10(top) - Math.log10(a.y)) / (Math.log10(b.y) - Math.log10(a.y));
+      pts.push({ x: a.x + f * (b.x - a.x), y: top });
+      const cx = px(pts.at(-1).x);
+      svg.append(el("path", { class: `${SERIES[s.색][1]} clip`, d: `M${cx - 7},${yTop - 4} L${cx + 7},${yTop - 4} L${cx},${yTop - 16} Z`, "data-x": b.x, "data-y": b.y }));
+      clipped += s.points.length - k;
+    }
     svg.append(el("polyline", { class: SERIES[s.색][0], "data-series": s.key, points: pts.map((p) => `${px(p.x)},${py(p.y)}`).join(" ") }));
     const last = pts.at(-1);
     svg.append(el("text", { class: "slab", x: px(last.x) + (s.keyDx ?? -8), y: py(last.y) + (s.keyDy ?? -14), "text-anchor": s.keyAnchor ?? "end" }, s.key));
@@ -294,10 +316,11 @@ function capfan(d, W, host) {
   if (c) {
     for (const p of c.points) {
       svg.append(el("circle", { class: SERIES[p.색][1], cx: px(p.x), cy: py(c.v), r: 7, "data-x": p.x, "data-y": c.v }));
-      if (p.label) svg.append(el("text", { class: "vlab", x: px(p.x) + (p.dx ?? 0), y: py(c.v) + (p.dy ?? -16), "text-anchor": p.anchor ?? "middle" }, p.label.toFixed(1)));
+      if (p.label) svg.append(el("text", { class: "vlab", x: px(p.x) + (p.dx ?? 0), y: py(c.v) + (p.dy ?? -16), "text-anchor": p.anchor ?? "middle" }, `${p.label.toFixed(1)}${d.라벨?.[0] ? ` ${d.라벨[0]}` : ""}`));
     }
     if (c.주석) svg.append(el("text", { class: "note", x: px(c.주석.x), y: py(c.주석.y), "text-anchor": c.주석.anchor ?? "start" }, c.주석.text));
   }
+  if (clipped && d.상한표시) svg.append(el("text", { class: "edge-lab", x: x1 + 16, y: yBase - 8 }, d.상한표시));
   if (d.x이름) svg.append(axisLab({ x: x1 + 16, y: yBase + 34 }, d.x이름));
   return svg;
 }

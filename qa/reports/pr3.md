@@ -15,7 +15,7 @@
 
 ## 실행
 
-- 실행: 2026-10-16T14:25:27.583Z · 커밋 8c7143b (덱 파일 미커밋 변경 있음) · 덱 해시 aa9f7e277cc2 · 486초
+- 실행: 2026-10-16T15:28:47.823Z · 커밋 d4d0f6b (덱 파일 미커밋 변경 있음) · 덱 해시 2b1ae9c61841 · 544초
 - 명령: `cd presentation && bun scripts/visual-qa.ts --label pr3 --compare=baseline-cloud` · 파이썬 `python3`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
 - 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift, 이번 실행에선 못 씀)으로 IMG-02·RSP-02를 판정
@@ -80,7 +80,7 @@
 | [TYP-09](#typ-09) | automated | 자동 | 실패 | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 이웃 크기 비 1.14(<1.15): 16/14 |
 | [TYP-10](#typ-10) | automated | 자동 | 실패 | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 16px 이하 음수 자간 -0.014em: span "데이터리터러시의이해 중간고사 과제" |
 | [TYP-11](#typ-11) | automated | 자동 | 실패 | 4, 12, 16, 18, 19, 21, 23, 31, 32, 34 | 80px 이상 숫자 3개: 105 · 3.5 · 94 |
-| [TYP-12](#typ-12) | automated | 자동 | 실패 | 1, 6, 7, 10, 11, 17, 21, 22, 23, 24, 26 | 80px 문장 3줄: h1.t "AI는 언제쯤내 일을대신하게 될까요" |
+| [TYP-12](#typ-12) | automated | 자동 | 실패 | 1, 6, 7, 10, 11, 13, 17, 21, 22, 23, 24, 26 | 80px 문장 3줄: h1.t "AI는 언제쯤내 일을대신하게 될까요" |
 | [TYP-13](#typ-13) | automated | 자동 | 실패 | 1, 5 | 헤드라인 안 꾸밈(color): span.hl "대신하게 될까요" |
 | [TYP-14](#typ-14) | automated | 자동 | 실패 | 덱 전체 | font-display: block |
 | [TXT-01](#txt-01) | automated | 자동 | 실패 | 16, 22 | 제목류 쉼표·콜론: th "모형(2023→2025 고용 변화, 743개 직업)" |
@@ -157,14 +157,14 @@
 | [MOT-08](#mot-08) | both | 자동+수동 | 실패 | 2, 4, 8, 12, 18, 19, 21, 23 | 등장 순서가 읽기 순서와 어긋남 1곳 |
 | [MOT-09](#mot-09) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 모션 목록 절 없음 |
 | [MOT-10](#mot-10) | automated | 자동 | 통과 |  |  |
-| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 105/2290ms — 반쯤 그려진 채로 보임(3168ms 뒤 2290ms) |
+| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 154/2290ms — 반쯤 그려진 채로 보임(3136ms 뒤 2290ms) |
 | [A11Y-01](#a11y-01) | automated | 자동 | 실패 | 덱 전체 | 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33 |
 | [A11Y-02](#a11y-02) | automated | 자동 | 실패 | 덱 전체 | aria-live=polite 영역 없음 |
 | [A11Y-03](#a11y-03) | automated | 자동 | 실패 | 2, 4, 8, 11, 12, 13, 14, 15, 16, 18, 19, 21, 26 | h1·h2 0개(1 기대) — nohead 장은 숨긴 heading 필요 |
 | [A11Y-04](#a11y-04) | automated | 부분 | 실패 | 6, 9, 18, 19 | color-contrast: 대비 3.23:1 < 4.5 — div.kicker.t-stagger-line "재귀적 자기개선 · 지금 보이는 신호" 14px 600 (픽셀 최악 5%) |
 | [A11Y-05](#a11y-05) | automated | 자동 | 실패 | 덱 전체 | JS 끔: 빈 차트 9(metr_horizon, agi_forecast_shift, espai_two_clocks, occ_scatter, occ_quintile, kr_occupation_index, proj_ca |
 | [A11Y-06](#a11y-06) | automated | 자동 | 통과 |  |  |
-| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7844ms(>2500) |
+| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7836ms(>2500) |
 | [PERF-02](#perf-02) | automated | 자동 | 통과 |  |  |
 | [PERF-03](#perf-03) | automated | 자동 | 통과 |  |  |
 | [PERF-04](#perf-04) | automated | 자동 | 통과 |  |  |
@@ -260,7 +260,7 @@
 - 12장 · 열 시작점 밖 글 덩어리 10개: div.kicker.t-stagger-line "전문가 예상 · 컨설팅 기관" x=176 · p "McKinsey 추정 · 지금 하는 업무의 절반이 " x=208 · span.t-digit-group "2045" x=208
 - 12장 · 고유 왼쪽 x 7개(>3): 176, 160, 208, 841, 1032, 1229, 1543
 - 13장 · 열 시작점 밖 글 덩어리 8개: div.kicker.t-stagger-line "실제 고용 1 · 미국 세부 직업 · 수업 7주 상" x=176 · p.chart-title "직업별 AI 노출도와 고용 변화율 2022→2025" x=208 · p.chart-src "n = 639 직업(2022년 고용 1만 명 이상," x=208
-- 13장 · 고유 왼쪽 x 5개(>3): 176, 160, 208, 582, 1307
+- 13장 · 고유 왼쪽 x 5개(>3): 176, 160, 208, 659, 1307
 - 14장 · 열 시작점 밖 글 덩어리 10개: div.kicker.t-stagger-line "실제 고용 1 · 노출 상위 직업" x=176 · p.chart-title "AI 노출도 5분위별 합계 고용 변화율 2022→2" x=208 · p.chart-src "분위마다 직업 154개 · 앞 장과 달리 고용 하한" x=208
 - 14장 · 고유 왼쪽 x 6개(>3): 176, 160, 208, 412, 1169, 1308
 - … 외 34건(JSON 보고서에 전부)
@@ -1309,7 +1309,7 @@
 > 40px 이상 문장은 2줄 이하, 3줄 이상 가운데 정렬·양쪽 정렬 없음, 본문 줄 길이 과폭 없음  
 > 기준: 40px+ 3줄 0, center 3줄+ 0, justify 0, 한글 줄당 >45자 0
 
-실패 15건 · 장 1, 6, 7, 10, 11, 17, 21, 22, 23, 24, 26
+실패 16건 · 장 1, 6, 7, 10, 11, 13, 17, 21, 22, 23, 24, 26
 
 - 1장 · 80px 문장 3줄: h1.t "AI는 언제쯤내 일을대신하게 될까요"
 - 6장 · 줄당 54자(>45): p "2024년 10월 → 2026년 4월. Anthro"
@@ -1318,6 +1318,7 @@
 - 7장 · 줄당 51자(>45): p.chart-src "METR Time Horizon 1.1 원본 YAM"
 - 10장 · 줄당 49자(>45): p.chart-src "AI Impacts 전문가 설문 n = 4회(직접)"
 - 11장 · 줄당 54자(>45): p.chart-src "AI Impacts 전문가 설문(Expert Sur"
+- 13장 · 줄당 49자(>45): p.chart-src "n = 639 직업(2022년 고용 1만 명 이상,"
 - 17장 · 줄당 48자(>45): p.chart-src "KOSIS 직업별 취업자(DT_1DA7E08S_NE"
 - 21장 · 줄당 50자(>45): p "IEA 415TWh(2024) → 945TWh(20"
 - 22장 · 줄당 49자(>45): p "오가노이드 칩 CL1은 뉴런 약 80만 개, 대당 "
@@ -1327,7 +1328,7 @@
 - 24장 · 줄당 54자(>45): p.chart-src "n = 3 시나리오 · 출발점 Claude Myth"
 - 26장 · 줄당 47자(>45): p.chart-src "대체 압력 = AI·자동화 고위험 일자리 × 실제로"
 
-근거: [slide-01.jpg](../shots/pr3/slide-01.jpg) · [slide-06.jpg](../shots/pr3/slide-06.jpg) · [slide-07.jpg](../shots/pr3/slide-07.jpg) · [slide-10.jpg](../shots/pr3/slide-10.jpg) · [slide-11.jpg](../shots/pr3/slide-11.jpg) · [slide-17.jpg](../shots/pr3/slide-17.jpg)
+근거: [slide-01.jpg](../shots/pr3/slide-01.jpg) · [slide-06.jpg](../shots/pr3/slide-06.jpg) · [slide-07.jpg](../shots/pr3/slide-07.jpg) · [slide-10.jpg](../shots/pr3/slide-10.jpg) · [slide-11.jpg](../shots/pr3/slide-11.jpg) · [slide-13.jpg](../shots/pr3/slide-13.jpg)
 
 ### TYP-13
 
@@ -1792,7 +1793,7 @@
 
 - 7장 · 기준 대비 사라지거나 바뀐 숫자: 1, 40, 8
 - 17장 · 기준 대비 사라지거나 바뀐 숫자: 100, 100, 100
-- 24장 · 기준 대비 사라지거나 바뀐 숫자: 1, 1, 1, 8
+- 24장 · 기준 대비 사라지거나 바뀐 숫자: 1, 1, 8
 - 26장 · 기준 대비 사라지거나 바뀐 숫자: 173, 21
 - 28장 · 기준 대비 사라지거나 바뀐 숫자: 25, 25, 25
 - 13장 · occ_scatter 세로 범위 밖 값 10개가 축 끝값으로 그려져 그림 위치가 데이터 값과 다름
@@ -1977,14 +1978,13 @@
 > 개요는 제목('전체 34장'), 44px 닫기 버튼, 썸네일마다 읽히는 장 번호, 현재 장 aria-current와 테두리, Tab·화살표·Enter 선택, 즉시 전환, 다른 오버레이 숨김을 갖는다  
 > 기준: 모든 항목 존재, 장 번호 실효 ≥14px, 현재 장 표시 그레이스케일 구분, 열고 닫을 때 애니메이션 0, 다른 오버레이 display:none
 
-실패 6건
+실패 5건
 
 - 개요 제목('전체 34장') 없음
 - 닫기 버튼 없음
 - 썸네일 장 번호 실효 높이 4.9px(<14)
 - aria-current 장 0개
 - 현재 장 테두리 없음(none 0px)
-- 열 때 실행 중 애니메이션 1
 
 ### NAV-10
 
@@ -2355,7 +2355,7 @@
 - 17장 · 차트 빌드 2370ms(>1500)
 - 24장 · 차트 빌드 2410ms(>1500)
 - 26장 · 차트 빌드 2450ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 606/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 0/2290ms)
 
 근거: [slide-07.jpg](../shots/pr3/slide-07.jpg) · [slide-10.jpg](../shots/pr3/slide-10.jpg) · [slide-11.jpg](../shots/pr3/slide-11.jpg) · [slide-13.jpg](../shots/pr3/slide-13.jpg) · [slide-17.jpg](../shots/pr3/slide-17.jpg) · [slide-24.jpg](../shots/pr3/slide-24.jpg)
 
@@ -2485,7 +2485,7 @@
 
 실패 1건 · 장 7
 
-- 7장 · 탭 복귀 100ms 뒤 차트 빌드 105/2290ms — 반쯤 그려진 채로 보임(3168ms 뒤 2290ms)
+- 7장 · 탭 복귀 100ms 뒤 차트 빌드 154/2290ms — 반쯤 그려진 채로 보임(3136ms 뒤 2290ms)
 
 - 메모: 탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과
 
@@ -2623,7 +2623,7 @@
 
 실패 2건
 
-- LCP 7844ms(>2500)
+- LCP 7836ms(>2500)
 - 첫 화면 전송량 2.93MB(>1.5): 가장 큰 /assets/photos/altman.jpg 428KB, /assets/photos/amodei.jpg 414KB
 
 - 메모: Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public

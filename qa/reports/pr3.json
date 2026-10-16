@@ -1,10 +1,10 @@
 {
  "label": "pr3",
- "date": "2026-10-16T14:25:27.583Z",
- "commit": "8c7143b",
+ "date": "2026-10-16T15:28:47.823Z",
+ "commit": "d4d0f6b",
  "deckDirty": true,
- "deckSha": "aa9f7e277cc2",
- "seconds": 486,
+ "deckSha": "2b1ae9c61841",
+ "seconds": 544,
  "summary": {
   "total": 147,
   "checked": 147,
@@ -426,7 +426,7 @@
     },
     {
      "n": 13,
-     "msg": "고유 왼쪽 x 5개(>3): 176, 160, 208, 582, 1307"
+     "msg": "고유 왼쪽 x 5개(>3): 176, 160, 208, 659, 1307"
     },
     {
      "n": 14,
@@ -3472,8 +3472,8 @@
     19
    ],
    "measured": {
-    "checked": 713,
-    "viaPixels": 130
+    "checked": 714,
+    "viaPixels": 131
    },
    "notes": [
     "axe-core가 설치돼 있지 않아 계산 색과 실제 뒤 불투명 바탕(조상 합성)으로 직접 잼. 사진·그라데이션 위는 픽셀 최악 5%",
@@ -3828,9 +3828,9 @@
    "failedSlides": [],
    "measured": {
     "families": {
-     "Pretendard Variable": 30779
+     "Pretendard Variable": 30843
     },
-    "nodes": 1163,
+    "nodes": 1164,
     "woffStatus": 200,
     "fontsCheck": true
    },
@@ -6441,6 +6441,10 @@
      "msg": "줄당 54자(>45): p.chart-src \"AI Impacts 전문가 설문(Expert Sur\""
     },
     {
+     "n": 13,
+     "msg": "줄당 49자(>45): p.chart-src \"n = 639 직업(2022년 고용 1만 명 이상,\""
+    },
+    {
      "n": 17,
      "msg": "줄당 48자(>45): p.chart-src \"KOSIS 직업별 취업자(DT_1DA7E08S_NE\""
     },
@@ -6479,6 +6483,7 @@
     7,
     10,
     11,
+    13,
     17,
     21,
     22,
@@ -6492,7 +6497,7 @@
     "shots/pr3/slide-07.jpg",
     "shots/pr3/slide-10.jpg",
     "shots/pr3/slide-11.jpg",
-    "shots/pr3/slide-17.jpg"
+    "shots/pr3/slide-13.jpg"
    ]
   },
   {
@@ -6545,7 +6550,7 @@
    "failedSlides": [],
    "measured": {
     "fontAt": null,
-    "fcp": 2152
+    "fcp": 1948
    },
    "notes": [
     "CDP 네트워크 제한(150ms RTT·1.6Mbps)·CPU 4배로 근사. 실제 회선·기기 아님"
@@ -7902,7 +7907,7 @@
     },
     {
      "n": 24,
-     "msg": "기준 대비 사라지거나 바뀐 숫자: 1, 1, 1, 8"
+     "msg": "기준 대비 사라지거나 바뀐 숫자: 1, 1, 8"
     },
     {
      "n": 26,
@@ -8270,8 +8275,10 @@
       "1.91",
       "10",
       "10",
+      "10",
       "11.4",
       "13",
+      "16",
       "18.71",
       "19.3",
       "197.0",
@@ -8279,9 +8286,9 @@
       "2022",
       "2022",
       "2022",
-      "2024",
       "2025",
       "2025",
+      "2026",
       "25",
       "25",
       "3.35",
@@ -8604,6 +8611,7 @@
      "24": [
       "04",
       "07",
+      "1",
       "1",
       "1",
       "10",
@@ -9354,12 +9362,12 @@
    "items": [],
    "failedSlides": [],
    "measured": {
-    "firstVisibleMs": 52.09999999962747,
+    "firstVisibleMs": 87.09999999962747,
     "visibleSamples": [
-     6.699999999254942,
-     69.30000000074506,
-     51.69999999925494,
-     52.09999999962747
+     16.199999999254942,
+     99.30000000074506,
+     87.09999999962747,
+     73.19999999925494
     ],
     "afterTen": {
      "cur": 10,
@@ -9521,15 +9529,12 @@
     },
     {
      "msg": "현재 장 테두리 없음(none 0px)"
-    },
-    {
-     "msg": "열 때 실행 중 애니메이션 1"
     }
    ],
    "failedSlides": [],
    "measured": {
     "how": "Escape",
-    "anims": 1,
+    "anims": 0,
     "title": null,
     "close": null,
     "pgEffective": 4.9,
@@ -11028,14 +11033,14 @@
       "blurIn": 3
      },
      {
-      "incoming": 8,
-      "outgoing": 0,
-      "blurIn": 3
+      "incoming": 5.75951,
+      "outgoing": -2.24049,
+      "blurIn": 2.15981
      },
      {
-      "incoming": 5.75399,
-      "outgoing": -2.24601,
-      "blurIn": 2.15775
+      "incoming": 3.94552,
+      "outgoing": -4.05448,
+      "blurIn": 1.47957
      }
     ],
     "bwd": [
@@ -11050,14 +11055,14 @@
       "blurIn": 3
      },
      {
-      "incoming": -5.7508,
-      "outgoing": 2.2492,
-      "blurIn": 2.15655
+      "incoming": -5.75215,
+      "outgoing": 2.24785,
+      "blurIn": 2.15706
      },
      {
-      "incoming": -1.68565,
-      "outgoing": 6.31435,
-      "blurIn": 0.632119
+      "incoming": -3.93987,
+      "outgoing": 4.06013,
+      "blurIn": 1.47745
      }
     ],
     "property": "opacity, transform, filter, visibility",
@@ -11105,7 +11110,7 @@
     },
     {
      "n": 7,
-     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 606/2290ms)"
+     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 0/2290ms)"
     }
    ],
    "failedSlides": [
@@ -11413,9 +11418,9 @@
    "items": [],
    "failedSlides": [],
    "measured": {
-    "frames": 368,
+    "frames": 367,
     "long": 0,
-    "worst": 33.30000000000018,
+    "worst": 33.400000000001455,
     "fps": 59.8
    },
    "notes": [
@@ -11433,15 +11438,15 @@
    "items": [
     {
      "n": 7,
-     "msg": "탭 복귀 100ms 뒤 차트 빌드 105/2290ms — 반쯤 그려진 채로 보임(3168ms 뒤 2290ms)"
+     "msg": "탭 복귀 100ms 뒤 차트 빌드 154/2290ms — 반쯤 그려진 채로 보임(3136ms 뒤 2290ms)"
     }
    ],
    "failedSlides": [
     7
    ],
    "measured": {
-    "waitMs": 3168,
-    "early": 105,
+    "waitMs": 3136,
+    "early": 154,
     "cur": 6,
     "t": 2290,
     "d": 2290,
@@ -11891,7 +11896,7 @@
    "summary": "느린 모바일 회선에서도 첫 화면이 빠르고 흔들리지 않는다",
    "items": [
     {
-     "msg": "LCP 7844ms(>2500)"
+     "msg": "LCP 7836ms(>2500)"
     },
     {
      "msg": "첫 화면 전송량 2.93MB(>1.5): 가장 큰 /assets/photos/altman.jpg 428KB, /assets/photos/amodei.jpg 414KB"
@@ -11899,9 +11904,9 @@
    ],
    "failedSlides": [],
    "measured": {
-    "lcp": 7844,
+    "lcp": 7836,
     "cls": 0,
-    "transferKB": 2995
+    "transferKB": 2997
    },
    "notes": [
     "Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public"
@@ -12228,10 +12233,10 @@
     "7": 0.9894,
     "8": 0.9923,
     "9": 0.9883,
-    "10": 0.9873,
+    "10": 0.9874,
     "11": 0.9892,
     "12": 0.9922,
-    "13": 0.9887,
+    "13": 0.9891,
     "14": 0.9883,
     "15": 0.9909,
     "16": 0.9911,
@@ -12242,7 +12247,7 @@
     "21": 0.9929,
     "22": 0.9899,
     "23": 0.9891,
-    "24": 0.9875,
+    "24": 0.9874,
     "25": 0.9881,
     "26": 0.9882,
     "27": 0.9874,
