@@ -1,4 +1,4 @@
-구현 141/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개는 수동) · 통과 29 · 실패 112 · 수동 6 · 오류 0
+구현 143/147 조건 (automated·both 142개 중 142개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 29 · 실패 114 · 수동 4 · 오류 0
 
 # 시각 QA 보고서 — baseline
 
@@ -15,16 +15,16 @@
 
 ## 실행
 
-- 실행: 2026-10-16T07:10:08.935Z · 커밋 7acf396 · 덱 해시 a2bf7b988014 · 272초
+- 실행: 2026-10-16T09:05:53.560Z · 커밋 da07164 · 덱 해시 a2bf7b988014 · 305초
 - 명령: `cd presentation && bun scripts/visual-qa.ts --label baseline` · 파이썬 `<tmp>/sam-env/bin/python`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
-- 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모)
+- 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift)으로 IMG-02·RSP-02를 판정
 
 ## 조건별 결과
 
 | 조건 | 방식 | 구현 | 판정 | 실패한 장 | 첫 항목 |
 | --- | --- | --- | --- | --- | --- |
-| [LAY-01](#lay-01) | automated | 자동 | 실패 | 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | .headline 시작 (160, 170) ≠ (160, 112) |
+| [LAY-01](#lay-01) | automated | 자동 | 실패 | 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | .headline 시작 (160, 170) ≠ (160, 112) |
 | [LAY-02](#lay-02) | automated | 자동 | 통과 |  |  |
 | [LAY-03](#lay-03) | automated | 자동 | 실패 | 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 열 시작점 밖 글 덩어리 4개: span "주제 설명과 데이터분석 계획 · 2026-10-16" x=1522.2 · div.kicker "AI가 AI 개발을 돕기 시작한 뒤의 10년" x=176 · span.pill |
 | [LAY-04](#lay-04) | automated | 자동 | 실패 | 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 33, 34 | token-check space 27건(src/deck.css:29  space  16px  (padding) · src/deck.css:48  space  32px  (padding) · src/deck.css:1 |
@@ -55,9 +55,9 @@
 | [COL-05](#col-05) | automated | 자동 | 실패 | 1, 3, 7, 8, 10, 11, 12, 13, 14, 15, 17, 20, 21, 22, 25, 26, 27, 29, 33 | 18px 이상 글자 중 회색 비율 62%(>50%) |
 | [CON-01](#con-01) | automated | 부분 | 실패 | 6, 9, 18, 19 | 대비 3.32:1 < 4.5 — div.kicker.t-stagger-line "재귀적 자기개선 · 지금 보이는 신호" 14px 600 (픽셀 최악 5%) |
 | [CON-02](#con-02) | automated | 자동 | 실패 | 6, 9, 18, 19 | 사진 위 글자 최악 5% 대비 3.32:1 < 4.5 — div.kicker.t-stagger-line "재귀적 자기개선 · 지금 보이는 신호" |
-| [CON-03](#con-03) | automated | 부분 | 실패 | 10, 13, 17, 26 | agi_forecast_shift circle.b-neutral #cac7c2 대비 1.69:1(<3) — 9개 중 3개 직접 라벨 없음 |
+| [CON-03](#con-03) | automated | 부분 | 실패 | 5, 10, 13, 17, 26 | agi_forecast_shift circle.b-neutral #cac7c2 대비 1.69:1(<3) — 9개 중 3개 직접 라벨 없음 |
 | [CON-04](#con-04) | both | 자동+수동 | 실패 | 11, 17, 24, 26 | espai_two_clocks 프로젝터 모사 인접 계열 ΔL* 8.1(<15) |
-| [CON-05](#con-05) | visual | 수동 | 수동 |  |  |
+| [CON-05](#con-05) | visual | 자동+수동 | 실패 | 1, 7, 13, 17 | forced-colors에서 라벨 알약 3/3개 경계 없음(테두리·외곽선 0, 바탕·그림자는 지워짐): div.kicker, span.pill, span.pill.on |
 | [GRAD-01](#grad-01) | automated | 자동 | 통과 |  |  |
 | [GRAD-02](#grad-02) | both | 자동+수동 | 통과 |  |  |
 | [GRAD-03](#grad-03) | automated | 자동 | 통과 |  |  |
@@ -73,10 +73,10 @@
 | [TYP-10](#typ-10) | automated | 자동 | 실패 | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 16px 이하 음수 자간 -0.014em: span "데이터리터러시의이해 중간고사 과제" |
 | [TYP-11](#typ-11) | automated | 자동 | 실패 | 4, 12, 16, 18, 19, 21, 23, 31, 32, 34 | 80px 이상 숫자 3개: 105 · 3.5 · 94 |
 | [TYP-12](#typ-12) | automated | 자동 | 실패 | 1, 6, 7, 10, 11, 13, 17, 21, 22, 23, 24, 26 | 80px 문장 3줄: h1.t "AI는 언제쯤내 일을대신하게 될까요" |
-| [TYP-13](#typ-13) | automated | 자동 | 실패 | 1 | 헤드라인 안 꾸밈(color): span.hl "대신하게 될까요" |
+| [TYP-13](#typ-13) | automated | 자동 | 실패 | 1, 5 | 헤드라인 안 꾸밈(color): span.hl "대신하게 될까요" |
 | [TYP-14](#typ-14) | automated | 자동 | 실패 | 덱 전체 | font-display: block |
 | [TXT-01](#txt-01) | automated | 자동 | 실패 | 16, 22 | 제목류 쉼표·콜론: th "모형(2023→2025 고용 변화, 743개 직업)" |
-| [TXT-02](#txt-02) | automated | 자동 | 실패 | 5 | '~다'로 끝남: "이 로봇 데이터가 쌓이는 만큼 늦게 현장 일로 넘어간다" |
+| [TXT-02](#txt-02) | automated | 자동 | 실패 | 5, 31 | '~다'로 끝남: "이 로봇 데이터가 쌓이는 만큼 늦게 현장 일로 넘어간다" |
 | [TXT-03](#txt-03) | both | 자동+수동 | 실패 | 12 | 금지 표현: the future of |
 | [TXT-04](#txt-04) | both | 자동+수동 | 실패 | 7, 8, 10, 11, 14, 15, 16, 18, 20, 21, 24, 25, 26, 27 | 화면 snake_case: benchmark_results_1_1, timeline_analysis |
 | [TXT-05](#txt-05) | both | 자동+수동 | 실패 | 6, 9, 25, 28, 30, 34 | 같은 숫자 3회 이상: 2026×4 |
@@ -87,7 +87,7 @@
 | [TXT-10](#txt-10) | automated | 자동 | 실패 | 6, 23, 25, 28, 29, 30, 31, 34 | 본문 255자(>220) |
 | [TXT-11](#txt-11) | visual | 수동 | 수동 |  |  |
 | [IMG-01](#img-01) | automated | 자동 | 통과 |  |  |
-| [IMG-02](#img-02) | both | 수동 | 수동 |  |  |
+| [IMG-02](#img-02) | both | 자동+수동 | 실패 | 2, 9 | openai-livestream-thumb.jpg 안 글자 'OpenAl Update'(Vision 확신도 1, 원본 (746, 334) 463×67) |
 | [IMG-03](#img-03) | automated | 자동 | 실패 | 1, 2, 6, 9, 18, 19, 22 | cover.jpg width·height 속성 없음 |
 | [IMG-04](#img-04) | automated | 자동 | 실패 | 덱 전체 | desk.jpg 305KB(>300) |
 | [IMG-05](#img-05) | both | 자동+수동 | 통과 |  |  |
@@ -136,7 +136,7 @@
 | [ONB-03](#onb-03) | both | 자동+수동 | 실패 | 덱 전체 | 390x844 세로: 회전 안내·세로 읽기 모드 없음 |
 | [ONB-04](#onb-04) | automated | 자동 | 통과 |  |  |
 | [RSP-01](#rsp-01) | both | 자동+수동 | 통과 |  |  |
-| [RSP-02](#rsp-02) | automated | 부분 | 실패 | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 1280×720 최소 실효 글자 9.33px(<12): span "데이터리터러시의이해 중간고사 과제" |
+| [RSP-02](#rsp-02) | automated | 자동 | 실패 | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 1280×720 최소 실효 글자 9.33px(<12): span "데이터리터러시의이해 중간고사 과제" |
 | [RSP-03](#rsp-03) | both | 자동+수동 | 통과 |  |  |
 | [RSP-04](#rsp-04) | automated | 자동 | 실패 | 덱 전체 | 첫 페인트에 가로 스크롤 |
 | [MOT-01](#mot-01) | automated | 자동 | 통과 |  |  |
@@ -149,7 +149,7 @@
 | [MOT-08](#mot-08) | both | 자동+수동 | 실패 | 2, 4, 8, 12, 18, 19, 21, 23 | 등장 순서가 읽기 순서와 어긋남 1곳 |
 | [MOT-09](#mot-09) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 모션 목록 절 없음 |
 | [MOT-10](#mot-10) | automated | 자동 | 통과 |  |  |
-| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 142/2290ms — 반쯤 그려진 채로 보임(3148ms 뒤 2290ms) |
+| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 169/2290ms — 반쯤 그려진 채로 보임(3121ms 뒤 2290ms) |
 | [A11Y-01](#a11y-01) | automated | 자동 | 실패 | 덱 전체 | 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33 |
 | [A11Y-02](#a11y-02) | automated | 자동 | 실패 | 덱 전체 | aria-live=polite 영역 없음 |
 | [A11Y-03](#a11y-03) | automated | 자동 | 실패 | 2, 4, 8, 11, 12, 13, 14, 15, 16, 18, 19, 21, 26 | h1·h2 0개(1 기대) — nohead 장은 숨긴 heading 필요 |
@@ -162,11 +162,11 @@
 | [PERF-04](#perf-04) | automated | 자동 | 통과 |  |  |
 | [META-01](#meta-01) | automated | 자동 | 실패 | 덱 전체 | description 없음 |
 | [META-02](#meta-02) | automated | 자동 | 실패 | 덱 전체 | favicon(link rel=icon) 없음 |
-| [PRT-01](#prt-01) | both | 자동+수동 | 실패 | 덱 전체 | print 미디어(CSS만)에서 흐린 글줄 150 |
+| [PRT-01](#prt-01) | both | 자동+수동 | 실패 | 7, 10, 11, 17, 24, 26 | print 미디어(CSS만)에서 흐린 글줄 149 |
 | [PRT-02](#prt-02) | automated | 자동 | 통과 |  |  |
 | [STD-01](#std-01) | both | 자동+수동 | 실패 | 덱 전체 | 34장 역할 표 행 0(<34) |
 | [STD-02](#std-02) | automated | 자동 | 실패 | 덱 전체 | token-check --strict 종료 1: off-token: 27 (space 27) |
-| [STD-03](#std-03) | automated | 자동 | 실패 | 7, 12, 21 | .tag @ink 계산 스타일 2종: [600 \| 14px \| 20px \| rgb(255, 255, 255) \| rgba(255, 255, 255, 0.12) \| 0px \| 12px \| 999px] 장 4 / [60 |
+| [STD-03](#std-03) | automated | 자동 | 실패 | 4, 9, 10, 12, 21 | .tag @sage 계산 스타일 2종 — 이 장 [600 \| 14px \| 20px \| rgb(64, 77, 47) \| rgba(20, 18, 16, 0.06) \| 0px \| 12px \| 999px] ≠ 다수 [600 |
 | [STD-04](#std-04) | automated | 자동 | 통과 |  |  |
 | [STD-05](#std-05) | visual | 수동 | 수동 |  |  |
 | [STD-06](#std-06) | visual | 수동 | 수동 |  |  |
@@ -181,7 +181,7 @@
 > 내용 장(제목 있는 장)의 .headline 시작 좌표, .foot 위치, .pg 오른쪽 끝이 34장에서 같다. 표지·nohead·전면 장은 유형별로 고정하고 예외 목록을 design-standard README에 둔다  
 > 기준: 내용 장: .headline left=160px·top=112px(±0px), .foot bottom=1016px(±1px), .pg right 편차 0px. 예외 장은 README 목록과 일치
 
-실패 29건 · 장 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
+실패 33건 · 장 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
 
 - 3장 · .headline 시작 (160, 170) ≠ (160, 112)
 - 4장 · .headline 시작 (160, 170) ≠ (160, 112)
@@ -208,9 +208,11 @@
 - 28장 · .headline 시작 (160, 170) ≠ (160, 112)
 - 29장 · .headline 시작 (160, 170) ≠ (160, 112)
 - 30장 · .headline 시작 (160, 170) ≠ (160, 112)
-- … 외 4건(JSON 보고서에 전부)
+- … 외 8건(JSON 보고서에 전부)
 
-근거: [slide-03.jpg](../shots/baseline/slide-03.jpg) · [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-05.jpg](../shots/baseline/slide-05.jpg) · [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-08.jpg](../shots/baseline/slide-08.jpg) · [slide-09.jpg](../shots/baseline/slide-09.jpg)
+- 메모: 예외 장(표지·nohead·bleed)은 내용 장 틀(헤드라인 160·112, .foot 1016, .pg 오른쪽 최빈값)과 비교하고, 다르면 README에 그 유형이 '예외'로 적혀 있는지 본다
+
+근거: [slide-01.jpg](../shots/baseline/slide-01.jpg) · [slide-03.jpg](../shots/baseline/slide-03.jpg) · [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-05.jpg](../shots/baseline/slide-05.jpg) · [slide-06.jpg](../shots/baseline/slide-06.jpg) · [slide-07.jpg](../shots/baseline/slide-07.jpg)
 
 ### LAY-02
 
@@ -709,7 +711,7 @@
 > border-radius는 토큰 단계만 쓰고 크기에 맞으며, 겹친 모양은 동심이다  
 > 기준: 감사 위반 0, 비율 >0.2 0(pill 제외), 높이<160 radius≥24 0, 동심 오차 >1px 0
 
-실패 32건 · 장 3, 4, 5, 8, 9, 17, 21, 24, 29, 30, 33, 34
+실패 34건 · 장 3, 4, 5, 8, 9, 17, 21, 24, 29, 30, 33, 34
 
 - 3장 · 모서리/짧은 변 0.3(>0.2): div.sowe.t-stagger-line r24
 - 3장 · 높이 80(<160)인데 모서리 24: div.sowe.t-stagger-line
@@ -717,6 +719,8 @@
 - 4장 · 높이 80(<160)인데 모서리 24: div.sowe.t-stagger-line
 - 5장 · 모서리/짧은 변 0.3(>0.2): div.sowe.t-stagger-line r24
 - 5장 · 높이 80(<160)인데 모서리 24: div.sowe.t-stagger-line
+- 5장 · 도식 chain rect 6개: rx 22.7 토큰 단계(16·24·32) 밖
+- 5장 · 도식 chain rect 2개: rx 22.7 토큰 단계(16·24·32) 밖 · rx/짧은 변 0.24(>0.2)
 - 8장 · 모서리/짧은 변 0.21(>0.2): div.sowe.t-stagger-line r24
 - 8장 · 높이 112(<160)인데 모서리 24: div.sowe.t-stagger-line
 - 9장 · 모서리/짧은 변 0.3(>0.2): span.vcap r24
@@ -734,9 +738,7 @@
 - 30장 · 모서리/짧은 변 0.21(>0.2): div.band.t-stagger-line r24
 - 30장 · 높이 112(<160)인데 모서리 24: div.band.t-stagger-line
 - 30장 · 모서리/짧은 변 0.21(>0.2): div.band.t-stagger-line r24
-- 30장 · 높이 112(<160)인데 모서리 24: div.band.t-stagger-line
-- 30장 · 모서리/짧은 변 0.3(>0.2): div.band.t-stagger-line r24
-- … 외 7건(JSON 보고서에 전부)
+- … 외 9건(JSON 보고서에 전부)
 
 근거: [slide-03.jpg](../shots/baseline/slide-03.jpg) · [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-05.jpg](../shots/baseline/slide-05.jpg) · [slide-08.jpg](../shots/baseline/slide-08.jpg) · [slide-09.jpg](../shots/baseline/slide-09.jpg) · [slide-17.jpg](../shots/baseline/slide-17.jpg)
 
@@ -961,16 +963,19 @@
 > 값을 담은 선·막대·점·영역은 배경 대비 3:1 이상이고, WARN 색을 쓰면 직접 라벨이 함께 있다  
 > 기준: 데이터 마크 ≥3:1 또는 같은 마크에 직접 라벨, validate_palette FAIL 0
 
-실패 4건 · 장 10, 13, 17, 26
+실패 7건 · 장 5, 10, 13, 17, 26
 
 - 10장 · agi_forecast_shift circle.b-neutral #cac7c2 대비 1.69:1(<3) — 9개 중 3개 직접 라벨 없음
 - 13장 · occ_scatter circle.dot #dad8d4 대비 1.43:1(<3) — 634개 중 543개 직접 라벨 없음
 - 17장 · kr_occupation_index circle.b-neutral #cac7c2 대비 1.69:1(<3) — 7개 중 5개 직접 라벨 없음
 - 26장 · proj_kr_jobs circle.b-neutral #cac7c2 대비 1.69:1(<3) — 22개 중 8개 직접 라벨 없음
+- 5장 · 도식 chain 연결선 path.edge #a19e99 대비 2.67:1(<3) — 8개
+- 5장 · 도식 chain 화살촉 #ar #a19e99 대비 2.67:1(<3) — 10개
+- 5장 · 도식 chain 화살촉 #ar 색 #a19e99이 선 색 #4c5eb2·#141210와 다름(공용 화살촉) — 2개
 
 - 메모: validate_palette.js(dataviz 스킬)는 이 환경 경로가 고정돼 있지 않아 돌리지 않음 — 마크 색 대비를 직접 잼
 
-근거: [slide-10.jpg](../shots/baseline/slide-10.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-17.jpg](../shots/baseline/slide-17.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg)
+근거: [slide-05.jpg](../shots/baseline/slide-05.jpg) · [slide-10.jpg](../shots/baseline/slide-10.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-17.jpg](../shots/baseline/slide-17.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg)
 
 ### CON-04
 
@@ -993,13 +998,24 @@
 
 ### CON-05
 
-수동 · 대비·고대비 모드 · visual · 구현 manual
+실패 · 대비·고대비 모드 · visual · 구현 auto+manual
 
 > prefers-contrast: more와 forced-colors에서 라벨 경계와 차트 계열이 구분된다  
 > 기준: 계열 구분 실패 0, 라벨 알약 경계 보임
 
+실패 4건 · 장 1, 7, 13, 17
+
+- 1장 · forced-colors에서 라벨 알약 3/3개 경계 없음(테두리·외곽선 0, 바탕·그림자는 지워짐): div.kicker, span.pill, span.pill.on
+- 7장 · forced-colors에서 라벨 알약 2/2개 경계 없음(테두리·외곽선 0, 바탕·그림자는 지워짐): div.kicker.t-stagger-line, span.tag
+- 13장 · forced-colors에서 라벨 알약 2/2개 경계 없음(테두리·외곽선 0, 바탕·그림자는 지워짐): div.kicker.t-stagger-line, span.tag
+- 17장 · forced-colors에서 라벨 알약 2/2개 경계 없음(테두리·외곽선 0, 바탕·그림자는 지워짐): div.kicker.t-stagger-line, span.tag
+
+- 메모: 강제 색 모드(Emulation forced-colors: active)에서 라벨 알약(.tag·.kicker·.pill)에 1px 이상 테두리나 외곽선이 남는지 계산 스타일로 본다. 차트 계열 구분은 캡처를 사람이 본다
+
+근거: [slide-01.jpg](../shots/baseline/slide-01.jpg) · [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-17.jpg](../shots/baseline/slide-17.jpg)
+
 수동 확인 절차: Playwright emulateMedia({forcedColors:'active'})와 CDP prefers-contrast: more로 표지와 차트 장을 캡처해 확인한다
-볼 것: [con05-forced-s01.jpg](../shots/baseline/con05-forced-s01.jpg) · [con05-forced-s07.jpg](../shots/baseline/con05-forced-s07.jpg) · [con05-forced-s13.jpg](../shots/baseline/con05-forced-s13.jpg) · [con05-more-s01.jpg](../shots/baseline/con05-more-s01.jpg) · [con05-more-s07.jpg](../shots/baseline/con05-more-s07.jpg) · [con05-more-s13.jpg](../shots/baseline/con05-more-s13.jpg)
+볼 것: [con05-forced-s01.jpg](../shots/baseline/con05-forced-s01.jpg) · [con05-forced-s07.jpg](../shots/baseline/con05-forced-s07.jpg) · [con05-forced-s13.jpg](../shots/baseline/con05-forced-s13.jpg) · [con05-forced-s17.jpg](../shots/baseline/con05-forced-s17.jpg) · [con05-more-s01.jpg](../shots/baseline/con05-more-s01.jpg) · [con05-more-s07.jpg](../shots/baseline/con05-more-s07.jpg) · [con05-more-s13.jpg](../shots/baseline/con05-more-s13.jpg) · [con05-more-s17.jpg](../shots/baseline/con05-more-s17.jpg)
 
 ### GRAD-01
 
@@ -1350,11 +1366,12 @@
 > 헤드라인 안 단어를 이탤릭·다른 서체·다른 색·밑줄로 꾸미지 않고, 이모지·장식 순번(01/02)이 없다  
 > 기준: 모두 0
 
-실패 1건 · 장 1
+실패 2건 · 장 1, 5
 
 - 1장 · 헤드라인 안 꾸밈(color): span.hl "대신하게 될까요"
+- 5장 · 동그라미 장식 순번 ①②③
 
-근거: [slide-01.jpg](../shots/baseline/slide-01.jpg)
+근거: [slide-01.jpg](../shots/baseline/slide-01.jpg) · [slide-05.jpg](../shots/baseline/slide-05.jpg)
 
 ### TYP-14
 
@@ -1393,11 +1410,12 @@
 > 본문 문장은 ~습니다와 명사형 끝맺음을 섞고 '~다'로 끝나지 않는다  
 > 기준: '~다' 끝 0, 습니다 ≥1이고 명사형 ≥1
 
-실패 1건 · 장 5
+실패 2건 · 장 5, 31
 
 - 5장 · '~다'로 끝남: "이 로봇 데이터가 쌓이는 만큼 늦게 현장 일로 넘어간다"
+- 31장 · '~다'로 끝남: "진단과 처리를 나눈다"
 
-근거: [slide-05.jpg](../shots/baseline/slide-05.jpg)
+근거: [slide-05.jpg](../shots/baseline/slide-05.jpg) · [slide-31.jpg](../shots/baseline/slide-31.jpg)
 
 ### TXT-03
 
@@ -1598,15 +1616,25 @@
 
 ### IMG-02
 
-수동 · 이미지·내용 · both · 구현 manual
+실패 · 이미지·내용 · both · 구현 auto+manual
 
 > 이미지에 Gemini 워터마크와 글자(가짜 글자 포함)가 없다  
 > 기준: 워터마크 잔상 0, OCR 문자 0(허용 목록 제외)
 
-- 메모: OCR(tesseract)이 이 환경에 없어 자동 판정 못 함 — 오른쪽 아래 15% 크롭 묶음을 눈으로 본다
+실패 4건 · 장 2, 9
+
+- 9장 · openai-livestream-thumb.jpg 안 글자 'OpenAl Update'(Vision 확신도 1, 원본 (746, 334) 463×67)
+- 2장 · desk.jpg 안 글자 'j0s &'(Vision 확신도 0.3, 원본 (1869, 609) 48×30)
+- 2장 · desk.jpg 안 글자 'MC'(Vision 확신도 0.3, 원본 (984, 827) 24×19)
+- 2장 · desk.jpg 안 글자 'Mt'(Vision 확신도 0.3, 원본 (1069, 798) 18×13)
+
+- 메모: macOS Vision OCR을 원본 전체·3×3 조각(2배)·4×4 평활화 조각(3배)에 돌려, 글자(한글·라틴) 2자 이상이 확신도 0.3 이상으로 가로 글줄(상자 폭 ≥ 높이×0.8)에서 읽히면 실패. 허용 글자는 qa/exceptions.json의 IMG-02.allow
+- 메모: 흐릿하게 뭉개진 가짜 글자는 OCR이 못 읽을 수 있다(예: neurons.jpg 칩 기판의 'MEA CHI…'는 확대·평활화해도 읽히지 않았다) — 크롭 묶음을 사람이 함께 본다
+
+근거: [img02-ocr-01.jpg](../shots/baseline/img02-ocr-01.jpg) · [img02-ocr-04.jpg](../shots/baseline/img02-ocr-04.jpg) · [img02-ocr-05.jpg](../shots/baseline/img02-ocr-05.jpg) · [img02-ocr-07.jpg](../shots/baseline/img02-ocr-07.jpg) · [slide-02.jpg](../shots/baseline/slide-02.jpg) · [slide-09.jpg](../shots/baseline/slide-09.jpg)
 
 수동 확인 절차: 각 이미지 오른쪽 아래 15%를 확대 크롭해 Read로 보고, tesseract kor+eng OCR을 돌린다
-볼 것: [img02-desk-br15.jpg](../shots/baseline/img02-desk-br15.jpg) · [img02-neurons-br15.jpg](../shots/baseline/img02-neurons-br15.jpg) · [img02-callcenter-br15.jpg](../shots/baseline/img02-callcenter-br15.jpg) · [img02-entry-br15.jpg](../shots/baseline/img02-entry-br15.jpg) · [img02-robot-br15.jpg](../shots/baseline/img02-robot-br15.jpg) · [img02-cover-br15.jpg](../shots/baseline/img02-cover-br15.jpg) · [img02-recursion-br15.jpg](../shots/baseline/img02-recursion-br15.jpg) · [img02-hassabis-br15.jpg](../shots/baseline/img02-hassabis-br15.jpg) · [img02-openai-livestream-thumb-br15.jpg](../shots/baseline/img02-openai-livestream-thumb-br15.jpg) · [img02-altman-br15.jpg](../shots/baseline/img02-altman-br15.jpg) · [img02-amodei-br15.jpg](../shots/baseline/img02-amodei-br15.jpg)
+볼 것: [img02-ocr-01.jpg](../shots/baseline/img02-ocr-01.jpg) · [img02-ocr-04.jpg](../shots/baseline/img02-ocr-04.jpg) · [img02-ocr-05.jpg](../shots/baseline/img02-ocr-05.jpg) · [img02-ocr-07.jpg](../shots/baseline/img02-ocr-07.jpg) · [img02-desk-br15.jpg](../shots/baseline/img02-desk-br15.jpg) · [img02-neurons-br15.jpg](../shots/baseline/img02-neurons-br15.jpg) · [img02-callcenter-br15.jpg](../shots/baseline/img02-callcenter-br15.jpg) · [img02-entry-br15.jpg](../shots/baseline/img02-entry-br15.jpg) · [img02-robot-br15.jpg](../shots/baseline/img02-robot-br15.jpg) · [img02-cover-br15.jpg](../shots/baseline/img02-cover-br15.jpg) · [img02-recursion-br15.jpg](../shots/baseline/img02-recursion-br15.jpg) · [img02-hassabis-br15.jpg](../shots/baseline/img02-hassabis-br15.jpg)
 
 ### IMG-03
 
@@ -2425,12 +2453,12 @@
 
 ### RSP-02
 
-실패 · 화면 크기·실효 글자 · automated · 구현 partial
+실패 · 화면 크기·실효 글자 · automated · 구현 auto
 
 > 노트북·화면 공유 해상도에서 실효 글자 크기가 읽힌다  
 > 기준: 1280×720 실효 ≥12px, 1280×720 헤드라인 글자 높이 ≥30px, 480×270 헤드라인 ≥12px, 쪽 번호 OCR 34/34
 
-실패 36건 · 장 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
+실패 66건 · 장 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
 
 - 1장 · 1280×720 최소 실효 글자 9.33px(<12): span "데이터리터러시의이해 중간고사 과제"
 - 2장 · 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "사진: AI 생성 이미지(Gemini) · 이처럼 "
@@ -2457,9 +2485,9 @@
 - 23장 · 1280×720 최소 실효 글자 9.33px(<12): div.kicker.t-stagger-line "2036 추정 1 · 모형의 뼈대"
 - 24장 · 1280×720 최소 실효 글자 9.33px(<12): div.kicker.t-stagger-line "2036 추정 2 · AI 능력 연장"
 - 25장 · 1280×720 최소 실효 글자 9.33px(<12): div.kicker.t-stagger-line "2036 추정 3 · 직급별"
-- … 외 11건(JSON 보고서에 전부)
+- … 외 41건(JSON 보고서에 전부)
 
-- 메모: 480×270 OCR(tesseract)은 이 환경에 없어 쪽 번호 실효 크기로 대신 판정
+- 메모: 480×270 쪽 번호는 macOS Vision OCR로 읽었다
 
 근거: [slide-01.jpg](../shots/baseline/slide-01.jpg) · [slide-02.jpg](../shots/baseline/slide-02.jpg) · [slide-03.jpg](../shots/baseline/slide-03.jpg) · [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-05.jpg](../shots/baseline/slide-05.jpg) · [slide-06.jpg](../shots/baseline/slide-06.jpg)
 
@@ -2520,7 +2548,7 @@
 - 17장 · 차트 빌드 2570ms(>1500)
 - 24장 · 차트 빌드 1830ms(>1500)
 - 26장 · 차트 빌드 3220ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 244/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 263/2290ms)
 
 근거: [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-10.jpg](../shots/baseline/slide-10.jpg) · [slide-11.jpg](../shots/baseline/slide-11.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-17.jpg](../shots/baseline/slide-17.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg)
 
@@ -2650,7 +2678,7 @@
 
 실패 1건 · 장 7
 
-- 7장 · 탭 복귀 100ms 뒤 차트 빌드 142/2290ms — 반쯤 그려진 채로 보임(3148ms 뒤 2290ms)
+- 7장 · 탭 복귀 100ms 뒤 차트 빌드 169/2290ms — 반쯤 그려진 채로 보임(3121ms 뒤 2290ms)
 
 - 메모: 탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과
 
@@ -2851,15 +2879,23 @@
 > 인쇄·PDF는 34쪽 최종 상태로 나오고 조작 UI·흐린 그림자·필터가 없다. 최종 상태는 CSS(@media print)만으로 강제된다  
 > 기준: 34쪽, headline 누락 0, 컨트롤 텍스트 0, 7장 선 끝점까지 그려짐, opacity 1 아님 0
 
-실패 2건
+실패 8건 · 장 7, 10, 11, 17, 24, 26
 
-- print 미디어(CSS만)에서 흐린 글줄 150
+- print 미디어(CSS만)에서 흐린 글줄 149
 - @media print에 box-shadow: none 없음
+- 7장 · PDF 7쪽 꺾은선 1/1개가 끝까지 안 그려짐: metr_horizon:l-worse 0/51점(0%)
+- 10장 · PDF 10쪽 꺾은선 1/2개가 끝까지 안 그려짐: agi_forecast_shift:l-worse 0/20점(0%)
+- 11장 · PDF 11쪽 꺾은선 2/2개가 끝까지 안 그려짐: espai_two_clocks:l-worse 0/9점(0%) · espai_two_clocks:l-evid 0/22점(0%)
+- 17장 · PDF 17쪽 꺾은선 2/3개가 끝까지 안 그려짐: kr_occupation_index:l-evid 0/19점(0%) · kr_occupation_index:l-worse 0/24점(0%)
+- 24장 · PDF 24쪽 꺾은선 3/3개가 끝까지 안 그려짐: proj_capability:l-evid 0/15점(0%) · proj_capability:l-worse 0/24점(0%) · proj_capability:l-neutral 34/41점(83%)
+- 26장 · PDF 26쪽 꺾은선 2/4개가 끝까지 안 그려짐: proj_kr_jobs:l-evid 0/30점(0%) · proj_kr_jobs:l-worse 0/30점(0%)
 
-근거: [prt01-pdf-p07.jpg](../shots/baseline/prt01-pdf-p07.jpg)
+- 메모: 꺾은선 판정: 선 구간 안쪽 점(꼭짓점에서 10px 넘게 떨어진 곳, 24px 간격)마다 5×5 창 안에 선 색(RGB 거리 <48)이 있는지 렌더와 PDF 래스터(pdftoppm 1920×1080)에서 보고, 렌더에 있던 점의 90% 미만이 PDF에 있으면 실패
+
+근거: [prt01-pdf-p07.jpg](../shots/baseline/prt01-pdf-p07.jpg) · [prt01-pdf-p10.jpg](../shots/baseline/prt01-pdf-p10.jpg) · [prt01-pdf-p11.jpg](../shots/baseline/prt01-pdf-p11.jpg) · [prt01-pdf-p17.jpg](../shots/baseline/prt01-pdf-p17.jpg) · [prt01-pdf-p24.jpg](../shots/baseline/prt01-pdf-p24.jpg) · [prt01-pdf-p26.jpg](../shots/baseline/prt01-pdf-p26.jpg) · [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-10.jpg](../shots/baseline/slide-10.jpg)
 
 수동 확인 절차: page.pdf({width:'1920px',height:'1080px',printBackground:true})로 만들고 pdfinfo 쪽 수, 각 쪽 headline 텍스트, 컨트롤 문자열, 7장 래스터에서 선 끝점을 확인한다. print 미디어 에뮬레이션에서 .t-stagger-line opacity와 @media print의 box-shadow:none·filter:none을 확인한다
-볼 것: [prt01-pdf-p07.jpg](../shots/baseline/prt01-pdf-p07.jpg)
+볼 것: [prt01-pdf-p07.jpg](../shots/baseline/prt01-pdf-p07.jpg) · [prt01-pdf-p10.jpg](../shots/baseline/prt01-pdf-p10.jpg) · [prt01-pdf-p11.jpg](../shots/baseline/prt01-pdf-p11.jpg) · [prt01-pdf-p17.jpg](../shots/baseline/prt01-pdf-p17.jpg) · [prt01-pdf-p24.jpg](../shots/baseline/prt01-pdf-p24.jpg) · [prt01-pdf-p26.jpg](../shots/baseline/prt01-pdf-p26.jpg)
 
 ### PRT-02
 
@@ -2910,15 +2946,21 @@
 > 역할 클래스마다 계산 스타일이 1종이고, 인라인 style로 font·color·background를 주지 않으며, 일부 장만 새 스타일로 바뀐 반쪽 상태가 없다  
 > 기준: 역할별 조합 1종, 인라인 font/color/background 0, 반쪽 전환 클래스 0
 
-실패 3건 · 장 7, 12, 21
+실패 8건 · 장 4, 9, 10, 12, 21
 
-- 21장 · .tag @ink 계산 스타일 2종: [600 \| 14px \| 20px \| rgb(255, 255, 255) \| rgba(255, 255, 255, 0.12) \| 0px \| 12px \| 999px] 장 4 / [600 \| 14px \| 20px \| rgb(180, 176, 172) \| rgba(255, 255, 255, 0.12) \| 0px \| 12px \| 999px] 장 21
-- 12장 · .tag @sage 계산 스타일 2종: [600 \| 14px \| 20px \| rgb(20, 18, 16) \| rgba(20, 18, 16, 0.08) \| 0px \| 12px \| 999px] 장 4 / [600 \| 14px \| 20px \| rgb(64, 77, 47) \| rgba(20, 18, 16, 0.06) \| 0px \| 12px \| 999px] 장 12
-- 7장 · .tag @light 계산 스타일 2종: [600 \| 14px \| 20px \| rgb(69, 87, 47) \| rgb(238, 246, 230) \| 0px \| 12px \| 999px] 장 4,20,23,24 / [600 \| 14px \| 20px \| rgb(99, 96, 91) \| rgba(20, 18, 16, 0.06) \| 0px \| 12px \| 999px] 장 7,8,10,11
+- 12장 · .tag @sage 계산 스타일 2종 — 이 장 [600 \| 14px \| 20px \| rgb(64, 77, 47) \| rgba(20, 18, 16, 0.06) \| 0px \| 12px \| 999px] ≠ 다수 [600 \| 14px \| 20px \| rgb(20, 18, 16) \| rgba(20, 18, 16, 0.08) \| 0px \| 12px \| 999px](장 4)
+- 4장 · .tag에 주장 라벨이 아닌 표본 수 'n=3'
+- 9장 · 메타 줄 라벨 '내부 목표'를 .tag 대신 b(700 · rgb(76, 94, 178))로 씀: b "내부 목표"
+- 9장 · 메타 줄 라벨 '예측'를 .tag 대신 b(700 · rgb(76, 94, 178))로 씀: b "예측"
+- 9장 · 주장 라벨 '2차'를 .tag 대신 일반 글자로 씀: p.when "2026-06 행사 발언 · 예측 · 2차"
+- 9장 · 메타 줄 라벨 '예측'를 .tag 대신 b(700 · rgb(76, 94, 178))로 씀: b "예측"
+- 10장 · .tag에 주장 라벨이 아닌 표본 수 'n=3'
+- 21장 · .tag.est '추정'가 @ink 바탕 규칙에 덮여 .tag와 같은 모양(변형 뜻이 사라짐)
 
 - 메모: '반쪽 전환' 비교는 --compare로 이전 보고서가 있을 때 회귀로 드러난다
+- 메모: 스타일시트에 '.역할.변형'으로 따로 정의된 변형 클래스(예: .tag.est)는 별개 역할로 묶는다
 
-근거: [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-12.jpg](../shots/baseline/slide-12.jpg) · [slide-21.jpg](../shots/baseline/slide-21.jpg)
+근거: [slide-04.jpg](../shots/baseline/slide-04.jpg) · [slide-09.jpg](../shots/baseline/slide-09.jpg) · [slide-10.jpg](../shots/baseline/slide-10.jpg) · [slide-12.jpg](../shots/baseline/slide-12.jpg) · [slide-21.jpg](../shots/baseline/slide-21.jpg)
 
 ### STD-04
 

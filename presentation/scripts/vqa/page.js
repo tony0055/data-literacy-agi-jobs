@@ -25,6 +25,17 @@
   };
   const css = (s) => (s ? `rgba(${s.slice(0, 3).map((v) => Math.round(v)).join(",")},${round(s[3], 3)})` : null);
   const cs = (el, p) => getComputedStyle(el, p);
+  // 스타일시트에서 '.역할.변형' 복합 선택자의 변형 클래스 이름을 모은다(.tag.est → est)
+  const variantCache = new Map();
+  const roleVariants = (sel) => {
+    if (variantCache.has(sel)) return variantCache.get(sel);
+    const out = new Set();
+    const re = new RegExp(`(?<![\\w-])\\${sel}\\.([\\w-]+)`, "g");
+    const walk = (rules) => { for (const r of rules) { if (r.selectorText) for (const m of r.selectorText.matchAll(re)) out.add(m[1]); if (r.cssRules) walk(r.cssRules); } };
+    for (const sh of document.styleSheets) { try { walk(sh.cssRules); } catch {} }
+    variantCache.set(sel, out);
+    return out;
+  };
   const label = (el) => {
     const c = typeof el.className === "string" ? el.className : el.className?.baseVal || "";
     return `${el.tagName.toLowerCase()}${c ? "." + c.trim().split(/\s+/).join(".") : ""} "${(el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 28)}"`;
@@ -131,6 +142,8 @@
         ariaHidden: !!el.closest("[aria-hidden=true]"),
         lines: lines.length, lastLine: lines.length ? lines[lines.length - 1] : "", maxLine: lines.reduce((m, l) => Math.max(m, l.replace(/\s/g, "").length), 0),
         textShadow: s.textShadow, bgClip: s.webkitBackgroundClip || s.backgroundClip,
+        // 짧은 인라인 글자(라벨 후보)는 부모 글 전체와 부모 색을 함께 둔다(STD-03: 같은 역할을 다른 마크업으로 쓴 경우)
+        ...(!inSvg && !blk && own.length <= 12 && el.parentElement ? { pfull: (el.parentElement.textContent || "").replace(/\s+/g, " ").trim().slice(0, 200), pcolor: cs(el.parentElement).color, pfw: Number(cs(el.parentElement).fontWeight) } : {}),
       });
     }
 
@@ -235,9 +248,11 @@
         return { ...mark(p), pts, dashOffset: cs(p).strokeDashoffset };
       });
       const circles = [...svg.querySelectorAll("circle")].map((c) => ({ ...mark(c), r: round(c.r.baseVal.value * svgScale(c), 2) }));
-      const rects = [...svg.querySelectorAll("rect")].map(mark);
-      const lines = [...svg.querySelectorAll("line")].map(mark);
-      const paths = [...svg.querySelectorAll("path")].map(mark);
+      // rect는 모서리(rx, 화면 px)를, 선·경로는 화살촉(marker-end)을 함께 잰다(CARD-07·CON-03 도식)
+      const rects = [...svg.querySelectorAll("rect")].map((e) => ({ ...mark(e), rx: round((e.rx?.baseVal?.value || 0) * svgScale(e), 2), inMarker: !!e.closest("marker") }));
+      const lines = [...svg.querySelectorAll("line")].map((e) => ({ ...mark(e), markerEnd: cs(e).markerEnd }));
+      const paths = [...svg.querySelectorAll("path")].map((e) => ({ ...mark(e), markerEnd: cs(e).markerEnd, inMarker: !!e.closest("marker") }));
+      const markers = [...svg.querySelectorAll("marker")].map((m) => { const sh = m.querySelector("path, polygon, circle, rect"); return { id: m.id, units: m.getAttribute("markerUnits") || "strokeWidth", w: Number(m.getAttribute("markerWidth") || 3), h: Number(m.getAttribute("markerHeight") || 3), fill: sh ? cs(sh).fill : null }; });
       const grads = [...svg.querySelectorAll("linearGradient, radialGradient")].map((g) => [...g.querySelectorAll("stop")].map((st) => cs(st).stopColor));
       const hostEl = host || svg.closest(".chainwrap") || svg.parentElement;
       const pick = (sel) => hostEl ? [...hostEl.querySelectorAll(sel)].filter(visible).map((e) => ({ text: e.textContent.replace(/\s+/g, " ").trim(), rect: rel(e.getBoundingClientRect()) })) : [];
@@ -245,7 +260,7 @@
         chart: host ? host.dataset.chart : null, kind: host ? host.dataset.kind : null, cls: svg.getAttribute("class") || "", inChain: !!svg.closest(".chainwrap"),
         rect: rel(r), vb: vb ? [vb.width, vb.height] : null, k: round(k, 3), role: svg.getAttribute("role"), aria: svg.getAttribute("aria-label") || "",
         desc: [svg.querySelector("desc")?.textContent || "", svg.querySelector("title")?.textContent || "", ...(svg.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean).map((id) => document.getElementById(id)?.textContent || "")].join(" ").trim(),
-        bg: bgOf(svg).color, texts: T, polylines, circles, rects, lines, paths, grads,
+        bg: bgOf(svg).color, texts: T, polylines, circles, rects, lines, paths, grads, markers,
         titles: pick(".chart-title"), subs: pick(".chart-sub"), srcs: pick(".chart-src"), legends: pick(".legend"),
         hostRect: hostEl ? rel(hostEl.getBoundingClientRect()) : null,
       };
@@ -260,7 +275,77 @@
     const bodyText = bodyEl ? (() => { const c = bodyEl.cloneNode(true); c.querySelectorAll("svg, .chart-src, .source, .legend").forEach((x) => x.remove()); return c.textContent.replace(/\s+/g, " ").trim(); })() : "";
     const blocks = [...S.querySelectorAll(".head > *, .body > *, .body .grid > *, .body .stack > *, .sowe")].filter(visible).map((e) => ({ label: label(e), text: e.cloneNode(true).textContent.replace(/\s+/g, " ").trim().slice(0, 600), rect: rel(e.getBoundingClientRect()) }));
     const bodyKids = bodyEl ? [...bodyEl.children].filter(visible).map((e) => ({ label: label(e), cls: e.className, rect: rel(e.getBoundingClientRect()), kids: [...e.children].filter(visible).map((k) => ({ cls: k.className, rect: rel(k.getBoundingClientRect()) })) })) : [];
-    const groups = [...S.querySelectorAll(".figs, .tiles, .bands, .grid, .qcards, .timeline, ul, ol, .points, .poster, .stack")].filter((g) => visible(g) && !(g instanceof SVGElement)).map((g) => ({
+    // 배치 서명(LAY-07): 내용 뿌리(.body, 없으면 장 자체)에서 시작해 열(H)·행(V)·겹침(G) 배열과
+    // 칸 종류(chart·img·table·card·text)를 나무 문자열로 만든다. 글자뿐인 덩어리는 구조와 상관없이 'text' 하나,
+    // 같은 매체가 모인 칸(사진 여러 장)은 매체 하나로 접는다. 꼬리말·쪽번호·위아래 얇은 띠·장식은 뺀다.
+    const layout = (() => {
+      const root = q1(".body") || S;
+      const area = (r) => r.width * r.height;
+      const big = (e, min) => visible(e) && area(e.getBoundingClientRect()) >= min;
+      const svgsIn = (el) => [...(el.tagName.toLowerCase() === "svg" ? [el] : []), ...el.querySelectorAll("svg")].filter((v) => !v.parentElement.closest("svg") && big(v, 60000));
+      const imgsIn = (el) => [...(el.tagName.toLowerCase() === "img" ? [el] : []), ...el.querySelectorAll("img, video")].filter((v) => big(v, 40000));
+      const tablesIn = (el) => [...(el.matches("table") ? [el] : []), ...el.querySelectorAll("table")].filter((v) => visible(v));
+      const cardish = (el) => {
+        if (el === root || el === S) return false;
+        const r = el.getBoundingClientRect();
+        if (r.width < 120 || r.height < 60) return false;
+        const s = cs(el), p = el.parentElement ? bgOf(el.parentElement).color : null;
+        const bw = ["Top", "Right", "Bottom", "Left"].some((k) => parseFloat(s[`border${k}Width`]) >= 1 && s[`border${k}Style`] !== "none");
+        return s.boxShadow !== "none" || bw || (parse(s.backgroundColor)?.[3] > 0 && bgOf(el).color !== p);
+      };
+      const skip = (e) => e.matches(".foot, .pg, .credit, .bar, .bg, [aria-hidden=true]") || (root === S && e.matches(".slide > .source")) || !visible(e) || area(e.getBoundingClientRect()) < 2000 || cs(e).position === "fixed";
+      const kidsOf = (el) => {
+        let k = [...el.children].filter((e) => !skip(e));
+        // 맨 위·맨 아래의 얇은 글 띠(높이 <72, 폭 >50%)는 장 머리·꼬리로 보고 뺀다
+        const R = el.getBoundingClientRect();
+        k = k.filter((e) => { const r = e.getBoundingClientRect(); return !(r.height < 72 && r.width > R.width * 0.5 && !svgsIn(e).length && !imgsIn(e).length && k.length > 1 && (e === k[0] || e === k[k.length - 1])); });
+        return k;
+      };
+      const arrange = (k) => {
+        const R = k.map((e) => e.getBoundingClientRect());
+        const ov = (a0, a1, b0, b1) => Math.max(0, Math.min(a1, b1) - Math.max(a0, b0));
+        let h = true, v = true;
+        for (let i = 0; i < R.length; i++) for (let j = i + 1; j < R.length; j++) {
+          const a = R[i], b = R[j];
+          if (ov(a.left, a.right, b.left, b.right) > 0.2 * Math.min(a.width, b.width)) h = false;
+          if (ov(a.top, a.bottom, b.top, b.bottom) > 0.2 * Math.min(a.height, b.height)) v = false;
+        }
+        return h ? "H" : v ? "V" : "G";
+      };
+      const desc = (el, depth = 0) => {
+        const sv = svgsIn(el).length, im = imgsIn(el).length, tb = tablesIn(el).length;
+        const tag = el.tagName.toLowerCase();
+        if (tag === "svg") return "chart";
+        if (tag === "img" || tag === "video") return "img";
+        if (tag === "table") return "table";
+        if (!sv && !im && !tb) {
+          if (cardish(el)) return "card";
+          const hasCard = [...el.querySelectorAll("*")].some((e) => visible(e) && cardish(e));
+          if (!hasCard) return "text";
+        }
+        // 매체 하나를 감싼 카드는 그 매체 칸으로 본다
+        if (cardish(el) && sv + im + tb === 1) return sv ? "chart" : im ? "img" : "table";
+        const k = kidsOf(el);
+        if (!k.length || depth > 8) return sv ? "chart" : tb ? "table" : im ? "img" : "text";
+        if (k.length === 1) return desc(k[0], depth + 1);
+        const ar = arrange(k);
+        let parts = [];
+        for (const e of k) {
+          const d = desc(e, depth + 1);
+          const m = d.match(/^([HVG])\[(.*)\]$/);
+          if (m && m[1] === ar && ar !== "G") parts.push(...splitTop(m[2])); else parts.push(d);
+        }
+        // 글자 칸 연속은 하나로, 같은 매체 연속(사진 여러 장)도 하나로 접는다
+        parts = parts.filter((p, i) => !(i > 0 && p === parts[i - 1] && ["text", "img", "chart"].includes(p)));
+        if (parts.length === 1) return parts[0];
+        if (ar === "G" && parts.every((p) => p === "img")) return "img";
+        return `${ar}[${parts.join(",")}]`;
+      };
+      const splitTop = (s) => { const out = []; let d = 0, cur = ""; for (const ch of s) { if (ch === "[") d++; if (ch === "]") d--; if (ch === "," && d === 0) { out.push(cur); cur = ""; } else cur += ch; } if (cur) out.push(cur); return out; };
+      const tree = desc(root);
+      return { root: root === S ? "slide" : "body", tree };
+    })();
+    const groups = [...S.querySelectorAll(".figs,.tiles, .bands, .grid, .qcards, .timeline, ul, ol, .points, .poster, .stack")].filter((g) => visible(g) && !(g instanceof SVGElement)).map((g) => ({
       label: label(g), cls: g.className, n: [...g.children].filter(visible).length,
       kids: [...g.children].filter(visible).map((k) => ({ cls: k.className, rect: rel(k.getBoundingClientRect()), kidCls: [...k.children].map((x) => (typeof x.className === "string" ? x.className : "")).sort().join("|") })),
     }));
@@ -280,15 +365,25 @@
       head, body, sowe, foot, pg, pgText: q1(".pg") ? q1(".pg").textContent.replace(/\s+/g, " ").trim() : null,
       soweInfo: q1(".sowe") ? { text: q1(".sowe").textContent.replace(/\s+/g, " ").trim(), label: q1(".sowe > b")?.textContent.trim() || "", bg: bgOf(q1(".sowe")).color, slideBg: bgOf(S).color, shadow: cs(q1(".sowe")).boxShadow } : null,
       sources: [...S.querySelectorAll(".source, .chart-src")].map((e) => ({ cls: e.className, text: e.textContent.replace(/\s+/g, " ").trim(), fs: parseFloat(cs(e).fontSize), sw: e.scrollWidth, cw: e.clientWidth, to: cs(e).textOverflow })),
-      texts, boxes, spacing, sibGaps, images, svgs, links, headings, digits, tags, stagger, bodyText, blocks, bodyKids, groups, scroll, scrollers, hoverish,
+      texts, boxes, spacing, sibGaps, images, svgs, links, headings, digits, tags, stagger, bodyText, blocks, bodyKids, layout, groups, scroll, scrollers, hoverish,
       slideText: S.innerText.replace(/\s+/g, " ").trim(),
       tbodyRows: [...S.querySelectorAll("tbody")].map((t) => t.rows.length),
       inlineStyles: [...S.querySelectorAll("[style]")].map((e) => ({ label: label(e), style: e.getAttribute("style") })).filter((x) => /(font|color|background)/.test(x.style)),
       maxText: sizes.length ? Math.max(...sizes.map((t) => t.efs)) : 0,
       roles: [".tag", ".kicker", ".source", ".sowe", ".chart-title", ".chart-src", ".chart-sub", ".headline", ".pg", ".legend", ".credit"].flatMap((sel) => [...S.querySelectorAll(sel)].filter(visible).map((e) => {
         const s = cs(e);
-        return { role: sel, surface: S.classList.contains("dark") ? "dark" : S.classList.contains("bleed") ? "photo" : e.closest(".card.accent, .tile.t1, .band.head-band") ? "accent" : e.closest(".card.ink, .tile.t2, .key, .posterwrap") ? "ink" : e.closest(".card.sage, .tile.t3") ? "sage" : "light",
-          combo: [s.fontWeight, s.fontSize, s.lineHeight, s.color, s.backgroundColor, s.paddingTop, s.paddingLeft, s.borderTopLeftRadius].join(" | ") };
+        // 의미 변형 클래스(스타일시트에 '.역할.변형'으로 정의된 것)가 이 자리에서 바탕 규칙에 덮여 사라졌는지:
+        // 변형 클래스를 잠깐 떼었다 붙여 계산 스타일이 같으면 그 변형의 뜻이 화면에서 지워진 것이다
+        const comboOf = (x) => [x.fontWeight, x.fontSize, x.lineHeight, x.color, x.backgroundColor, x.paddingTop, x.paddingLeft, x.borderTopLeftRadius].join(" | ");
+        const variantLost = [...e.classList].filter((c) => "." + c !== sel && roleVariants(sel).has(c)).filter((c) => {
+          const before = comboOf(cs(e));
+          e.classList.remove(c);
+          const without = comboOf(getComputedStyle(e));
+          e.classList.add(c);
+          return before === without;
+        });
+        return { role: sel, cls: typeof e.className === "string" ? e.className : "", text: e.textContent.replace(/\s+/g, " ").trim().slice(0, 40), surface: S.classList.contains("dark") ? "dark" : S.classList.contains("bleed") ? "photo" : e.closest(".card.accent, .tile.t1, .band.head-band") ? "accent" : e.closest(".card.ink, .tile.t2, .key, .posterwrap") ? "ink" : e.closest(".card.sage, .tile.t3") ? "sage" : "light",
+          combo: [s.fontWeight, s.fontSize, s.lineHeight, s.color, s.backgroundColor, s.paddingTop, s.paddingLeft, s.borderTopLeftRadius].join(" | "), variantLost };
       })),
     };
   }
@@ -323,6 +418,8 @@
       vw: innerWidth, vh: innerHeight, k: round(k, 4), deck: { x: round(dr.left), y: round(dr.top), w: round(dr.width), h: round(dr.height) },
       scrollW: document.documentElement.scrollWidth, scrollH: document.documentElement.scrollHeight, cur, hash: location.hash, title: document.title, total: slides.length,
       body: document.body.className, sides: slides.map((s) => s.dataset.side || ""), inert: slides.map((s) => s.inert || s.getAttribute("aria-hidden") === "true"),
+      // 접근성 트리·Tab 순서에서 실제로 빠졌는지: inert·aria-hidden, display:none, 또는 visibility:hidden인데 다시 visible로 돌린 자손이 없음
+      removed: slides.map((s) => s.inert || s.getAttribute("aria-hidden") === "true" || cs(s).display === "none" || (cs(s).visibility === "hidden" && ![...s.querySelectorAll("*")].some((e) => cs(e).visibility === "visible"))),
       fixed: fixedEls().map((e) => { const r = e.getBoundingClientRect(); return { label: label(e), text: e.textContent.replace(/\s+/g, " ").trim().slice(0, 80), x: round(r.left), y: round(r.top), w: round(r.width), h: round(r.height), opacity: Number(cs(e).opacity), display: cs(e).display, role: e.getAttribute("role") }; }),
       controls, texts, minText: texts.length ? Math.min(...texts.map((t) => t.efs)) : null, headlineEfs: texts.find((t) => t.headline)?.efs ?? null, pgEfs: texts.filter((t) => t.pg).map((t) => t.efs),
       live: [...document.querySelectorAll("[aria-live]")].map((e) => ({ mode: e.getAttribute("aria-live"), text: e.textContent.trim() })),

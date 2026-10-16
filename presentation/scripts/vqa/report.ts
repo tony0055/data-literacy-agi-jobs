@@ -6,7 +6,7 @@ const icon: Record<string, string> = { pass: "통과", fail: "실패", manual: "
 export function renderMarkdown(rep: any, criteria: any[], violations: any[]) {
   const s = rep.summary;
   const L: string[] = [];
-  L.push(`구현 ${s.implemented}/${s.total} 조건 (automated·both ${s.autoTotal}개 중 ${s.implementedAuto}개 자동 판정, visual ${s.total - s.autoTotal}개는 수동) · 통과 ${s.pass} · 실패 ${s.fail} · 수동 ${s.manual} · 오류 ${s.error}${rep.compare ? ` · 회귀 ${s.regressions}(기준 ${rep.compare})` : ""}`);
+  L.push(`구현 ${s.implemented}/${s.total} 조건 (automated·both ${s.autoTotal}개 중 ${s.implementedAuto}개 자동 판정, visual ${s.total - s.autoTotal}개 중 ${s.implemented - s.implementedAuto}개 부분 자동·${s.total - s.autoTotal - (s.implemented - s.implementedAuto)}개 수동) · 통과 ${s.pass} · 실패 ${s.fail} · 수동 ${s.manual} · 오류 ${s.error}${rep.compare ? ` · 회귀 ${s.regressions}(기준 ${rep.compare})` : ""}`);
   L.push("");
   L.push(`# 시각 QA 보고서 — ${rep.label}`);
   L.push("");
@@ -37,7 +37,7 @@ export function renderMarkdown(rep: any, criteria: any[], violations: any[]) {
   L.push(`- 실행: ${rep.date} · 커밋 ${rep.commit}${rep.deckDirty ? " (덱 파일 미커밋 변경 있음)" : ""} · 덱 해시 ${rep.deckSha} · ${rep.seconds}초`);
   L.push(`- 명령: \`cd presentation && bun scripts/visual-qa.ts --label ${rep.label}${rep.compare ? ` --compare=${rep.compare}` : ""}\` · 파이썬 \`${rep.tools.python}\``);
   L.push("- 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다");
-  L.push(`- 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모)`);
+  L.push(`- 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift${rep.tools?.ocr ? "" : ", 이번 실행에선 못 씀"})으로 IMG-02·RSP-02를 판정`);
   if (rep.phaseErrors?.length) L.push(`- 측정 단계 오류 ${rep.phaseErrors.length}: ${rep.phaseErrors.map(esc).join(" · ")}`);
   L.push("");
 

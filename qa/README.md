@@ -28,9 +28,9 @@ bun scripts/visual-qa.ts --only=TYP-03,LAY-06 --slides=5-5  # 조건·장을 좁
 bash scripts/qa-all.sh --label pr2 --compare=baseline      # build → render → check-numbers → 헌법 감사·token-check → visual-qa
 ```
 
-- 필요한 것: bun(Bun.WebView chrome 백엔드), PIL·numpy가 있는 파이썬(`QA_PY=<경로>`로 지정, 없으면 `python3`), poppler(`pdfinfo`·`pdftotext`·`pdftoppm`), 공통 덱 스킬 스크립트(`QA_DECK_SKILL`, 기본 `~/.agents/skills/designing-decks-and-motion/scripts`). 있으면 taste-skill `lint.mjs`(`QA_TASTE_SCRIPTS`)도 돌린다.
+- 필요한 것: bun(Bun.WebView chrome 백엔드), PIL·numpy가 있는 파이썬(`QA_PY=<경로>`로 지정, 없으면 `python3`), poppler(`pdfinfo`·`pdftotext`·`pdftoppm`), 공통 덱 스킬 스크립트(`QA_DECK_SKILL`, 기본 `~/.agents/skills/designing-decks-and-motion/scripts`). 있으면 taste-skill `lint.mjs`(`QA_TASTE_SCRIPTS`)도 돌린다. OCR(IMG-02·RSP-02)은 macOS Vision을 쓰므로 맥의 `swiftc`(Xcode 명령행 도구)가 있어야 한다 — 없으면 IMG-02는 수동, RSP-02의 쪽 번호는 크기 근사로 남는다.
 - 선택: `--net`(원문 링크 HTTP 상태), `--public=<URL>`(공개 URL의 장 수·글꼴·빈 차트).
-- 한 번에 4~5분 걸린다(표지 30초 대기·탭 숨김 10초·느린 회선 측정 포함). 실패가 하나라도 있으면 종료 코드 1.
+- 한 번에 4~5분 걸린다(표지 30초 대기·탭 숨김 10초·느린 회선 측정 포함). 컴퓨터가 바쁘면 더 걸린다. 실패가 하나라도 있으면 종료 코드 1.
 
 ### 무엇을 어떻게 재나
 
@@ -39,8 +39,10 @@ bash scripts/qa-all.sh --label pr2 --compare=baseline      # build → render �
 - 터치 스와이프·키보드·hashchange·개요·뒤로 가기·연타·모션 감소·탭 숨김·전체 화면 미지원·JS 끔·anime 차단·이미지 차단·느린 회선·인쇄는 CDP Input·Emulation·Network로 실제로 조작해 판정한다.
 - 대비·면·채도·레터박스·다크 모드 차이·썸네일 SSIM처럼 픽셀이 필요한 것은 스크린샷을 `scripts/qa_pixels.py`로 잰다.
 - 헌법 감사(`constitution_audit.py`)·`token-check.ts --strict`·`check-numbers.ts`·`render.ts`(fit 보고)·`probe-nav.ts` 결과를 해당 조건에 넣는다.
-- 판정 규칙은 `scripts/vqa/judge.ts`에 조건 id마다 한 함수로 있다. visual 조건 5개와 OCR이 필요한 IMG-02는 수동으로 두고, 보고서에 볼 스크린샷 묶음과 확인 절차를 낸다. both 조건은 자동 부분을 판정하고 남은 눈 확인 절차를 함께 낸다.
-- 이 환경에 없는 도구(axe-core·Lighthouse·tesseract)가 필요한 조건은 직접 잰 근사로 판정하고 보고서에 '부분'으로 표시한다. 에뮬레이션 결과는 실기기 확인이 아니다.
+- 판정 규칙은 `scripts/vqa/judge.ts`에 조건 id마다 한 함수로 있다. 사람 판정이 필요한 visual 조건 4개(TXT-11 헤드라인 흐름·IMG-07 고정관념·STD-05·STD-06 사람 검토)는 수동으로 두고, 보고서에 볼 스크린샷 묶음과 확인 절차를 낸다. visual인 CON-05는 강제 색 모드에서 라벨 알약 경계(테두리·외곽선)를 계산 스타일로 재고 캡처 확인을 함께 낸다. both 조건은 자동 부분을 판정하고 남은 눈 확인 절차를 함께 낸다.
+- 이미지 속 글자(IMG-02)와 480×270 쪽 번호(RSP-02)는 `scripts/ocr_vision.swift`(macOS Vision)로 읽는다. 이미지는 원본 전체·3×3 조각(2배)·4×4 평활화 조각(3배)을 넣는다. 심하게 뭉개진 가짜 글자는 OCR이 못 읽을 수 있어 크롭 묶음을 함께 낸다.
+- 인쇄(PRT-01)는 `Page.printToPDF`로 만든 PDF를 쪽마다 1920×1080으로 래스터화해, `?slide=n` 렌더의 꺾은선 구간 안쪽 점마다 선 색이 PDF에도 있는지 대조한다(90% 미만이면 선이 끝까지 안 그려진 것).
+- 이 환경에 없는 도구(axe-core·Lighthouse)가 필요한 조건은 직접 잰 근사로 판정하고 보고서에 '부분'으로 표시한다. 에뮬레이션 결과는 실기기 확인이 아니다.
 
 ## fit.js 예외
 

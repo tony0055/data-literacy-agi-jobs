@@ -14,6 +14,8 @@ op
   crop         잘라서 JPG로 저장
   simulate     회색조·제1색맹·제2색맹·프로젝터(대비 -30%, 감마 1.4) 모사본 저장
   icc          ICC 프로필 이름
+  tiles        이미지를 겹치는 격자 조각으로 잘라 키운 PNG로 저장(IMG-02 OCR 입력). 조각마다 원본 좌표 상자를 낸다
+  linecheck    두 이미지(렌더·PDF 래스터)에서 꺾은선 구간 안쪽 점마다 선 색이 있는지 — PDF에서 선이 사라졌는지 본다
 PIL과 numpy가 필요하다.
 """
 import json
@@ -194,8 +196,66 @@ def crop(t):
     box = (max(0, int(r["x"])), max(0, int(r["y"])), min(im.width, int(r["x"] + r["w"])), min(im.height, int(r["y"] + r["h"])))
     if box[2] <= box[0] or box[3] <= box[1]:
         return None
-    im.crop(box).save(t["dst"], quality=t.get("q", 85))
+    im = im.crop(box)
+    mw = t.get("maxw")
+    if mw and im.width > mw:
+        im = im.resize((mw, round(im.height * mw / im.width)), Image.LANCZOS)
+    im.save(t["dst"], quality=t.get("q", 85))
     return t["dst"]
+
+
+def linecheck(t):
+    """a(렌더)와 b(PDF 래스터, 같은 크기로 맞춤)에서 꺾은선 구간마다 안쪽 점(꼭짓점에서 10px 넘게 떨어진 곳)을 뽑아
+    5×5 창 안에 선 색(거리 <48)이 있는지 센다. 렌더에 선이 있던 점 가운데 PDF에도 있는 비율을 낸다."""
+    a = load(t["a"])
+    b = np.asarray(Image.open(t["b"]).convert("RGB").resize((a.shape[1], a.shape[0]), Image.LANCZOS), dtype=np.float64)
+    out = []
+    for line in t["lines"]:
+        col = np.array(line["color"][:3], dtype=np.float64)
+        pts = line["pts"]
+        inA = inB = n = 0
+        for p, q in zip(pts, pts[1:]):
+            L = ((q["x"] - p["x"]) ** 2 + (q["y"] - p["y"]) ** 2) ** 0.5
+            if L < 24:
+                continue
+            for f in np.linspace(0, 1, max(3, int(L // 24)) + 2)[1:-1]:
+                x, y = p["x"] + (q["x"] - p["x"]) * f, p["y"] + (q["y"] - p["y"]) * f
+                if f * L < 10 or (1 - f) * L < 10:
+                    continue
+                xi, yi = int(round(x)), int(round(y))
+                if not (2 <= xi < a.shape[1] - 2 and 2 <= yi < a.shape[0] - 2):
+                    continue
+                n += 1
+                da = np.sqrt(((a[yi - 2:yi + 3, xi - 2:xi + 3] - col) ** 2).sum(-1)).min()
+                db = np.sqrt(((b[yi - 2:yi + 3, xi - 2:xi + 3] - col) ** 2).sum(-1)).min()
+                if da < 48:
+                    inA += 1
+                    if db < 48:
+                        inB += 1
+        out.append({"n": n, "inA": inA, "inB": inB, "share": round(inB / inA, 3) if inA else None})
+    return out
+
+
+def tiles(t):
+    """grid×grid 조각(한 변 원본의 1/grid보다 약간 크게 겹침)을 scale배로 키워 저장한다. eq=True면 회색조 평활화."""
+    from PIL import ImageOps
+    im = Image.open(t["src"]).convert("RGB")
+    W, H = im.size
+    g, sc = t.get("grid", 3), t.get("scale", 2)
+    span = t.get("span", 1.3) / g
+    out = []
+    for i in range(g):
+        for j in range(g):
+            x0, y0 = int(W * j / g * (1 - span + 1 / g) if g > 1 else 0), int(H * i / g * (1 - span + 1 / g) if g > 1 else 0)
+            x1, y1 = min(W, int(x0 + W * span)), min(H, int(y0 + H * span))
+            c = im.crop((x0, y0, x1, y1))
+            if t.get("eq"):
+                c = ImageOps.equalize(c.convert("L"))
+            c = c.resize(((x1 - x0) * sc, (y1 - y0) * sc), Image.LANCZOS)
+            dst = f'{t["dst"]}-g{g}{"e" if t.get("eq") else ""}-{i}{j}.png'
+            c.save(dst)
+            out.append({"path": dst, "box": [x0, y0, x1 - x0, y1 - y0]})
+    return out
 
 
 # Machado 2009 심각도 1.0 행렬(선형 RGB)
@@ -242,7 +302,7 @@ def icc(t):
     return {"profile": desc, "mode": im.mode}
 
 
-OPS = {"slidestats": slidestats, "textcontrast": textcontrast, "sample": sample, "diff": diff, "ssim": ssim, "jpg": jpg, "crop": crop, "simulate": simulate, "icc": icc}
+OPS = {"slidestats": slidestats, "textcontrast": textcontrast, "sample": sample, "diff": diff, "ssim": ssim, "jpg": jpg, "crop": crop, "simulate": simulate, "icc": icc, "linecheck": linecheck, "tiles": tiles}
 
 
 def main():

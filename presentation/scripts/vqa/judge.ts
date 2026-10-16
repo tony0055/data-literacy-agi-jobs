@@ -74,16 +74,33 @@ J["LAY-01"] = (D) => {
   const rights = content.map(([n, s]) => [n, s.pg?.r] as [number, number]).filter(([, r]) => r != null);
   const mode = rights.length ? Object.entries(rights.reduce((m: any, [, r]) => ((m[r] = (m[r] ?? 0) + 1), m), {})).sort((a: any, b: any) => b[1] - a[1])[0][0] : null;
   for (const [n, r] of rights) if (String(r) !== mode) items.push({ n, msg: `.pg 오른쪽 끝 ${r} ≠ 최빈 ${mode}` });
-  // 유형별(표지·nohead·전면) 고정
+  // 유형별(표지·nohead·전면) 고정. 내용 장 틀과 다르면 예외 장이고, 그 예외는 design-standard README에 적혀 있어야 한다
+  // (README 한 줄에 유형 이름과 '예외'가 함께 있을 때 적힌 것으로 본다)
+  const readme = D.files.std?.["README.md"] ?? "";
+  const NAME: Record<string, RegExp> = { cover: /\.?cover\b|표지/, nohead: /\.?nohead\b|제목 없는 장/, bleed: /\.?bleed\b|전면 사진|풀블리드/ };
+  const documented = (kind: string) => readme.split("\n").some((l: string) => NAME[kind].test(l) && /예외/.test(l));
+  const excRows: any[] = [];
   for (const kind of ["cover", "nohead", "bleed"]) {
     const g = S.filter(([, s]) => s[kind]);
+    for (const [n, s] of g) {
+      const diff: string[] = [];
+      if (s.headline && (s.headline.rect.x !== 160 || s.headline.rect.y !== 112)) diff.push(`headline (${s.headline.rect.x}, ${s.headline.rect.y})≠(160, 112)`);
+      if (s.kicker && s.kicker.rect && s.kicker.rect.x !== 160) diff.push(`kicker left ${s.kicker.rect.x}≠160`);
+      if (s.foot && Math.abs(s.foot.b - 1016) > 1) diff.push(`.foot bottom ${s.foot.b}≠1016`);
+      if (s.foot && s.foot.x != null && Math.abs(s.foot.x - 160) > 1) diff.push(`.foot left ${s.foot.x}≠160`);
+      if (s.pg?.r != null && mode != null && String(s.pg.r) !== mode) diff.push(`.pg right ${s.pg.r}≠${mode}`);
+      if (!diff.length) continue;
+      const doc = documented(kind);
+      excRows.push({ n, kind, diff, documented: doc });
+      if (!doc) items.push({ n, msg: `${kind} 장 틀이 내용 장과 다른데 design-standard README 예외 목록에 없음: ${diff.join(" · ")}` });
+    }
     const ref = g[0]?.[1];
     for (const [n, s] of g.slice(1)) {
       if (s.foot && ref.foot && Math.abs(s.foot.b - ref.foot.b) > 1) items.push({ n, msg: `${kind} 장 .foot bottom ${s.foot.b} ≠ 같은 유형 ${ref.foot.b}` });
       if (s.headline && ref.headline && (s.headline.rect.x !== ref.headline.rect.x || s.headline.rect.y !== ref.headline.rect.y)) items.push({ n, msg: `${kind} 장 헤드라인 (${s.headline.rect.x}, ${s.headline.rect.y}) ≠ 같은 유형 (${ref.headline.rect.x}, ${ref.headline.rect.y})` });
     }
   }
-  return { items, measured: { contentSlides: content.length, headlineTops: uniq(content.map(([, s]) => s.headline.rect.y)), pgRightMode: mode } };
+  return { items, measured: { contentSlides: content.length, headlineTops: uniq(content.map(([, s]) => s.headline.rect.y)), pgRightMode: mode, exceptionSlides: excRows }, notes: ["예외 장(표지·nohead·bleed)은 내용 장 틀(헤드라인 160·112, .foot 1016, .pg 오른쪽 최빈값)과 비교하고, 다르면 README에 그 유형이 '예외'로 적혀 있는지 본다"] };
 };
 
 J["LAY-02"] = (D) => {
@@ -425,6 +442,7 @@ J["CARD-06"] = (D) => {
 
 J["CARD-07"] = (D) => {
   const items: Item[] = [];
+  const radSteps = uniq(Object.entries(tokens(D).vals).filter(([k]) => /^--r-/.test(k)).map(([, v]) => parseFloat(v as string)).filter((x) => x > 0 && x < 999)).sort((a, b) => a - b);
   const con = (D.ext.constitution?.out ?? "").split("\n").filter((l: string) => l.trim().startsWith("모서리"));
   if (con.length) items.push({ msg: `헌법 감사 모서리 위반 ${con.length}` });
   for (const [n, s] of slidesOf(D)) {
@@ -442,8 +460,22 @@ J["CARD-07"] = (D) => {
         }
       }
     }
+    // 도식 svg(차트가 아닌 큰 svg)의 rect 모서리(rx, 화면 px): 토큰 단계 밖·비율 >0.2·높이<160인데 ≥24
+    for (const v of s.svgs.filter((x: any) => !x.chart && x.rect.w * x.rect.h >= 60000)) {
+      const bad = new Map<string, number>();
+      for (const r of v.rects.filter((x: any) => !x.inMarker && x.rx > 0)) {
+        const m = Math.min(r.rect.w, r.rect.h);
+        const pill = r.rx >= r.rect.h / 2 - 1;
+        const why: string[] = [];
+        if (!radSteps.some((t) => Math.abs(t - r.rx) <= 0.5)) why.push(`rx ${r1(r.rx)} 토큰 단계(${radSteps.join("·")}) 밖`);
+        if (!pill && r.rx / m > 0.2) why.push(`rx/짧은 변 ${r1(r.rx / m, 2)}(>0.2)`);
+        if (!pill && r.rect.h < 160 && r.rx >= 24) why.push(`높이 ${r.rect.h}(<160)인데 rx ${r1(r.rx)}`);
+        if (why.length) { const k = why.join(" · "); bad.set(k, (bad.get(k) ?? 0) + 1); }
+      }
+      for (const [k, c] of bad) items.push({ n, msg: `도식 ${v.cls || "svg"} rect ${c}개: ${k}` });
+    }
   }
-  return { items };
+  return { items, measured: { radiusSteps: radSteps } };
 };
 
 J["CARD-08"] = (D) => {
@@ -631,6 +663,28 @@ J["CON-03"] = (D) => {
       if (!labels.some((t: any) => dist(t.rect, m.rect) <= 24)) e.unlabeled++; // 마크마다 바로 옆(24px) 직접 라벨
     }
     for (const [k, e] of low) if (e.unlabeled) items.push({ n, msg: `${v.chart} ${k} 대비 ${r1(e.ratio, 2)}:1(<3) — ${e.total}개 중 ${e.unlabeled}개 직접 라벨 없음` });
+  }
+  // 도식(차트가 아닌 큰 svg)의 연결선·화살촉도 관계를 담은 그래픽이라 배경 대비 3:1(WCAG 1.4.11)을 본다
+  for (const [n, s] of slidesOf(D)) for (const v of s.svgs.filter((x: any) => !x.chart && x.rect.w * x.rect.h >= 60000)) {
+    const bg = parseColor(v.bg);
+    if (!bg) continue;
+    const low = new Map<string, number>();
+    for (const e of [...v.paths, ...v.lines, ...v.polylines].filter((x: any) => !x.inMarker && x.stroke && x.stroke !== "none")) {
+      const c = parseColor(e.stroke);
+      if (!c || c[3] === 0) continue;
+      const ratio = contrast(over(c, bg), bg);
+      if (ratio < 3) { const k = `연결선 ${e.tag}.${e.cls} ${hex(over(c, bg))} 대비 ${r1(ratio, 2)}:1(<3)`; low.set(k, (low.get(k) ?? 0) + 1); }
+    }
+    for (const m of v.markers ?? []) {
+      const c = m.fill ? parseColor(m.fill) : null;
+      if (!c || c[3] === 0) continue;
+      const ratio = contrast(over(c, bg), bg);
+      const users = [...v.paths, ...v.lines].filter((x: any) => String(x.markerEnd ?? "").includes(`#${m.id}`));
+      if (ratio < 3 && users.length) low.set(`화살촉 #${m.id} ${hex(over(c, bg))} 대비 ${r1(ratio, 2)}:1(<3)`, users.length);
+      const other = uniq(users.map((x: any) => x.stroke).filter((st: string) => st && parseColor(st) && hex(parseColor(st)!) !== hex(c)));
+      if (other.length) low.set(`화살촉 #${m.id} 색 ${hex(c)}이 선 색 ${other.map((st: string) => hex(parseColor(st)!)).join("·")}와 다름(공용 화살촉)`, users.filter((x: any) => other.includes(x.stroke)).length);
+    }
+    for (const [k, c] of low) items.push({ n, msg: `도식 ${v.cls || "svg"} ${k} — ${c}개` });
   }
   return { items, notes: ["validate_palette.js(dataviz 스킬)는 이 환경 경로가 고정돼 있지 않아 돌리지 않음 — 마크 색 대비를 직접 잼"], implemented: "partial" };
 };
@@ -864,6 +918,9 @@ J["TYP-13"] = (D) => {
     const noPg = s.slideText.replace(s.pgText ?? "", "");
     const seq = noPg.match(/(?<![\w.,\-/:])0[1-9](?![\w.,\-/:])/g); // 날짜(2026-05)·시각은 빼고 홀로 선 01~09만
     if (seq) items.push({ n, msg: `장식 순번 ${seq.join(",")}` });
+    // 동그라미·검은 동그라미 숫자(①②③ ❶❷ ➀)도 장식 순번이다 — 도식 svg 글자까지 본다
+    const circ = [s.slideText, ...s.svgs.flatMap((v: any) => v.texts.map((t: any) => t.text))].join(" ").match(/[\u2460-\u2473\u2776-\u2793\u24EA-\u24FF]/g);
+    if (circ) items.push({ n, msg: `동그라미 장식 순번 ${uniq(circ).join("")}` });
   }
   return { items };
 };
@@ -882,7 +939,16 @@ J["TYP-14"] = (D) => {
 
 // ── 문장 ──
 const proseTexts = (s: any) => s.texts.filter((t: any) => !t.inSvg && (["p", "li", "td"].includes(t.tag) || t.ctx.includes("sowe") || (t.ctx.includes("card") && t.tag !== "h3")) && !t.ctx.some((c: string) => ["headline", "kicker", "source", "foot", "chart-src", "tag", "pg", "chart-title", "legend"].includes(c)));
-const sentences = (txt: string) => txt.split(/(?<=[.!?])\s+/).map((x) => x.trim()).filter((x) => x.length > 1);
+// 문장 나누기: 마침표·물음표·느낌표 뒤 공백, 그리고 표 칸·메타 줄의 가운뎃점(' · ')을 경계로 본다.
+// 끝의 괄호 꼬리('(3주)')는 어미 판정 전에 떼어 낸다 — '나눈다 · cleaning-log (3주)'의 '~다'를 놓치지 않게
+const sentences = (txt: string) => txt.split(/(?<=[.!?])\s+|\s+·\s+/).map((x) => x.trim()).filter((x) => x.length > 1);
+// 따옴표로 끝나는 조각('줄였다'(인과))은 덱 자신의 어미가 아니라 인용한 말이라 빈 문자열(판정 안 함)을 돌려준다
+const endOf = (se: string) => {
+  let e = se, prev = "";
+  while (e !== prev) { prev = e; e = e.replace(/\s*[(（\[][^()（）\[\]]*[)）\]]\s*$/, "").replace(/[\s.!?…·]+$/, ""); }
+  if (/['’"”」』]$/.test(e) && /['‘"“「『]/.test(e.slice(0, -1))) return "";
+  return e.replace(/[)\]」』"'’”]+$/, "");
+};
 J["TXT-01"] = (D) => {
   const items: Item[] = [];
   const bad = (s: string) => /[,:，：]/.test(s.replace(/\d,\d{3}/g, ""));
@@ -901,8 +967,8 @@ J["TXT-02"] = (D) => {
   const items: Item[] = [];
   let formal = 0, noun = 0;
   for (const [n, s] of slidesOf(D)) for (const t of proseTexts(s)) for (const se of sentences(t.own)) {
-    const e = se.replace(/[\s.!?)\]」』"'’”·…]+$/, "");
-    if (!HANGUL.test(e.slice(-1))) continue;
+    const e = endOf(se);
+    if (!e || !HANGUL.test(e.slice(-1))) continue;
     if (/니다$/.test(e)) formal++;
     else if (/다$/.test(e)) items.push({ n, msg: `'~다'로 끝남: "${se.slice(-30)}"` });
     else if (!/[요까죠네]$/.test(e)) noun++;
@@ -1034,7 +1100,31 @@ J["IMG-01"] = (D) => {
   return { items };
 };
 
-J["IMG-02"] = (D) => ({ items: [], implemented: "manual", manual: (D.ix.imgFiles ?? []).map((x: any) => x.crop).filter(exists), notes: ["OCR(tesseract)이 이 환경에 없어 자동 판정 못 함 — 오른쪽 아래 15% 크롭 묶음을 눈으로 본다"] });
+J["IMG-02"] = (D) => {
+  const crops = (D.ix.imgFiles ?? []).map((x: any) => x.crop).filter(exists);
+  const o = D.ix.ocr;
+  if (!o?.available) return { items: [], implemented: "manual", manual: crops, notes: [`OCR 못 돌림(${o?.reason ?? "측정 없음"}) — 오른쪽 아래 15% 크롭 묶음을 눈으로 본다`] };
+  const items: Item[] = [];
+  const allow: string[] = D.exceptions?.["IMG-02"]?.allow ?? [];
+  const sizeOf = new Map((D.ix.imgFiles ?? []).map((f: any) => [f.file, f.size]));
+  // 가로 글줄만(세로로 길쭉한 상자는 전선·핀 같은 무늬를 잘못 읽은 것)
+  const real = (o.hits ?? []).filter((h: any) => h.conf >= 0.3 && h.text.replace(/[^A-Za-z가-힣]/g, "").length >= 2 && h.box.w >= h.box.h * 0.8 && !allow.some((a) => h.text.includes(a)));
+  for (const h of real) {
+    const base = h.file.split("/").pop();
+    const ns = slidesOf(D).filter(([, s]) => s.images.some((i: any) => String(i.src ?? "").split("/").pop() === base)).map(([n]) => n);
+    const sz = sizeOf.get(h.file) as number[] | undefined;
+    const wm = sz && h.box.x + h.box.w > sz[0] * 0.85 && h.box.y + h.box.h > sz[1] * 0.85 ? " · 워터마크 자리(오른쪽 아래 15%)" : "";
+    const msg = `${base} 안 글자 '${h.text}'(Vision 확신도 ${h.conf}, 원본 (${h.box.x}, ${h.box.y}) ${h.box.w}×${h.box.h})${wm}`;
+    if (ns.length) for (const n of ns) items.push({ n, msg }); else items.push({ msg: `${msg} — 덱에 안 쓰인 그림` });
+  }
+  const hitCrops = real.map((h: any) => h.crop).filter(exists);
+  return {
+    items, implemented: "auto+manual", evidence: hitCrops, manual: [...hitCrops, ...crops],
+    measured: { engine: o.engine, inputs: o.inputs, hits: (o.hits ?? []).map((h: any) => ({ file: h.file, text: h.text, conf: h.conf, box: h.box })) },
+    notes: ["macOS Vision OCR을 원본 전체·3×3 조각(2배)·4×4 평활화 조각(3배)에 돌려, 글자(한글·라틴) 2자 이상이 확신도 0.3 이상으로 가로 글줄(상자 폭 ≥ 높이×0.8)에서 읽히면 실패. 허용 글자는 qa/exceptions.json의 IMG-02.allow",
+      "흐릿하게 뭉개진 가짜 글자는 OCR이 못 읽을 수 있다(예: neurons.jpg 칩 기판의 'MEA CHI…'는 확대·평활화해도 읽히지 않았다) — 크롭 묶음을 사람이 함께 본다"],
+  };
+};
 
 J["IMG-03"] = (D) => {
   const items: Item[] = [];
@@ -1797,10 +1887,21 @@ J["RSP-02"] = (D) => {
   const h480 = 48 * k480;
   if (h480 < 12) items.push({ msg: `480×270 헤드라인 ${h480}px(<12)` });
   const pg = 16 * k480;
-  if (pg < 8) items.push({ msg: `480×270 쪽 번호 ${pg}px — OCR로 읽기 어려운 크기(8px 미만, OCR 대신 크기로 판정)` });
+  const r = D.ix.r480;
+  let read: any = null;
+  if (r?.available) {
+    // 쪽 번호 OCR 34/34: 480×270로 줄인 장에서 Vision이 그 장 번호(앞자리 0 허용)를 읽어 내는지
+    const ok: number[] = [], miss: number[] = [];
+    for (const p of r.pages) {
+      const digits = (p.read ?? []).flatMap((l: any) => (l.text.match(/\d+/g) ?? []).map(Number));
+      (digits.includes(p.n) ? ok : miss).push(p.n);
+    }
+    for (const n of miss) items.push({ n, msg: `480×270에서 쪽 번호 ${n} OCR로 못 읽음(실효 ${r1(pg, 1)}px)` });
+    read = { ok: ok.length, total: r.pages.length };
+  } else if (pg < 8) items.push({ msg: `480×270 쪽 번호 ${pg}px — OCR로 읽기 어려운 크기(8px 미만, OCR 없어 크기로 판정: ${r?.reason ?? "측정 없음"})` });
+  // 375×812 세로는 참고값만 남긴다(판정은 ONB-03·RSP-01)
   const p = D.stage["375x812"]?.scan;
-  for (const x of (p ?? []).slice(0, 1)) items.push({ msg: `375×812 세로 참고: 최소 실효 ${x.minText}px · 헤드라인 ${x.headlineEfs}px` });
-  return { items, notes: ["480×270 OCR(tesseract)은 이 환경에 없어 쪽 번호 실효 크기로 대신 판정"], implemented: "partial" };
+  return { items, measured: { pageOcr480: read, portrait: (p ?? []).slice(0, 1).map((x: any) => ({ minText: x.minText, headlineEfs: x.headlineEfs })) }, notes: [r?.available ? "480×270 쪽 번호는 macOS Vision OCR로 읽었다" : "OCR이 없어 480×270 쪽 번호는 실효 크기로 대신 판정"], implemented: r?.available ? "auto" : "partial" };
 };
 
 J["RSP-03"] = (D) => {
@@ -2149,8 +2250,17 @@ J["PRT-01"] = (D) => {
   const pr = (D.ix.rules?.print ?? []).join("\n");
   if (!/box-shadow:\s*none/.test(pr)) items.push({ msg: "@media print에 box-shadow: none 없음" });
   if (!/filter:\s*none/.test(pr)) items.push({ msg: "@media print에 filter: none 없음" });
-  if (p.p7 && p.p7.diff.changed > 0.05) items.push({ n: 7, msg: `PDF 7쪽과 ?slide=7 렌더 차 ${r1(p.p7.diff.changed * 100, 1)}%(선 끝점 수동 확인)` });
-  return { items, evidence: [p.p7?.shot].filter(exists), implemented: "auto+manual", manual: [p.p7?.shot].filter(exists) };
+  if (p.p7 && p.p7.diff.changed > 0.05) items.push({ n: 7, msg: `PDF 7쪽과 ?slide=7 렌더 차 ${r1(p.p7.diff.changed * 100, 1)}%(>5%)` });
+  // 꺾은선 대조: ?slide=n 렌더에서 선 색이 있던 구간 안쪽 점 가운데 PDF 래스터에도 선 색이 있는 비율(선 끝점까지 그려졌는지)
+  const lc = p.lineCheck ?? [];
+  const lineEvidence: string[] = [];
+  for (const pg of lc) {
+    const bad = (pg.res ?? []).map((r: any, i: number) => ({ ...r, name: pg.lines[i] })).filter((r: any) => r.inA >= 4 && r.share != null && r.share < 0.9);
+    if (bad.length) { items.push({ n: pg.n, msg: `PDF ${pg.n}쪽 꺾은선 ${bad.length}/${pg.res.length}개가 끝까지 안 그려짐: ${bad.slice(0, 4).map((r: any) => `${r.name} ${r.inB}/${r.inA}점(${r1(r.share * 100, 0)}%)`).join(" · ")}` }); lineEvidence.push(pg.shot); }
+  }
+  if (!lc.length) items.push({ msg: "꺾은선 대조 측정 없음(pdftoppm 또는 렌더 없음)" });
+  const ev = uniq([p.p7?.shot, ...lineEvidence].filter(exists));
+  return { items, evidence: ev, measured: { lineCheck: lc.map((pg: any) => ({ n: pg.n, lines: (pg.res ?? []).map((r: any, i: number) => ({ line: pg.lines[i], inA: r.inA, inB: r.inB, share: r.share })) })) }, notes: ["꺾은선 판정: 선 구간 안쪽 점(꼭짓점에서 10px 넘게 떨어진 곳, 24px 간격)마다 5×5 창 안에 선 색(RGB 거리 <48)이 있는지 렌더와 PDF 래스터(pdftoppm 1920×1080)에서 보고, 렌더에 있던 점의 90% 미만이 PDF에 있으면 실패"], implemented: "auto+manual", manual: ev };
 };
 
 J["PRT-02"] = (D) => {
@@ -2198,12 +2308,46 @@ J["STD-02"] = (D) => {
 
 J["STD-03"] = (D) => {
   const items: Item[] = [];
+  // 의미 변형 클래스: 스타일시트에 '.역할.변형' 복합 선택자로 따로 정의된 클래스(.tag.est 추정 라벨 등)는 별개 역할로 본다
+  const css = stripComments(allCss(D));
+  const variantsOf = (role: string) => new Set([...css.matchAll(new RegExp(`(?<![\\w-])\\${role}\\.([\\w-]+)`, "g"))].map((m) => m[1]));
+  const VAR = new Map<string, Set<string>>();
+  const roleKey = (r: any) => {
+    const v = VAR.get(r.role) ?? VAR.set(r.role, variantsOf(r.role)).get(r.role)!;
+    const mine = String(r.cls ?? "").split(/\s+/).filter((c: string) => v.has(c)).sort();
+    return r.role + mine.map((c: string) => "." + c).join("");
+  };
   const combos = new Map<string, Map<string, number[]>>();
-  for (const [n, s] of slidesOf(D)) for (const r of s.roles) { const k = `${r.role} @${r.surface}`; const m = combos.get(k) ?? combos.set(k, new Map()).get(k)!; (m.get(r.combo) ?? m.set(r.combo, []).get(r.combo))!.push(n); }
-  for (const [k, m] of combos) if (m.size > 1) items.push({ n: [...m.values()][1][0], msg: `${k} 계산 스타일 ${m.size}종: ${[...m.entries()].slice(0, 3).map(([c, ns]) => `[${c}] 장 ${uniq(ns).slice(0, 4).join(",")}`).join(" / ")}` });
+  for (const [n, s] of slidesOf(D)) for (const r of s.roles) { const k = `${roleKey(r)} @${r.surface}`; const m = combos.get(k) ?? combos.set(k, new Map()).get(k)!; (m.get(r.combo) ?? m.set(r.combo, []).get(r.combo))!.push(n); }
+  for (const [k, m] of combos) if (m.size > 1) {
+    // 다수 조합과 다른 장 전부를 실패 장으로 둔다
+    const entries = [...m.entries()].sort((a, b) => uniq(b[1]).length - uniq(a[1]).length);
+    for (const [c, ns] of entries.slice(1)) for (const n of uniq(ns)) items.push({ n, msg: `${k} 계산 스타일 ${m.size}종 — 이 장 [${c}] ≠ 다수 [${entries[0][0]}](장 ${uniq(entries[0][1]).slice(0, 4).join(",")})` });
+  }
+  // 같은 역할을 다른 마크업으로: (1) 주장 라벨 어휘(.tag 글자)와 같은 글이 .tag 밖 ' · ' 메타 줄 조각으로 나옴
+  // (2) ' · ' 메타 줄의 한 조각을 통째로 감싼 굵은·다른 색 인라인 글자(b·strong·span) — 알약 대신 글자로 쓴 라벨
+  // (3) .tag 안에 주장 라벨이 아닌 표본 수(n=…)
+  const vocab = new Set<string>();
+  for (const [, s] of slidesOf(D)) for (const r of s.roles) if (r.role === ".tag") for (const w of String(r.text ?? "").split(/\s*·\s*/)) if (w && !/^n\s*=/.test(w)) vocab.add(w.trim());
+  const SKIPCTX = ["headline", "kicker", "tag", "sowe", "legend", "chart", "chart-title", "chart-src", "source", "foot", "pg", "credit", "num"];
+  for (const [n, s] of slidesOf(D)) {
+    for (const t of s.texts) {
+      if (t.inSvg || t.ctx.some((c: string) => SKIPCTX.includes(c))) continue;
+      const segs = (t.own ?? "").split(/\s*·\s*/).map((x: string) => x.trim()).filter(Boolean);
+      if ((t.own ?? "").includes("·")) for (const w of segs) if (vocab.has(w)) items.push({ n, msg: `주장 라벨 '${w}'를 .tag 대신 일반 글자로 씀: ${t.label}` });
+      if (t.pfull && /·/.test(t.pfull) && ["b", "strong", "em", "span", "i"].includes(t.tag)) {
+        const psegs = t.pfull.split(/\s*·\s*/).map((x: string) => x.trim());
+        const styled = t.color !== t.pcolor || (t.fw >= 600 && t.fw > (t.pfw ?? 400));
+        if (styled && psegs.includes(t.own.trim()) && t.own.trim().length <= 8) items.push({ n, msg: `메타 줄 라벨 '${t.own.trim()}'를 .tag 대신 ${t.tag}(${t.fw} · ${t.color})로 씀: ${t.label}` });
+      }
+    }
+    for (const r of s.roles) if (r.role === ".tag" && /^n\s*=/.test(String(r.text ?? ""))) items.push({ n, msg: `.tag에 주장 라벨이 아닌 표본 수 '${r.text}'` });
+    // 의미 변형이 바탕 규칙에 덮여 화면에서 사라짐(변형 클래스를 떼어도 계산 스타일이 같음)
+    for (const r of s.roles) for (const c of r.variantLost ?? []) items.push({ n, msg: `${r.role}.${c} '${r.text}'가 @${r.surface} 바탕 규칙에 덮여 ${r.role}와 같은 모양(변형 뜻이 사라짐)` });
+  }
   const inl = [...D.files.html.matchAll(/style="([^"]*)"/g)].map((m) => m[1]).filter((s) => /(font|color|background)/.test(s));
   if (inl.length) items.push({ msg: `인라인 style font·color·background ${inl.length}: ${inl.slice(0, 3).join(" | ")}` });
-  return { items, notes: ["'반쪽 전환' 비교는 --compare로 이전 보고서가 있을 때 회귀로 드러난다"] };
+  return { items, measured: { roleVariants: Object.fromEntries([...VAR].map(([k, v]) => [k, [...v]])), claimVocab: [...vocab] }, notes: ["'반쪽 전환' 비교는 --compare로 이전 보고서가 있을 때 회귀로 드러난다", "스타일시트에 '.역할.변형'으로 따로 정의된 변형 클래스(예: .tag.est)는 별개 역할로 묶는다"] };
 };
 
 J["STD-04"] = (D) => {
@@ -2228,6 +2372,19 @@ J["STD-07"] = (D) => {
   return { items, implemented: "auto+manual", manual: ["README.md 검증 절"] };
 };
 
+// visual 조건 가운데 일부를 잴 수 있는 것: CON-05 라벨 알약 경계(강제 색 모드)
+J["CON-05"] = (D) => {
+  const items: Item[] = [];
+  const fb = D.ix.forcedBounds ?? [];
+  if (!fb.length) return { items: [], implemented: "manual", manual: D.ix.forced ?? [], notes: ["강제 색 모드 측정 없음"] };
+  for (const { n, items: els } of fb) {
+    const pills = els.filter((e: any) => String(e.label).split(" ")[0].split(".").slice(1).some((c: string) => ["tag", "kicker", "pill"].includes(c)));
+    const lost = pills.filter((e: any) => !e.border && !e.outline);
+    if (lost.length) items.push({ n, msg: `forced-colors에서 라벨 알약 ${lost.length}/${pills.length}개 경계 없음(테두리·외곽선 0, 바탕·그림자는 지워짐): ${uniq(lost.map((e: any) => String(e.label).split(" ")[0])).slice(0, 4).join(", ")}` });
+  }
+  return { items, implemented: "auto+manual", manual: D.ix.forced ?? [], measured: { slides: fb.map((x: any) => x.n) }, notes: ["강제 색 모드(Emulation forced-colors: active)에서 라벨 알약(.tag·.kicker·.pill)에 1px 이상 테두리나 외곽선이 남는지 계산 스타일로 본다. 차트 계열 구분은 캡처를 사람이 본다"] };
+};
+
 // ── 수동 조건(visual) 묶음 ──
 const MANUAL_BUNDLE: Record<string, (D: Data) => string[]> = {
   "CON-05": (D) => D.ix.forced ?? [],
@@ -2243,7 +2400,7 @@ export function judgeAll(D: Data, criteria: any[]): Result[] {
   const expand = (list: string[] | undefined) => (list ?? []).flatMap((x) => (x === "contact" ? (Array.isArray(D.ix.contact) ? D.ix.contact : []) : x === "compare" ? (Array.isArray(D.ix.compareSheet) ? D.ix.compareSheet : []) : [x]));
   for (const c of criteria) {
     const base = { id: c.id, area: c.area, method: c.verify_method } as Result;
-    if (c.verify_method === "visual" || !J[c.id]) {
+    if (!J[c.id]) {
       out.push({ ...base, implemented: "manual", status: "manual", summary: c.criterion, items: [], failedSlides: [], manual: { procedure: c.verify_procedure, bundle: expand(MANUAL_BUNDLE[c.id]?.(D) ?? ["contact"]) } });
       continue;
     }

@@ -95,6 +95,36 @@ const run = async (cmd: string[], cwd = root, timeoutMs = 300000) => {
   clearTimeout(timer);
   return { cmd: cmd.join(" "), code, out: out.trim(), err: err.trim().slice(-4000) };
 };
+// macOS Vision OCR(scripts/ocr_vision.swift). 처음 부를 때 한 번 컴파일하고, 안 되면 null(그 조건은 수동으로 남는다)
+let ocrCached: string[] | null | undefined;
+let ocrWhy = "";
+const ocrTool = async () => {
+  if (ocrCached !== undefined) return ocrCached;
+  const src = join(import.meta.dir, "ocr_vision.swift");
+  const bin = join(tmpDir, "ocr_vision");
+  ocrCached = null;
+  if (process.platform !== "darwin") ocrWhy = "macOS 아님(Vision 없음)";
+  else if (!existsSync(src)) ocrWhy = "scripts/ocr_vision.swift 없음";
+  else {
+    const c = await run(["swiftc", "-O", src, "-o", bin]);
+    if (c.code === 0 && existsSync(bin)) ocrCached = [bin];
+    else if ((await run(["swift", "--version"])).code === 0) ocrCached = ["swift", src];
+    else ocrWhy = `swiftc 실패: ${c.err.slice(0, 160)}`;
+  }
+  return ocrCached;
+};
+const ocrRun = async (paths: string[]): Promise<any[] | null> => {
+  const cmd = await ocrTool();
+  if (!cmd) return null;
+  const outs: any[] = [];
+  for (let k = 0; k < paths.length; k += 40) {
+    const r = await run([...cmd, ...paths.slice(k, k + 40)], root, 600000);
+    const j = (() => { try { return JSON.parse(r.out); } catch { return null; } })();
+    if (!j) { ocrWhy = `Vision 실행 실패: ${(r.err || r.out).slice(0, 200)}`; return null; }
+    outs.push(...j);
+  }
+  return outs;
+};
 {
   const g = await run(["git", "show", "main:presentation/index.html"], repo);
   files.mainHtml = g.code === 0 ? g.out : "";
@@ -689,7 +719,7 @@ if (want("CTL-03")) await phase("포인터 정지 시 컨트롤", async () => {
   close(v);
 });
 
-if (want("CTL-04", "CTL-07", "CHT-13", "MOT-04", "PRT-01")) await phase("스타일시트 규칙", async () => {
+if (want("CTL-04", "CTL-07", "CHT-13", "MOT-04", "PRT-01", "CON-05")) await phase("스타일시트 규칙", async () => {
   const v = await mk(1440, 900);
   await open(v, url("", "9"), 400);
   ix.rules = await J(v, `(() => {
@@ -713,7 +743,9 @@ if (want("CTL-04", "CTL-07", "CHT-13", "MOT-04", "PRT-01")) await phase("스타�
       return { sel: r.sel, media: r.media, inFineHover: /hover:\\s*hover/.test(r.media) && /pointer:\\s*fine/.test(r.media), nonInteractive: nonInteractive.length, changesVisibility, text: r.text.slice(0, 200) };
     });
     const print = rules.filter((r) => /print/.test(r.media)).map((r) => r.text);
-    return { per, hover, print };
+    const mediaCount = {};
+    for (const r of rules) if (r.media) mediaCount[r.media] = (mediaCount[r.media] || 0) + 1;
+    return { per, hover, print, mediaCount };
   })()`);
   // Tab 포커스 링
   await key(v, "Tab");
@@ -947,7 +979,7 @@ if (want("A11Y-01", "A11Y-02")) await phase("포커스·알림", async () => {
   await open(v, url("", "3"), 400);
   const live: any[] = [];
   for (const k of ["ArrowRight", "ArrowRight", "ArrowLeft"]) { await key(v, k); await Bun.sleep(250); live.push({ cur: await cur(v), live: (await J<any>(v, "window.__vqa.stage()")).live }); }
-  ix.focus = { inert: st.inert, cur: st.cur, where, live };
+  ix.focus = { inert: st.inert, removed: st.removed, cur: st.cur, where, live };
   close(v);
 });
 
@@ -1077,22 +1109,43 @@ if (want("PRT-01")) await phase("인쇄·PDF", async () => {
       p7 = { diff: d, shot: `shots/${label}/prt01-pdf-p07.jpg`, code: r.code };
     }
   }
-  ix.print = { pages, printState, texts, p7 };
+  // 꺾은선이 있는 쪽마다 PDF 래스터(1920×1080)와 ?slide=n 렌더에서 선 구간 안쪽 점의 선 색을 대조한다(선 끝점까지 그려졌는지)
+  const lineTasks: any[] = [];
+  const lineMeta: any[] = [];
+  for (let n = 1; n <= Math.min(pages, total); n++) {
+    const s = D.slides[n];
+    if (!s || !D.shots[n]) continue;
+    const lines = s.svgs.flatMap((v: any) => v.polylines.filter((pl: any) => pl.pts.length >= 2 && pl.stroke && pl.stroke !== "none" && (pl.stroke.match(/[\d.]+/g) ?? []).length >= 3).map((pl: any) => ({ chart: v.chart ?? v.cls, cls: pl.cls, color: pl.stroke.match(/[\d.]+/g).slice(0, 3).map(Number), pts: pl.pts })));
+    if (!lines.length) continue;
+    const pre = join(tmpDir, `pdf-line-${n}`);
+    const r = await run(["pdftoppm", "-f", String(n), "-l", String(n), "-singlefile", "-scale-to-x", "1920", "-scale-to-y", "1080", "-png", pdf, pre]);
+    if (r.code !== 0 || !existsSync(pre + ".png")) continue;
+    lineTasks.push({ op: "linecheck", a: D.shots[n].png, b: pre + ".png", lines });
+    lineTasks.push({ op: "jpg", src: pre + ".png", dst: join(shotsDir, `prt01-pdf-p${String(n).padStart(2, "0")}.jpg`), q: 80, maxw: 1920 });
+    lineMeta.push({ n, lines: lines.map((l: any) => `${l.chart}:${l.cls}`), shot: `shots/${label}/prt01-pdf-p${String(n).padStart(2, "0")}.jpg` });
+  }
+  const lr = await py(lineTasks);
+  const lineCheck = lineMeta.map((m, i) => ({ ...m, res: lr[i * 2] }));
+  ix.print = { pages, printState, texts, p7, lineCheck };
   close(v);
 });
 
 if (want("CON-05")) await phase("forced-colors·prefers-contrast", async () => {
   const shots: string[] = [];
+  const bounds: any[] = [];
   for (const [name, features] of [["forced", [{ name: "forced-colors", value: "active" }]], ["more", [{ name: "prefers-contrast", value: "more" }]]] as const) {
     const v = await mk(1920, 1080);
     await v.cdp("Emulation.setEmulatedMedia", { features });
-    for (const n of [1, 7, 13]) {
+    for (const n of [1, 7, 13, 17]) {
       await open(v, url(`slide=${n}`), 200);
       shots.push(shotRel((await shot(v, `con05-${name}-s${String(n).padStart(2, "0")}`)).jpg));
+      // 라벨 알약·카드의 경계가 테두리·외곽선으로 남는지(강제 색 모드에서는 box-shadow와 배경색이 지워진다)
+      if (name === "forced") bounds.push({ n, items: await J(v, `[...document.querySelectorAll('.slide:not([hidden]) :is(.tag, .kicker, .pill, .card, .chart, .sowe, .tile)')].filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && getComputedStyle(e).visibility !== 'hidden'; }).map((e) => { const s = getComputedStyle(e); const border = ['Top','Right','Bottom','Left'].some((k) => parseFloat(s['border' + k + 'Width']) >= 1 && s['border' + k + 'Style'] !== 'none'); const outline = parseFloat(s.outlineWidth) >= 1 && s.outlineStyle !== 'none'; return { label: window.__vqa.label(e), border, outline, shadow: s.boxShadow }; })`) });
     }
     close(v);
   }
   ix.forced = shots;
+  ix.forcedBounds = bounds;
 });
 
 if (publicUrl) await phase("공개 URL", async () => {
@@ -1110,6 +1163,16 @@ server.stop();
 // 스크린샷 JPG 변환
 if (jpgQueue.length) await phase("스크린샷 JPG 변환", () => py(jpgQueue));
 // 컨택트시트
+// RSP-02: 장 렌더를 480×270으로 줄여 쪽 번호를 OCR로 읽는다
+if (Object.keys(D.shots).length && want("RSP-02")) await phase("480×270 쪽 번호 OCR", async () => {
+  const ns = Object.keys(D.shots).map(Number).sort((a, b) => a - b);
+  const dir = join(tmpDir, "r480");
+  await mkdir(dir, { recursive: true });
+  const small = await py(ns.map((n) => ({ op: "jpg", src: D.shots[n].png, dst: join(dir, `slide-${String(n).padStart(2, "0")}.png`), maxw: 480 })));
+  const outs = await ocrRun(small);
+  if (!outs) { D.ix.r480 = { available: false, reason: ocrWhy }; return; }
+  D.ix.r480 = { available: true, pages: ns.map((n, i) => ({ n, pg: D.slides[n]?.pgText ?? null, read: (outs[i]?.recognized ?? []).map((l: any) => ({ text: l.text, conf: Math.round(l.conf * 100) / 100, box: l.box })) })) };
+});
 if (Object.keys(D.shots).length && want("STD-05", "LAY-07", "LAY-09", "STD-06")) await phase("컨택트시트", async () => {
   const pngs = Object.keys(D.shots).map(Number).sort((a, b) => a - b).map((n) => D.shots[n].png);
   const r = await run([PY, join(import.meta.dir, "contact-sheet.py"), "--out", join(shotsDir, "contact.jpg"), "--cols", "2", "--width", "960", ...pngs]);
@@ -1137,6 +1200,37 @@ if (want("IMG-02", "IMG-03")) await phase("이미지 파일", async () => {
   const sizes = await Promise.all(imgs.map(async (p) => { const r = await run([PY, "-c", `from PIL import Image;im=Image.open(${JSON.stringify(p)});print(im.width,im.height)`]); return r.out.split(" ").map(Number); }));
   const crops = await py(imgs.map((p, i) => ({ op: "crop", src: p, rect: { x: sizes[i][0] * 0.85, y: sizes[i][1] * 0.85, w: sizes[i][0] * 0.15, h: sizes[i][1] * 0.15 }, dst: join(shotsDir, `img02-${p.split("/").pop()!.replace(/\.\w+$/, "")}-br15.jpg`) })));
   D.ix.imgFiles = imgs.map((p, i) => ({ file: relative(root, p), icc: res[i], size: sizes[i], crop: crops[i] ? relative(qaDir, crops[i]) : null }));
+  // IMG-02 OCR: macOS Vision(scripts/ocr_vision.swift)을 원본 전체·3×3 조각(2배)·4×4 평활화 조각(3배)에 돌린다.
+  // 작은 글자·어두운 바탕 글자를 놓치지 않으려고 조각을 키워 넣고, 읽힌 상자는 원본 좌표로 되돌린다.
+  if (want("IMG-02")) {
+    const ocrCmd = await ocrTool();
+    if (!ocrCmd) { D.ix.ocr = { available: false, reason: ocrWhy }; return; }
+    const tileDir = join(tmpDir, "ocr-tiles");
+    await mkdir(tileDir, { recursive: true });
+    const tileTasks = imgs.flatMap((p) => { const b = join(tileDir, p.split("/").pop()!.replace(/\.\w+$/, "")); return [{ op: "tiles", src: p, dst: b, grid: 3, scale: 2 }, { op: "tiles", src: p, dst: b, grid: 4, scale: 3, eq: true }]; });
+    const tl = await py(tileTasks);
+    const inputs: { img: number; path: string; box: number[] }[] = [];
+    imgs.forEach((p, i) => { inputs.push({ img: i, path: p, box: [0, 0, sizes[i][0], sizes[i][1]] }); for (const t of [...(tl[i * 2] ?? []), ...(tl[i * 2 + 1] ?? [])]) inputs.push({ img: i, path: t.path, box: t.box }); });
+    const outs = await ocrRun(inputs.map((x) => x.path));
+    if (!outs) { D.ix.ocr = { available: false, reason: ocrWhy }; return; }
+    const hits: any[] = [];
+    outs.forEach((o, k) => {
+      const inp = inputs[k];
+      const [bx, by, bw, bh] = inp.box;
+      for (const l of o.recognized ?? []) {
+        const box = { x: Math.round(bx + l.box.x * bw), y: Math.round(by + l.box.y * bh), w: Math.round(l.box.w * bw), h: Math.round(l.box.h * bh) };
+        hits.push({ file: relative(root, imgs[inp.img]), text: l.text, conf: Math.round(l.conf * 100) / 100, box, from: inp.path === imgs[inp.img] ? "원본" : inp.path.split("/").pop() });
+      }
+    });
+    // 같은 그림의 겹치는 상자는 확신도 높은 것 하나로
+    const keep: any[] = [];
+    for (const h of hits.sort((a, b) => b.conf - a.conf)) if (!keep.some((k) => k.file === h.file && Math.max(0, Math.min(k.box.x + k.box.w, h.box.x + h.box.w) - Math.max(k.box.x, h.box.x)) * Math.max(0, Math.min(k.box.y + k.box.h, h.box.y + h.box.h) - Math.max(k.box.y, h.box.y)) > 0.3 * Math.min(k.box.w * k.box.h, h.box.w * h.box.h))) keep.push(h);
+    // 읽힌 자리 크롭(사람 확인용)
+    const cropT = keep.map((h, i) => ({ op: "crop", src: join(root, h.file), rect: { x: h.box.x - h.box.w, y: h.box.y - h.box.h * 2, w: h.box.w * 3, h: h.box.h * 5 }, dst: join(shotsDir, `img02-ocr-${String(i + 1).padStart(2, "0")}.jpg`), maxw: 900 }));
+    const cr = await py(cropT);
+    keep.forEach((h, i) => { h.crop = cr[i] ? relative(qaDir, cr[i]) : null; });
+    D.ix.ocr = { available: true, engine: "macOS Vision VNRecognizeTextRequest(ko-KR, en-US, accurate)", inputs: inputs.length, hits: keep };
+  }
 });
 
 // ── 판정 ──────────────────────────
@@ -1178,7 +1272,7 @@ const count = (s: string) => results.filter((r) => r.status === s).length;
 const summary = { total: criteriaAll.length, checked: results.length, implemented, implementedAuto, autoTotal: autoIds.length, pass: count("pass"), fail: count("fail"), manual: count("manual"), error: count("error"), regressions: results.filter((r) => r.regression).length };
 const report = {
   label, date: new Date().toISOString(), commit, deckDirty: !!dirty, deckSha, seconds: Math.round((Date.now() - t0) / 1000), summary, compare: compareLabel ?? null,
-  tools: { python: PY, skill: SKILL, taste: TASTE, net: useNet, publicUrl: publicUrl ?? null, axe: false, lighthouse: false, tesseract: false },
+  tools: { python: PY, skill: SKILL, taste: TASTE, net: useNet, publicUrl: publicUrl ?? null, axe: false, lighthouse: false, tesseract: false, ocr: D.ix.ocr?.available ? "macOS Vision" : false },
   ext: Object.fromEntries(Object.entries(ext).map(([k, v]: any) => [k, { cmd: v.cmd, code: v.code, out: String(v.out).slice(0, 4000), err: v.err?.slice(0, 1000) }])),
   phaseErrors: errors, results,
 };
