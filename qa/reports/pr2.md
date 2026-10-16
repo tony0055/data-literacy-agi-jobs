@@ -1,4 +1,4 @@
-구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 60(그중 자동만 통과·수동 확인 남음 8) · 실패 82 · 수동 5 · 오류 0 · 회귀 2(기준 baseline-cloud)
+구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 65(그중 자동만 통과·수동 확인 남음 9) · 실패 77 · 수동 5 · 오류 0 · 회귀 3(기준 baseline-cloud)
 
 # 시각 QA 보고서 — pr2
 
@@ -9,24 +9,25 @@
 | 위반 | 장 | 잡은 조건 | 이번 판정 | 근거(측정값) |
 | --- | --- | --- | --- | --- |
 | VG-01 | 전체 | NAV-01, NAV-02, CTL-01 | NAV-01 실패 · NAV-02 실패 · CTL-01 실패 | NAV-01: 왼쪽으로 80px(Δy 10): 장 5→5 (Δ0, 기대 +1) / NAV-01: 오른쪽으로 80px: 장 5→5 (Δ0, 기대 -1) / NAV-02: 390x844 터치: 이전·다음 버튼 없음(다음 0, 이전 0) / NAV-02: 1440x900 마우스: 이전·다음 버튼 없음(다음 0, 이전 0) |
-| VG-07 | 전체 | ONB-03, RSP-02 | ONB-03 실패 · RSP-02 실패 | ONB-03: 390x844 세로: 회전 안내·세로 읽기 모드 없음 / ONB-03: 375x812 세로: 회전 안내·세로 읽기 모드 없음 / RSP-02: 1장 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "데이터리터러시의이해 중간고사 과제 · 주제 설명과 " / RSP-02: 2장 1280×720 최소 실효 글자 10.67px(<12): span.sec "전제" |
+| VG-07 | 전체 | ONB-03, RSP-02 | ONB-03 실패 · RSP-02 실패 | ONB-03: 390x844 세로: 회전 안내·세로 읽기 모드 없음 / ONB-03: 375x812 세로: 회전 안내·세로 읽기 모드 없음 / RSP-02: 1장 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "데이터리터러시의이해 중간고사 과제 · 주제 설명과 " / RSP-02: 2장 1280×720 최소 실효 글자 10.67px(<12): span.source "METR Time Horizon 1.1 원본 YAM" |
 | V1-01 | 5 | STD-01 | TYP-03 통과 · LAY-06 실패 · STD-01 실패 | STD-01: fit.js TERTIARY 확장 15개가 design-standard에 기록 없음: .band.head-band p, .gates td.yr span, .video .vcap, .chain text, .credit |
 | V8-01 | 13 | CHT-02, CHT-07, EVD-01 | CHT-02 실패 · CHT-07 실패 · EVD-01 실패 | CHT-02: 13장 occ_scatter n기간 없음 / CHT-02: 13장 occ_scatter 세로 범위를 넘은 점 10개를 끝에 붙여 그렸는데 표식·주석 없음 / CHT-07: 13장 occ_scatter 범위 밖 10개 점이 축 끝(y=412)에 실제 값처럼 그려짐(끝선 위 점 10개, 다른 모양·표시 없음) / EVD-01: 13장 occ_scatter 세로 범위 밖 값 10개가 축 끝값으로 그려져 그림 위치가 데이터 값과 다름 |
 
 ## 실행
 
-- 실행: 2026-10-16T14:57:17.574Z · 커밋 7c5ed46 (덱 파일 미커밋 변경 있음) · 덱 해시 508d1659f793 · 512초
+- 실행: 2026-10-16T16:45:09.942Z · 커밋 8a7fb96 (덱 파일 미커밋 변경 있음) · 덱 해시 ba69e406b2bc · 401초
 - 명령: `cd presentation && bun scripts/visual-qa.ts --label pr2 --compare=baseline-cloud` · 파이썬 `python3`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
 - 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift, 이번 실행에선 못 씀)으로 IMG-02·RSP-02를 판정
 
 ## 기준(baseline-cloud) 대비
 
-회귀 2건 — 기준보다 나빠진 조건:
+회귀 3건 — 기준보다 나빠진 조건:
 - **TYP-01** 통과 → 실패 · 항목 0 → 1
 - **CHT-05** 실패 → 실패 · 항목 17 → 18
+- **CTL-02** 실패 → 실패 · 항목 133 → 136
 
-새로 통과: LAY-01, LAY-03, LAY-07, LAY-08, LAY-10, SURF-01, SURF-02, CARD-01, CARD-03, CARD-04, CARD-05, CARD-06, CARD-07, CARD-08, COL-01, COL-05, CON-05, TYP-03, TYP-04, TYP-05, TYP-06, TYP-07, TYP-08, TYP-10, TYP-13, TXT-09, IMG-06, EVD-02, NAV-11, CTL-07, PERF-01, STD-02
+새로 통과: LAY-01, LAY-03, LAY-04, LAY-07, LAY-08, LAY-10, SURF-01, SURF-02, CARD-01, CARD-02, CARD-03, CARD-04, CARD-05, CARD-06, CARD-07, CARD-08, COL-01, COL-05, CON-01, CON-02, CON-05, TYP-03, TYP-04, TYP-05, TYP-06, TYP-07, TYP-08, TYP-10, TYP-11, TYP-13, TXT-09, IMG-06, EVD-02, NAV-11, CTL-07, A11Y-04, STD-02
 
 ## 조건별 결과
 
@@ -35,21 +36,21 @@
 | [LAY-01](#lay-01) | automated | 자동 | 통과 |  |  |
 | [LAY-02](#lay-02) | automated | 자동 | 통과 |  |  |
 | [LAY-03](#lay-03) | automated | 자동 | 통과 |  |  |
-| [LAY-04](#lay-04) | automated | 자동 | 실패 | 20 | 형제 간격 2종 이상 1곳: div.body.cols.f20 "따라잡는 햇수 = 격차를 메우려면 두 배가 돼야 하" [48,121] |
+| [LAY-04](#lay-04) | automated | 자동 | 통과 |  |  |
 | [LAY-05](#lay-05) | automated | 자동 | 실패 | 28 | 병렬 항목 6개(>5): div.poster "텔레마케터·상담이미 감소2023년부터 실측 · 미국" |
 | [LAY-06](#lay-06) | automated | 자동 | 실패 | 10, 11, 17 | 글자 상자 겹침 1쌍: text.vlab "2042" ↔ text.note.slab "전문가 설문 (HLMI)" 12px² |
 | [LAY-07](#lay-07) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [LAY-08](#lay-08) | automated | 자동 | 통과 |  |  |
-| [LAY-09](#lay-09) | both | 자동+수동 | 실패 | 3, 12, 20, 34 | 콘텐츠 점유율 0.27(0.35~0.85 밖) |
+| [LAY-09](#lay-09) | both | 자동+수동 | 실패 | 34 | 콘텐츠 점유율 0.21(0.35~0.85 밖) |
 | [LAY-10](#lay-10) | automated | 자동 | 통과 |  |  |
 | [SURF-01](#surf-01) | automated | 자동 | 통과 |  |  |
 | [SURF-02](#surf-02) | automated | 자동 | 통과 |  |  |
-| [SURF-03](#surf-03) | both | 자동+수동 | 실패 | 19 | 어두운 장 5(>2): 6, 18, 19, 29, 34 |
+| [SURF-03](#surf-03) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 어두운·전면 사진 장 사유 없음: 18장 |
 | [SURF-04](#surf-04) | automated | 자동 | 통과 |  |  |
 | [SURF-05](#surf-05) | automated | 자동 | 통과 |  |  |
 | [SURF-06](#surf-06) | automated | 자동 | 실패 | 덱 전체 | meta color-scheme=light 없음 |
 | [CARD-01](#card-01) | automated | 자동 | 통과 |  |  |
-| [CARD-02](#card-02) | both | 자동+수동 | 실패 | 덱 전체 | 카드 있는 장 24(>10): 3, 4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33 |
+| [CARD-02](#card-02) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [CARD-03](#card-03) | automated | 자동 | 통과 |  |  |
 | [CARD-04](#card-04) | automated | 자동 | 통과 |  |  |
 | [CARD-05](#card-05) | automated | 자동 | 통과 |  |  |
@@ -61,15 +62,15 @@
 | [COL-03](#col-03) | automated | 자동 | 실패 | 24 | 인디고 픽셀 12.2%(>8%) |
 | [COL-04](#col-04) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [COL-05](#col-05) | automated | 자동 | 통과 |  |  |
-| [CON-01](#con-01) | automated | 부분 | 실패 | 6, 19 | 대비 3.79:1 < 4.5 — span.tag "2차 · 자체 보고" 20px 600 (픽셀 최악 5%) |
-| [CON-02](#con-02) | automated | 자동 | 실패 | 6, 19 | 사진 위 글자 최악 5% 대비 3.79:1 < 4.5 — span.tag "2차 · 자체 보고" |
+| [CON-01](#con-01) | automated | 부분 | 통과 |  |  |
+| [CON-02](#con-02) | automated | 자동 | 통과 |  |  |
 | [CON-03](#con-03) | automated | 부분 | 실패 | 10, 13, 17, 26 | agi_forecast_shift circle.b-neutral #cac7c2 대비 1.69:1(<3) — 9개 중 3개 직접 라벨 없음 |
 | [CON-04](#con-04) | both | 자동+수동 | 실패 | 11, 17, 24, 26 | espai_two_clocks 프로젝터 모사 인접 계열 ΔL* 8.1(<15) |
 | [CON-05](#con-05) | visual | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [GRAD-01](#grad-01) | automated | 자동 | 통과 |  |  |
 | [GRAD-02](#grad-02) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [GRAD-03](#grad-03) | automated | 자동 | 통과 |  |  |
-| [TYP-01](#typ-01) | automated | 자동 | 실패 ⚠회귀 | 덱 전체 | 다른 글꼴로 렌더: Deck Sans Subset (30206 글리프) |
+| [TYP-01](#typ-01) | automated | 자동 | 실패 ⚠회귀 | 덱 전체 | 다른 글꼴로 렌더: Deck Sans Subset (30398 글리프) |
 | [TYP-02](#typ-02) | automated | 자동 | 실패 | 덱 전체 | charts.js:87 font-size 15 하드코딩(프리셋 밖) |
 | [TYP-03](#typ-03) | automated | 자동 | 통과 |  |  |
 | [TYP-04](#typ-04) | automated | 자동 | 통과 |  |  |
@@ -77,9 +78,9 @@
 | [TYP-06](#typ-06) | automated | 자동 | 통과 |  |  |
 | [TYP-07](#typ-07) | automated | 자동 | 통과 |  |  |
 | [TYP-08](#typ-08) | automated | 자동 | 통과 |  |  |
-| [TYP-09](#typ-09) | automated | 자동 | 실패 | 2, 4, 21, 33 | 최대/본문 1(<2.4): 64/64 |
+| [TYP-09](#typ-09) | automated | 자동 | 실패 | 20, 25, 28, 29, 30, 31, 32 | 최대/본문 2(<2.4): 64/32 |
 | [TYP-10](#typ-10) | automated | 자동 | 통과 |  |  |
-| [TYP-11](#typ-11) | automated | 자동 | 실패 | 4 | 80px 이상 숫자 3개: 105 · 3.5 · 94 |
+| [TYP-11](#typ-11) | automated | 자동 | 통과 |  |  |
 | [TYP-12](#typ-12) | automated | 자동 | 실패 | 11 | 줄당 59자(>45): p.chart-src "같은 설문에서 같은 전문가들에게 물은 두 예상 연도" |
 | [TYP-13](#typ-13) | automated | 자동 | 통과 |  |  |
 | [TYP-14](#typ-14) | automated | 자동 | 실패 | 덱 전체 | 글꼴 preload 없음 |
@@ -96,7 +97,7 @@
 | [TXT-11](#txt-11) | visual | 수동 | 수동 |  |  |
 | [IMG-01](#img-01) | automated | 자동 | 통과 |  |  |
 | [IMG-02](#img-02) | both | 수동 | 수동 |  |  |
-| [IMG-03](#img-03) | automated | 자동 | 실패 | 6, 18, 19 | recursion.jpg 해상도 배율 1(<1.5) — 원본 1920×1072, 표시 1920×960 |
+| [IMG-03](#img-03) | automated | 자동 | 실패 | 6, 18 | recursion.jpg 해상도 배율 1.12(<1.5) — 원본 1920×1072, 표시 685×960 |
 | [IMG-04](#img-04) | automated | 자동 | 실패 | 덱 전체 | desk.jpg 305KB(>300) |
 | [IMG-05](#img-05) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [IMG-06](#img-06) | automated | 자동 | 통과 |  |  |
@@ -116,7 +117,7 @@
 | [CHT-13](#cht-13) | automated | 자동 | 통과 |  |  |
 | [EVD-01](#evd-01) | automated | 자동 | 실패 | 13 | occ_scatter 세로 범위 밖 값 10개가 축 끝값으로 그려져 그림 위치가 데이터 값과 다름 |
 | [EVD-02](#evd-02) | automated | 자동 | 통과 |  |  |
-| [EVD-03](#evd-03) | automated | 자동 | 실패 | 2, 3, 5, 6, 8, 9, 14, 15, 16, 19, 21, 29, 30, 31, 32, 33, 34 | 출처 없음 |
+| [EVD-03](#evd-03) | automated | 자동 | 실패 | 3, 5, 6, 8, 9, 14, 15, 16, 19, 21, 29, 30, 31, 32, 33, 34 | 출처에 연도 없음: "AGI 정의는 회사마다 다릅니다. 정의가 다른 지표는 한 줄로 잇지 않았" |
 | [EVD-04](#evd-04) | both | 자동+수동 | 실패 | 21 | 추정 라벨이 있는데 범위 표기 없음 |
 | [EVD-05](#evd-05) | automated | 자동 | 실패 | 33 | 4장 핵심 수치 "105"가 33장에 없음 |
 | [EVD-06](#evd-06) | automated | 자동 | 통과 |  |  |
@@ -133,7 +134,7 @@
 | [NAV-11](#nav-11) | automated | 자동 | 통과 |  |  |
 | [NAV-12](#nav-12) | automated | 자동 | 실패 | 덱 전체 | 미지원 환경에서 F 후 오류: unhandled rejection: TypeError: Fullscreen API is not supported |
 | [CTL-01](#ctl-01) | automated | 자동 | 실패 | 34 | 375x812 덱 안 링크 30×5(<44): a "자료조사 research" |
-| [CTL-02](#ctl-02) | automated | 자동 | 실패 | 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "AI 회사들은 다음 A 1196px² |
+| [CTL-02](#ctl-02) | automated | 자동 | 실패 ⚠회귀 | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34 | 1920x1080: button.replay-btn ↔ span.pg "1 / 34" 183px² |
 | [CTL-03](#ctl-03) | automated | 자동 | 실패 | 덱 전체 | 포인터 3초 정지 후 컨트롤 불투명도 1(>0.2) |
 | [CTL-04](#ctl-04) | automated | 자동 | 실패 | 덱 전체 | 전환 500ms(100~160 밖): a.c4.at9.panel.end.p-ink.video.hug.t-stagger-line "영상 · OpenAI 라이브(2025-10-28)7" |
 | [CTL-05](#ctl-05) | automated | 자동 | 실패 | 덱 전체 | 강조(인디고) 버튼 0개(다음 장 하나여야 함) |
@@ -157,14 +158,14 @@
 | [MOT-08](#mot-08) | both | 자동+수동 | 실패 | 4, 8, 12, 18, 19, 21, 23 | 숫자 팝인 3개(>1) |
 | [MOT-09](#mot-09) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 모션 목록 절 없음 |
 | [MOT-10](#mot-10) | automated | 자동 | 통과 |  |  |
-| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 87/2290ms — 반쯤 그려진 채로 보임(3203ms 뒤 2290ms) |
+| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 96/2290ms — 반쯤 그려진 채로 보임(3194ms 뒤 2290ms) |
 | [A11Y-01](#a11y-01) | automated | 자동 | 실패 | 덱 전체 | 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33 |
 | [A11Y-02](#a11y-02) | automated | 자동 | 실패 | 덱 전체 | aria-live=polite 영역 없음 |
 | [A11Y-03](#a11y-03) | automated | 자동 | 실패 | 4, 8, 11, 12, 13, 14, 15, 16, 18, 19, 21, 26 | 쪼갠 숫자 "105" aria-label 없음 |
-| [A11Y-04](#a11y-04) | automated | 부분 | 실패 | 6, 19 | color-contrast: 대비 3.79:1 < 4.5 — span.tag "2차 · 자체 보고" 20px 600 (픽셀 최악 5%) |
+| [A11Y-04](#a11y-04) | automated | 부분 | 통과 |  |  |
 | [A11Y-05](#a11y-05) | automated | 자동 | 실패 | 덱 전체 | JS 끔: 빈 차트 9(metr_horizon, agi_forecast_shift, espai_two_clocks, occ_scatter, occ_quintile, kr_occupation_index, proj_ca |
 | [A11Y-06](#a11y-06) | automated | 자동 | 통과 |  |  |
-| [PERF-01](#perf-01) | automated | 부분 | 통과 |  |  |
+| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 2736ms(>2500) |
 | [PERF-02](#perf-02) | automated | 자동 | 통과 |  |  |
 | [PERF-03](#perf-03) | automated | 자동 | 통과 |  |  |
 | [PERF-04](#perf-04) | automated | 자동 | 통과 |  |  |
@@ -210,16 +211,10 @@
 
 ### LAY-04
 
-실패 · 레이아웃·간격 · automated · 구현 auto
+통과 · 레이아웃·간격 · automated · 구현 auto
 
 > 모든 padding·margin·gap은 8 배수 토큰이고, 같은 부모의 형제 간격은 1종이며 그룹 안 간격 < 그룹 사이 간격이다. 헤더→본문 64, 본문→결론 32, 결론→꼬리말 24를 지킨다  
 > 기준: 감사 '간격' 위반 0, token-check space 0, 계산값이 8의 배수 아님 0건(4는 아이콘 반 단계만), 형제 간격 종류 1, 표준 거리 ±1px
-
-실패 1건 · 장 20
-
-- 20장 · 형제 간격 2종 이상 1곳: div.body.cols.f20 "따라잡는 햇수 = 격차를 메우려면 두 배가 돼야 하" [48,121]
-
-근거: [slide-20.jpg](../shots/pr2/slide-20.jpg)
 
 ### LAY-05
 
@@ -247,7 +242,7 @@
 - 11장 · 글자 상자 겹침 2쌍: text.vlab "2098" ↔ text.note.slab "직업 자동화" 12px² · text.vlab "2042" ↔ text.vlab.slab "AGI" 12px²
 - 17장 · 글자 상자 겹침 3쌍: text.vlab "119.7" ↔ text.vlab.slab "전문가" 18px² · text.vlab "108.7" ↔ text.note.slab "사무직" 18px²
 
-- 메모: fit.js가 3차 정보 예외로 넘긴 글자 144개(실패로 세지 않음, TYP-03에서 따로 잰다)
+- 메모: fit.js가 3차 정보 예외로 넘긴 글자 145개(실패로 세지 않음, TYP-03에서 따로 잰다)
 
 근거: [slide-10.jpg](../shots/pr2/slide-10.jpg) · [slide-11.jpg](../shots/pr2/slide-11.jpg) · [slide-17.jpg](../shots/pr2/slide-17.jpg)
 
@@ -275,15 +270,11 @@
 > 장이 비어 보이거나 빽빽하지 않고, 카드를 빈칸 채우기로 늘리지 않는다  
 > 기준: 점유율 0.35~0.85(표지·구획 장 예외), 채움 <0.6 카드 0, 바탕 85% 이상 장 ≤1
 
-실패 5건 · 장 3, 12, 20, 34
+실패 1건 · 장 34
 
-- 3장 · 콘텐츠 점유율 0.27(0.35~0.85 밖)
-- 12장 · 콘텐츠 점유율 0.33(0.35~0.85 밖)
-- 20장 · 콘텐츠 점유율 0.32(0.35~0.85 밖)
-- 34장 · 콘텐츠 점유율 0.19(0.35~0.85 밖)
-- 본문 영역 바탕 85% 이상 장 8개(>1): 1, 3, 6, 7, 18, 19, 22, 34
+- 34장 · 콘텐츠 점유율 0.21(0.35~0.85 밖)
 
-근거: [slide-03.jpg](../shots/pr2/slide-03.jpg) · [slide-12.jpg](../shots/pr2/slide-12.jpg) · [slide-20.jpg](../shots/pr2/slide-20.jpg) · [slide-34.jpg](../shots/pr2/slide-34.jpg)
+근거: [slide-34.jpg](../shots/pr2/slide-34.jpg)
 
 수동 확인 절차: 안전 영역 대비 콘텐츠 bbox 합집합 비율, 카드 내부 콘텐츠 높이/카드 높이를 계산하고 PNG에서 본문 영역 바탕색 비율을 잰 뒤 컨택트시트로 확인한다
 볼 것: [contact-1.jpg](../shots/pr2/contact-1.jpg) · [contact-2.jpg](../shots/pr2/contact-2.jpg)
@@ -316,16 +307,12 @@
 > 어두운 장은 결정적 순간에만 2장 이하로 쓰고 이웃하지 않으며, 전면 사진 장과 합쳐 6장 이하다. 사유는 design-standard에 있다  
 > 기준: 어두운 장 ≤2, 연속 0, 어두운+전면 사진 ≤6, 사유 누락 0
 
-실패 3건 · 장 19
+실패 1건
 
-- 어두운 장 5(>2): 6, 18, 19, 29, 34
-- 19장 · 어두운 장 이웃 18·19
-- design-standard에 어두운·전면 사진 장 사유 없음: 18, 19, 29, 34장
-
-근거: [slide-19.jpg](../shots/pr2/slide-19.jpg)
+- design-standard에 어두운·전면 사진 장 사유 없음: 18장
 
 수동 확인 절차: PNG 평균 L*<30인 장과 .bg 전면 사진 장을 나열하고 README의 사유 목록과 대조한다
-볼 것: [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-18.jpg](../shots/pr2/slide-18.jpg) · [slide-19.jpg](../shots/pr2/slide-19.jpg) · [slide-29.jpg](../shots/pr2/slide-29.jpg) · [slide-34.jpg](../shots/pr2/slide-34.jpg)
+볼 것: [slide-18.jpg](../shots/pr2/slide-18.jpg)
 
 ### SURF-04
 
@@ -365,14 +352,10 @@
 
 ### CARD-02
 
-실패 · 카드 · both · 구현 auto+manual
+통과(자동)·수동 남음 · 카드 · both · 구현 auto+manual
 
 > 덱 전체 카드 수가 크게 줄고, 카드가 본문을 주도하는 장은 전체의 3분의 1 이하다  
 > 기준: 카드 총수 ≤16(before 40), 카드 있는 장 ≤30%(≤10장), 카드 주도 장 ≤11
-
-실패 1건
-
-- 카드 있는 장 24(>10): 3, 4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33
 
 수동 확인 절차: grep -o 'class="[^"]*card' $DECK/index.html \| wc -l로 before(40)와 after를 기록하고, 카드가 본문 면적 50% 이상인 장과 카드가 있는 장 수를 렌더로 센 뒤 컨택트시트로 확인한다
 볼 것: [contact-1.jpg](../shots/pr2/contact-1.jpg) · [contact-2.jpg](../shots/pr2/contact-2.jpg)
@@ -469,38 +452,20 @@
 
 ### CON-01
 
-실패 · 대비·글자 · automated · 구현 partial
+통과 · 대비·글자 · automated · 구현 partial
 
 > 모든 글자-바탕 쌍이 실측 기준을 넘는다(밝은 장·어두운 장·세이지·인디고 면·라벨 알약 포함)  
 > 기준: 24px 미만 400 굵기 ≥4.5:1, 24px 이상 또는 18.66px 굵게 ≥3:1, 위반 0, 문서값=실측값
 
-실패 4건 · 장 6, 19
-
-- 6장 · 대비 3.79:1 < 4.5 — span.tag "2차 · 자체 보고" 20px 600 (픽셀 최악 5%)
-- 6장 · 대비 2.97:1 < 4.5 — span.tag "2차" 20px 600 (픽셀 최악 5%)
-- 6장 · 대비 2.88:1 < 4.5 — span.tag "직접" 20px 600 (픽셀 최악 5%)
-- 19장 · 대비 2.96:1 < 3 — span.unit "개월" 24px 600 (픽셀 최악 5%)
-
 - 메모: axe-core가 설치돼 있지 않아 계산 색과 실제 뒤 불투명 바탕(조상 합성)으로 직접 잼. 사진·그라데이션 위는 픽셀 최악 5%
 - 메모: design-standard 대비표와 실측값 대조는 수동
 
-근거: [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-19.jpg](../shots/pr2/slide-19.jpg)
-
 ### CON-02
 
-실패 · 대비·사진 위 글자 · automated · 구현 auto
+통과 · 대비·사진 위 글자 · automated · 구현 auto
 
 > 사진 위 글자는 중립 스크림이나 조용한 영역 위에 있고 최악 픽셀 기준으로도 읽힌다  
 > 기준: ≥4.5:1(큰 글자 3:1), 색 오버레이·듀오톤 0
-
-실패 4건 · 장 6, 19
-
-- 6장 · 사진 위 글자 최악 5% 대비 3.79:1 < 4.5 — span.tag "2차 · 자체 보고"
-- 6장 · 사진 위 글자 최악 5% 대비 2.97:1 < 4.5 — span.tag "2차"
-- 6장 · 사진 위 글자 최악 5% 대비 2.88:1 < 4.5 — span.tag "직접"
-- 19장 · 사진 위 글자 최악 5% 대비 2.96:1 < 3 — span.unit "개월"
-
-근거: [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-19.jpg](../shots/pr2/slide-19.jpg)
 
 ### CON-03
 
@@ -568,7 +533,7 @@
 > 기준: 그라데이션 장 ≤8(34장의 1/4), 의미 구분 용도 0, 그라데이션 글자 대비 통과
 
 수동 확인 절차: 그라데이션 사용 장 수를 세고, background-clip:text 요소는 양 끝 색으로 CON-01 계산을 한다. lint gradient 건은 README에 사유를 적는다
-볼 것: [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-18.jpg](../shots/pr2/slide-18.jpg) · [slide-19.jpg](../shots/pr2/slide-19.jpg)
+볼 것: [slide-18.jpg](../shots/pr2/slide-18.jpg)
 
 ### GRAD-03
 
@@ -586,7 +551,7 @@
 
 실패 1건
 
-- 다른 글꼴로 렌더: Deck Sans Subset (30206 글리프)
+- 다른 글꼴로 렌더: Deck Sans Subset (30398 글리프)
 
 - 메모: 공개 URL의 글꼴 확인은 --public=URL로 돌린다
 
@@ -608,7 +573,7 @@
 > 읽어야 할 모든 글자(차트 눈금·범례·직접 라벨 포함)는 1920 기준 18px 이상이고, 14~17px는 출처·쪽 번호·n 캡션 같은 3차 정보에만 쓴다  
 > 기준: tiny 0, 비3차 18px 미만 0(범례 포함), 14px 미만 0
 
-- 메모: 3차 정보는 .foot·.source·.chart-src·.pg·.credit·'n=' 캡션으로 좁게 본다. fit.js TERTIARY는 공통 deck-fit.js보다 16개 넓다(.band.head-band p, .gates td.yr span, .video .vcap, .chain text, .plug, .credit…) — fit 보고의 '예외로 넘김' 144개
+- 메모: 3차 정보는 .foot·.source·.chart-src·.pg·.credit·'n=' 캡션으로 좁게 본다. fit.js TERTIARY는 공통 deck-fit.js보다 16개 넓다(.band.head-band p, .gates td.yr span, .video .vcap, .chain text, .plug, .credit…) — fit 보고의 '예외로 넘김' 145개
 
 ### TYP-04
 
@@ -652,14 +617,17 @@
 > 장 안 크기 대비가 충분하고 경쟁하는 제목 크기가 없으며 장당 글자 크기는 5종 이하다  
 > 기준: 최대/본문 ≥2.4, 두 번째/최대 <0.75, 고유 크기 ≤5, 이웃 비 <1.15 쌍 0
 
-실패 4건 · 장 2, 4, 21, 33
+실패 7건 · 장 20, 25, 28, 29, 30, 31, 32
 
-- 2장 · 최대/본문 1(<2.4): 64/64
-- 4장 · 고유 크기 6(>5): 144,88,64,24,20,16
-- 21장 · 고유 크기 6(>5): 144,64,32,24,20,16
-- 33장 · 최대/본문 2(<2.4): 64/32
+- 20장 · 최대/본문 2(<2.4): 64/32
+- 25장 · 최대/본문 2(<2.4): 64/32
+- 28장 · 최대/본문 2(<2.4): 64/32
+- 29장 · 최대/본문 2(<2.4): 64/32
+- 30장 · 최대/본문 2(<2.4): 64/32
+- 31장 · 최대/본문 2(<2.4): 64/32
+- 32장 · 최대/본문 2(<2.4): 64/32
 
-근거: [slide-02.jpg](../shots/pr2/slide-02.jpg) · [slide-04.jpg](../shots/pr2/slide-04.jpg) · [slide-21.jpg](../shots/pr2/slide-21.jpg) · [slide-33.jpg](../shots/pr2/slide-33.jpg)
+근거: [slide-20.jpg](../shots/pr2/slide-20.jpg) · [slide-25.jpg](../shots/pr2/slide-25.jpg) · [slide-28.jpg](../shots/pr2/slide-28.jpg) · [slide-29.jpg](../shots/pr2/slide-29.jpg) · [slide-30.jpg](../shots/pr2/slide-30.jpg) · [slide-31.jpg](../shots/pr2/slide-31.jpg)
 
 ### TYP-10
 
@@ -670,17 +638,10 @@
 
 ### TYP-11
 
-실패 · 타이포·숫자 · automated · 구현 auto
+통과 · 타이포·숫자 · automated · 구현 auto
 
 > 한 장의 80px 이상 영웅 숫자는 1개, 96px hero 프리셋은 덱 전체 2장 이하. 영웅 숫자는 비례 숫자, 표·눈금은 tabular-nums  
 > 기준: 80px 숫자 ≥2 장 0, hero 장 ≤2, 규칙 위반 0
-
-실패 2건 · 장 4
-
-- 4장 · 80px 이상 숫자 3개: 105 · 3.5 · 94
-- 96px hero 프리셋 장 11(>2): 4, 6, 12, 13, 14, 15, 16, 18, 19, 21, 26
-
-근거: [slide-04.jpg](../shots/pr2/slide-04.jpg)
 
 ### TYP-12
 
@@ -712,7 +673,7 @@
 실패 2건
 
 - 글꼴 preload 없음
-- Slow 4G 근사에서 글꼴 적용(h1 표시) 9032ms(>1500ms, 최악 3초 초과)
+- Slow 4G 근사에서 글꼴 적용(h1 표시) 9110ms(>1500ms, 최악 3초 초과)
 
 - 메모: CDP 네트워크 제한(150ms RTT·1.6Mbps)·CPU 4배로 근사. 실제 회선·기기 아님
 
@@ -884,7 +845,7 @@
 - 29장 · 본문 313자(>220)
 - 30장 · 본문 295자(>220)
 - 31장 · 본문 292자(>220)
-- 34장 · 본문 443자(>220)
+- 34장 · 본문 467자(>220)
 
 근거: [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-23.jpg](../shots/pr2/slide-23.jpg) · [slide-25.jpg](../shots/pr2/slide-25.jpg) · [slide-28.jpg](../shots/pr2/slide-28.jpg) · [slide-29.jpg](../shots/pr2/slide-29.jpg) · [slide-30.jpg](../shots/pr2/slide-30.jpg)
 
@@ -924,13 +885,12 @@
 > 사진은 표시 크기의 1.5배 이상 해상도, 원본 비율 유지(의도된 cover 크롭만), sRGB, width·height 속성을 갖는다  
 > 기준: 배율 ≥1.5, fill이면서 비율 차 >1% 0, sRGB 아닌 파일 0, 크기 속성 누락 0
 
-실패 3건 · 장 6, 18, 19
+실패 2건 · 장 6, 18
 
-- 6장 · recursion.jpg 해상도 배율 1(<1.5) — 원본 1920×1072, 표시 1920×960
+- 6장 · recursion.jpg 해상도 배율 1.12(<1.5) — 원본 1920×1072, 표시 685×960
 - 18장 · entry.jpg 해상도 배율 1(<1.5) — 원본 1920×1072, 표시 1920×960
-- 19장 · robot.jpg 해상도 배율 1(<1.5) — 원본 1920×1072, 표시 1920×960
 
-근거: [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-18.jpg](../shots/pr2/slide-18.jpg) · [slide-19.jpg](../shots/pr2/slide-19.jpg)
+근거: [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-18.jpg](../shots/pr2/slide-18.jpg)
 
 ### IMG-04
 
@@ -1263,19 +1223,18 @@
 > 모든 장에 출처가 숫자 가까이 있고 연도를 포함하며, 2차 인용은 원 발화자와 매체를 함께 적고, 출처는 본문보다 작은 보조 프리셋이다  
 > 기준: 누락 0(표지·마무리 README 예외), 연도 없음 0, 2차 매체 누락 0
 
-실패 18건 · 장 2, 3, 5, 6, 8, 9, 14, 15, 16, 19, 21, 29, 30, 31, 32, 33, 34
+실패 17건 · 장 3, 5, 6, 8, 9, 14, 15, 16, 19, 21, 29, 30, 31, 32, 33, 34
 
-- 2장 · 출처 없음
 - 3장 · 출처에 연도 없음: "AGI 정의는 회사마다 다릅니다. 정의가 다른 지표는 한 줄로 잇지 않았"
 - 5장 · 출처에 연도 없음: "Epoch AI · IEA · METR · Google·Anthropic"
-- 6장 · 출처에 연도 없음: "배경: AI 생성 이미지(Gemini) · Semafor·TechSpot"
+- 6장 · 출처에 연도 없음: "사진: AI 생성 이미지(Gemini) · Semafor·TechSpot"
 - 8장 · 출처에 연도 없음: "analysis/timeline_analysis.py · analysis"
 - 9장 · 출처에 연도 없음: "사진: 샘 올트먼 — Village Global(CC BY 2.0), 다"
 - 9장 · 2차 인용 라벨이 있는데 출처에 원 매체 표기 없음
 - 14장 · 출처에 연도 없음: "분위마다 직업 154개 · 막대는 0에서 시작 기술"
 - 15장 · 출처에 연도 없음: "analysis/occupation_analysis.py — 대분류별 ρ"
 - 16장 · 출처에 연도 없음: "analysis/ml_models.py (numpy, scikit-lea"
-- 19장 · 출처에 연도 없음: "배경: AI 생성 이미지(Gemini) · Waymo 발표 · Gener"
+- 19장 · 출처에 연도 없음: "사진: AI 생성 이미지(Gemini) · Waymo 발표 · Gener"
 - 21장 · 출처에 연도 없음: "Epoch AI · IEA Energy and AI · research/"
 - 29장 · 출처에 연도 없음: "모든 연도는 기준 시나리오 추정 · 결론 등급은 '기술'(관계)과 '추정"
 - 30장 · 출처에 연도 없음: "research/jobs-global.md · research/jobs-"
@@ -1284,7 +1243,7 @@
 - 33장 · 출처에 연도 없음: "분석 명세 spec.md · 종합 보고서 report.md · 독립 재계"
 - 34장 · 출처에 연도 없음: "이미지: Gemini 생성 8장(워터마크는 SAM 2.1로 제거, 생성 "
 
-근거: [slide-02.jpg](../shots/pr2/slide-02.jpg) · [slide-03.jpg](../shots/pr2/slide-03.jpg) · [slide-05.jpg](../shots/pr2/slide-05.jpg) · [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-08.jpg](../shots/pr2/slide-08.jpg) · [slide-09.jpg](../shots/pr2/slide-09.jpg)
+근거: [slide-03.jpg](../shots/pr2/slide-03.jpg) · [slide-05.jpg](../shots/pr2/slide-05.jpg) · [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-08.jpg](../shots/pr2/slide-08.jpg) · [slide-09.jpg](../shots/pr2/slide-09.jpg) · [slide-14.jpg](../shots/pr2/slide-14.jpg)
 
 ### EVD-04
 
@@ -1521,41 +1480,41 @@
 
 ### CTL-02
 
-실패 · 컨트롤·가림 · automated · 구현 auto
+실패 · 컨트롤·가림 · automated · 구현 auto · **회귀**
 
 > 고정 컨트롤·힌트·안내는 어떤 뷰포트에서도 현재 장의 텍스트·쪽 번호·출처·결론·차트를 가리지 않는다  
 > 기준: 교차 면적 0
 
-실패 132건 · 장 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
+실패 136건 · 장 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
 
-- 2장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "AI 회사들은 다음 A 1196px²
-- 3장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "세 가지를 차례로 확인 1196px²
-- 4장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "결론은 세 숫자입니다" 1196px²
-- 5장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "따로 보이는 숫자들은  1196px²
-- 6장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "AI 회사들은 이미다음 1196px²
-- 7장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "AI가 맡을 수 있는  1196px²
-- 8장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "AI가 맡는 업무 크기 1196px²
-- 9장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "AI 회사 대표들은 A 1196px²
-- 10장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "AI 능력이 두 배가  1196px²
-- 11장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "전문가들은 직업 자동화 1196px²
-- 12장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "컨설팅 기관의 추정도  1196px²
-- 13장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "그런데 직업 전체로 보 1196px²
-- 14장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "다만 노출이 가장 큰  1196px²
-- 15장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "직업군을 섞어 보면 관 1196px²
-- 16장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "머신러닝으로 예측해도A 1196px²
-- 17장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "한국도 사무직·전문직  1196px²
-- 18장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "변화는 일자리 수보다  1196px²
-- 19장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "로봇 학습 데이터가 쌓 1196px²
-- 20장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "몸을 쓰는 일은 3~8 1196px²
-- 21장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "속도를 늦출 가장 큰  1196px²
-- 22장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "뇌세포 칩은 2036년 1196px²
-- 23장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "관계식들을 이어 직업군 1196px²
-- 24장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "2031년 전에 AI는 1196px²
-- 25장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "직급별 대체는 대리·과 1196px²
-- 26장 · 1024x768: button.replay-btn ↔ h2.headline.t-stagger-line "2036년까지 한국 일 1196px²
-- … 외 107건(JSON 보고서에 전부)
+- 1장 · 1920x1080: button.replay-btn ↔ span.pg "1 / 34" 183px²
+- 2장 · 1920x1080: button.replay-btn ↔ span.pg "2 / 34" 183px²
+- 3장 · 1920x1080: button.replay-btn ↔ span.pg "3 / 34" 183px²
+- 4장 · 1920x1080: button.replay-btn ↔ span.pg "4 / 34" 183px²
+- 5장 · 1920x1080: button.replay-btn ↔ span.pg "5 / 34" 183px²
+- 6장 · 1920x1080: button.replay-btn ↔ span.pg "6 / 34" 183px²
+- 7장 · 1920x1080: button.replay-btn ↔ span.pg "7 / 34" 183px²
+- 8장 · 1920x1080: button.replay-btn ↔ span.pg "8 / 34" 183px²
+- 9장 · 1920x1080: button.replay-btn ↔ span.pg "9 / 34" 183px²
+- 10장 · 1920x1080: button.replay-btn ↔ span.pg "10 / 34" 183px²
+- 11장 · 1920x1080: button.replay-btn ↔ span.pg "11 / 34" 183px²
+- 12장 · 1920x1080: button.replay-btn ↔ span.pg "12 / 34" 183px²
+- 13장 · 1920x1080: button.replay-btn ↔ span.pg "13 / 34" 183px²
+- 14장 · 1920x1080: button.replay-btn ↔ span.pg "14 / 34" 183px²
+- 15장 · 1920x1080: button.replay-btn ↔ span.pg "15 / 34" 183px²
+- 16장 · 1920x1080: button.replay-btn ↔ span.pg "16 / 34" 183px²
+- 17장 · 1920x1080: button.replay-btn ↔ span.pg "17 / 34" 183px²
+- 18장 · 1920x1080: button.replay-btn ↔ span.pg "18 / 34" 183px²
+- 19장 · 1920x1080: button.replay-btn ↔ span.pg "19 / 34" 183px²
+- 20장 · 1920x1080: button.replay-btn ↔ span.pg "20 / 34" 183px²
+- 21장 · 1920x1080: button.replay-btn ↔ span.pg "21 / 34" 183px²
+- 22장 · 1920x1080: button.replay-btn ↔ span.pg "22 / 34" 183px²
+- 23장 · 1920x1080: button.replay-btn ↔ span.pg "23 / 34" 183px²
+- 24장 · 1920x1080: button.replay-btn ↔ span.pg "24 / 34" 183px²
+- 25장 · 1920x1080: button.replay-btn ↔ span.pg "25 / 34" 183px²
+- … 외 111건(JSON 보고서에 전부)
 
-근거: [stage-1024x768-s10.jpg](../shots/pr2/stage-1024x768-s10.jpg) · [stage-960x1080-s10.jpg](../shots/pr2/stage-960x1080-s10.jpg) · [stage-844x390-s10.jpg](../shots/pr2/stage-844x390-s10.jpg) · [stage-390x844-s10.jpg](../shots/pr2/stage-390x844-s10.jpg) · [slide-02.jpg](../shots/pr2/slide-02.jpg) · [slide-03.jpg](../shots/pr2/slide-03.jpg) · [slide-04.jpg](../shots/pr2/slide-04.jpg) · [slide-05.jpg](../shots/pr2/slide-05.jpg)
+근거: [stage-1920x1080-s10.jpg](../shots/pr2/stage-1920x1080-s10.jpg) · [stage-1366x768-s10.jpg](../shots/pr2/stage-1366x768-s10.jpg) · [stage-1280x720-s10.jpg](../shots/pr2/stage-1280x720-s10.jpg) · [stage-844x390-s10.jpg](../shots/pr2/stage-844x390-s10.jpg) · [slide-01.jpg](../shots/pr2/slide-01.jpg) · [slide-02.jpg](../shots/pr2/slide-02.jpg) · [slide-03.jpg](../shots/pr2/slide-03.jpg) · [slide-04.jpg](../shots/pr2/slide-04.jpg)
 
 ### CTL-03
 
@@ -1690,11 +1649,11 @@
 실패 35건 · 장 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
 
 - 1장 · 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "데이터리터러시의이해 중간고사 과제 · 주제 설명과 "
-- 2장 · 1280×720 최소 실효 글자 10.67px(<12): span.sec "전제"
+- 2장 · 1280×720 최소 실효 글자 10.67px(<12): span.source "METR Time Horizon 1.1 원본 YAM"
 - 3장 · 1280×720 최소 실효 글자 10.67px(<12): span.source "AGI 정의는 회사마다 다릅니다. 정의가 다른 지표"
 - 4장 · 1280×720 최소 실효 글자 10.67px(<12): span.source "METR · AI Impacts 전문가 설문 · 한"
 - 5장 · 1280×720 최소 실효 글자 10.67px(<12): span.source "Epoch AI · IEA · METR · Goog"
-- 6장 · 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "배경: AI 생성 이미지(Gemini) · Sema"
+- 6장 · 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "사진: AI 생성 이미지(Gemini) · Sema"
 - 7장 · 1280×720 최소 실효 글자 10.67px(<12): p.chart-src "METR Time Horizon 1.1 원본 YAM"
 - 8장 · 1280×720 최소 실효 글자 10.67px(<12): span.source "analysis/timeline_analysis.p"
 - 9장 · 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "사진: 샘 올트먼 — Village Global(C"
@@ -1707,7 +1666,7 @@
 - 16장 · 1280×720 최소 실효 글자 10.67px(<12): span.source "analysis/ml_models.py (numpy"
 - 17장 · 1280×720 최소 실효 글자 10.67px(<12): p.chart-src "2019년 = 100 · 세로축 80부터(변화 비교"
 - 18장 · 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "배경: AI 생성 이미지(Gemini) · 한국은행"
-- 19장 · 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "배경: AI 생성 이미지(Gemini) · Waym"
+- 19장 · 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "사진: AI 생성 이미지(Gemini) · Waym"
 - 20장 · 1280×720 최소 실효 글자 10.67px(<12): span.source "Bessemer · Generalist AI · S"
 - 21장 · 1280×720 최소 실효 글자 10.67px(<12): span.source "Epoch AI · IEA Energy and AI"
 - 22장 · 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "사진: AI 생성 이미지(Gemini) · Hart"
@@ -1775,7 +1734,7 @@
 - 17장 · 차트 빌드 2570ms(>1500)
 - 24장 · 차트 빌드 1830ms(>1500)
 - 26장 · 차트 빌드 3220ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 259/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 282/2290ms)
 
 근거: [slide-07.jpg](../shots/pr2/slide-07.jpg) · [slide-10.jpg](../shots/pr2/slide-10.jpg) · [slide-11.jpg](../shots/pr2/slide-11.jpg) · [slide-13.jpg](../shots/pr2/slide-13.jpg) · [slide-17.jpg](../shots/pr2/slide-17.jpg) · [slide-24.jpg](../shots/pr2/slide-24.jpg)
 
@@ -1901,7 +1860,7 @@
 
 실패 1건 · 장 7
 
-- 7장 · 탭 복귀 100ms 뒤 차트 빌드 87/2290ms — 반쯤 그려진 채로 보임(3203ms 뒤 2290ms)
+- 7장 · 탭 복귀 100ms 뒤 차트 빌드 96/2290ms — 반쯤 그려진 채로 보임(3194ms 뒤 2290ms)
 
 - 메모: 탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과
 
@@ -1970,21 +1929,12 @@
 
 ### A11Y-04
 
-실패 · 접근성·자동 검사 · automated · 구현 partial
+통과 · 접근성·자동 검사 · automated · 구현 partial
 
 > 34장 전부 axe-core critical·serious 위반이 없다  
 > 기준: critical·serious 0(color-contrast·svg-img-alt·image-alt·button-name 포함)
 
-실패 4건 · 장 6, 19
-
-- 6장 · color-contrast: 대비 3.79:1 < 4.5 — span.tag "2차 · 자체 보고" 20px 600 (픽셀 최악 5%)
-- 6장 · color-contrast: 대비 2.97:1 < 4.5 — span.tag "2차" 20px 600 (픽셀 최악 5%)
-- 6장 · color-contrast: 대비 2.88:1 < 4.5 — span.tag "직접" 20px 600 (픽셀 최악 5%)
-- 19장 · color-contrast: 대비 2.96:1 < 3 — span.unit "개월" 24px 600 (픽셀 최악 5%)
-
 - 메모: axe-core가 이 환경에 없어 critical·serious 규칙 중 image-alt·button-name·link-name·svg-img-alt·color-contrast·html-has-lang·document-title·duplicate-id만 직접 잼
-
-근거: [slide-06.jpg](../shots/pr2/slide-06.jpg) · [slide-19.jpg](../shots/pr2/slide-19.jpg)
 
 ### A11Y-05
 
@@ -2010,10 +1960,14 @@
 
 ### PERF-01
 
-통과 · 성능·로딩 · automated · 구현 partial
+실패 · 성능·로딩 · automated · 구현 partial
 
 > 느린 모바일 회선에서도 첫 화면이 빠르고 흔들리지 않는다  
 > 기준: LCP ≤2.5s, CLS ≤0.05, 첫 화면 전송량 ≤1.5MB
+
+실패 1건
+
+- LCP 2736ms(>2500)
 
 - 메모: Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public
 
@@ -2195,15 +2149,15 @@
 ## 외부 검사 원문
 
 - `python3 /home/user/product-design-system/13-tools-for-cloud/designing-decks-and-motion/scripts/constitution_audit.py src/tokens.css src/deck.css src/slides.css` → 종료 0
-  - constitution audit: 글자 크기 9 · 굵기 3 · 이징 2 · 위반 0
+  - constitution audit: 글자 크기 8 · 굵기 3 · 이징 2 · 위반 0
 - `python3 /home/user/product-design-system/13-tools-for-cloud/designing-decks-and-motion/scripts/constitution_audit.py src/tokens.css src/deck.css src/slides.css --max-sizes 9` → 종료 0
-  - constitution audit: 글자 크기 9 · 굵기 3 · 이징 2 · 위반 0
+  - constitution audit: 글자 크기 8 · 굵기 3 · 이징 2 · 위반 0
 - `bun /home/user/product-design-system/13-tools-for-cloud/designing-decks-and-motion/scripts/token-check.ts --tokens src/tokens.css src/deck.css src/slides.css index.html --strict` → 종료 0
-  - tokens: 38 colors, font sizes [16, 20, 24, 32, 40, 64, 88, 120, 144], radii [32, 24, 16, 8, 999, 0], spacing [48, 8, 16, 24, 32, 64, 96, 128] / off-token: 0
+  - tokens: 38 colors, font sizes [16, 20, 24, 32, 40, 64, 88, 144], radii [32, 24, 16, 8, 999, 0], spacing [48, 8, 16, 24, 32, 64, 96, 128] / off-token: 0
 - `bun scripts/check-numbers.ts` → 종료 0
   -  "unverified": [] / }
 - `bun scripts/render.ts index.html` → 종료 0
-  -    "n": 15, /    "excepte
+  -     "b. \"14\" 16px — 예외로 넘김(.foot *)", /     "span.t
 - `bun scripts/probe-nav.ts` → 종료 1
   -  "upOk": true / }
 - `node /home/user/product-design-system/13-tools-for-cloud/taste/lint.mjs index.html src --json` → 종료 1

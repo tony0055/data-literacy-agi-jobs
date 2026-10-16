@@ -68,26 +68,25 @@
 
 /* ── 2 전제: 세이지 면 위 두 줄 문장 + 사진 ── */
 .statement .k { font: var(--t-title) var(--font); letter-spacing: -0.01em; max-width: 22em; }
-/* 2장: 재귀를 그림으로 — 같은 틀이 안쪽으로 되풀이되는 드로스테 면(장식, 글자 없음) */
-.body.cols.statement { grid-template-rows: minmax(0, 1fr); align-content: stretch; }
-.statement > .k { align-self: end; }
-.statement .droste { align-self: end; width: 100%; height: auto; }
-.droste .d-a { fill: var(--paper); }
-.droste .d-b { fill: var(--sage-50); }
-.droste .d-core { fill: var(--accent); }
-/* 3장: 질문 줄을 크게 띄워 장 높이를 쓴다 */
-.q3 > * { padding: var(--g48) 0; }
-/* 12·21장: 두 수치를 대각으로 — 영웅 숫자는 위, 비교 수치는 아래 */
-.body.cols.diag { grid-template-rows: minmax(0, 1fr); align-content: stretch; }
-.diag > :first-child { align-self: start; }
-.diag > :last-child { align-self: end; }
-/* 20장: 식을 장 폭 한 줄 띠로 크게, 풀이와 회사 면은 그 아래 */
-.formula.big { font: var(--t-number) var(--font); letter-spacing: -0.01em; max-width: none; margin-bottom: var(--g48); }
-.body.cols.f20 { grid-template-rows: auto minmax(0, 1fr); align-content: stretch; }
-.f20 .col { align-self: stretch; }
-.f20 > .panel.hug { align-self: end; } /* 회사 면은 아래로 내려 식 띠와 대각을 이룬다(면 높이는 내용 그대로) */
-.f20 .defs { flex: 1 1 auto; }
-.f20 .defs li { flex: 1 1 0; font: var(--t-body) var(--font); padding: var(--g32) 0; } /* 풀이 세 줄이 본문 높이를 나눠 쓴다 */
+/* 2장: 재귀 고리 — 두 배 기간(188→129→105일)을 고리 지름으로(지름 ∝ 일수) */
+.body.cols.statement { align-content: start; }
+.statement .loop-cap { font: var(--t-small-strong) var(--font); color: var(--muted); }
+.statement .loops { width: 100%; height: auto; margin-top: var(--g16); overflow: visible; }
+.statement > .k { margin-top: var(--g32); }
+.loops .ring { fill: none; stroke: var(--ink); stroke-width: 3; }
+.loops .ring.on { stroke: var(--accent); stroke-width: 4; }
+.loops .ra { stroke: var(--line-strong); stroke-width: 2; }
+.loops .mk { fill: var(--ink); } .loops .mk-on { fill: var(--accent); } .loops .mk-ra { fill: var(--line-strong); }
+.loops .rn { font: var(--t-number) var(--font); fill: var(--ink); }
+.loops .rn.on { fill: var(--accent); }
+
+.loops .rl { font: var(--t-small) var(--font); fill: var(--muted); }
+/* 3장: 질문 세 줄을 한 색 면에 */
+.q3.panel { justify-content: flex-start; }
+.q3.panel > * { padding: var(--g24) 0; }
+.q3.panel > :first-child { padding-top: 0; }
+.q3.panel > :first-child::after { display: none; }
+.q3.panel > *::after { background: var(--on-sage-note); }
 .premise { align-items: end; }
 .premise .photo { height: 512px; align-self: end; }
 .premise .k { align-self: end; }
@@ -163,7 +162,7 @@
 .bleed .foot { color: var(--photo-body); }
 .bleed .num { color: var(--paper); }
 .bleed .num.hero { color: var(--sage); }
-.kpis { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; }
+.kpis { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: start; }
 .kpis > .lead-kpi { grid-column: span 6; }
 .kpis > .side-kpi { grid-column: span 3; }
 .relation { position: relative; margin-top: var(--g48); padding-top: var(--g16); font: var(--t-body-strong) var(--font); }
@@ -209,20 +208,21 @@
 .board > .band { left: calc(var(--g48) * -1); z-index: -1; } /* 띠를 포스터 안에 둬 글줄 등장 순서에서 뺀다(MOT-02) */
 .board .poster { flex: 1 1 auto; }
 .board .poster .it { flex: 1 1 0; }
-.board .poster .f .s { font: var(--t-body) var(--font); }
+.board .poster .f .s { font: var(--t-large) var(--font); }
+.board .poster .w { font: var(--t-number) var(--font); }
 
 /* ── 29 시간축(검정 장): 연도 열 + 설명 열, 네 줄이 본문 높이를 나눈다 ── */
 .timeline { display: flex; flex-direction: column; height: 100%; }
 .phase { flex: 1 1 0; position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; padding-top: var(--g16); }
-.phase::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line-dark); }
-.phase .yr { grid-column: span 3; font: var(--t-number) var(--font); color: var(--sage); white-space: nowrap; }
+.phase::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line-strong); }
+.phase .yr { grid-column: span 3; font: var(--t-number) var(--font); color: var(--ink); white-space: nowrap; }
 .phase .ph { grid-column: span 9; }
-.phase h3 { color: var(--paper); }
-.phase p:not(.yr) { color: var(--photo-body); max-width: 36em; }
+.phase h3 { color: var(--ink); }
+.phase p:not(.yr) { font: var(--t-large) var(--font); color: var(--ink); max-width: 36em; }
 
 /* ── 30 반대 증거: 같은 폭 두 근거 열 ── */
 .vs { height: 100%; }
-.vs td { font: var(--t-body) var(--font); font-variant-numeric: tabular-nums; }
+.vs td { font: var(--t-large) var(--font); font-variant-numeric: tabular-nums; }
 .vs td:first-child { font: var(--t-title) var(--font); }
 .vs th { font: var(--t-body-strong) var(--font); }
 
@@ -234,7 +234,7 @@
 .q1 h3 + p { margin-top: 0; }
 .q1 p { font: var(--t-body) var(--font); }
 .sched { margin-top: var(--g48); }
-.plan.big td { font: var(--t-body) var(--font); font-variant-numeric: tabular-nums; }
+.plan.big td { font: var(--t-large) var(--font); font-variant-numeric: tabular-nums; }
 .sched.panel { width: calc(776px + var(--g96)); margin: var(--g96) 0 0 calc(var(--g48) * -1); justify-content: flex-start; gap: var(--g8); }
 .next { margin-top: var(--g32); }
 .next h3 { font: var(--t-lead) var(--font); }
@@ -353,3 +353,92 @@
 body.final .t-stagger-line, body.overview .t-stagger-line { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
 body.final .t-digit, body.overview .t-digit { animation: none !important; }
 body.final .cover .object img { transition: none; }
+
+/* ── 2회차: 카드 없는 장의 틀 ── */
+/* 표 라벨 열: 표 안의 첫 열을 칠한다(그릇이 아니라 표의 한 열). 표를 왼쪽으로 64 넓혀 글은 12열 시작점에 둔다 */
+.plan.labcol { margin-left: calc(var(--g64) * -1); width: calc(100% + var(--g64)); }
+.labcol th:first-child, .labcol td:first-child { padding-left: var(--g64); background: var(--lab-bg, var(--paper)); }
+.labcol th.w4:first-child { width: 36.859%; }
+.labcol th.w4:nth-child(2) { width: 33.0128%; }
+.white .labcol, .paper .labcol { --lab-bg: var(--sage-50); }
+.mist .labcol { --lab-bg: var(--paper); }
+/* 31장 질문: 표 머리 위의 한 줄 진술(표의 행처럼 보이지 않게 열에 맞추지 않는다) */
+.q1 { display: block; margin-bottom: var(--g48); }
+.q1 .lg { font: var(--t-title) var(--font); letter-spacing: -0.01em; max-width: none; }
+.q1 h3 + p { margin-top: var(--g8); }
+/* 34장 직접 재계산 자료 */
+.tone-table tr.hi td { background: var(--sage-50); }
+.tone-table tr.hi td:first-child b { color: var(--ink); }
+.tone-table caption { caption-side: bottom; text-align: left; padding-top: var(--g16); font: var(--t-small) var(--font); color: var(--muted); }
+
+
+/* ── 장 바탕 나누기: 그릇이 아니라 장 가장자리까지 닿는 두 번째 바탕(::after, 둥근 모서리·그림자 없음) ── */
+.slide.sp::after { content: ""; position: absolute; z-index: 0; pointer-events: none; background: var(--sp-bg, var(--paper)); }
+.slide.sp > .head, .slide.sp > .body, .slide.sp > .sowe, .slide.sp > .foot, .slide.sp > .next, .slide.sp > .links, .slide.sp > .cover-grid { position: relative; z-index: 1; }
+.sp-paper { --sp-bg: var(--paper); } .sp-mist { --sp-bg: var(--sage-50); } .sp-sage { --sp-bg: var(--sage); } .sp-stone { --sp-bg: var(--stone-100); }
+/* 오른쪽 세로 나눔(장 위에서 아래까지): 9열 시작 − 64 / 8열 시작 − 64 */
+.sp-r4::after { top: 0; bottom: 0; right: 0; left: calc(1258.667px - var(--g64)); }
+.sp-r5::after { top: 0; bottom: 0; right: 0; left: calc(1121.333px - var(--g64)); }
+/* 머리 띠: 헤드라인 아래 32까지 */
+.sp-head1::after { top: 0; left: 0; right: 0; height: calc(var(--mt) + 72px + var(--g32)); }
+.sp-head2::after { top: 0; left: 0; right: 0; height: calc(var(--mt) + 144px + var(--g32)); }
+/* 아래 면: 머리 아래부터 장 끝까지 */
+.sp-low::after { left: 0; right: 0; bottom: 0; top: calc(var(--mt) + 144px + var(--g48)); }
+/* 옆 시트: 머리 아래(본문 시작 − 32)부터 장 아래 끝까지, 장 오른쪽/왼쪽 끝에 닿는다 */
+.hd1 { --sp-top: calc(var(--mt) + 72px + var(--g32)); } .hd2 { --sp-top: calc(var(--mt) + 144px + var(--g32)); }
+.sp-rsheet4::after { top: var(--sp-top); bottom: 0; right: 0; left: calc(1258.667px - var(--g64)); }
+.sp-rsheet5::after { top: var(--sp-top); bottom: 0; right: 0; left: calc(1121.333px - var(--g64)); }
+.sp-lsheet4::after { top: var(--sp-top); bottom: 0; left: 0; width: calc(661.333px + var(--g24)); }
+/* 시트·나눔 경계를 글줄이 넘지 않게: 꼬리말 출처와 결론 줄 폭을 경계 앞에서 끊는다 */
+.sp-r4 .foot .source, .sp-rsheet4 .foot .source, .sp-rsheet4 .sowe { max-width: calc(1258.667px - var(--g64) - var(--mx) - var(--g48)); }
+.sp-r5 .foot .source, .sp-rsheet5 .foot .source { max-width: calc(1121.333px - var(--g64) - var(--mx) - var(--g48)); }
+.sp-lsheet4 .foot .source { max-width: calc(661.333px - var(--mx)); }
+.side { display: flex; flex-direction: column; }
+/* 6장: 오른쪽 사진(9열부터 장 끝, 꼬리말 위까지) */
+.photo.side-bleed { position: absolute; z-index: 1; top: 0; right: 0; left: calc(1258.667px - var(--g24)); bottom: calc(var(--mb) + var(--g48) + var(--g8)); }
+.photo.side-bleed img { width: 100%; height: 100%; object-fit: cover; }
+
+/* 글이 적은 장: 본문을 32 보통 굵기로 키워 장 높이를 쓴다(크기 단계는 장당 5개 이하로) */
+.big-text .body :is(p, li):not(.chart-src):not(.chart-sub):not(.chart-title):not(.loop-cap) { font: var(--t-large) var(--font); }
+.big-text .body h3.sm, .big-text .body .side h3 { font: var(--t-title) var(--font); letter-spacing: -0.01em; }
+.big-text .num .unit { font: var(--t-title) var(--font); }
+.big-text .sowe span { font: var(--t-large) var(--font); }
+/* 아래 띠: 결론 줄·꼬리말이 놓이는 아래쪽을 장 끝까지 */
+.sp-bot::after { left: 0; right: 0; bottom: 0; top: var(--sp-y); }
+.y776 { --sp-y: 776px; } .y864 { --sp-y: 864px; } .y896 { --sp-y: 896px; }
+/* 32장 일정: 주 단위 막대(9~15주) */
+.gantt { display: block; width: 100%; height: auto; margin-top: var(--g16); }
+.gantt .gb.a { fill: var(--sage); } .gantt .gb.b { fill: var(--paper); } .gantt .gb.on { fill: var(--ink); }
+.gantt .gw { font: var(--t-small-strong) var(--font); fill: var(--muted); }
+.gantt .gl { font: var(--t-body) var(--font); fill: var(--ink); }
+.s33 .next li { font: var(--t-large) var(--font); }
+.big-text .sowe b { font: var(--t-title) var(--font); }
+.loops .ru { font: var(--t-small-strong) var(--font); }
+.s33 .panel .k { font: var(--t-large) var(--font); }
+.q1 .lg { font: var(--t-number) var(--font); letter-spacing: -0.01em; }
+.big-text .body .q1 .lg { font: var(--t-number) var(--font); letter-spacing: -0.01em; }
+.big-text .vs td:first-child { font: var(--t-number) var(--font); font-variant-numeric: tabular-nums; }
+.panel.tbl { justify-content: flex-start; }
+.big-text .body .q1 p.lg:not(.chart-src):not(.chart-sub):not(.chart-title):not(.loop-cap) { font: var(--t-number) var(--font); letter-spacing: -0.01em; }
+.big-text .gates td { font: var(--t-large) var(--font); font-variant-numeric: tabular-nums; }
+.big-text .gates td.yr span { white-space: nowrap; }
+/* 2장: 정의 문장과 고리 설명은 본문 24로(헤드라인과 크기 위계 2.67배) */
+.statement > .k { font: var(--t-body-strong) var(--font); letter-spacing: 0; max-width: 40em; }
+.statement .loop-cap { font: var(--t-body) var(--font); }
+.s28 .poster .it { padding: var(--g8) 0; }
+.phase p:not(.yr) { max-width: 34em; }
+.phase { padding-top: 0; }
+.phase .ph h3 + p { margin-top: 0; }
+.s34 .tone-table caption { padding-top: var(--g8); }
+.s34 .links { margin-top: var(--g24); }
+.chart-src { text-wrap: balance; }
+.big-text .plan th { font: var(--t-body-strong) var(--font); }
+.s34 .tone-table td + td { font: var(--t-body) var(--font); font-variant-numeric: tabular-nums; }
+.big-text .body .q1 p.lg:not(.chart-src):not(.chart-sub):not(.chart-title):not(.loop-cap) { max-width: 22em; }
+.big-text .sched { margin-top: var(--g32); }
+.q1 { flex: none; }
+.s31 .plan td { padding-top: var(--g8); padding-bottom: var(--g8); }
+.s31 .q1 { margin-bottom: var(--g24); }
+
+.poster .f .s { text-wrap: pretty; }
+.s28 .poster .f .eta { font: var(--t-title) var(--font); }
