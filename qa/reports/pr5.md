@@ -1,4 +1,4 @@
-구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 72(그중 자동만 통과·수동 확인 남음 13) · 실패 70 · 수동 5 · 오류 0 · 회귀 3(기준 pr2)
+구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 71(그중 자동만 통과·수동 확인 남음 12) · 실패 71 · 수동 5 · 오류 0 · 회귀 4(기준 pr2)
 
 # 시각 QA 보고서 — pr5
 
@@ -15,16 +15,17 @@
 
 ## 실행
 
-- 실행: 2026-10-16T20:17:22.356Z · 커밋 ccea9cd · 덱 해시 fc567484b71c · 482초
+- 실행: 2026-10-16T21:31:15.689Z · 커밋 52849b7 (덱 파일 미커밋 변경 있음) · 덱 해시 f795157a9efa · 536초
 - 명령: `cd presentation && bun scripts/visual-qa.ts --label pr5 --compare=pr2` · 파이썬 `python3`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
 - 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift, 이번 실행에선 못 씀)으로 IMG-02·RSP-02를 판정
 
 ## 기준(pr2) 대비
 
-회귀 3건 — 기준보다 나빠진 조건:
+회귀 4건 — 기준보다 나빠진 조건:
+- **TYP-07** 통과 → 실패 · 항목 0 → 2 · 새로 실패한 장 30
+- **TXT-05** 통과 → 실패 · 항목 0 → 1 · 새로 실패한 장 30
 - **EVD-01** 실패 → 실패 · 항목 1 → 12 · 새로 실패한 장 1, 6, 7, 8, 11, 15, 16, 18, 20, 21
-- **NAV-04** 통과 → 실패 · 항목 0 → 1
 - **STD-04** 통과 → 실패 · 항목 0 → 28
 
 새로 통과: TXT-01, TXT-02, TXT-04, TXT-06, CHT-09, CHT-10, EVD-03, EVD-04, EVD-05
@@ -70,13 +71,13 @@
 | [GRAD-01](#grad-01) | automated | 자동 | 통과 |  |  |
 | [GRAD-02](#grad-02) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [GRAD-03](#grad-03) | automated | 자동 | 통과 |  |  |
-| [TYP-01](#typ-01) | automated | 자동 | 실패 | 덱 전체 | 다른 글꼴로 렌더: Deck Sans Subset (33440 글리프) |
+| [TYP-01](#typ-01) | automated | 자동 | 실패 | 덱 전체 | 다른 글꼴로 렌더: Deck Sans Subset (33478 글리프) |
 | [TYP-02](#typ-02) | automated | 자동 | 실패 | 덱 전체 | charts.js:87 font-size 15 하드코딩(프리셋 밖) |
 | [TYP-03](#typ-03) | automated | 자동 | 통과 |  |  |
 | [TYP-04](#typ-04) | automated | 자동 | 통과 |  |  |
 | [TYP-05](#typ-05) | automated | 자동 | 통과 |  |  |
 | [TYP-06](#typ-06) | automated | 자동 | 통과 |  |  |
-| [TYP-07](#typ-07) | automated | 자동 | 통과 |  |  |
+| [TYP-07](#typ-07) | automated | 자동 | 실패 ⚠회귀 | 30 | 고아 줄 '업종(한국은행)'(8자): p.ai "한국 청년 일자리 감소의 94%가 AI 노출 업종(" |
 | [TYP-08](#typ-08) | automated | 자동 | 통과 |  |  |
 | [TYP-09](#typ-09) | automated | 자동 | 실패 | 20, 25, 28, 29, 30, 31, 32 | 최대/본문 2(<2.4): 64/32 |
 | [TYP-10](#typ-10) | automated | 자동 | 통과 |  |  |
@@ -88,7 +89,7 @@
 | [TXT-02](#txt-02) | automated | 자동 | 통과 |  |  |
 | [TXT-03](#txt-03) | both | 자동+수동 | 실패 | 12 | 금지 표현: the future of |
 | [TXT-04](#txt-04) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
-| [TXT-05](#txt-05) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
+| [TXT-05](#txt-05) | both | 자동+수동 | 실패 ⚠회귀 | 30 | 같은 숫자 3회 이상: 2×3 |
 | [TXT-06](#txt-06) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [TXT-07](#txt-07) | automated | 자동 | 통과 |  |  |
 | [TXT-08](#txt-08) | automated | 부분 | 실패 | 13, 14, 28 | 물결 범위(en dash 아님) 1개: 0~1 |
@@ -124,7 +125,7 @@
 | [NAV-01](#nav-01) | automated | 자동 | 실패 | 덱 전체 | 왼쪽으로 80px(Δy 10): 장 5→5 (Δ0, 기대 +1) |
 | [NAV-02](#nav-02) | automated | 자동 | 실패 | 덱 전체 | 390x844 터치: 이전·다음 버튼 없음(다음 0, 이전 0) |
 | [NAV-03](#nav-03) | automated | 자동 | 통과 |  |  |
-| [NAV-04](#nav-04) | automated | 자동 | 실패 ⚠회귀 | 덱 전체 | 입력→다음 장 보임 중앙값 101ms(>100, 5회 616/101/57/40) |
+| [NAV-04](#nav-04) | automated | 자동 | 통과 |  |  |
 | [NAV-05](#nav-05) | automated | 자동 | 실패 | 덱 전체 | 390x844 터치: 이전·다음 버튼이 없어 비활성 모양을 확인할 수 없음 |
 | [NAV-06](#nav-06) | automated | 자동 | 실패 | 덱 전체 | #1에서 location.hash='#12' 후 장 1(hashchange 처리 없음) |
 | [NAV-07](#nav-07) | automated | 자동 | 실패 | 덱 전체 | history.back() 후 about:blank(기대 3장) |
@@ -158,14 +159,14 @@
 | [MOT-08](#mot-08) | both | 자동+수동 | 실패 | 4, 8, 12, 18, 19, 21, 23 | 숫자 팝인 3개(>1) |
 | [MOT-09](#mot-09) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 모션 목록 절 없음 |
 | [MOT-10](#mot-10) | automated | 자동 | 통과 |  |  |
-| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 90/2290ms — 반쯤 그려진 채로 보임(3200ms 뒤 2290ms) |
+| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 86/2290ms — 반쯤 그려진 채로 보임(3188ms 뒤 2290ms) |
 | [A11Y-01](#a11y-01) | automated | 자동 | 실패 | 덱 전체 | 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33 |
 | [A11Y-02](#a11y-02) | automated | 자동 | 실패 | 덱 전체 | aria-live=polite 영역 없음 |
 | [A11Y-03](#a11y-03) | automated | 자동 | 실패 | 4, 8, 11, 12, 13, 14, 15, 16, 18, 19, 21, 26 | 쪼갠 숫자 "105" aria-label 없음 |
 | [A11Y-04](#a11y-04) | automated | 부분 | 통과 |  |  |
 | [A11Y-05](#a11y-05) | automated | 자동 | 실패 | 덱 전체 | JS 끔: 빈 차트 9(metr_horizon, agi_forecast_shift, espai_two_clocks, occ_scatter, occ_quintile, kr_occupation_index, proj_ca |
 | [A11Y-06](#a11y-06) | automated | 자동 | 통과 |  |  |
-| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 3104ms(>2500) |
+| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 3180ms(>2500) |
 | [PERF-02](#perf-02) | automated | 자동 | 통과 |  |  |
 | [PERF-03](#perf-03) | automated | 자동 | 통과 |  |  |
 | [PERF-04](#perf-04) | automated | 자동 | 통과 |  |  |
@@ -551,7 +552,7 @@
 
 실패 1건
 
-- 다른 글꼴로 렌더: Deck Sans Subset (33440 글리프)
+- 다른 글꼴로 렌더: Deck Sans Subset (33478 글리프)
 
 - 메모: 공개 URL의 글꼴 확인은 --public=URL로 돌린다
 
@@ -598,10 +599,17 @@
 
 ### TYP-07
 
-통과 · 타이포·줄바꿈 · automated · 구현 auto
+실패 · 타이포·줄바꿈 · automated · 구현 auto · **회귀**
 
 > 한글은 keep-all이고 마지막 줄에 한두 글자만 남는 고아 줄이 없다  
 > 기준: 줄 수 ≥2인 요소 중 마지막 줄 ≤2글자 또는 1어절 0, keep-all 아닌 한글 요소 0
+
+실패 2건 · 장 30
+
+- 30장 · 고아 줄 '업종(한국은행)'(8자): p.ai "한국 청년 일자리 감소의 94%가 AI 노출 업종("
+- 30장 · 고아 줄 '빠름(Yale)'(8자): p.ot "직업 구성 변화가 인터넷 보급기보다 약 1%p 빠름"
+
+근거: [slide-30.jpg](../shots/pr5/slide-30.jpg)
 
 ### TYP-08
 
@@ -673,7 +681,7 @@
 실패 2건
 
 - 글꼴 preload 없음
-- Slow 4G 근사에서 글꼴 적용(h1 표시) 9568ms(>1500ms, 최악 3초 초과)
+- Slow 4G 근사에서 글꼴 적용(h1 표시) 9704ms(>1500ms, 최악 3초 초과)
 
 - 메모: CDP 네트워크 제한(150ms RTT·1.6Mbps)·CPU 4배로 근사. 실제 회선·기기 아님
 
@@ -719,10 +727,16 @@
 
 ### TXT-05
 
-통과(자동)·수동 남음 · 문장·중복 · both · 구현 auto+manual
+실패 · 문장·중복 · both · 구현 auto+manual · **회귀**
 
 > 한 장에서 제목·본문·결론이 같은 말을 되풀이하지 않고, 같은 숫자는 2회 이하, 연속 장 헤드라인도 겹치지 않는다  
 > 기준: 유사도 ≥0.5 쌍 0, 같은 숫자 >2회 0, 메시지 2개 이상 장 0
+
+실패 1건 · 장 30
+
+- 30장 · 같은 숫자 3회 이상: 2×3
+
+근거: [slide-30.jpg](../shots/pr5/slide-30.jpg)
 
 수동 확인 절차: 장 내 블록 쌍과 연속 장 헤드라인의 2-gram 자카드, 장별 숫자 토큰 빈도를 계산한 뒤 장마다 '메시지 한 문장'을 적는다
 볼 것: [contact-1.jpg](../shots/pr5/contact-1.jpg) · [contact-2.jpg](../shots/pr5/contact-2.jpg)
@@ -778,10 +792,10 @@
 실패 7건 · 장 23, 25, 28, 29, 30, 31, 34
 
 - 23장 · 본문 225자(>220)
-- 25장 · 본문 330자(>220)
+- 25장 · 본문 331자(>220)
 - 28장 · 본문 271자(>220)
 - 29장 · 본문 310자(>220)
-- 30장 · 본문 318자(>220)
+- 30장 · 본문 295자(>220)
 - 31장 · 본문 293자(>220)
 - 34장 · 본문 485자(>220)
 
@@ -1220,14 +1234,10 @@
 
 ### NAV-04
 
-실패 · 내비게이션·반응 · automated · 구현 auto · **회귀**
+통과 · 내비게이션·반응 · automated · 구현 auto
 
 > 입력 즉시 전환이 시작되고 연타해도 입력을 잃지 않으며 상태가 꼬이지 않는다  
 > 기준: current=10이고 current 장 1개, 입력→visible ≤100ms, is-hiding 잔존 0, opacity 1 아닌 줄 0, jsErrors 0
-
-실패 1건
-
-- 입력→다음 장 보임 중앙값 101ms(>100, 5회 616/101/57/40)
 
 - 메모: 글줄 불투명 확인은 마지막 입력 1.5초 뒤(글줄 등장 ≤1000ms 허용)
 
@@ -1638,7 +1648,7 @@
 - 17장 · 차트 빌드 2570ms(>1500)
 - 24장 · 차트 빌드 1830ms(>1500)
 - 26장 · 차트 빌드 3220ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 258/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 0/2290ms)
 
 근거: [slide-07.jpg](../shots/pr5/slide-07.jpg) · [slide-10.jpg](../shots/pr5/slide-10.jpg) · [slide-11.jpg](../shots/pr5/slide-11.jpg) · [slide-13.jpg](../shots/pr5/slide-13.jpg) · [slide-17.jpg](../shots/pr5/slide-17.jpg) · [slide-24.jpg](../shots/pr5/slide-24.jpg)
 
@@ -1764,7 +1774,7 @@
 
 실패 1건 · 장 7
 
-- 7장 · 탭 복귀 100ms 뒤 차트 빌드 90/2290ms — 반쯤 그려진 채로 보임(3200ms 뒤 2290ms)
+- 7장 · 탭 복귀 100ms 뒤 차트 빌드 86/2290ms — 반쯤 그려진 채로 보임(3188ms 뒤 2290ms)
 
 - 메모: 탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과
 
@@ -1871,7 +1881,7 @@
 
 실패 1건
 
-- LCP 3104ms(>2500)
+- LCP 3180ms(>2500)
 
 - 메모: Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public
 
@@ -2094,4 +2104,4 @@
 - `bun scripts/probe-nav.ts` → 종료 1
   -  "upOk": true / }
 - `node /home/user/product-design-system/13-tools-for-cloud/taste/lint.mjs index.html src --json` → 종료 1
-  -    "match": "box-shadow:", /    "message": "Shadow. Elements at rest carry none; only real overlays (
+  -    "match": "linear-gradient(", /    "message": "Gradient fill. Use a fla

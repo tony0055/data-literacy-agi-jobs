@@ -1,22 +1,22 @@
 {
  "label": "pr5",
- "date": "2026-10-16T20:17:22.356Z",
- "commit": "ccea9cd",
- "deckDirty": false,
- "deckSha": "fc567484b71c",
- "seconds": 482,
+ "date": "2026-10-16T21:31:15.689Z",
+ "commit": "52849b7",
+ "deckDirty": true,
+ "deckSha": "f795157a9efa",
+ "seconds": 536,
  "summary": {
   "total": 147,
   "checked": 147,
   "implemented": 142,
   "implementedAuto": 141,
   "autoTotal": 142,
-  "pass": 72,
-  "fail": 70,
+  "pass": 71,
+  "fail": 71,
   "manual": 5,
   "error": 0,
-  "pendingManual": 13,
-  "regressions": 3
+  "pendingManual": 12,
+  "regressions": 4
  },
  "compare": "pr2",
  "tools": {
@@ -70,7 +70,7 @@
   "lint": {
    "cmd": "node /home/user/product-design-system/13-tools-for-cloud/taste/lint.mjs index.html src --json",
    "code": 1,
-   "out": "{\n \"files\": 8,\n \"findings\": [\n  {\n   \"level\": \"WARN\",\n   \"id\": \"copy\",\n   \"file\": \"index.html\",\n   \"line\": 223,\n   \"match\": \"the future of\",\n   \"message\": \"Stock marketing phrase. Say the specific thing the product does.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/deck.css\",\n   \"line\": 56,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/deck.css\",\n   \"line\": 72,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 113,\n   \"match\": \".kicker,\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"WARN\",\n   \"id\": \"outlined-box\",\n   \"file\": \"src/deck.css\",\n   \"line\": 113,\n   \"match\": \"border: 1px solid\",\n   \"message\": \"A 1px outlined box. Prefer a filled surface or no box.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 122,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 123,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 163,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 179,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"src/fit.js\",\n   \"line\": 15,\n   \"match\": \".kicker,\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 41,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"gradient\",\n   \"file\": \"src/slides.css\",\n   \"line\": 155,\n   \"match\": \"linear-gradient(\",\n   \"message\": \"Gradient fill. Use a flat colour or a real image (a neutral scrim over a photo is the one exception).\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 169,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 201,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 217,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 452,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 476,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 527,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (",
+   "out": "{\n \"files\": 8,\n \"findings\": [\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/deck.css\",\n   \"line\": 56,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/deck.css\",\n   \"line\": 72,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 113,\n   \"match\": \".kicker,\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"WARN\",\n   \"id\": \"outlined-box\",\n   \"file\": \"src/deck.css\",\n   \"line\": 113,\n   \"match\": \"border: 1px solid\",\n   \"message\": \"A 1px outlined box. Prefer a filled surface or no box.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 122,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 123,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 163,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/deck.css\",\n   \"line\": 179,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"eyebrow\",\n   \"file\": \"src/fit.js\",\n   \"line\": 15,\n   \"match\": \".kicker,\",\n   \"message\": \"Eyebrow / kicker label above a heading.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 41,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"gradient\",\n   \"file\": \"src/slides.css\",\n   \"line\": 155,\n   \"match\": \"linear-gradient(\",\n   \"message\": \"Gradient fill. Use a flat colour or a real image (a neutral scrim over a photo is the one exception).\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 169,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 201,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 217,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 452,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"hairline\",\n   \"file\": \"src/slides.css\",\n   \"line\": 476,\n   \"match\": \"height: 1px\",\n   \"message\": \"Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"shadow\",\n   \"file\": \"src/slides.css\",\n   \"line\": 527,\n   \"match\": \"box-shadow:\",\n   \"message\": \"Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.\"\n  },\n  {\n   \"level\": \"FAIL\",\n   \"id\": \"gradient\",\n   \"file\": \"src/tokens.css\",\n   \"line\": 66,\n   \"match\": \"linear-gradient(\",\n   \"message\": \"Gradient fill. Use a fla",
    "err": ""
   }
  },
@@ -248,9 +248,9 @@
    "measured": {
     "occupancy": {
      "1": 0.48,
-     "2": 0.71,
+     "2": 0.72,
      "3": 0.46,
-     "4": 0.47,
+     "4": 0.51,
      "5": 0.73,
      "6": 0.56,
      "7": 0.7,
@@ -258,7 +258,7 @@
      "9": 0.43,
      "10": 0.62,
      "11": 0.52,
-     "12": 0.54,
+     "12": 0.56,
      "13": 0.58,
      "14": 0.42,
      "15": 0.57,
@@ -276,7 +276,7 @@
      "27": 0.41,
      "28": 0.38,
      "29": 0.42,
-     "30": 0.37,
+     "30": 0.35,
      "31": 0.36,
      "32": 0.44,
      "33": 0.38,
@@ -946,13 +946,13 @@
    "summary": "모든 글자가 로컬 Pretendard Variable 하나로 실제 렌더되고 모노스페이스는 없다",
    "items": [
     {
-     "msg": "다른 글꼴로 렌더: Deck Sans Subset (33440 글리프)"
+     "msg": "다른 글꼴로 렌더: Deck Sans Subset (33478 글리프)"
     }
    ],
    "failedSlides": [],
    "measured": {
     "families": {
-     "Deck Sans Subset": 33440,
+     "Deck Sans Subset": 33478,
      "Pretendard Variable": 26
     },
     "nodes": 1285,
@@ -1069,11 +1069,32 @@
    "area": "타이포·줄바꿈",
    "method": "automated",
    "implemented": "auto",
-   "status": "pass",
+   "status": "fail",
    "summary": "한글은 keep-all이고 마지막 줄에 한두 글자만 남는 고아 줄이 없다",
-   "items": [],
-   "failedSlides": [],
-   "evidence": []
+   "items": [
+    {
+     "n": 30,
+     "msg": "고아 줄 '업종(한국은행)'(8자): p.ai \"한국 청년 일자리 감소의 94%가 AI 노출 업종(\""
+    },
+    {
+     "n": 30,
+     "msg": "고아 줄 '빠름(Yale)'(8자): p.ot \"직업 구성 변화가 인터넷 보급기보다 약 1%p 빠름\""
+    }
+   ],
+   "failedSlides": [
+    30
+   ],
+   "evidence": [
+    "shots/pr5/slide-30.jpg"
+   ],
+   "regression": {
+    "prevStatus": "pass",
+    "prevItems": 0,
+    "nowItems": 2,
+    "newSlides": [
+     30
+    ]
+   }
   },
   {
    "id": "TYP-08",
@@ -1206,13 +1227,13 @@
      "msg": "글꼴 preload 없음"
     },
     {
-     "msg": "Slow 4G 근사에서 글꼴 적용(h1 표시) 9568ms(>1500ms, 최악 3초 초과)"
+     "msg": "Slow 4G 근사에서 글꼴 적용(h1 표시) 9704ms(>1500ms, 최악 3초 초과)"
     }
    ],
    "failedSlides": [],
    "measured": {
-    "fontAt": 9568,
-    "fcp": 3104
+    "fontAt": 9704,
+    "fcp": 3180
    },
    "notes": [
     "CDP 네트워크 제한(150ms RTT·1.6Mbps)·CPU 4배로 근사. 실제 회선·기기 아님"
@@ -1242,7 +1263,7 @@
    "failedSlides": [],
    "measured": {
     "formal": 40,
-    "noun": 203
+    "noun": 202
    },
    "evidence": [],
    "fixed": true
@@ -1264,7 +1285,7 @@
     12
    ],
    "measured": {
-    "lintCopy": 1
+    "lintCopy": 0
    },
    "evidence": [
     "shots/pr5/slide-12.jpg"
@@ -1318,17 +1339,33 @@
    "area": "문장·중복",
    "method": "both",
    "implemented": "auto+manual",
-   "status": "pass",
+   "status": "fail",
    "summary": "한 장에서 제목·본문·결론이 같은 말을 되풀이하지 않고, 같은 숫자는 2회 이하, 연속 장 헤드라인도 겹치지 않는다",
-   "items": [],
-   "failedSlides": [],
-   "pendingManual": true,
-   "evidence": [],
+   "items": [
+    {
+     "n": 30,
+     "msg": "같은 숫자 3회 이상: 2×3"
+    }
+   ],
+   "failedSlides": [
+    30
+   ],
+   "evidence": [
+    "shots/pr5/slide-30.jpg"
+   ],
    "manual": {
     "procedure": "장 내 블록 쌍과 연속 장 헤드라인의 2-gram 자카드, 장별 숫자 토큰 빈도를 계산한 뒤 장마다 '메시지 한 문장'을 적는다",
     "bundle": [
      "shots/pr5/contact-1.jpg",
      "shots/pr5/contact-2.jpg"
+    ]
+   },
+   "regression": {
+    "prevStatus": "pass",
+    "prevItems": 0,
+    "nowItems": 1,
+    "newSlides": [
+     30
     ]
    }
   },
@@ -1423,7 +1460,7 @@
     },
     {
      "n": 25,
-     "msg": "본문 330자(>220)"
+     "msg": "본문 331자(>220)"
     },
     {
      "n": 28,
@@ -1435,7 +1472,7 @@
     },
     {
      "n": 30,
-     "msg": "본문 318자(>220)"
+     "msg": "본문 295자(>220)"
     },
     {
      "n": 31,
@@ -1457,7 +1494,7 @@
    ],
    "measured": {
     "p90": 35,
-    "sentences": 292
+    "sentences": 291
    },
    "evidence": [
     "shots/pr5/slide-23.jpg",
@@ -2644,6 +2681,7 @@
       "2019",
       "2023",
       "2024",
+      "2024",
       "2026",
       "34"
      ],
@@ -3312,10 +3350,8 @@
       "4.1",
       "4.1",
       "415",
-      "415",
       "5",
       "9",
-      "945",
       "945"
      ],
      "22": [
@@ -3640,6 +3676,10 @@
       "19",
       "19",
       "2",
+      "2",
+      "2",
+      "2022",
+      "2025",
       "2025",
       "2025",
       "2025",
@@ -4056,21 +4096,17 @@
    "area": "내비게이션·반응",
    "method": "automated",
    "implemented": "auto",
-   "status": "fail",
+   "status": "pass",
    "summary": "입력 즉시 전환이 시작되고 연타해도 입력을 잃지 않으며 상태가 꼬이지 않는다",
-   "items": [
-    {
-     "msg": "입력→다음 장 보임 중앙값 101ms(>100, 5회 616/101/57/40)"
-    }
-   ],
+   "items": [],
    "failedSlides": [],
    "measured": {
-    "firstVisibleMs": 101,
+    "firstVisibleMs": 61.80000000447035,
     "visibleSamples": [
-     616.4000000022352,
-     101,
-     56.599999997764826,
-     39.600000001490116
+     24.600000001490116,
+     158.30000000447035,
+     55.69999999552965,
+     61.80000000447035
     ],
     "afterTen": {
      "cur": 10,
@@ -4088,13 +4124,7 @@
    "notes": [
     "글줄 불투명 확인은 마지막 입력 1.5초 뒤(글줄 등장 ≤1000ms 허용)"
    ],
-   "evidence": [],
-   "regression": {
-    "prevStatus": "pass",
-    "prevItems": 0,
-    "nowItems": 1,
-    "newSlides": []
-   }
+   "evidence": []
   },
   {
    "id": "NAV-05",
@@ -5113,7 +5143,7 @@
     },
     {
      "n": 30,
-     "msg": "844x390: button.replay-btn ↔ p.ot \"Klarna는 AI 상담 뒤 품질 문제로 상담원을 \" 528px² 외 1"
+     "msg": "844x390: button.replay-btn ↔ span.pg \"30 / 34\" 182px²"
     },
     {
      "n": 31,
@@ -5533,7 +5563,7 @@
     },
     {
      "n": 30,
-     "msg": "1280×720 최소 실효 글자 10.67px(<12): span.source \"출처: 한국은행 2026-19 · NY Fed 20\""
+     "msg": "1280×720 최소 실효 글자 10.67px(<12): span.source \"출처: 한국은행 2026-19 · 미국 BLS OE\""
     },
     {
      "n": 31,
@@ -5682,9 +5712,9 @@
       "blurIn": 3
      },
      {
-      "incoming": 5.74885,
-      "outgoing": -2.25116,
-      "blurIn": 2.15582
+      "incoming": 3.93884,
+      "outgoing": -4.06116,
+      "blurIn": 1.47706
      }
     ],
     "bwd": [
@@ -5694,19 +5724,19 @@
       "blurIn": 3
      },
      {
-      "incoming": -5.76208,
-      "outgoing": 2.23792,
-      "blurIn": 2.16078
+      "incoming": -5.75987,
+      "outgoing": 2.24013,
+      "blurIn": 2.15995
      },
      {
-      "incoming": -3.93808,
-      "outgoing": 4.06192,
-      "blurIn": 1.47678
+      "incoming": -3.9458,
+      "outgoing": 4.05419,
+      "blurIn": 1.47968
      },
      {
-      "incoming": -1.06686,
-      "outgoing": 6.93314,
-      "blurIn": 0.400071
+      "incoming": -0.0309453,
+      "outgoing": 7.96905,
+      "blurIn": 0.0116045
      }
     ],
     "property": "opacity, transform, filter, visibility",
@@ -5770,7 +5800,7 @@
     },
     {
      "n": 7,
-     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 258/2290ms)"
+     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 0/2290ms)"
     }
    ],
    "failedSlides": [
@@ -6065,9 +6095,9 @@
    "items": [],
    "failedSlides": [],
    "measured": {
-    "frames": 367,
+    "frames": 368,
     "long": 0,
-    "worst": 16.80000000000109,
+    "worst": 16.800000000000182,
     "fps": 60
    },
    "notes": [
@@ -6085,15 +6115,15 @@
    "items": [
     {
      "n": 7,
-     "msg": "탭 복귀 100ms 뒤 차트 빌드 90/2290ms — 반쯤 그려진 채로 보임(3200ms 뒤 2290ms)"
+     "msg": "탭 복귀 100ms 뒤 차트 빌드 86/2290ms — 반쯤 그려진 채로 보임(3188ms 뒤 2290ms)"
     }
    ],
    "failedSlides": [
     7
    ],
    "measured": {
-    "waitMs": 3200,
-    "early": 90,
+    "waitMs": 3188,
+    "early": 86,
     "cur": 6,
     "t": 2290,
     "d": 2290,
@@ -6423,14 +6453,14 @@
    "summary": "느린 모바일 회선에서도 첫 화면이 빠르고 흔들리지 않는다",
    "items": [
     {
-     "msg": "LCP 3104ms(>2500)"
+     "msg": "LCP 3180ms(>2500)"
     }
    ],
    "failedSlides": [],
    "measured": {
-    "lcp": 3104,
+    "lcp": 3180,
     "cls": 0.01508300210099642,
-    "transferKB": 1275
+    "transferKB": 1276
    },
    "notes": [
     "Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public"
@@ -6740,38 +6770,38 @@
    "failedSlides": [],
    "measured": {
     "1": 0.9881,
-    "2": 0.9876,
-    "3": 0.987,
-    "4": 0.9874,
+    "2": 0.9877,
+    "3": 0.9871,
+    "4": 0.9863,
     "5": 0.9841,
-    "6": 0.988,
+    "6": 0.9881,
     "7": 0.9903,
     "8": 0.9908,
     "9": 0.988,
     "10": 0.9897,
     "11": 0.9914,
-    "12": 0.9888,
+    "12": 0.9884,
     "13": 0.9896,
     "14": 0.9893,
     "15": 0.9864,
-    "16": 0.9909,
+    "16": 0.9889,
     "17": 0.9871,
     "18": 0.9874,
     "19": 0.9906,
     "20": 0.9889,
-    "21": 0.9867,
+    "21": 0.9868,
     "22": 0.9883,
     "23": 0.9869,
     "24": 0.986,
-    "25": 0.987,
+    "25": 0.9871,
     "26": 0.9903,
     "27": 0.9912,
     "28": 0.9881,
     "29": 0.9834,
-    "30": 0.985,
+    "30": 0.9873,
     "31": 0.9881,
     "32": 0.9867,
-    "33": 0.9883,
+    "33": 0.9881,
     "34": 0.9866
    },
    "notes": [
@@ -7001,8 +7031,8 @@
    "measured": {
     "headlines": [
      "AI는 언제쯤내 일을대신하게 될까요",
-     "최근 점만 재면 업무 크기가 두 배가 되는 기간은2019년 이후 전체 188일보다 짧은 105일입니다",
-     "AI 능력과 전문가 예상은 빨라졌고 고용은 노출 직업부터 바뀝니다",
+     "2024년 이후 점만 재면 업무 크기가 두 배가 되는 기간은2019년 이후 전체 188일보다 짧은 105일입니다",
+     "AI 성장과 AGI 예상이 빨라졌고 노출 직업 고용이 먼저 변했습니다",
      "AI 능력이 105일마다 두 배가 되는 동안 청년 일자리가 줄었습니다",
      "AI는 컴퓨터 일부터 바꾸고 몸을 쓰는 일은 늦게 바꾼다고 봅니다",
      "AI 회사들은 이미 새 코드의 75% 이상을AI가 쓴다고 밝혔습니다",
