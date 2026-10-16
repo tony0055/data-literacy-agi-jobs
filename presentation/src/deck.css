@@ -2,6 +2,7 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; } /* 휴대폰 글자 자동 확대 끔 — 인라인 svg 글자(2장 고리·32장 일정)가 부풀거나 사라지지 않게 */
 body { background: var(--stage); font-family: var(--font); -webkit-font-smoothing: antialiased; -webkit-print-color-adjust: exact; print-color-adjust: exact; } /* token-ok: 무대 바깥 */
 h1, h2, h3, h4, p, ul, ol, figure, table { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
