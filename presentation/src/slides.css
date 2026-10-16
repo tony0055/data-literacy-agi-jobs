@@ -462,7 +462,7 @@ body.final .cover .object img { transition: none; }
 .sl8 .bars { justify-content: flex-start; }
 /* 9: 인물 사진은 얼굴 기준으로 자른다(허사비스 사진은 왼쪽 대화 상대를 빼고 본인 쪽만) */
 .s9 .who { align-content: start; }
-.who:nth-child(1) .photo img { position: absolute; left: -25%; top: -30px; width: 130%; height: auto; max-width: none; } /* 왼쪽 옆 사람 어깨를 빼고 얼굴 기준 */
+.who:nth-child(1) .photo img { position: absolute; left: -34%; top: -30px; width: 142%; height: auto; max-width: none; } /* 왼쪽 옆 사람 어깨를 빼고 얼굴 기준 */
 .who:nth-child(2) .photo img { object-position: 50% 10%; }
 .who:nth-child(3) .photo img { position: absolute; left: -70%; top: -14%; width: 174%; height: auto; max-width: none; } /* 원본 오른쪽(본인 쪽)만: 모든 브라우저에서 같은 크롭(object-view-box 안 씀) */
 /* 14: 32 본문, 차트 제목도 32 굵게(크기 단계 5개) */
@@ -544,7 +544,7 @@ body.final .cover .object img { transition: none; }
 :is(.lags, .twh, .eq) .lo { fill: var(--line-strong); } :is(.lags, .twh, .eq) .on { fill: var(--accent); }
 .yrs .ax { stroke: var(--line-strong); stroke-width: 2; } .yrs .mv { fill: none; stroke: var(--accent); stroke-width: 4; } .yrs .mvh { fill: var(--accent); }
 .yrs circle.old { fill: var(--paper); stroke: var(--line-strong); stroke-width: 4; } .yrs circle.new { fill: var(--accent); }
-.yrs .yl { font: var(--t-title) var(--font); } .yrs .yl.old { fill: var(--muted); } .yrs .yl.new { fill: var(--ink); }
+.yrs .yl { font: var(--t-number) var(--font); } .yrs .yl.old { fill: var(--muted); } .yrs .yl.new { fill: var(--ink); }
 :is(.share, .lags, .yrs, .twh, .eq) .vl { font: var(--t-small-strong) var(--font); fill: var(--ink); }
 .twh .on { fill: var(--ink); } /* 21장 인디고는 2.9배 한 곳만 */
 /* 3장: 질문 세 줄 사이를 48로(면 높이는 내용으로), 8장: 막대를 한 단계 키움 */
@@ -556,3 +556,8 @@ body.final .cover .object img { transition: none; }
 .sl8 .bar-row .lab { font: var(--t-body) var(--font); }
 .panel.tbl .plan.big td { padding-top: var(--g8); padding-bottom: var(--g8); }
 .s23 .calc td { padding-top: 0; }
+/* 5회차: 4장 숫자 면이 본문 높이를 내용으로 채움(설명 줄 폭 16em → 4줄, 숫자와 설명 사이 32) — 본문 끝→결론 선 < 96 */
+.s4 .lead-fig { gap: var(--g48); }
+.s4 .lead-fig .k { max-width: 16em; }
+/* 30장: 같은 행의 왼쪽 근거·쟁점·오른쪽 근거 첫 줄을 같은 높이에(형제 문단 위 여백 8을 지움) */
+.body .vsr > p.ai, .body .vsr > p.iss, .body .vsr > p.ot { margin-top: 0; }
