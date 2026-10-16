@@ -1,7 +1,7 @@
 {
  "label": "baseline",
- "date": "2026-10-16T09:43:28.008Z",
- "commit": "73b782e",
+ "date": "2026-10-16T10:04:09.367Z",
+ "commit": "8c81492",
  "deckDirty": false,
  "deckSha": "a2bf7b988014",
  "seconds": 300,
@@ -6850,7 +6850,7 @@
    "failedSlides": [],
    "measured": {
     "fontAt": null,
-    "fcp": 1196
+    "fcp": 1192
    },
    "notes": [
     "CDP 네트워크 제한(150ms RTT·1.6Mbps)·CPU 4배로 근사. 실제 회선·기기 아님"
@@ -7073,27 +7073,15 @@
    "summary": "한 장에서 제목·본문·결론이 같은 말을 되풀이하지 않고, 같은 숫자는 2회 이하, 연속 장 헤드라인도 겹치지 않는다",
    "items": [
     {
-     "n": 6,
-     "msg": "같은 숫자 3회 이상: 2026×4"
-    },
-    {
      "n": 25,
      "msg": "같은 숫자 3회 이상: 2030×3"
-    },
-    {
-     "n": 28,
-     "msg": "같은 숫자 3회 이상: 25×3"
     }
    ],
    "failedSlides": [
-    6,
-    25,
-    28
+    25
    ],
    "evidence": [
-    "shots/baseline/slide-06.jpg",
-    "shots/baseline/slide-25.jpg",
-    "shots/baseline/slide-28.jpg"
+    "shots/baseline/slide-25.jpg"
    ],
    "manual": {
     "procedure": "장 내 블록 쌍과 연속 장 헤드라인의 2-gram 자카드, 장별 숫자 토큰 빈도를 계산한 뒤 장마다 '메시지 한 문장'을 적는다",
@@ -9993,49 +9981,35 @@
     {
      "n": 21,
      "msg": "추정 라벨이 있는데 범위 표기 없음"
-    },
-    {
-     "n": 23,
-     "msg": "추정 라벨이 있는데 범위 표기 없음"
-    },
-    {
-     "n": 26,
-     "msg": "추정 라벨이 있는데 범위 표기 없음"
     }
    ],
    "failedSlides": [
-    21,
-    23,
-    26
+    21
    ],
    "measured": {
     "extrapolation": [
-     22,
+     21,
      23,
      24,
      25,
      26,
      27,
-     28,
-     29
+     28
     ]
    },
    "evidence": [
-    "shots/baseline/slide-21.jpg",
-    "shots/baseline/slide-23.jpg",
-    "shots/baseline/slide-26.jpg"
+    "shots/baseline/slide-21.jpg"
    ],
    "manual": {
     "procedure": "추정 수치 요소 가장 가까운 블록의 .tag.est·범위 표기, 2036 외삽 장의 한계 문구, 한계 장 정규식(숫자~숫자|±), /때문에|초래|입증|증명/ 문장의 라벨 등급을 확인한다",
     "bundle": [
-     "shots/baseline/slide-22.jpg",
+     "shots/baseline/slide-21.jpg",
      "shots/baseline/slide-23.jpg",
      "shots/baseline/slide-24.jpg",
      "shots/baseline/slide-25.jpg",
      "shots/baseline/slide-26.jpg",
      "shots/baseline/slide-27.jpg",
-     "shots/baseline/slide-28.jpg",
-     "shots/baseline/slide-29.jpg"
+     "shots/baseline/slide-28.jpg"
     ]
    }
   },
@@ -10235,13 +10209,13 @@
    "items": [],
    "failedSlides": [],
    "measured": {
-    "firstVisibleMs": 45.89999997615814,
+    "firstVisibleMs": 27.800000071525574,
     "visibleSamples": [
-     326.2000000476837,
-     57.800000071525574,
-     36.799999952316284,
-     33.799999952316284,
-     45.89999997615814
+     31.200000047683716,
+     27.800000071525574,
+     23.800000071525574,
+     19.800000071525574,
+     31.799999952316284
     ],
     "afterTen": {
      "cur": 10,
@@ -12033,19 +12007,19 @@
       "blurIn": 3
      },
      {
-      "incoming": 5.74885,
-      "outgoing": -2.25116,
-      "blurIn": 2.15582
+      "incoming": 5.74542,
+      "outgoing": -2.25458,
+      "blurIn": 2.15453
      },
      {
-      "incoming": 3.94675,
-      "outgoing": -4.05325,
-      "blurIn": 1.48003
+      "incoming": 3.94411,
+      "outgoing": -4.05589,
+      "blurIn": 1.47904
      },
      {
-      "incoming": 2.60677,
-      "outgoing": -5.39323,
-      "blurIn": 0.977538
+      "incoming": 2.6049,
+      "outgoing": -5.3951,
+      "blurIn": 0.976836
      }
     ],
     "bwd": [
@@ -12060,14 +12034,14 @@
       "blurIn": 3
      },
      {
-      "incoming": -5.76184,
-      "outgoing": 2.23816,
-      "blurIn": 2.16069
+      "incoming": -5.7584,
+      "outgoing": 2.2416,
+      "blurIn": 2.1594
      },
      {
-      "incoming": -3.94731,
-      "outgoing": 4.05269,
-      "blurIn": 1.48024
+      "incoming": -3.94467,
+      "outgoing": 4.05533,
+      "blurIn": 1.47925
      }
     ],
     "property": "opacity, transform, filter, visibility",
@@ -12139,7 +12113,7 @@
     },
     {
      "n": 7,
-     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 240/2290ms)"
+     "msg": "떠난 장의 차트 타임라인이 계속 돎(paused false, 249/2290ms)"
     }
    ],
    "failedSlides": [
@@ -12447,7 +12421,7 @@
    "items": [],
    "failedSlides": [],
    "measured": {
-    "frames": 361,
+    "frames": 362,
     "long": 0,
     "worst": 16.800000000000182,
     "fps": 60
@@ -12467,15 +12441,15 @@
    "items": [
     {
      "n": 7,
-     "msg": "탭 복귀 100ms 뒤 차트 빌드 162/2290ms — 반쯤 그려진 채로 보임(3128ms 뒤 2290ms)"
+     "msg": "탭 복귀 100ms 뒤 차트 빌드 160/2290ms — 반쯤 그려진 채로 보임(3130ms 뒤 2290ms)"
     }
    ],
    "failedSlides": [
     7
    ],
    "measured": {
-    "waitMs": 3128,
-    "early": 162,
+    "waitMs": 3130,
+    "early": 160,
     "cur": 6,
     "t": 2290,
     "d": 2290,
@@ -12913,7 +12887,7 @@
    "summary": "느린 모바일 회선에서도 첫 화면이 빠르고 흔들리지 않는다",
    "items": [
     {
-     "msg": "LCP 7748ms(>2500)"
+     "msg": "LCP 7732ms(>2500)"
     },
     {
      "msg": "첫 화면 전송량 1.59MB(>1.5): 가장 큰 /assets/img/desk.jpg 305KB, /assets/img/recursion.jpg 242KB"
@@ -12921,7 +12895,7 @@
    ],
    "failedSlides": [],
    "measured": {
-    "lcp": 7748,
+    "lcp": 7732,
     "cls": 0,
     "transferKB": 1629
    },

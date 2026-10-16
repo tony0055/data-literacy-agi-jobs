@@ -25,10 +25,14 @@ const hit = (a: any, b: any) => Math.max(0, Math.min(a.r ?? a.x + a.w, b.r ?? b.
 const dist = (a: any, b: any) => { const dx = Math.max(0, b.x - (a.x + a.w), a.x - (b.x + b.w)); const dy = Math.max(0, b.y - (a.y + a.h), a.y - (b.y + b.h)); return Math.hypot(dx, dy); };
 const norm = (s: string) => s.replace(/[\s·]/g, "").replace(/(직|직군|직업)$/, "");
 const nums = (s: string) => (s.match(/\d+(?:[.,]\d+)*/g) ?? []).map((x) => x.replace(/,/g, ""));
-// 같은 숫자 반복(TXT-05)에서 빼는 것: 영문과 붙은 자료 식별자(DT_1DA7E08S, GPT-4, R1), 범위·호수의 끝값(2022~2025, 1~9월, 2026-19), 순위(1위)
+// 수치 범위: 끝값에 단위가 붙어도 범위다('192만~448만', '2.6~4년', '1~9월', '±2%')
+const RANGE = /\d(?:[\d.,]*)\s*[가-힣%A-Za-z]{0,3}\s*[~–]\s*\d|±\s*\d/;
+// 같은 숫자 반복(TXT-05)에서 빼는 것: 영문과 붙은 자료 식별자(DT_1DA7E08S, GPT-4, R1), 날짜의 연도(2026년 9월), 기간·범위·호수의 끝값
+// (2022~2025, 192만~448만, 2019→25, 2026-19), 순위(1위). 같은 측정값을 되풀이한 것만 남긴다
 const claimNums = (s: string) => nums(s
   .replace(/[A-Za-z_]+-?\d[\w.-]*|\d+[A-Za-z_]+\d[\w-]*/g, " ")
-  .replace(/\d+(?:[.,]\d+)*\s*[~–]\s*\d+(?:[.,]\d+)*|\d+-\d+/g, " ")
+  .replace(/\d{4}\s*년\s*\d{1,2}\s*월(?:\s*\d{1,2}\s*일)?/g, " ")
+  .replace(/\d+(?:[.,]\d+)*\s*[가-힣%]{0,3}\s*[~–]\s*\d+(?:[.,]\d+)*|\d{4}\s*년?\s*→\s*\d{2,4}|\d+-\d+/g, " ")
   .replace(/\d+\s*(?:위|번째|순위)/g, " "));
 const allCss = (D: Data) => [D.files.tokens, D.files.deck, D.files.slides, ...Object.values(D.files.extraCss ?? {})].join("\n");
 const allJs = (D: Data) => Object.values(D.files.js).join("\n");
@@ -1326,7 +1330,7 @@ const tickValue = (txt: string) => {
   const t = txt.replace(/[,%+\s]/g, "").replace("−", "-");
   if (/^-?\d+(\.\d+)?$/.test(t)) return { v: Number(t), dur: false };
   const m = t.match(/^(\d+(?:\.\d+)?)?(초|분|시간|하루|일|주|개월|달|분기|년)$/);
-  return m ? { v: Number(m[1] ?? 1) * MIN[m[2]], dur: true } : null;
+  return m ? { v: Number(m[1] ?? 1) * MIN[m[2]], dur: true, unit: m[2] === "하루" ? "일" : m[2], k: Number(m[1] ?? 1) } : null;
 };
 const cvOf = (a: number[]) => { const m = a.reduce((x, y) => x + y, 0) / a.length; return m ? Math.sqrt(a.reduce((x, y) => x + (y - m) ** 2, 0) / a.length) / Math.abs(m) : Infinity; };
 J["CHT-07"] = (D) => {
@@ -1334,17 +1338,19 @@ J["CHT-07"] = (D) => {
   const clean = (d: number) => { if (d <= 0) return false; const e = 10 ** Math.floor(Math.log10(d)); return [1, 2, 2.5, 5, 10].some((m) => Math.abs(d / e - m) < 1e-6); };
   for (const [n, v] of charts(D)) {
     const tk = v.texts.filter((t: any) => /tick/.test(t.cls)).map((t: any) => ({ t, p: tickValue(t.text) })).filter((x: any) => x.p && Number.isFinite(x.p.v));
-    const ticks = uniq(tk.map((x: any) => x.p.v)).map((val) => { const x = tk.find((k: any) => k.p.v === val)!; return { v: val as number, y: x.t.rect.y + x.t.rect.h / 2, dur: x.p.dur }; }).sort((a, b) => a.v - b.v);
+    const ticks = uniq(tk.map((x: any) => x.p.v)).map((val) => { const x = tk.find((k: any) => k.p.v === val)!; return { v: val as number, y: x.t.rect.y + x.t.rect.h / 2, dur: x.p.dur, unit: x.p.unit, k: x.p.k }; }).sort((a, b) => a.v - b.v);
     if (ticks.length >= 3) {
-      // 로그 축: 눈금 위치가 값보다 log 값에 비례한다(위치 간격/log 간격의 변동계수가 더 작다). 시간 눈금 축과 logline은 로그로 본다
+      // 로그 축: 눈금 위치가 값보다 log 값에 비례한다(위치 간격/log 간격의 변동계수가 더 작다). 차트 종류 logline도 로그로 본다
       const step = (f: (x: number) => number) => cvOf(ticks.slice(1).map((t, i) => (t.y - ticks[i].y) / (f(t.v) - f(ticks[i].v))));
-      const isLog = ticks.every((t) => t.v > 0) && (v.kind === "logline" || ticks.some((t) => t.dur) || step(Math.log10) < step((x) => x));
+      const isLog = ticks.every((t) => t.v > 0) && (v.kind === "logline" || step(Math.log10) < step((x) => x));
       if (isLog) {
         const ratios = ticks.slice(1).map((t, i) => t.v / ticks[i].v);
         if (cvOf(ratios) >= 0.02) items.push({ n, msg: `${v.chart} 로그 눈금 배수가 일정하지 않음: ${tk.map((x: any) => x.t.text).join("·")} (이웃 배수 ${ratios.map((r) => r1(r, 1)).join("/")})` });
         else if (![2, 10].some((m) => Math.abs(ratios[0] - m) < 0.05)) items.push({ n, msg: `${v.chart} 로그 눈금 배수 ${r1(ratios[0], 2)}(2·10배 아님)` });
       } else {
-        const vs = ticks.map((t) => t.v);
+        // 선형 시간 축(1일·2일·3일)은 분이 아니라 눈금의 자기 단위로 간격을 본다
+        const sameUnit = ticks.every((t) => t.dur && t.unit === ticks[0].unit);
+        const vs = ticks.map((t) => (sameUnit ? t.k! : t.v));
         const ds = uniq(vs.slice(1).map((x, i) => r1(x - vs[i], 4)));
         if (ds.length > 1 || !clean(ds[0])) items.push({ n, msg: `${v.chart} 눈금 간격 ${ds.join("/")}` });
       }
@@ -1403,7 +1409,10 @@ J["CHT-09"] = (D) => {
     // 헤드라인이 순서·시점을 말하는데 차트에 시간 축이 없고 막대가 값 순으로도 놓이지 않았으면, 차트가 그 주장을 보여 주지 못한다
     const head = D.slides[n]?.headline?.text ?? "";
     const hasYearAxis = v.texts.some((t: any) => /alab|tick/.test(t.cls) && /^\d{4}$/.test(t.text));
-    if (v.kind === "hbar" && /부터|먼저|이어|차례|다음으로|순서/.test(head) && !hasYearAxis) {
+    // 순서 주장 = 헤드라인이 차트 범주 이름을 '…부터·먼저'로 짚는다('사무직부터'). '2023년부터'처럼 범주가 아닌 말은 보지 않는다
+    const cats = uniq(v.texts.filter((t: any) => /alab|note/.test(t.cls) && HANGUL.test(t.text)).map((t: any) => norm(t.text.split(/\s*·\s*|\s*\(/)[0]))).filter((c: any) => c.length >= 2) as string[];
+    const orderClaim = cats.some((c) => new RegExp(`${c}[가-힣]{0,2}\\s*(부터|먼저)`).test(head));
+    if (v.kind === "hbar" && orderClaim && !hasYearAxis) {
       const vals = v.texts.filter((t: any) => /vlab/.test(t.cls)).sort((a: any, b: any) => a.rect.y - b.rect.y).map((t: any) => Number(t.text.replace(/[,%+\s]/g, "").replace("−", "-"))).filter(Number.isFinite);
       const sorted = vals.every((x: number, i: number) => i === 0 || x <= vals[i - 1]) || vals.every((x: number, i: number) => i === 0 || x >= vals[i - 1]);
       if (vals.length >= 3 && !sorted) items.push({ n, msg: `${v.chart} 헤드라인은 순서·시점("${head.slice(0, 30)}")인데 차트는 시간 축 없는 값 막대이고 값 순도 아님(${vals.join(", ")})` });
@@ -1435,7 +1444,8 @@ J["CHT-10"] = (D) => {
     const t = s.slideText as string, out = new Set<number>();
     for (const m of t.matchAll(/(분위마다|상위\s*(\d+)%)?\s*직업\s*(\d[\d,]*)\s*개|(\d[\d,]*)\s*개\s*직업(?!\s*(?:대분류|군))/g)) {
       const k = Number((m[3] ?? m[4]).replace(/,/g, ""));
-      out.add(m[1] === "분위마다" ? k * 5 : m[2] ? Math.round(k * 100 / Number(m[2])) : k);
+      const q = Math.max(0, ...[...t.matchAll(/(?<![\d.→~])([1-9]\d?)\s*분위/g)].map((x) => +x[1])) || 5; // 'N분위' 중 가장 큰 N(없으면 5분위)
+      out.add(m[1] === "분위마다" ? k * q : m[2] ? Math.round(k * 100 / Number(m[2])) : k);
     }
     return [...out];
   };
@@ -1445,7 +1455,7 @@ J["CHT-10"] = (D) => {
     if (n !== m + 1) continue;
     const a = pop(D.slides[m]), b = pop(D.slides[n]);
     if (!a.length || !b.length || a.some((x) => b.includes(x))) continue;
-    const said = a.some((x) => (D.slides[n].slideText as string).replace(/,/g, "").includes(String(x))) || /모집단|고용\s*하한|기준이\s*다르|대상이\s*다르/.test(D.slides[n].slideText);
+    const said = a.some((x) => new RegExp(`(?<![\\d.])${x}(?![\\d.])`).test((D.slides[n].slideText as string).replace(/,/g, ""))) || /모집단|고용\s*하한|기준이\s*다르|대상이\s*다르/.test(D.slides[n].slideText);
     if (!said) items.push({ n, msg: `이어지는 차트 장 ${m}·${n} 모집단 다름: 직업 ${a.join("/")}개 / ${b.join("/")}개, 다른 이유 설명 없음` });
   }
   const C = charts(D);
@@ -1548,18 +1558,23 @@ J["EVD-03"] = (D) => {
   return { items };
 };
 
-// 2036 외삽 장: 2036이 나오는 것만으로는 아니다(안내·분석 계획·출처 장도 2036을 말한다). 그 장이 추정을 내놓는다는 표시
-// — 추정 라벨(.tag.est), 연장 차트(proj_*), 키커의 '추정', 헤드라인의 2036, 본문의 '시나리오별' 값 — 가 함께 있어야 외삽 장으로 본다
+// 외삽 장: 미래 연도(실행한 해보다 뒤)를 말하면서 그 장이 추정을 내놓는다는 표시 — 추정 라벨(.tag.est), 연장 차트(proj_*),
+// 키커의 '추정·전망', 본문의 '시나리오' — 가 있는 장. 미래 연도만 나오는 안내·분석 계획·출처 장은 외삽 장이 아니다
 const kickerText = (s: any) => (typeof s.kicker === "string" ? s.kicker : s.kicker?.text) ?? "";
-const isExtrapolation = (s: any) => /2036/.test((s.headline?.text ?? "") + s.bodyText + kickerText(s))
-  && (s.tags.some((t: any) => /\best\b/.test(t.cls) || /추정/.test(t.text)) || s.svgs.some((v: any) => /^proj_/.test(v.chart ?? "")) || /추정/.test(kickerText(s)) || /2036/.test(s.headline?.text ?? "") || /시나리오/.test(s.bodyText));
+const NOW_YEAR = new Date().getFullYear();
+const futureYear = (s: any) => ((s.headline?.text ?? "") + " " + s.bodyText + " " + kickerText(s)).match(/(?<!\d)20\d\d(?!\d)/g)?.some((y: string) => +y > NOW_YEAR) ?? false;
+const estSignal = (s: any) => s.tags.some((t: any) => /\best\b/.test(t.cls) || /추정/.test(t.text)) || s.svgs.some((v: any) => /^proj_/.test(v.chart ?? "")) || /추정|전망/.test(kickerText(s)) || /시나리오/.test(s.bodyText);
+const isExtrapolation = (s: any) => futureYear(s) && estSignal(s);
+// 시나리오 행(빠름·기준·신중 같은 시나리오 이름 셋 이상)은 점 추정 대신 범위를 보여 주는 것으로 친다. '시나리오' 낱말 하나는 범위가 아니다
+const SCEN = ["빠름", "신중", "낙관", "비관", "보수", "상한", "하한", "기준"];
+const hasRange = (t: string) => RANGE.test(t) || /범위/.test(t) || SCEN.filter((w) => t.includes(w)).length >= 3;
 J["EVD-04"] = (D) => {
   const items: Item[] = [];
   for (const [n, s] of slidesOf(D)) {
     const est = s.tags.filter((t: any) => /추정|est/.test(t.text + t.cls));
-    if (est.length && !/\d\s*[~–]\s*\d|±|범위|\d+\s*~/.test(s.slideText)) items.push({ n, msg: "추정 라벨이 있는데 범위 표기 없음" });
-    if (isExtrapolation(s) && !/한계|가정|불확실|조건|시나리오/.test(s.slideText)) items.push({ n, msg: "2036 외삽 장에 한계 문구 없음" });
-    if (/한계/.test(s.headline?.text ?? "") && !/\d+\s*[~–]\s*\d+|±/.test(s.slideText)) items.push({ n, msg: "한계 장에 수치 범위 없음" });
+    if (est.length && !hasRange(s.slideText)) items.push({ n, msg: "추정 라벨이 있는데 범위 표기 없음" });
+    if (isExtrapolation(s) && !/한계|가정|불확실|조건|시나리오/.test(s.slideText)) items.push({ n, msg: "외삽 장에 한계 문구 없음" });
+    if (/한계/.test(s.headline?.text ?? "") && !RANGE.test(s.slideText)) items.push({ n, msg: "한계 장에 수치 범위 없음" });
     const causal = s.slideText.match(/[^.]*?(때문에|초래|입증|증명)[^.]*/g);
     if (causal && !s.tags.some((t: any) => /인과|검증/.test(t.text))) items.push({ n, msg: `근거 등급(기술·추정)을 넘는 인과 동사: "${causal[0].trim().slice(0, 40)}"` });
   }

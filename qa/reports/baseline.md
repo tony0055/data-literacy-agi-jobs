@@ -15,7 +15,7 @@
 
 ## 실행
 
-- 실행: 2026-10-16T09:43:28.008Z · 커밋 73b782e · 덱 해시 a2bf7b988014 · 300초
+- 실행: 2026-10-16T10:04:09.367Z · 커밋 8c81492 · 덱 해시 a2bf7b988014 · 300초
 - 명령: `cd presentation && bun scripts/visual-qa.ts --label baseline` · 파이썬 `python3`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
 - 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift)으로 IMG-02·RSP-02를 판정
@@ -79,7 +79,7 @@
 | [TXT-02](#txt-02) | automated | 자동 | 실패 | 5, 31 | '~다'로 끝남: "이 로봇 데이터가 쌓이는 만큼 늦게 현장 일로 넘어간다" |
 | [TXT-03](#txt-03) | both | 자동+수동 | 실패 | 12 | 금지 표현: the future of |
 | [TXT-04](#txt-04) | both | 자동+수동 | 실패 | 7, 8, 10, 11, 14, 15, 16, 18, 20, 21, 24, 25, 26, 27 | 화면 snake_case: benchmark_results_1_1, timeline_analysis |
-| [TXT-05](#txt-05) | both | 자동+수동 | 실패 | 6, 25, 28 | 같은 숫자 3회 이상: 2026×4 |
+| [TXT-05](#txt-05) | both | 자동+수동 | 실패 | 25 | 같은 숫자 3회 이상: 2030×3 |
 | [TXT-06](#txt-06) | both | 자동+수동 | 실패 | 7, 13, 14, 17, 27 | 차트 장 헤드라인에 숫자 없음: "AI가 맡을 수 있는 업무는 갈수록 빠르게 커집니다" |
 | [TXT-07](#txt-07) | automated | 자동 | 통과 |  |  |
 | [TXT-08](#txt-08) | automated | 부분 | 실패 | 4, 6, 7, 9, 11, 13, 17, 18, 19, 27, 28, 34 | em dash 3개(>2) |
@@ -109,7 +109,7 @@
 | [EVD-01](#evd-01) | automated | 자동 | 실패 | 13 | occ_scatter 세로 범위 밖 값 10개가 축 끝값으로 그려져 그림 위치가 데이터 값과 다름 |
 | [EVD-02](#evd-02) | automated | 자동 | 실패 | 4 | 라벨 "n=3"와 가장 가까운 숫자 127px(>64) |
 | [EVD-03](#evd-03) | automated | 자동 | 실패 | 1, 2, 3, 5, 6, 8, 9, 14, 15, 16, 19, 21, 29, 30, 31, 32, 33, 34 | 출처에 연도 없음: "사진: AI 생성 이미지(Gemini) · 모든 수치에 출처와 라벨(기술" |
-| [EVD-04](#evd-04) | both | 자동+수동 | 실패 | 21, 23, 26 | 추정 라벨이 있는데 범위 표기 없음 |
+| [EVD-04](#evd-04) | both | 자동+수동 | 실패 | 21 | 추정 라벨이 있는데 범위 표기 없음 |
 | [EVD-05](#evd-05) | automated | 자동 | 실패 | 33 | 4장 핵심 수치 "105"가 33장에 없음 |
 | [EVD-06](#evd-06) | automated | 자동 | 통과 |  |  |
 | [NAV-01](#nav-01) | automated | 자동 | 실패 | 덱 전체 | 왼쪽으로 80px(Δy 10): 장 5→5 (Δ0, 기대 +1) |
@@ -149,14 +149,14 @@
 | [MOT-08](#mot-08) | both | 자동+수동 | 실패 | 2, 4, 8, 12, 18, 19, 21, 23 | 등장 순서가 읽기 순서와 어긋남 1곳 |
 | [MOT-09](#mot-09) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 모션 목록 절 없음 |
 | [MOT-10](#mot-10) | automated | 자동 | 통과 |  |  |
-| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 162/2290ms — 반쯤 그려진 채로 보임(3128ms 뒤 2290ms) |
+| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 160/2290ms — 반쯤 그려진 채로 보임(3130ms 뒤 2290ms) |
 | [A11Y-01](#a11y-01) | automated | 자동 | 실패 | 덱 전체 | 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33 |
 | [A11Y-02](#a11y-02) | automated | 자동 | 실패 | 덱 전체 | aria-live=polite 영역 없음 |
 | [A11Y-03](#a11y-03) | automated | 자동 | 실패 | 2, 4, 8, 11, 12, 13, 14, 15, 16, 18, 19, 21, 26 | h1·h2 0개(1 기대) — nohead 장은 숨긴 heading 필요 |
 | [A11Y-04](#a11y-04) | automated | 부분 | 실패 | 6, 9, 18, 19 | color-contrast: 대비 3.32:1 < 4.5 — div.kicker.t-stagger-line "재귀적 자기개선 · 지금 보이는 신호" 14px 600 (픽셀 최악 5%) |
 | [A11Y-05](#a11y-05) | automated | 자동 | 실패 | 덱 전체 | JS 끔: 빈 차트 9(metr_horizon, agi_forecast_shift, espai_two_clocks, occ_scatter, occ_quintile, kr_occupation_index, proj_ca |
 | [A11Y-06](#a11y-06) | automated | 자동 | 통과 |  |  |
-| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7748ms(>2500) |
+| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 7732ms(>2500) |
 | [PERF-02](#perf-02) | automated | 자동 | 통과 |  |  |
 | [PERF-03](#perf-03) | automated | 자동 | 통과 |  |  |
 | [PERF-04](#perf-04) | automated | 자동 | 통과 |  |  |
@@ -1471,13 +1471,11 @@
 > 한 장에서 제목·본문·결론이 같은 말을 되풀이하지 않고, 같은 숫자는 2회 이하, 연속 장 헤드라인도 겹치지 않는다  
 > 기준: 유사도 ≥0.5 쌍 0, 같은 숫자 >2회 0, 메시지 2개 이상 장 0
 
-실패 3건 · 장 6, 25, 28
+실패 1건 · 장 25
 
-- 6장 · 같은 숫자 3회 이상: 2026×4
 - 25장 · 같은 숫자 3회 이상: 2030×3
-- 28장 · 같은 숫자 3회 이상: 25×3
 
-근거: [slide-06.jpg](../shots/baseline/slide-06.jpg) · [slide-25.jpg](../shots/baseline/slide-25.jpg) · [slide-28.jpg](../shots/baseline/slide-28.jpg)
+근거: [slide-25.jpg](../shots/baseline/slide-25.jpg)
 
 수동 확인 절차: 장 내 블록 쌍과 연속 장 헤드라인의 2-gram 자카드, 장별 숫자 토큰 빈도를 계산한 뒤 장마다 '메시지 한 문장'을 적는다
 볼 것: [contact-1.jpg](../shots/baseline/contact-1.jpg) · [contact-2.jpg](../shots/baseline/contact-2.jpg)
@@ -2036,16 +2034,14 @@
 > 추정값은 같은 블록에 '추정' 라벨과 범위를 갖고, 외삽 장마다 한계 문구가 있으며 한계 장은 구체 가정과 수치 범위를 말한다. 인과 동사는 근거 등급을 넘지 않는다  
 > 기준: 누락 0, 등급 초과 인과 동사 0
 
-실패 3건 · 장 21, 23, 26
+실패 1건 · 장 21
 
 - 21장 · 추정 라벨이 있는데 범위 표기 없음
-- 23장 · 추정 라벨이 있는데 범위 표기 없음
-- 26장 · 추정 라벨이 있는데 범위 표기 없음
 
-근거: [slide-21.jpg](../shots/baseline/slide-21.jpg) · [slide-23.jpg](../shots/baseline/slide-23.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg)
+근거: [slide-21.jpg](../shots/baseline/slide-21.jpg)
 
 수동 확인 절차: 추정 수치 요소 가장 가까운 블록의 .tag.est·범위 표기, 2036 외삽 장의 한계 문구, 한계 장 정규식(숫자~숫자\|±), /때문에\|초래\|입증\|증명/ 문장의 라벨 등급을 확인한다
-볼 것: [slide-22.jpg](../shots/baseline/slide-22.jpg) · [slide-23.jpg](../shots/baseline/slide-23.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg) · [slide-25.jpg](../shots/baseline/slide-25.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg) · [slide-27.jpg](../shots/baseline/slide-27.jpg) · [slide-28.jpg](../shots/baseline/slide-28.jpg) · [slide-29.jpg](../shots/baseline/slide-29.jpg)
+볼 것: [slide-21.jpg](../shots/baseline/slide-21.jpg) · [slide-23.jpg](../shots/baseline/slide-23.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg) · [slide-25.jpg](../shots/baseline/slide-25.jpg) · [slide-26.jpg](../shots/baseline/slide-26.jpg) · [slide-27.jpg](../shots/baseline/slide-27.jpg) · [slide-28.jpg](../shots/baseline/slide-28.jpg)
 
 ### EVD-05
 
@@ -2552,7 +2548,7 @@
 - 17장 · 차트 빌드 2570ms(>1500)
 - 24장 · 차트 빌드 1830ms(>1500)
 - 26장 · 차트 빌드 3220ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 240/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 249/2290ms)
 
 근거: [slide-07.jpg](../shots/baseline/slide-07.jpg) · [slide-10.jpg](../shots/baseline/slide-10.jpg) · [slide-11.jpg](../shots/baseline/slide-11.jpg) · [slide-13.jpg](../shots/baseline/slide-13.jpg) · [slide-17.jpg](../shots/baseline/slide-17.jpg) · [slide-24.jpg](../shots/baseline/slide-24.jpg)
 
@@ -2682,7 +2678,7 @@
 
 실패 1건 · 장 7
 
-- 7장 · 탭 복귀 100ms 뒤 차트 빌드 162/2290ms — 반쯤 그려진 채로 보임(3128ms 뒤 2290ms)
+- 7장 · 탭 복귀 100ms 뒤 차트 빌드 160/2290ms — 반쯤 그려진 채로 보임(3130ms 뒤 2290ms)
 
 - 메모: 탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과
 
@@ -2817,7 +2813,7 @@
 
 실패 2건
 
-- LCP 7748ms(>2500)
+- LCP 7732ms(>2500)
 - 첫 화면 전송량 1.59MB(>1.5): 가장 큰 /assets/img/desk.jpg 305KB, /assets/img/recursion.jpg 242KB
 
 - 메모: Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public
