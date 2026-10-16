@@ -90,7 +90,7 @@ function yearline(d, W) {
 
 // 3) 산점도: 직업별 노출도(가로) × 고용 변화율(세로). 세로 범위를 넘는 점은 끝에 붙이고 표시한다.
 function scatter(d, W) {
-  const H = 560, x0 = 96, x1 = W - 24, yTop = 48, yBase = H - 72;
+  const H = d.H ?? 560, x0 = 96, x1 = W - 24, yTop = 48, yBase = H - 72;
   const svg = svgOf(W, H, d);
   const [ylo, yhi] = d.y범위;
   const px = (v) => x0 + v * (x1 - x0);

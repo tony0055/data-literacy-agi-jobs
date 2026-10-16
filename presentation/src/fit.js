@@ -12,7 +12,7 @@ if (soloSlide) {
 if (fitParams.has("check")) {
   const BODY_FLOOR = 18;
   const HARD_FLOOR = 14;
-  const TERTIARY = ".kicker, .who .when *, .tone-table th, .poster .s, .cover .bar, .cover .bar *, .cover .row, .who .name, .who .when, .tile .tag, .chart-src *, .plan th, .foot, .foot *, .tag, .chart-src, .chart-src *, .chart-sub, .legend, .legend *, .meta, .p-no, .chip, .idx, .key .k, .tone th, [data-type-ok], [data-type-ok] *";
+  const TERTIARY = ".band.head-band p, .gates td.yr span, .video .vcap, .chain text, .plug, .credit, .kicker, .who .when *, .tone-table th, .poster .s, .cover .bar, .cover .bar *, .cover .row, .who .name, .who .when, .tile .tag, .chart-src *, .plan th, .foot, .foot *, .tag, .chart-src, .chart-src *, .chart-sub, .legend, .legend *, .meta, .p-no, .chip, .idx, .key .k, .tone th, [data-type-ok], [data-type-ok] *";
   const CLIPPABLE = ".body, .card, .stack, .chart, .ask, .key, .eq, .vs, [data-check-fit]";
 
   document.fonts.ready.then(() => {
@@ -48,7 +48,7 @@ if (fitParams.has("check")) {
         const k = Math.min(b.width / vb.width, b.height / vb.height);
         const t = svg.querySelector("text");
         const px = t ? parseFloat(getComputedStyle(t).fontSize) * k : 99;
-        if (px < 15) tiny.push(`svg "${(svg.getAttribute("aria-label") || svg.closest("[data-chart]")?.dataset.chart || "").slice(0, 24)}" 축소 ${k.toFixed(2)} → 글자 ${px.toFixed(1)}px`);
+        if (px < 18) tiny.push(`svg "${(svg.getAttribute("aria-label") || svg.closest("[data-chart]")?.dataset.chart || "").slice(0, 24)}" 축소 ${k.toFixed(2)} → 글자 ${px.toFixed(1)}px`);
       });
 
       const head = s.querySelector(".headline");

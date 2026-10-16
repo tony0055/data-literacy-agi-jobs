@@ -4,7 +4,7 @@
 
 | 항목 | 내용 |
 | --- | --- |
-| 발표 덱 | `presentation/index.html` · 34장 · 1920×1080 · soft-skill 「Soft Structuralism」 + Pretendard · **https://tony0055.github.io/data-literacy-agi-jobs/** (GitHub Pages, 2026-10-16 배포) |
+| 발표 덱 | `presentation/index.html` · 34장 · 1920×1080 · 디자인 헌법(designsystems.com) 안의 soft-skill 「Soft Structuralism」 + Pretendard · **https://tony0055.github.io/data-literacy-agi-jobs/** (GitHub Pages, 2026-10-16 배포) |
 | 종합 보고서 | [report.md](report.md) — 관계식·예비 분석·머신러닝·2036 추정·한계·분석 계획 |
 | 분석 명세 | [spec.md](spec.md) |
 | 독립 검증 | [verification-independent.md](verification-independent.md) — 다른 계열 모델이 원자료에서 핵심 수치를 다시 계산(전부 일치) |
@@ -37,6 +37,7 @@ bun scripts/check-numbers.ts    # 본문 숫자를 원본 파일과 대조
 | --- | --- |
 | 전 장 렌더 | 34장, 넘침·가림·작은 글자·차트 축소 글자 없음(`issues: []`), 컨택트시트로 눈 확인 |
 | 발표 무대 | 키 이동·빠른 왕복·개요(Esc) 열고 닫기, JS 오류 0 |
+| 디자인 헌법 감사 | designsystems.com Getting Started 기준, 글자 크기 9 · 굵기 3 · 위반 0(`constitution_audit.py`, 표준은 `presentation/design-standard/`) |
 | 본문 숫자 대조 | 167개 전부 원본 파일에서 확인(`check-numbers.ts`) |
 | 핵심 수치 독립 재계산 | METR 배가 주기 · 직업 상관 · 꼬리 집계 · KOSIS 변화율 · 설문 관계식 전부 일치 |
 | 내부 정합성 | KOSIS 9개 대분류 합 = 전체(반올림 오차 이내), METR 파일 값 재현 |
