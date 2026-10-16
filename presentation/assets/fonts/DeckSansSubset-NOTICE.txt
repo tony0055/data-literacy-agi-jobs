@@ -1,0 +1,6 @@
+DeckSansSubset.woff2 — "Deck Sans Subset"
+출처: Pretendard Variable 1.309 (Copyright (c) 2021 Kil Hyung-jin, https://github.com/orioncactus/pretendard)의 부분 파일(subset).
+라이선스: SIL Open Font License 1.1 — 같은 폴더 Pretendard-LICENSE.txt. 원본은 Reserved Font Name "Pretendard"를 두므로,
+수정본(부분 파일)인 이 파일은 내부 이름을 "Deck Sans Subset"으로 바꿨다(name 1·3·4·6·16·25, fvar 인스턴스 이름). 저작권(0)·상표(7)·제작자(8·9)·라이선스(13·14) 레코드는 그대로 두고 0번에 파생 사실을 적었다.
+생성: presentation/에서 `python3 scripts/font-subset.py` — 덱 글자(index.html·src/*)와 기본 라틴·문장 부호만 담고, tokens.css의 unicode-range 두 줄을 함께 갱신한다.
+원본 PretendardVariable.woff2는 바꾸지 않았다(덱에 없는 글자가 나올 때만 받는 대체 범위).
