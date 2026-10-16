@@ -1,4 +1,4 @@
-구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 65(그중 자동만 통과·수동 확인 남음 9) · 실패 77 · 수동 5 · 오류 0 · 회귀 3(기준 baseline-cloud)
+구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 64(그중 자동만 통과·수동 확인 남음 9) · 실패 78 · 수동 5 · 오류 0 · 회귀 4(기준 baseline-cloud)
 
 # 시각 QA 보고서 — pr2
 
@@ -11,20 +11,21 @@
 | VG-01 | 전체 | NAV-01, NAV-02, CTL-01 | NAV-01 실패 · NAV-02 실패 · CTL-01 실패 | NAV-01: 왼쪽으로 80px(Δy 10): 장 5→5 (Δ0, 기대 +1) / NAV-01: 오른쪽으로 80px: 장 5→5 (Δ0, 기대 -1) / NAV-02: 390x844 터치: 이전·다음 버튼 없음(다음 0, 이전 0) / NAV-02: 1440x900 마우스: 이전·다음 버튼 없음(다음 0, 이전 0) |
 | VG-07 | 전체 | ONB-03, RSP-02 | ONB-03 실패 · RSP-02 실패 | ONB-03: 390x844 세로: 회전 안내·세로 읽기 모드 없음 / ONB-03: 375x812 세로: 회전 안내·세로 읽기 모드 없음 / RSP-02: 1장 1280×720 최소 실효 글자 10.67px(<12): span.source.credit "데이터리터러시의이해 중간고사 과제 · 주제 설명과 " / RSP-02: 2장 1280×720 최소 실효 글자 10.67px(<12): span.source "METR Time Horizon 1.1 원본 YAM" |
 | V1-01 | 5 | STD-01 | TYP-03 통과 · LAY-06 실패 · STD-01 실패 | STD-01: fit.js TERTIARY 확장 15개가 design-standard에 기록 없음: .band.head-band p, .gates td.yr span, .video .vcap, .chain text, .credit |
-| V8-01 | 13 | CHT-02, CHT-07, EVD-01 | CHT-02 실패 · CHT-07 실패 · EVD-01 실패 | CHT-02: 13장 occ_scatter n기간 없음 / CHT-02: 13장 occ_scatter 세로 범위를 넘은 점 10개를 끝에 붙여 그렸는데 표식·주석 없음 / CHT-07: 13장 occ_scatter 범위 밖 10개 점이 축 끝(y=412)에 실제 값처럼 그려짐(끝선 위 점 10개, 다른 모양·표시 없음) / EVD-01: 13장 occ_scatter 세로 범위 밖 값 10개가 축 끝값으로 그려져 그림 위치가 데이터 값과 다름 |
+| V8-01 | 13 | CHT-02, CHT-07, EVD-01 | CHT-02 실패 · CHT-07 실패 · EVD-01 실패 | CHT-02: 13장 occ_scatter n기간 없음 / CHT-02: 13장 occ_scatter 세로 범위를 넘은 점 10개를 끝에 붙여 그렸는데 표식·주석 없음 / CHT-07: 13장 occ_scatter 범위 밖 10개 점이 축 끝(y=368)에 실제 값처럼 그려짐(끝선 위 점 10개, 다른 모양·표시 없음) / EVD-01: 13장 occ_scatter 세로 범위 밖 값 10개가 축 끝값으로 그려져 그림 위치가 데이터 값과 다름 |
 
 ## 실행
 
-- 실행: 2026-10-16T16:45:09.942Z · 커밋 8a7fb96 (덱 파일 미커밋 변경 있음) · 덱 해시 ba69e406b2bc · 401초
+- 실행: 2026-10-16T18:25:49.384Z · 커밋 af08a74 (덱 파일 미커밋 변경 있음) · 덱 해시 402dc721b669 · 511초
 - 명령: `cd presentation && bun scripts/visual-qa.ts --label pr2 --compare=baseline-cloud` · 파이썬 `python3`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
 - 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift, 이번 실행에선 못 씀)으로 IMG-02·RSP-02를 판정
 
 ## 기준(baseline-cloud) 대비
 
-회귀 3건 — 기준보다 나빠진 조건:
+회귀 4건 — 기준보다 나빠진 조건:
 - **TYP-01** 통과 → 실패 · 항목 0 → 1
 - **CHT-05** 실패 → 실패 · 항목 17 → 18
+- **NAV-04** 통과 → 실패 · 항목 0 → 1
 - **CTL-02** 실패 → 실패 · 항목 133 → 136
 
 새로 통과: LAY-01, LAY-03, LAY-04, LAY-07, LAY-08, LAY-10, SURF-01, SURF-02, CARD-01, CARD-02, CARD-03, CARD-04, CARD-05, CARD-06, CARD-07, CARD-08, COL-01, COL-05, CON-01, CON-02, CON-05, TYP-03, TYP-04, TYP-05, TYP-06, TYP-07, TYP-08, TYP-10, TYP-11, TYP-13, TXT-09, IMG-06, EVD-02, NAV-11, CTL-07, A11Y-04, STD-02
@@ -70,7 +71,7 @@
 | [GRAD-01](#grad-01) | automated | 자동 | 통과 |  |  |
 | [GRAD-02](#grad-02) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [GRAD-03](#grad-03) | automated | 자동 | 통과 |  |  |
-| [TYP-01](#typ-01) | automated | 자동 | 실패 ⚠회귀 | 덱 전체 | 다른 글꼴로 렌더: Deck Sans Subset (30398 글리프) |
+| [TYP-01](#typ-01) | automated | 자동 | 실패 ⚠회귀 | 덱 전체 | 다른 글꼴로 렌더: Deck Sans Subset (30348 글리프) |
 | [TYP-02](#typ-02) | automated | 자동 | 실패 | 덱 전체 | charts.js:87 font-size 15 하드코딩(프리셋 밖) |
 | [TYP-03](#typ-03) | automated | 자동 | 통과 |  |  |
 | [TYP-04](#typ-04) | automated | 자동 | 통과 |  |  |
@@ -124,7 +125,7 @@
 | [NAV-01](#nav-01) | automated | 자동 | 실패 | 덱 전체 | 왼쪽으로 80px(Δy 10): 장 5→5 (Δ0, 기대 +1) |
 | [NAV-02](#nav-02) | automated | 자동 | 실패 | 덱 전체 | 390x844 터치: 이전·다음 버튼 없음(다음 0, 이전 0) |
 | [NAV-03](#nav-03) | automated | 자동 | 통과 |  |  |
-| [NAV-04](#nav-04) | automated | 자동 | 통과 |  |  |
+| [NAV-04](#nav-04) | automated | 자동 | 실패 ⚠회귀 | 덱 전체 | 입력→다음 장 보임 중앙값 454.9ms(>100, 5회 518/455/134/53) |
 | [NAV-05](#nav-05) | automated | 자동 | 실패 | 덱 전체 | 390x844 터치: 이전·다음 버튼이 없어 비활성 모양을 확인할 수 없음 |
 | [NAV-06](#nav-06) | automated | 자동 | 실패 | 덱 전체 | #1에서 location.hash='#12' 후 장 1(hashchange 처리 없음) |
 | [NAV-07](#nav-07) | automated | 자동 | 실패 | 덱 전체 | history.back() 후 about:blank(기대 3장) |
@@ -158,14 +159,14 @@
 | [MOT-08](#mot-08) | both | 자동+수동 | 실패 | 4, 8, 12, 18, 19, 21, 23 | 숫자 팝인 3개(>1) |
 | [MOT-09](#mot-09) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 모션 목록 절 없음 |
 | [MOT-10](#mot-10) | automated | 자동 | 통과 |  |  |
-| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 96/2290ms — 반쯤 그려진 채로 보임(3194ms 뒤 2290ms) |
+| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 99/2290ms — 반쯤 그려진 채로 보임(3191ms 뒤 2290ms) |
 | [A11Y-01](#a11y-01) | automated | 자동 | 실패 | 덱 전체 | 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33 |
 | [A11Y-02](#a11y-02) | automated | 자동 | 실패 | 덱 전체 | aria-live=polite 영역 없음 |
 | [A11Y-03](#a11y-03) | automated | 자동 | 실패 | 4, 8, 11, 12, 13, 14, 15, 16, 18, 19, 21, 26 | 쪼갠 숫자 "105" aria-label 없음 |
 | [A11Y-04](#a11y-04) | automated | 부분 | 통과 |  |  |
 | [A11Y-05](#a11y-05) | automated | 자동 | 실패 | 덱 전체 | JS 끔: 빈 차트 9(metr_horizon, agi_forecast_shift, espai_two_clocks, occ_scatter, occ_quintile, kr_occupation_index, proj_ca |
 | [A11Y-06](#a11y-06) | automated | 자동 | 통과 |  |  |
-| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 2736ms(>2500) |
+| [PERF-01](#perf-01) | automated | 부분 | 실패 | 덱 전체 | LCP 2984ms(>2500) |
 | [PERF-02](#perf-02) | automated | 자동 | 통과 |  |  |
 | [PERF-03](#perf-03) | automated | 자동 | 통과 |  |  |
 | [PERF-04](#perf-04) | automated | 자동 | 통과 |  |  |
@@ -242,7 +243,7 @@
 - 11장 · 글자 상자 겹침 2쌍: text.vlab "2098" ↔ text.note.slab "직업 자동화" 12px² · text.vlab "2042" ↔ text.vlab.slab "AGI" 12px²
 - 17장 · 글자 상자 겹침 3쌍: text.vlab "119.7" ↔ text.vlab.slab "전문가" 18px² · text.vlab "108.7" ↔ text.note.slab "사무직" 18px²
 
-- 메모: fit.js가 3차 정보 예외로 넘긴 글자 145개(실패로 세지 않음, TYP-03에서 따로 잰다)
+- 메모: fit.js가 3차 정보 예외로 넘긴 글자 146개(실패로 세지 않음, TYP-03에서 따로 잰다)
 
 근거: [slide-10.jpg](../shots/pr2/slide-10.jpg) · [slide-11.jpg](../shots/pr2/slide-11.jpg) · [slide-17.jpg](../shots/pr2/slide-17.jpg)
 
@@ -551,7 +552,7 @@
 
 실패 1건
 
-- 다른 글꼴로 렌더: Deck Sans Subset (30398 글리프)
+- 다른 글꼴로 렌더: Deck Sans Subset (30348 글리프)
 
 - 메모: 공개 URL의 글꼴 확인은 --public=URL로 돌린다
 
@@ -573,7 +574,7 @@
 > 읽어야 할 모든 글자(차트 눈금·범례·직접 라벨 포함)는 1920 기준 18px 이상이고, 14~17px는 출처·쪽 번호·n 캡션 같은 3차 정보에만 쓴다  
 > 기준: tiny 0, 비3차 18px 미만 0(범례 포함), 14px 미만 0
 
-- 메모: 3차 정보는 .foot·.source·.chart-src·.pg·.credit·'n=' 캡션으로 좁게 본다. fit.js TERTIARY는 공통 deck-fit.js보다 16개 넓다(.band.head-band p, .gates td.yr span, .video .vcap, .chain text, .plug, .credit…) — fit 보고의 '예외로 넘김' 145개
+- 메모: 3차 정보는 .foot·.source·.chart-src·.pg·.credit·'n=' 캡션으로 좁게 본다. fit.js TERTIARY는 공통 deck-fit.js보다 16개 넓다(.band.head-band p, .gates td.yr span, .video .vcap, .chain text, .plug, .credit…) — fit 보고의 '예외로 넘김' 146개
 
 ### TYP-04
 
@@ -673,7 +674,7 @@
 실패 2건
 
 - 글꼴 preload 없음
-- Slow 4G 근사에서 글꼴 적용(h1 표시) 9110ms(>1500ms, 최악 3초 초과)
+- Slow 4G 근사에서 글꼴 적용(h1 표시) 9365ms(>1500ms, 최악 3초 초과)
 
 - 메모: CDP 네트워크 제한(150ms RTT·1.6Mbps)·CPU 4배로 근사. 실제 회선·기기 아님
 
@@ -1083,7 +1084,7 @@
 실패 4건 · 장 7, 13, 24
 
 - 7장 · metr_horizon 로그 눈금 배수가 일정하지 않음: 1분·10분·1시간·8시간·40시간 (이웃 배수 10/6/8/5)
-- 13장 · occ_scatter 범위 밖 10개 점이 축 끝(y=412)에 실제 값처럼 그려짐(끝선 위 점 10개, 다른 모양·표시 없음)
+- 13장 · occ_scatter 범위 밖 10개 점이 축 끝(y=368)에 실제 값처럼 그려짐(끝선 위 점 10개, 다른 모양·표시 없음)
 - 24장 · proj_capability 로그 눈금 배수가 일정하지 않음: 1시간·하루·1주·1달·분기·1년·8년 (이웃 배수 24/7/4.3/3/4.1/8)
 - 24장 · proj_capability 축 눈금 4개가 가정선(gate)과 같은 높이: 하루·1주·1달·분기
 
@@ -1320,10 +1321,14 @@
 
 ### NAV-04
 
-통과 · 내비게이션·반응 · automated · 구현 auto
+실패 · 내비게이션·반응 · automated · 구현 auto · **회귀**
 
 > 입력 즉시 전환이 시작되고 연타해도 입력을 잃지 않으며 상태가 꼬이지 않는다  
 > 기준: current=10이고 current 장 1개, 입력→visible ≤100ms, is-hiding 잔존 0, opacity 1 아닌 줄 0, jsErrors 0
+
+실패 1건
+
+- 입력→다음 장 보임 중앙값 454.9ms(>100, 5회 518/455/134/53)
 
 - 메모: 글줄 불투명 확인은 마지막 입력 1.5초 뒤(글줄 등장 ≤1000ms 허용)
 
@@ -1734,7 +1739,7 @@
 - 17장 · 차트 빌드 2570ms(>1500)
 - 24장 · 차트 빌드 1830ms(>1500)
 - 26장 · 차트 빌드 3220ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 282/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 0/2290ms)
 
 근거: [slide-07.jpg](../shots/pr2/slide-07.jpg) · [slide-10.jpg](../shots/pr2/slide-10.jpg) · [slide-11.jpg](../shots/pr2/slide-11.jpg) · [slide-13.jpg](../shots/pr2/slide-13.jpg) · [slide-17.jpg](../shots/pr2/slide-17.jpg) · [slide-24.jpg](../shots/pr2/slide-24.jpg)
 
@@ -1860,7 +1865,7 @@
 
 실패 1건 · 장 7
 
-- 7장 · 탭 복귀 100ms 뒤 차트 빌드 96/2290ms — 반쯤 그려진 채로 보임(3194ms 뒤 2290ms)
+- 7장 · 탭 복귀 100ms 뒤 차트 빌드 99/2290ms — 반쯤 그려진 채로 보임(3191ms 뒤 2290ms)
 
 - 메모: 탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과
 
@@ -1967,7 +1972,7 @@
 
 실패 1건
 
-- LCP 2736ms(>2500)
+- LCP 2984ms(>2500)
 
 - 메모: Lighthouse가 없어 CDP(150ms RTT·1.6Mbps·CPU 4배)와 PerformanceObserver로 근사. 로컬 서버만, 공개 URL은 --public
 
@@ -2161,4 +2166,4 @@
 - `bun scripts/probe-nav.ts` → 종료 1
   -  "upOk": true / }
 - `node /home/user/product-design-system/13-tools-for-cloud/taste/lint.mjs index.html src --json` → 종료 1
-  -    "match": "9 em dashes", /    "message": "Em-dash habit. Use a full stop or a comma;
+  -    "match": "box-shadow:", /    "message": "Shadow. Elements at rest carry none; only real overlays (
