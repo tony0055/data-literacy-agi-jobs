@@ -22,7 +22,7 @@
 .panel.end { margin-right: calc(var(--g64) * -1); }
 .panel.tight { margin: 0 0 0 calc(var(--g32) * -1); padding: var(--g32); }
 .panel.tight.end { margin-right: calc(var(--g32) * -1); }
-.at7 { grid-column-start: 7; } .at8 { grid-column-start: 8; } .at9 { grid-column-start: 9; }
+.at6 { grid-column-start: 6; } .at7 { grid-column-start: 7; } .at8 { grid-column-start: 8; } .at9 { grid-column-start: 9; }
 /* 색 면이 본문 밖(여백 쪽)으로 넓어져도 넘침으로 세지 않게 본문 상자에 같은 여백을 둔다 */
 .body { margin: 0 calc(var(--g64) * -1); padding: 0 var(--g64); }
 .p-sage { background: var(--sage); }
@@ -68,6 +68,26 @@
 
 /* ── 2 전제: 세이지 면 위 두 줄 문장 + 사진 ── */
 .statement .k { font: var(--t-title) var(--font); letter-spacing: -0.01em; max-width: 22em; }
+/* 2장: 재귀를 그림으로 — 같은 틀이 안쪽으로 되풀이되는 드로스테 면(장식, 글자 없음) */
+.body.cols.statement { grid-template-rows: minmax(0, 1fr); align-content: stretch; }
+.statement > .k { align-self: end; }
+.statement .droste { align-self: end; width: 100%; height: auto; }
+.droste .d-a { fill: var(--paper); }
+.droste .d-b { fill: var(--sage-50); }
+.droste .d-core { fill: var(--accent); }
+/* 3장: 질문 줄을 크게 띄워 장 높이를 쓴다 */
+.q3 > * { padding: var(--g48) 0; }
+/* 12·21장: 두 수치를 대각으로 — 영웅 숫자는 위, 비교 수치는 아래 */
+.body.cols.diag { grid-template-rows: minmax(0, 1fr); align-content: stretch; }
+.diag > :first-child { align-self: start; }
+.diag > :last-child { align-self: end; }
+/* 20장: 식을 장 폭 한 줄 띠로 크게, 풀이와 회사 면은 그 아래 */
+.formula.big { font: var(--t-number) var(--font); letter-spacing: -0.01em; max-width: none; margin-bottom: var(--g48); }
+.body.cols.f20 { grid-template-rows: auto minmax(0, 1fr); align-content: stretch; }
+.f20 .col { align-self: stretch; }
+.f20 > .panel.hug { align-self: end; } /* 회사 면은 아래로 내려 식 띠와 대각을 이룬다(면 높이는 내용 그대로) */
+.f20 .defs { flex: 1 1 auto; }
+.f20 .defs li { flex: 1 1 0; font: var(--t-body) var(--font); padding: var(--g32) 0; } /* 풀이 세 줄이 본문 높이를 나눠 쓴다 */
 .premise { align-items: end; }
 .premise .photo { height: 512px; align-self: end; }
 .premise .k { align-self: end; }

@@ -1,4 +1,4 @@
-구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 61(그중 자동만 통과·수동 확인 남음 8) · 실패 81 · 수동 5 · 오류 0 · 회귀 2(기준 baseline-cloud)
+구현 142/147 조건 (automated·both 142개 중 141개 자동 판정, visual 5개 중 1개 부분 자동·4개 수동) · 통과 60(그중 자동만 통과·수동 확인 남음 8) · 실패 82 · 수동 5 · 오류 0 · 회귀 2(기준 baseline-cloud)
 
 # 시각 QA 보고서 — pr2
 
@@ -15,7 +15,7 @@
 
 ## 실행
 
-- 실행: 2026-10-16T14:12:27.160Z · 커밋 d7e1134 (덱 파일 미커밋 변경 있음) · 덱 해시 3d685cd0e5f1 · 526초
+- 실행: 2026-10-16T14:57:17.574Z · 커밋 7c5ed46 (덱 파일 미커밋 변경 있음) · 덱 해시 508d1659f793 · 512초
 - 명령: `cd presentation && bun scripts/visual-qa.ts --label pr2 --compare=baseline-cloud` · 파이썬 `python3`
 - 스크린샷 링크(`../shots/<label>/`)는 커밋하지 않는다(.gitignore). 같은 명령으로 다시 만든다. 기준선 장 렌더는 커밋된 `qa/before/slide-NN.jpg`와 같다
 - 이 환경에 없는 도구: axe-core · Lighthouse · tesseract → 해당 조건은 직접 잰 근사로 판정하고 '부분' 표시(아래 조건별 메모). OCR은 tesseract 대신 macOS Vision(scripts/ocr_vision.swift, 이번 실행에선 못 씀)으로 IMG-02·RSP-02를 판정
@@ -23,10 +23,10 @@
 ## 기준(baseline-cloud) 대비
 
 회귀 2건 — 기준보다 나빠진 조건:
+- **TYP-01** 통과 → 실패 · 항목 0 → 1
 - **CHT-05** 실패 → 실패 · 항목 17 → 18
-- **NAV-04** 통과 → 실패 · 항목 0 → 1
 
-새로 통과: LAY-01, LAY-03, LAY-04, LAY-07, LAY-08, LAY-10, SURF-01, SURF-02, CARD-01, CARD-03, CARD-04, CARD-05, CARD-06, CARD-07, CARD-08, COL-01, COL-05, CON-05, TYP-03, TYP-04, TYP-05, TYP-06, TYP-07, TYP-08, TYP-10, TYP-13, TXT-09, IMG-06, EVD-02, NAV-11, CTL-07, PERF-01, STD-02
+새로 통과: LAY-01, LAY-03, LAY-07, LAY-08, LAY-10, SURF-01, SURF-02, CARD-01, CARD-03, CARD-04, CARD-05, CARD-06, CARD-07, CARD-08, COL-01, COL-05, CON-05, TYP-03, TYP-04, TYP-05, TYP-06, TYP-07, TYP-08, TYP-10, TYP-13, TXT-09, IMG-06, EVD-02, NAV-11, CTL-07, PERF-01, STD-02
 
 ## 조건별 결과
 
@@ -35,7 +35,7 @@
 | [LAY-01](#lay-01) | automated | 자동 | 통과 |  |  |
 | [LAY-02](#lay-02) | automated | 자동 | 통과 |  |  |
 | [LAY-03](#lay-03) | automated | 자동 | 통과 |  |  |
-| [LAY-04](#lay-04) | automated | 자동 | 통과 |  |  |
+| [LAY-04](#lay-04) | automated | 자동 | 실패 | 20 | 형제 간격 2종 이상 1곳: div.body.cols.f20 "따라잡는 햇수 = 격차를 메우려면 두 배가 돼야 하" [48,121] |
 | [LAY-05](#lay-05) | automated | 자동 | 실패 | 28 | 병렬 항목 6개(>5): div.poster "텔레마케터·상담이미 감소2023년부터 실측 · 미국" |
 | [LAY-06](#lay-06) | automated | 자동 | 실패 | 10, 11, 17 | 글자 상자 겹침 1쌍: text.vlab "2042" ↔ text.note.slab "전문가 설문 (HLMI)" 12px² |
 | [LAY-07](#lay-07) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
@@ -69,7 +69,7 @@
 | [GRAD-01](#grad-01) | automated | 자동 | 통과 |  |  |
 | [GRAD-02](#grad-02) | both | 자동+수동 | 통과(자동)·수동 남음 |  |  |
 | [GRAD-03](#grad-03) | automated | 자동 | 통과 |  |  |
-| [TYP-01](#typ-01) | automated | 자동 | 통과 |  |  |
+| [TYP-01](#typ-01) | automated | 자동 | 실패 ⚠회귀 | 덱 전체 | 다른 글꼴로 렌더: Deck Sans Subset (30206 글리프) |
 | [TYP-02](#typ-02) | automated | 자동 | 실패 | 덱 전체 | charts.js:87 font-size 15 하드코딩(프리셋 밖) |
 | [TYP-03](#typ-03) | automated | 자동 | 통과 |  |  |
 | [TYP-04](#typ-04) | automated | 자동 | 통과 |  |  |
@@ -79,7 +79,7 @@
 | [TYP-08](#typ-08) | automated | 자동 | 통과 |  |  |
 | [TYP-09](#typ-09) | automated | 자동 | 실패 | 2, 4, 21, 33 | 최대/본문 1(<2.4): 64/64 |
 | [TYP-10](#typ-10) | automated | 자동 | 통과 |  |  |
-| [TYP-11](#typ-11) | automated | 자동 | 실패 | 4, 21 | 80px 이상 숫자 3개: 105 · 3.5 · 94 |
+| [TYP-11](#typ-11) | automated | 자동 | 실패 | 4 | 80px 이상 숫자 3개: 105 · 3.5 · 94 |
 | [TYP-12](#typ-12) | automated | 자동 | 실패 | 11 | 줄당 59자(>45): p.chart-src "같은 설문에서 같은 전문가들에게 물은 두 예상 연도" |
 | [TYP-13](#typ-13) | automated | 자동 | 통과 |  |  |
 | [TYP-14](#typ-14) | automated | 자동 | 실패 | 덱 전체 | 글꼴 preload 없음 |
@@ -123,7 +123,7 @@
 | [NAV-01](#nav-01) | automated | 자동 | 실패 | 덱 전체 | 왼쪽으로 80px(Δy 10): 장 5→5 (Δ0, 기대 +1) |
 | [NAV-02](#nav-02) | automated | 자동 | 실패 | 덱 전체 | 390x844 터치: 이전·다음 버튼 없음(다음 0, 이전 0) |
 | [NAV-03](#nav-03) | automated | 자동 | 통과 |  |  |
-| [NAV-04](#nav-04) | automated | 자동 | 실패 ⚠회귀 | 덱 전체 | 입력→다음 장 보임 중앙값 106.2ms(>100, 5회 13/106/39/114) |
+| [NAV-04](#nav-04) | automated | 자동 | 통과 |  |  |
 | [NAV-05](#nav-05) | automated | 자동 | 실패 | 덱 전체 | 390x844 터치: 이전·다음 버튼이 없어 비활성 모양을 확인할 수 없음 |
 | [NAV-06](#nav-06) | automated | 자동 | 실패 | 덱 전체 | #1에서 location.hash='#12' 후 장 1(hashchange 처리 없음) |
 | [NAV-07](#nav-07) | automated | 자동 | 실패 | 덱 전체 | history.back() 후 about:blank(기대 3장) |
@@ -157,7 +157,7 @@
 | [MOT-08](#mot-08) | both | 자동+수동 | 실패 | 4, 8, 12, 18, 19, 21, 23 | 숫자 팝인 3개(>1) |
 | [MOT-09](#mot-09) | both | 자동+수동 | 실패 | 덱 전체 | design-standard에 모션 목록 절 없음 |
 | [MOT-10](#mot-10) | automated | 자동 | 통과 |  |  |
-| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 91/2290ms — 반쯤 그려진 채로 보임(3199ms 뒤 2290ms) |
+| [MOT-11](#mot-11) | automated | 자동 | 실패 | 7 | 탭 복귀 100ms 뒤 차트 빌드 87/2290ms — 반쯤 그려진 채로 보임(3203ms 뒤 2290ms) |
 | [A11Y-01](#a11y-01) | automated | 자동 | 실패 | 덱 전체 | 현재 장이 아닌데 inert·aria-hidden 아닌 장 33/33 |
 | [A11Y-02](#a11y-02) | automated | 자동 | 실패 | 덱 전체 | aria-live=polite 영역 없음 |
 | [A11Y-03](#a11y-03) | automated | 자동 | 실패 | 4, 8, 11, 12, 13, 14, 15, 16, 18, 19, 21, 26 | 쪼갠 숫자 "105" aria-label 없음 |
@@ -210,10 +210,16 @@
 
 ### LAY-04
 
-통과 · 레이아웃·간격 · automated · 구현 auto
+실패 · 레이아웃·간격 · automated · 구현 auto
 
 > 모든 padding·margin·gap은 8 배수 토큰이고, 같은 부모의 형제 간격은 1종이며 그룹 안 간격 < 그룹 사이 간격이다. 헤더→본문 64, 본문→결론 32, 결론→꼬리말 24를 지킨다  
 > 기준: 감사 '간격' 위반 0, token-check space 0, 계산값이 8의 배수 아님 0건(4는 아이콘 반 단계만), 형제 간격 종류 1, 표준 거리 ±1px
+
+실패 1건 · 장 20
+
+- 20장 · 형제 간격 2종 이상 1곳: div.body.cols.f20 "따라잡는 햇수 = 격차를 메우려면 두 배가 돼야 하" [48,121]
+
+근거: [slide-20.jpg](../shots/pr2/slide-20.jpg)
 
 ### LAY-05
 
@@ -272,10 +278,10 @@
 실패 5건 · 장 3, 12, 20, 34
 
 - 3장 · 콘텐츠 점유율 0.27(0.35~0.85 밖)
-- 12장 · 콘텐츠 점유율 0.3(0.35~0.85 밖)
+- 12장 · 콘텐츠 점유율 0.33(0.35~0.85 밖)
 - 20장 · 콘텐츠 점유율 0.32(0.35~0.85 밖)
 - 34장 · 콘텐츠 점유율 0.19(0.35~0.85 밖)
-- 본문 영역 바탕 85% 이상 장 9개(>1): 1, 2, 3, 6, 7, 18, 19, 22, 34
+- 본문 영역 바탕 85% 이상 장 8개(>1): 1, 3, 6, 7, 18, 19, 22, 34
 
 근거: [slide-03.jpg](../shots/pr2/slide-03.jpg) · [slide-12.jpg](../shots/pr2/slide-12.jpg) · [slide-20.jpg](../shots/pr2/slide-20.jpg) · [slide-34.jpg](../shots/pr2/slide-34.jpg)
 
@@ -573,10 +579,14 @@
 
 ### TYP-01
 
-통과 · 타이포·서체 · automated · 구현 auto
+실패 · 타이포·서체 · automated · 구현 auto · **회귀**
 
 > 모든 글자가 로컬 Pretendard Variable 하나로 실제 렌더되고 모노스페이스는 없다  
 > 기준: 플랫폼 폰트 'Pretendard Variable' 1종, 다른 font-family 지정 0, mono 0
+
+실패 1건
+
+- 다른 글꼴로 렌더: Deck Sans Subset (30206 글리프)
 
 - 메모: 공개 URL의 글꼴 확인은 --public=URL로 돌린다
 
@@ -646,7 +656,7 @@
 
 - 2장 · 최대/본문 1(<2.4): 64/64
 - 4장 · 고유 크기 6(>5): 144,88,64,24,20,16
-- 21장 · 고유 크기 7(>5): 120,88,64,32,24,20,16
+- 21장 · 고유 크기 6(>5): 144,64,32,24,20,16
 - 33장 · 최대/본문 2(<2.4): 64/32
 
 근거: [slide-02.jpg](../shots/pr2/slide-02.jpg) · [slide-04.jpg](../shots/pr2/slide-04.jpg) · [slide-21.jpg](../shots/pr2/slide-21.jpg) · [slide-33.jpg](../shots/pr2/slide-33.jpg)
@@ -665,13 +675,12 @@
 > 한 장의 80px 이상 영웅 숫자는 1개, 96px hero 프리셋은 덱 전체 2장 이하. 영웅 숫자는 비례 숫자, 표·눈금은 tabular-nums  
 > 기준: 80px 숫자 ≥2 장 0, hero 장 ≤2, 규칙 위반 0
 
-실패 3건 · 장 4, 21
+실패 2건 · 장 4
 
 - 4장 · 80px 이상 숫자 3개: 105 · 3.5 · 94
-- 21장 · 80px 이상 숫자 2개: 2.9 · 15
-- 96px hero 프리셋 장 10(>2): 4, 6, 13, 14, 15, 16, 18, 19, 21, 26
+- 96px hero 프리셋 장 11(>2): 4, 6, 12, 13, 14, 15, 16, 18, 19, 21, 26
 
-근거: [slide-04.jpg](../shots/pr2/slide-04.jpg) · [slide-21.jpg](../shots/pr2/slide-21.jpg)
+근거: [slide-04.jpg](../shots/pr2/slide-04.jpg)
 
 ### TYP-12
 
@@ -703,7 +712,7 @@
 실패 2건
 
 - 글꼴 preload 없음
-- Slow 4G 근사에서 글꼴 적용(h1 표시) 9103ms(>1500ms, 최악 3초 초과)
+- Slow 4G 근사에서 글꼴 적용(h1 표시) 9032ms(>1500ms, 최악 3초 초과)
 
 - 메모: CDP 네트워크 제한(150ms RTT·1.6Mbps)·CPU 4배로 근사. 실제 회선·기기 아님
 
@@ -1352,14 +1361,10 @@
 
 ### NAV-04
 
-실패 · 내비게이션·반응 · automated · 구현 auto · **회귀**
+통과 · 내비게이션·반응 · automated · 구현 auto
 
 > 입력 즉시 전환이 시작되고 연타해도 입력을 잃지 않으며 상태가 꼬이지 않는다  
 > 기준: current=10이고 current 장 1개, 입력→visible ≤100ms, is-hiding 잔존 0, opacity 1 아닌 줄 0, jsErrors 0
-
-실패 1건
-
-- 입력→다음 장 보임 중앙값 106.2ms(>100, 5회 13/106/39/114)
 
 - 메모: 글줄 불투명 확인은 마지막 입력 1.5초 뒤(글줄 등장 ≤1000ms 허용)
 
@@ -1770,7 +1775,7 @@
 - 17장 · 차트 빌드 2570ms(>1500)
 - 24장 · 차트 빌드 1830ms(>1500)
 - 26장 · 차트 빌드 3220ms(>1500)
-- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 281/2290ms)
+- 7장 · 떠난 장의 차트 타임라인이 계속 돎(paused false, 259/2290ms)
 
 근거: [slide-07.jpg](../shots/pr2/slide-07.jpg) · [slide-10.jpg](../shots/pr2/slide-10.jpg) · [slide-11.jpg](../shots/pr2/slide-11.jpg) · [slide-13.jpg](../shots/pr2/slide-13.jpg) · [slide-17.jpg](../shots/pr2/slide-17.jpg) · [slide-24.jpg](../shots/pr2/slide-24.jpg)
 
@@ -1896,7 +1901,7 @@
 
 실패 1건 · 장 7
 
-- 7장 · 탭 복귀 100ms 뒤 차트 빌드 91/2290ms — 반쯤 그려진 채로 보임(3199ms 뒤 2290ms)
+- 7장 · 탭 복귀 100ms 뒤 차트 빌드 87/2290ms — 반쯤 그려진 채로 보임(3203ms 뒤 2290ms)
 
 - 메모: 탭 숨김은 document.hidden·visibilitychange를 10초 바꿔 모사(실제 탭 전환 아님). 돌아온 100ms 뒤 완성 상태여야 통과
 
