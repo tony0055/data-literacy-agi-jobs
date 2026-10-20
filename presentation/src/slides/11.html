@@ -1,0 +1,59 @@
+<!-- 11 AGI와 모든 직업 자동화까지 남은 햇수 · 숫자 묶음(4열, 왼쪽: 두 기울기 → 두 예상의 차이 막대(2024년 설문 = 핵심 파랑) → 각주) + 차트(8열, 부제에 두 설문 문항과 빠진 값) — 10장과 좌우를 바꿔 숫자부터 읽는다 -->
+<section class="slide s11">
+  <div class="head">
+    <p class="tag section-tag" data-hue="blue">전문가 예상</p>
+    <h2 class="headline">전문가들이 예상한 모든 직업 자동화까지 남은 햇수는<br>AGI 쪽보다 3.5배 빠르게 줄었어요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <section class="group span-4" aria-label="두 예상의 차이">
+        <div class="group__rows">
+          <div class="group__row">
+            <p class="t-label c-text-2">AI 능력이 두 배가 될 때마다 줄어든 남은 햇수</p>
+            <div class="s11-pair">
+              <p class="s11-num">
+                <span class="figure">3.2<span class="figure__unit">년</span></span>
+                <span class="t-label-strong">AGI</span>
+              </p>
+              <p class="s11-num">
+                <span class="figure">11.2<span class="figure__unit">년</span></span>
+                <span class="t-label-strong">모든 직업 자동화</span>
+              </p>
+            </div>
+            <p class="t-body c-text-2">11.2 ÷ 3.2 = <mark>3.5배</mark><span class="fn">*</span></p>
+            <p class="t-label c-text-2">상관계수 r = −0.97(AGI), −0.95(모든 직업 자동화)</p>
+            <p class="tags"><span class="tag" data-hue="indigo">기술</span><span class="tag" data-hue="indigo">n = 3</span></p>
+          </div>
+          <div class="group__row">
+            <p class="t-label c-text-2">같은 설문의 두 예상 연도 차이(모든 직업 자동화 − AGI)</p>
+            <p class="figure">105<span class="figure__unit">년</span>&nbsp;→&nbsp;56<span class="figure__unit">년</span><span class="fn">*</span></p>
+            <figure class="chart s11-gap">
+              <svg width="368" height="84" viewBox="0 0 368 84" role="img" aria-labelledby="s11-gap-t">
+                <title id="s11-gap-t">2022년 설문 105년, 2023년 69년, 2024년 56년으로 좁혀졌어요.</title>
+                <line class="base" x1="88" y1="0" x2="88" y2="84"/>
+                <text class="cat" x="72" y="18" text-anchor="end">2022년 설문</text>
+                <text class="cat" x="72" y="46" text-anchor="end">2023년 설문</text>
+                <text class="cat cat-hi" x="72" y="74" text-anchor="end">2024년 설문</text>
+                <rect class="bar s-ctx" x="88" y="8" width="232" height="12"/>
+                <rect class="bar s-ctx" x="88" y="36" width="152.46" height="12"/>
+                <rect class="bar s-main" x="88" y="64" width="123.73" height="12"/>
+                <text class="vlab" x="328" y="18">105년</text>
+                <text class="vlab" x="248.46" y="46">69년</text>
+                <text class="vlab" x="219.73" y="74">56년</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+        <p class="footnote">* 3.5배와 105년 → 56년은 2022·2023년 설문의 첫 발표치와 2026년 보고서에 실린 2024년 설문 값으로 계산했어요. 그 보고서는 <span class="nowrap">앞 두 설문도</span> 다시&nbsp;집계했어요.</p>
+      </section>
+      <figure class="chart span-8" data-chart="espai_two_clocks" data-kind="yearline" data-w="760" data-h="312" data-key-w="96">
+        <figcaption class="chart-head">
+          <p class="chart-title">AGI와 모든 직업 자동화 예상 연도 (2016~2024년 설문)</p>
+          <p class="chart-sub">설문은 기계가 모든 과제를 사람보다 낫고 싸게 해내는 때(AGI)와 어떤 직업이든 완전히 맡을 수&nbsp;있게 되는 때(모든 직업 자동화)를 따로 물었어요. 2016년 설문은 둘째 값이 수집한 자료에 없어 그리지 않았어요.</p>
+        </figcaption>
+        <p class="chart-src">AI Impacts 전문가 설문(Expert Survey on Progress in AI) n = 4회 · <span class="nowrap">2026. 10. 16. 확인 <span class="tag" data-hue="indigo">기술</span></span></p>
+      </figure>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">Grace 외 2024 · ESPAI 2024 보고서(2026년 9월) · analysis/relations.py</p><p class="where"><span class="sec">전문가 예상 · 관계식 R3</span><span class="pg"></span></p></footer>
+</section>

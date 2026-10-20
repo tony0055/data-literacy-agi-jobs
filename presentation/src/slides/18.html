@@ -1,0 +1,76 @@
+<!-- 18 신입 채용 · 한국 청년 일자리(6열: 라벨 + 큰 숫자 + 연령대 막대, 손 SVG) + 다른 두 수치(3열) + 면접 대기 그림과 관계식 R4 읽는 법 · 각주(3열, 그림은 분위기 그림이라 alt를 비운다 — AC-65) + 관계식 R4 핵심 한 문장(두 줄) -->
+<!-- 막대 값은 본문 숫자 그대로(청년 −28.5만 개 = AI 노출이 큰 업종 26.8만 개(94%) + 그 밖 1.7만 개, 50대 +23.0만 개 — analysis/out/relations.json R4_입구신호).
+     관계식 R4 등급은 relations.json 「기술(점 2개·기간 1개)」. 핵심 한 문장은 relations.json 「해석」(두 배가 될 때마다 격차 약 1.3%p 벌어졌고, 청년 일자리 약 2.5만 개씩 줄었다)을 지난 일로 옮겼다.
+     R4 각주(3회차 D3-01): analysis/relations.py 84~87행의 배가 횟수는 2026-06-15까지의 SOTA 외곽선이라 2026-04 Claude Mythos 1,044.8분(17.4시간 — 7 · 8장이 16시간 위라 뺀 점)이 들어간다.
+     16시간 이하 마지막 점(Opus 4.6, 718.8분)으로 세면 미국 4%p ÷ (log2 718.8 − log2 119.7 = 2.59) = 1.55%p, 한국 −26.8만 ÷ (9.49 + 0.74 = 10.23) = −2.62만 → 약 1.5%p · 약 2.6만 개(값은 그대로 두고 각주만 — 사용자 결정).
+     장 제목(3회차 W-09): 「먼저」는 시간 순서인데 근거는 같은 기간의 비교이고 청년 신규채용 감소는 2022 하반기에 시작됐다(research/jobs-korea.md 시기 정리) → 「더 뚜렷해요」.
+     꼬리표(3회차 W-07): 94%는 report.md 0-5절 「(기술 · 외부 자료)」 — 결론 등급 「기술」로 둔다(확인 상태 「직접」은 출처 줄 한국은행 이슈노트 2026-19가 말한다).
+     19% 뜻: research/jobs-global.md 14 · 128행 — 22~25세 AI 노출 직업 고용이 덜 노출된 또래 추세보다 19% 낮음(2026-06), 경력 노동자는 격차 없음.
+     공인회계사 28%는 2025. 10. 22. 기준 338/1,200명이라 등록이 끝나기 전 값(research/jobs-korea.md 81행, 3회차 D3-16).
+     범위 · 기간은 라벨 줄에 둔다(문장 속 물결표를 쓰지 않는다 — WR-84, 2회차 T2-05). 핵심 한 문장은 읽기 폭(40em)에서 두 줄(3회차 SL3-04 — 한 줄이면 57em이었다) -->
+<section class="slide s18">
+  <div class="head">
+    <p class="tag section-tag" data-hue="yellow">실제 고용</p>
+    <h2 class="headline">전체 일자리 수보다 신입 채용에서 변화가 더 뚜렷해요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <div class="span-6 stack" data-gap="4">
+        <div class="stack" data-gap="1">
+          <p class="t-label c-text-2">한국 청년(15~29세) 일자리 감소 · 2022년 6월→2026년 6월</p>
+          <p class="figure figure--display">28.5<span class="figure__unit">만 개</span></p>
+          <p class="c-text-2">94%가 AI 노출이 큰 업종에서 줄었고, 같은 기간 50대는 23.0만&nbsp;개 늘었어요.</p>
+        </div>
+        <figure class="chart">
+          <figcaption class="chart-head"><p class="chart-title">연령대별 일자리 변화 (만 개)</p></figcaption>
+          <svg width="564" height="140" viewBox="0 0 564 140" role="img" aria-labelledby="s18-svg-t" aria-describedby="s18-svg-d">
+          <title id="s18-svg-t">연령대별 일자리 변화, 2022년 6월→2026년 6월</title>
+          <desc id="s18-svg-d">0을 가운데에 둔 가로 막대 2개예요. 한국 청년(15~29세) 일자리는 28.5만 개 줄었고 그 94%는 AI 노출이 큰 업종, 나머지 6%는 그 밖의 업종 몫이에요. 같은 기간 50대는 23.0만 개 늘었어요.</desc>
+          <text class="cat cat-hi" aria-hidden="true" x="294.0" y="14" text-anchor="end">청년(15~29세)</text>
+          <rect class="bar s-ctx seg neg" x="74.0" y="22" width="13.6" height="16" data-x="청년 · 그 밖의 업종" data-y="-1.7"/>
+          <rect class="bar s-main neg" x="87.6" y="22" width="214.4" height="16" data-x="청년 · AI 노출이 큰 업종" data-y="-26.8"/>
+          <text class="vlab" x="66.0" y="34" text-anchor="end">−28.5만 개</text>
+          <text class="note" x="91.6" y="58" text-anchor="end">그 밖 6%</text>
+          <text class="note" x="194.8" y="58" text-anchor="middle">94%가 AI 노출이 큰 업종</text>
+          <text class="cat" aria-hidden="true" x="310.0" y="86">50대</text>
+          <rect class="bar s-ctx" x="302.0" y="94" width="184.0" height="16" data-x="50대" data-y="23.0"/>
+          <text class="vlab" x="494.0" y="106">+23.0만 개</text>
+          <line class="base" x1="302.0" y1="18" x2="302.0" y2="118"/>
+          <text class="tick" aria-hidden="true" x="302.0" y="134" text-anchor="middle">0</text>
+          </svg>
+          <p class="chart-src">한국은행 이슈노트 2026-19 <span class="tag" data-hue="indigo">기술</span></p>
+        </figure>
+      </div>
+      <div class="span-3 stack" data-gap="4">
+        <section class="group" aria-label="신입 채용의 다른 두 수치">
+          <div class="group__rows">
+            <div class="group__row">
+              <p class="t-label c-text-2">미국 22~25세 · 2026년 6월</p>
+              <p class="figure">19<span class="figure__unit">%</span></p>
+              <p>AI 노출이 큰 직업의 고용이 덜 노출된 쪽 또래 추세보다 낮은 정도예요. 경력자는 차이가&nbsp;없어요. <span class="tag" data-hue="indigo">기술</span></p>
+            </div>
+            <div class="group__row">
+              <p class="t-label c-text-2">한국 공인회계사 · 2022→2025(10월 기준)</p>
+              <p class="figure">91→28<span class="figure__unit">%</span></p>
+              <p>합격자 가운데 수습 회계사로 등록한 비율이고, 2025년은 마감 전 값이에요. <span class="tag" data-hue="indigo">기술</span></p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="span-3 stack" data-gap="4">
+        <figure class="media" data-ratio="3:2">
+          <img src="assets/img/18-interview-wait.jpg" width="2400" height="1792" alt="">
+        </figure>
+        <section class="group" aria-labelledby="s18-r4">
+          <h3 class="group__title" id="s18-r4">관계식 R4 읽는 법</h3>
+          <p class="t-label c-text-2">두 시점 사이 고용 변화를 그사이 AI 능력이 두 배가 된 횟수로 나눈 값이라 원인을 뜻하지 않아요. 근거는 미국 점&nbsp;2개와 한국 기간&nbsp;1개예요.</p>
+          <p class="footnote">* 횟수에는 7·8장에서 뺀 17.4시간 점도 들어 있어요. 이 점을 제외하면 약 1.5%p, 약 2.6만&nbsp;개예요.</p>
+        </section>
+      </div>
+    </div>
+    <div class="takeaway">
+      <p class="measure">AI 능력이 두 배가 될 때마다* 미국 22~25세 고용 격차(19%)는 2025년 7월부터 2026년 6월까지 약 1.3%p(퍼센트포인트)씩 커졌고, 한국 노출 업종 청년 일자리는 2022년 6월부터 2026년 6월까지 약 2.5만&nbsp;개씩 줄었어요. <span class="tag" data-hue="indigo">기술</span></p>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">한국은행 이슈노트 2026-19 · Brynjolfsson 외 Canaries(2026년 8월판) · 국회예산정책처 110호</p><p class="where"><span class="sec">실제 고용 3 · 신입 채용 · 관계식 R4</span><span class="pg"></span></p></footer>
+</section>

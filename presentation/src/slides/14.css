@@ -1,0 +1,5 @@
+/* 14 노출 상위 직업 */
+/* 표(시스템 표 그대로, 행 높이 = 내용): [직업] [노출도 β] [고용 변화율]. 숫자 칸은 끝 맞춤 */
+.s14 .s14-table :is(.table__head, .table__row) {
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+}

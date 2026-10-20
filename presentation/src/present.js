@@ -1,127 +1,125 @@
-// 발표 무대: 한 장씩 보여 주고, 장 사이는 Transitions.dev의 페이지 좌우 전환(.t-page-slide)을 쓴다.
-// 조작: 키보드(→ ← Space Home End · G/O 개요 · F 전체 화면 · ? 안내), 보이는 버튼(이전·다음·개요·전체 화면·다시 재생),
-// 터치·펜 스와이프, 주소 #n(새로고침·주소 변경·뒤로 가기). 배치(배율·모드)는 index.html <head>의 window.__deckLayout()이 정한다.
-// ?check / ?slide=n(렌더) 에서는 무대를 만들지 않고 장 번호·섹션·외부 링크 표시만 채운다.
+// 발표 무대: 한 장씩 보여 준다. 조작부는 제품 디자인 시스템 컴포넌트(.button · .progress · .toolbar)와 Lucide 스프라이트.
+// 조작: 키보드(→ ← Space PageUp/Down Home End · G/O 전체 장 보기 · Esc 닫기 · F 전체 화면 · ? 조작부 보이기),
+// 보이는 버튼(전체 장 보기 · 전체 화면 · 처음으로 · 이전 · 다음), 터치·펜 스와이프, 주소 #n(새로고침·주소 변경·뒤로 가기).
+// 장 안 빌드 · 차트 단계 모션은 없다(2026. 10. 21. — 정본 MO-01 · 02 기능 모션만). 그래서 「다시 재생」 버튼 · R 키도 없앴다. 덱 모션은 장 사이 이동뿐(controls.css).
+// 배치(배율·모드)는 index.html <head>의 window.__deckLayout()이 정한다.
+// 마지막 입력이 키보드면 <html data-input="keyboard">를 단다(MO-03: 키보드로 한 동작은 모션 없이 바로).
+// 배너를 쓰지 않는다(CN-146 — 배너는 결과·상태): 키 안내는 조작 막대 안 캡션 글(.deck-keys), 마지막 장은 진행 표시 34 / 34와
+// 「처음으로」 버튼으로 보이고 화면 읽기 프로그램에는 알림 영역으로 알린다.
+// 아이콘(IC-03 · IC-25): 쓰는 이름은 아래 ICONS 하나에 모으고 build.ts가 스프라이트와 대조한다. 뜻이 맞는 그림이 없는 동작(전체 화면)은 글자 버튼.
+// 버튼 이름(aria-label)은 보이는 글자 그대로 시작한다(AC-64 — 좁은 모드에서 글자를 숨겨도 같은 이름).
+// ?check / ?slide=n(렌더)에서는 무대를 만들지 않고 외부 링크 표시만 채운다.
 (() => {
 const slides = [...document.querySelectorAll(".slide")];
 const total = slides.length;
 const presentQuery = new URLSearchParams(location.search);
-const renderMode = presentQuery.has("check") || presentQuery.has("slide");
+const presentRender = presentQuery.has("check") || presentQuery.has("slide");
 
-// 1) 장 번호 앞에 섹션 이름(장에 data-section이 있으면 그것을 쓴다)
-const SECTIONS = [[1, "들어가며"], [6, "AI 발전 속도"], [10, "전문가 예상"], [13, "실제 고용"], [19, "속도를 바꾸는 조건"], [23, "2036 추정"], [30, "반대 증거"], [31, "분석 계획"], [33, "한계"], [34, "출처"]];
-const sectionOf = (i) => slides[i].dataset.section || [...SECTIONS].reverse().find(([from]) => i + 1 >= from)?.[1] || "";
-slides.forEach((s, i) => {
-  const pg = s.querySelector(".pg");
-  if (!pg) return;
-  const n = pg.querySelector("b");
-  const t = pg.querySelector(".tot");
-  if (n) n.textContent = String(i + 1);
-  if (t) t.textContent = String(total);
-  const sec = sectionOf(i);
-  if (sec && !pg.dataset.section) { pg.dataset.section = sec; pg.prepend(`${sec} · `); } // 글자 마디만 더한다(꼬리말 배치는 그대로)
-});
-
-// 2) 외부 링크: 행선지와 '새 탭'을 이름에 넣고, 글자 끝에 ↗ 표시(controls.css가 [data-ext]::after로 그린다)
+// 1) 외부 링크: 행선지와 '새 탭'을 이름에 넣는다
 const siteOf = (host) => (/youtu/.test(host) ? "YouTube" : /github/.test(host) ? "GitHub" : host.replace(/^www\./, ""));
 for (const a of document.querySelectorAll(".slide a[href^='http']")) {
   const site = siteOf(new URL(a.href).hostname);
   const text = (a.innerText || a.textContent).replace(/\s+/g, " ").trim();
   if (a.target === "_blank") {
     if (!/noopener/.test(a.rel)) a.rel = `${a.rel} noopener`.trim();
-    if (!/새 탭/.test(a.getAttribute("aria-label") || "")) a.setAttribute("aria-label", `${text} (새 탭에서 ${site} 열기)`);
-    if (!a.title) a.title = `새 탭에서 ${site} 열기 ↗`;
+    if (!/새 탭/.test(a.getAttribute("aria-label") || "")) a.setAttribute("aria-label", `${text}, 새 탭에서 ${site}로 열려요`);
+    if (!a.title) a.title = `새 탭에서 ${site}로 열려요`;
   }
-  (a.querySelector(".vcap") || a).setAttribute("data-ext", "");
 }
 
 let current = 0;
 window.__deckCurrentSlide = () => current;
-if (renderMode) return;
+if (presentRender) return;
 
-// 3) 무대
+// 2) 무대
 const root = document.documentElement;
 const body = document.body;
 const deck = document.querySelector(".deck");
 root.classList.add("deck-js");
 body.classList.add("stage");
-deck.classList.add("t-page-slide");
-slides.forEach((s) => s.classList.add("t-page"));
 const css = getComputedStyle(root);
 const msVar = (name) => { const v = css.getPropertyValue(name).trim(); const n = parseFloat(v); return Number.isFinite(n) ? (/ms$/.test(v) ? n : n * 1000) : 0; };
-const HINT_HOLD = msVar("--hint-hold");
-const IDLE_AFTER = msVar("--idle-after");
-const QUICK = msVar("--duration-quick");
-const FAST = msVar("--duration-fast");
+const D3 = msVar("--duration-3");
+const D4 = msVar("--duration-4");
+const IDLE_AFTER = D4 * 7; // 포인터가 이만큼 멈추면 조작부를 옅게(약 3초)
 const baseTitle = document.title;
-// 헤드라인 글자(줄바꿈 <br>·계단 문장 줄은 띄어 읽는다)
-const textOf = (e) => { if (!e) return ""; const c = e.cloneNode(true); c.querySelectorAll("br").forEach((b) => b.replaceWith(" ")); c.querySelectorAll(".lines > span").forEach((x) => x.after(" ")); return c.textContent.replace(/\s+/g, " ").trim(); };
-const headOf = (s) => textOf(s.querySelector(".headline, h1, h2") || s.querySelector(".lines, p"));
+const textOf = (e) => { if (!e) return ""; const c = e.cloneNode(true); c.querySelectorAll("br").forEach((b) => b.replaceWith(" ")); return c.textContent.replace(/\s+/g, " ").trim(); };
+const headOf = (s) => textOf(s.querySelector(".headline, h1, h2") || s.querySelector("p"));
 const isTouch = () => navigator.maxTouchPoints > 0 && matchMedia("(pointer: coarse)").matches;
-const store = {
-  get(k) { try { return sessionStorage.getItem(k); } catch { return null; } },
-  set(k, v) { try { sessionStorage.setItem(k, v); } catch { /* 저장소가 막혀도 동작은 같다 */ } },
-};
 
-// 3-1) 조작부 만들기(아이콘은 24 격자·2px 선 한 세트)
-const ICON = {
-  prev: '<path d="M15 18l-6-6 6-6"/>',
-  next: '<path d="M9 18l6-6-6-6"/>',
-  overview: '<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>',
-  fsOn: '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
-  fsOff: '<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>',
-  replay: '<path d="M4 12a8 8 0 1 0 2.3-5.7"/><path d="M4 4v4h4"/>',
-  close: '<path d="M6 6l12 12M18 6L6 18"/>',
-  first: '<path d="M11 18l-6-6 6-6M19 18l-6-6 6-6"/>',
+// 2-1) 조작부(시스템 컴포넌트 클래스만 붙인다)
+// 아이콘 이름(build.ts가 이 줄을 읽어 스프라이트와 대조한다): 격자 보기 · 홈(처음 장 = 뿌리) · 뒤로 · 다음 · 닫기
+const ICONS = ["squares-grid", "house", "chevron-left", "chevron-right", "xmark"];
+const icon = (name) => `<svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-${name}"/></svg>`;
+const mk = (tag, attrs = {}, inner = "") => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); e.innerHTML = inner; return e; };
+// 글자는 .deck-button__text(좁은 모드에서 아이콘 버튼은 controls.css가 글자를 숨긴다 — 시스템에 없는 자식 이름이라 덱 접두)
+// 아이콘은 글자 앞이 기본이고, 나아가는 쪽을 가리키는 「다음」만 글자 뒤(IC-24 — 진행 방향 아이콘은 그 쪽 끝에, 3회차 L-04)
+const textButton = (cls, name, text, key, label = text, after = false) => {
+  const t = `<span class="deck-button__text">${text}</span>`, i = name ? icon(name) : "";
+  return mk("button", { type: "button", class: `button button--small ${cls}`, "aria-label": label, title: key ? `${label} (${key})` : label }, after ? t + i : i + t);
 };
-const svg = (name) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICON[name]}</svg>`;
-const el = (tag, attrs = {}, html = "") => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); e.innerHTML = html; return e; };
-const button = (name, label, keyHint, cls = "") => el("button", { type: "button", class: `deck-btn ${cls}`.trim(), "aria-label": label, title: keyHint ? `${label} (${keyHint})` : label }, svg(name));
 
 const fsOK = !!(document.fullscreenEnabled && root.requestFullscreen);
 const ui = {
-  util: el("div", { class: "deck-ui deck-group util", role: "group", "aria-label": "발표 도구" }),
-  prevG: el("div", { class: "deck-ui deck-group prev" }),
-  nextG: el("div", { class: "deck-ui deck-group next" }),
-  overview: button("overview", "개요", "G"),
-  fullscreen: fsOK ? button("fsOn", "전체 화면", "F") : null,
-  replay: button("replay", "다시 재생", "R"),
-  prev: button("prev", "이전 장", "←"),
-  next: button("next", "다음 장", "→", "is-next"),
-  progress: el("div", { class: "deck-ui deck-progress", role: "progressbar", "aria-label": "진행", "aria-valuemin": "1", "aria-valuemax": String(total) }),
-  hint: el("div", { class: "deck-ui deck-hint", hidden: "" }),
-  end: el("div", { class: "deck-ui deck-end", hidden: "", role: "status" }),
-  note: el("div", { class: "deck-ui deck-note" }, "옆으로 밀어 넘기고 가로로 돌리면 크게 봅니다"),
-  read: el("div", { class: "deck-ui deck-read", "aria-hidden": "true" }),
-  barbg: el("div", { class: "deck-ui deck-barbg", "aria-hidden": "true" }),
-  live: el("div", { class: "deck-ui deck-live", "aria-live": "polite", "aria-atomic": "true" }),
-  ovHead: el("header", { class: "deck-ov-head" }, "<h2>전체 " + total + "장</h2>"),
-  ovClose: el("button", { type: "button", class: "deck-btn has-text", "aria-label": "개요 닫기", title: "개요 닫기 (Esc)" }, svg("close") + "<span>닫기</span>"),
-  first: el("button", { type: "button", class: "deck-btn has-text", "aria-label": "처음으로", title: "처음으로 (Home)" }, svg("first") + "<span>처음으로</span>"),
+  util: mk("div", { class: "deck-ui deck-group util", role: "group", "aria-label": "발표 도구" }),
+  nav: mk("div", { class: "deck-ui deck-group nav", role: "group", "aria-label": "장 이동" }),
+  overview: textButton("button--secondary", ICONS[0], "전체 장 보기", "G"),
+  fullscreen: fsOK ? textButton("button--secondary", "", "전체 화면", "F") : null,
+  keys: mk("p", { class: "deck-keys" }),
+  first: textButton("button--secondary", ICONS[1], "처음으로", "Home", "처음으로(1장)"),
+  prev: textButton("button--secondary", ICONS[2], "이전", "←", "이전 장"),
+  next: textButton("button--primary", ICONS[3], "다음", "→", "다음 장", true),
+  // 시스템 진행 막대 마크업 그대로: 이름 + 값(끝 쪽) 한 줄, 트랙이 progressbar(이름은 aria-labelledby)
+  progress: mk("div", { class: "progress deck-progress" },
+    `<p class="progress__label"><span id="deck-progress-name">장</span><span class="progress__value"></span></p><div class="progress__track" role="progressbar" aria-labelledby="deck-progress-name" aria-valuemin="1" aria-valuemax="${total}"><div class="progress__fill"></div></div>`),
+  read: mk("div", { class: "deck-ui deck-read", "aria-hidden": "true" }),
+  barbg: mk("div", { class: "deck-ui deck-barbg", "aria-hidden": "true" }),
+  live: mk("div", { class: "deck-ui deck-live", "aria-live": "polite", "aria-atomic": "true" }),
+  ovHead: mk("header", { class: "toolbar deck-ov-head" }, `<div class="toolbar__group"><h2 class="toolbar__title">전체 ${total}장</h2></div><div class="toolbar__center"></div><div class="toolbar__group"></div>`),
+  ovClose: textButton("button--secondary", ICONS[4], "닫기", "Esc", "닫기(전체 장 보기)"),
 };
-ui.util.append(...[ui.overview, ui.fullscreen, ui.replay].filter(Boolean));
-ui.prevG.append(ui.prev);
-ui.nextG.append(ui.next);
-ui.progress.innerHTML = '<span><b></b> / ' + total + '</span><span class="track" aria-hidden="true"><span class="fill"></span></span>';
-ui.end.innerHTML = "<span>마지막 장입니다</span>";
-ui.end.append(ui.first);
-ui.ovHead.append(ui.ovClose);
-body.append(ui.barbg, ui.read, ui.note, ui.util, ui.progress, ui.prevG, ui.nextG, ui.hint, ui.end, ui.live, ui.ovHead);
+ui.first.classList.add("deck-first");
+ui.first.hidden = true;
+ui.keys.textContent = isTouch() ? "옆으로 밀어 넘겨요" : "→ · Space 다음 장 · G 전체 장 보기";
+ui.util.append(...[ui.overview, ui.fullscreen, ui.keys].filter(Boolean));
+ui.nav.append(ui.progress, ui.first, ui.prev, ui.next);
+ui.ovHead.lastElementChild.append(ui.ovClose);
+deck.before(ui.ovHead); // 개요 머리는 덱 앞(위에 붙는다)
+body.append(ui.barbg, ui.read, ui.util, ui.nav, ui.live);
+
+// 세로 읽기 칸: 그림자 DOM에 덱 CSS와 아이콘 스프라이트를 따로 넣는다
 const shadow = ui.read.attachShadow({ mode: "open" });
-shadow.innerHTML = ["deck.css", "slides.css", "controls.css"].map((f) => `<link rel="stylesheet" href="src/${f}">`).join("") + '<div class="read-root"></div>';
+const sheets = ["ds/tokens.css", "ds/layout.css", "ds/components.css", "deck.css", "slides.bundle.css", "controls.css"];
+shadow.innerHTML = sheets.map((f) => `<link rel="stylesheet" href="src/${f}">`).join("") + '<div class="read-root"></div>';
+const sprite = document.querySelector("body > svg[aria-hidden]");
+if (sprite) shadow.prepend(sprite.cloneNode(true));
 const readRoot = shadow.querySelector(".read-root");
 
-// 3-2) 배치: 모드(막대·기둥·읽기 칸)와 배율. 안전 영역은 env()를 실제로 재서 넘긴다
-const probe = el("div", { "aria-hidden": "true", class: "deck-safe" });
+// 2-2) 배치: 모드(막대·기둥·읽기 칸)와 배율. 안전 영역은 env()를 실제로 재서 넘긴다
+const probe = mk("div", { "aria-hidden": "true", class: "deck-safe" });
 body.append(probe);
 let mode = "bar";
+let deckK = 1; // 지금 배율(스와이프 끌기 거리를 장 좌표로 바꿀 때)
 const layout = () => {
   const p = getComputedStyle(probe);
   const L = window.__deckLayout({ t: parseFloat(p.paddingTop) || 0, r: parseFloat(p.paddingRight) || 0, b: parseFloat(p.paddingBottom) || 0, l: parseFloat(p.paddingLeft) || 0 });
   const was = mode;
   mode = L.mode;
+  deckK = L.k;
   body.classList.toggle("portrait", mode === "panel");
-  if (was !== mode) setTimeout(() => renderRead(), 0); // 돌려서 세로가 되면 읽기 칸을 채운다
+  if (was !== mode) setTimeout(() => renderRead(), 0);
+  fitKeys();
+};
+// 막대 맞추기: 도구 묶음과 이동 묶음 사이가 16 이상이 되게 ① 키 안내 글을 숨기고 ② 그래도 닿으면 좁은 막대(deck-compact:
+// 아이콘 버튼 글자 숨김 · 진행 트랙 숨김 · 막대 끝을 창 가장자리 16으로, controls.css). 640 폭 가로 화면처럼 막대가 좁을 때(2회차 CM-01)
+const apart = () => { const a = ui.util.getBoundingClientRect(), b = ui.nav.getBoundingClientRect(); return !(a.width && b.width) || a.right + 16 <= b.left; };
+const fitKeys = () => {
+  ui.keys.hidden = false;
+  root.classList.remove("deck-compact");
+  if (mode !== "bar") return;
+  if (apart()) return;
+  ui.keys.hidden = true;
+  if (!apart()) root.classList.add("deck-compact");
 };
 window.addEventListener("resize", layout);
 window.visualViewport?.addEventListener("resize", layout);
@@ -132,45 +130,37 @@ document.addEventListener("fullscreenchange", () => {
   const label = on ? "전체 화면 끝내기" : "전체 화면";
   ui.fullscreen.setAttribute("aria-label", label);
   ui.fullscreen.title = `${label} (F)`;
-  ui.fullscreen.innerHTML = svg(on ? "fsOff" : "fsOn");
+  ui.fullscreen.querySelector(".deck-button__text").textContent = label;
+  fitKeys();
 });
 layout();
 
-// 3-3) 알림·안내·끝 표시
-const announce = (t) => { ui.live.textContent = ""; requestAnimationFrame(() => { ui.live.textContent = t; }); };
-const toast = (node, open, instant = false) => {
-  if (open) { node.hidden = false; void node.offsetWidth; node.classList.add("is-open"); }
-  else if (!node.hidden) {
-    node.classList.remove("is-open");
-    if (instant) node.hidden = true; // 장을 넘기면 바로 치운다
-    else setTimeout(() => { if (!node.classList.contains("is-open")) node.hidden = true; }, FAST);
-  }
-  body.classList.toggle("has-toast", !ui.hint.hidden && ui.hint.classList.contains("is-open") || ui.end.classList.contains("is-open"));
-};
-let hintTimer = 0;
-const showHint = () => {
-  if (mode === "panel") return; // 세로 칸은 알림 줄이 늘 같은 말을 한다
-  ui.hint.textContent = isTouch() ? "옆으로 밀어 넘깁니다" : "→ 키나 Space로 넘깁니다 · 물음표 키로 이 안내를 다시 봅니다";
-  toast(ui.hint, true);
-  clearTimeout(hintTimer);
-  hintTimer = setTimeout(() => toast(ui.hint, false), HINT_HOLD);
-};
-const hideHint = () => { clearTimeout(hintTimer); toast(ui.hint, false); };
-const showEnd = () => { toast(ui.end, true); announce(`마지막 장입니다 · ${total} / ${total}`); };
+// 2-3) 마지막 입력 방식(MO-03)
+document.addEventListener("keydown", () => root.setAttribute("data-input", "keyboard"), true);
+document.addEventListener("pointerdown", () => root.removeAttribute("data-input"), true);
 
-// 3-4) 장 이동
+// 2-4) 화면 읽기 프로그램 알림. 마지막 장에서 더 넘기려 하면 알린다(보이는 쪽은 진행 표시 · 「처음으로」 버튼)
+const announce = (t) => { ui.live.textContent = ""; requestAnimationFrame(() => { ui.live.textContent = t; }); };
+const showEnd = () => announce(`마지막 장이에요 · ${total} / ${total}`);
+
+// 2-5) 장 이동
 const update = () => {
   const n = current + 1;
-  ui.progress.querySelector("b").textContent = String(n);
-  ui.progress.setAttribute("aria-valuenow", String(n));
-  ui.progress.setAttribute("aria-valuetext", `${total}장 중 ${n}장`);
-  ui.progress.style.setProperty("--deck-pct", `${(n / total) * 100}%`); // 루트에 두면 덱 전체 스타일을 다시 계산한다
+  const track = ui.progress.querySelector(".progress__track");
+  ui.progress.querySelector(".progress__value").textContent = `${n} / ${total}`;
+  track.setAttribute("aria-valuenow", String(n));
+  track.setAttribute("aria-valuetext", `${total}장 중 ${n}장`);
+  track.style.setProperty("--progress-value", String(n / total));
   ui.prev.setAttribute("aria-disabled", String(current === 0));
   ui.next.setAttribute("aria-disabled", String(current === total - 1));
+  const wasLast = !ui.first.hidden;
+  ui.first.hidden = current !== total - 1;
+  if (wasLast !== !ui.first.hidden) fitKeys();
   document.title = `${baseTitle} (${n}/${total})`;
 };
+
+// 읽기 칸 사본: 원본 배치를 보고 한 열로 풀 상자를 표시한다(장 클래스와 무관). 캔버스 배치는 화면과 상관없어 장마다 한 번만 잰다
 let readTimer = 0;
-// 읽기 칸에 넣을 사본: 차트 빌드 도중이어도 완성 모습으로(모션이 남긴 투명도·변형·선 길이 인라인 값을 지운다)
 const marks = new Map();
 const marksOf = (s) => {
   if (marks.has(s)) return marks.get(s);
@@ -178,64 +168,45 @@ const marksOf = (s) => {
   [...s.querySelectorAll("*")].forEach((o, i) => {
     if (o instanceof SVGElement && o.tagName !== "svg") return;
     const st = getComputedStyle(o);
-    const digits = o.matches(".t-digit-group"); // 쪼갠 숫자 묶음은 한 줄 그대로
     let rd = "";
-    if (/^(flex|grid)$/.test(st.display) && !digits && o.offsetWidth > 480 && o.textContent.trim().length > 16) rd = "stack"; // 칸보다 넓은 가로 배치만 한 열로(숫자+단위 같은 짧은 줄은 그대로)
-    else if (/^inline-(flex|grid)$/.test(st.display) && !digits) rd = "inline";
+    if (/^(flex|grid)$/.test(st.display) && o.offsetWidth > 360 && o.textContent.trim().length > 16 && !o.matches(".table__head, .table__row, .banner")) rd = "stack";
+    else if (/^inline-(flex|grid)$/.test(st.display)) rd = "inline";
     if (/^(absolute|fixed)$/.test(st.position)) rd = "abs";
     else if (!rd && st.display === "block" && o.tagName !== "svg" && !o.querySelector("svg")) rd = "box";
-    const wide = ["paddingLeft", "paddingRight", "marginLeft"].filter((k) => parseFloat(st[k]) > 48); // 계단·들여쓰기는 좁은 칸에서 없앤다
-    // 그림(svg): 가장 작은 글자가 실제 12px 이상이 되는 폭(px). 칸보다 넓으면 사본을 가로 스크롤 칸에 넣는다
     let svgW = 0;
-    if (o.tagName === "svg" && o.viewBox?.baseVal?.width) {
-      const sizes = [...o.querySelectorAll("text")].map((t) => parseFloat(getComputedStyle(t).fontSize)).filter((v) => v > 0);
-      if (sizes.length) svgW = Math.ceil((o.viewBox.baseVal.width * 12.5) / Math.min(...sizes));
-    }
-    // 짧은 한 줄(숫자+단위·라벨)은 줄바꿈하지 않는다
-    const keep = st.whiteSpace === "nowrap" && o.textContent.trim().length <= 16;
-    if (rd || wide.length || svgW || keep) out.push([i, rd, wide, svgW, keep]);
+    if (o.tagName === "svg" && o.viewBox?.baseVal?.width) svgW = o.viewBox.baseVal.width; // 그림은 원래 폭으로 그리고 옆으로 밀어 본다
+    if (rd || svgW) out.push([i, rd, svgW]);
   });
   marks.set(s, out);
   return out;
 };
-const lum = (rgb) => { const m = rgb.match(/[\d.]+/g); if (!m) return 1; const [r, g, b] = m.map(Number); return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255; };
 const cloneSlide = (s) => {
   const c = s.cloneNode(true);
-  c.className = `r-slide ${[...s.classList].filter((k) => !/^(slide|t-page|t-stagger|is-)/.test(k)).join(" ")}`;
-  // 원본 배치를 보고 한 열로 풀 상자를 표시한다(장 클래스와 무관). 1920 캔버스 배치는 화면과 상관없어 장마다 한 번만 잰다
+  c.className = `r-slide ${[...s.classList].filter((k) => !/^(slide|is-)/.test(k)).join(" ")}`;
   const to = [...c.querySelectorAll("*")];
-  marksOf(s).forEach(([i, rd, wide, svgW, keep]) => {
+  marksOf(s).forEach(([i, rd, svgW]) => {
     const x = to[i];
     if (!x) return;
     if (rd) x.dataset.rd = rd;
-    if (keep) x.dataset.rdKeep = "";
-    for (const side of wide) x.style[side] = "0";
-    if (svgW) { x.style.width = `${svgW}px`; x.style.height = "auto"; const w = document.createElement("div"); w.className = "r-scroll r-fig"; x.replaceWith(w); w.append(x); }
+    if (svgW) { const w = document.createElement("div"); w.className = "r-scroll r-fig"; x.replaceWith(w); w.append(x); }
   });
-  for (const t of c.querySelectorAll("table")) { const w = document.createElement("div"); w.className = "r-scroll"; t.replaceWith(w); w.append(t); }
-  // 바탕·글자색은 원본 장에서 가져온다. 사진 위 밝은 글자처럼 바탕이 비치지 않으면 어두운 바탕을 깐다
-  const ss = getComputedStyle(s);
-  const ink = getComputedStyle(s.querySelector(".headline, h1, h2, p") || s).color;
-  const bg = ss.backgroundColor;
-  c.style.background = lum(ink) > 0.6 && lum(bg) > 0.6 ? "var(--soot)" : bg;
-  c.style.color = ss.color;
-  c.style.setProperty("--note", ss.getPropertyValue("--note"));
+  for (const t of c.querySelectorAll(".table")) { const w = document.createElement("div"); w.className = "r-scroll"; t.replaceWith(w); w.append(t); }
   for (const x of c.querySelectorAll("a, button, [tabindex]")) x.setAttribute("tabindex", "-1");
+  for (const x of c.querySelectorAll("[id]")) x.removeAttribute("id");
   c.removeAttribute("inert");
   c.removeAttribute("aria-current");
-  for (const x of c.querySelectorAll("svg *[style]")) for (const k of ["opacity", "transform", "stroke-dasharray", "stroke-dashoffset"]) x.style.removeProperty(k);
-  for (const x of c.querySelectorAll("svg [draw]")) for (const k of ["draw", "pathLength", "stroke-dasharray", "stroke-dashoffset"]) x.removeAttribute(k); // 선 그리기 도중 값
-  // 링크 사이의 가운뎃점 글자는 세로로 쌓으면 혼자 남으므로 뺀다
-  for (const a of c.querySelectorAll("a")) for (const n of [a.previousSibling, a.nextSibling]) if (n && n.nodeType === 3 && /^\s*·\s*$/.test(n.textContent)) n.remove();
+  c.removeAttribute("data-side");
   return c;
 };
 const renderRead = () => {
   if (mode !== "panel") { readRoot.replaceChildren(); return; }
-  readRoot.replaceChildren(cloneSlide(slides[current]));
+  const note = document.createElement("p");
+  note.className = "t-label c-text-3";
+  note.textContent = "옆으로 밀어 넘기고, 가로로 돌리면 장을 크게 봐요.";
+  readRoot.replaceChildren(note, cloneSlide(slides[current]));
   ui.read.scrollTop = 0;
-  const idle = window.requestIdleCallback || ((f) => setTimeout(f, FAST));
-  idle((d) => { for (const j of [current + 1, current - 1]) if (slides[j] && !marks.has(slides[j]) && (!d || d.timeRemaining() > 24)) marksOf(slides[j]); }); // 옆 장 배치는 쉬는 틈이 넉넉할 때 미리 잰다
 };
+
 const go = (i, opts = {}) => {
   if (!Number.isFinite(i)) i = 0;
   const target = Math.max(0, Math.min(total - 1, i));
@@ -252,11 +223,9 @@ const go = (i, opts = {}) => {
   });
   const hash = `#${current + 1}`;
   if (location.hash !== hash) history[opts.push ? "pushState" : "replaceState"](null, "", hash);
-  toast(ui.end, false, true);
-  if (prev !== current || opts.force) { clearTimeout(hintTimer); toast(ui.hint, false, true); }
   update();
   clearTimeout(readTimer);
-  readTimer = setTimeout(renderRead, mode === "panel" ? FAST + QUICK : 0); // 장 전환이 끝난 다음에 읽기 칸을 다시 그린다(전환 프레임과 겹치지 않게)
+  readTimer = setTimeout(renderRead, mode === "panel" ? D4 : 0);
   announce(`${current + 1} / ${total} · ${headOf(slides[current])}`);
   document.dispatchEvent(new CustomEvent("slidechange", { detail: { index: current, prev } }));
 };
@@ -265,16 +234,15 @@ const fromAddress = () => { const i = parseHash(); if (Math.max(0, Math.min(tota
 window.addEventListener("hashchange", fromAddress);
 window.addEventListener("popstate", fromAddress);
 
-// 개요를 열고 닫을 때는 34장이 한꺼번에 미끄러지지 않도록 전환 없이 바로 자리를 잡는다
+// 개요를 열고 닫을 때는 34장이 한꺼번에 미끄러지지 않게 전환 없이 자리를 잡는다
 const snap = (change) => { deck.classList.add("no-trans"); change(); void deck.offsetWidth; deck.classList.remove("no-trans"); };
 
-// 3-5) 개요(G·O 키·개요 버튼으로 열고, Esc·닫기·장 선택으로 닫는다)
+// 2-6) 개요(G·O 키·개요 버튼으로 열고, Esc·닫기·장 선택으로 닫는다)
 const inner = new Map();
 let returnFocus = null;
 const openOverview = () => {
   if (body.classList.contains("overview")) return;
   returnFocus = document.activeElement;
-  hideHint(); toast(ui.end, false);
   snap(() => {
     body.classList.add("overview");
     slides.forEach((s, j) => {
@@ -325,14 +293,14 @@ const overviewKey = (e) => {
   else if ((k === "Enter" || k === " ") && i >= 0) { e.preventDefault(); closeOverview(i); }
 };
 
-// 3-6) 전체 화면(지원할 때만)
+// 2-7) 전체 화면(지원할 때만)
 const toggleFullscreen = () => {
   if (!fsOK) return;
   const p = document.fullscreenElement ? document.exitFullscreen() : root.requestFullscreen();
   p?.catch?.(() => {});
 };
 
-// 3-7) 키보드
+// 2-8) 키보드
 document.addEventListener("keydown", (e) => {
   if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
   if (body.classList.contains("overview")) { overviewKey(e); return; }
@@ -345,11 +313,10 @@ document.addEventListener("keydown", (e) => {
   else if (k === "End") { e.preventDefault(); go(total - 1); }
   else if (k === "g" || k === "G" || k === "o" || k === "O") { e.preventDefault(); openOverview(); }
   else if (k === "f" || k === "F") toggleFullscreen();
-  else if (k === "?") { e.preventDefault(); showHint(); }
-  else if (k === "Escape") { hideHint(); toast(ui.end, false); }
+  else if (k === "?") { e.preventDefault(); wake(); }
 });
 
-// 3-8) 버튼(포인터로 누른 뒤에는 포커스를 덱에 돌려 Space가 다음 장으로 가게 한다)
+// 2-9) 버튼(포인터로 누른 뒤에는 포커스를 덱에 돌려 Space가 다음 장으로 가게 한다)
 const press = (b, fn) => b?.addEventListener("click", (e) => {
   if (b.getAttribute("aria-disabled") === "true") { if (b === ui.next) showEnd(); return; }
   fn();
@@ -359,7 +326,6 @@ press(ui.prev, () => go(current - 1));
 press(ui.next, () => go(current + 1));
 press(ui.overview, openOverview);
 press(ui.fullscreen, toggleFullscreen);
-press(ui.replay, () => document.dispatchEvent(new CustomEvent("deckreplay")));
 press(ui.first, () => go(0, { push: true }));
 press(ui.ovClose, () => closeOverview());
 document.addEventListener("click", (e) => {
@@ -370,16 +336,16 @@ document.addEventListener("click", (e) => {
   closeOverview(slides.indexOf(s));
 }, true);
 
-// 3-9) 터치·펜 스와이프: 10px 뒤 방향을 정하고, 폭 20%(최대 120px) 또는 48px 이상 빠른 밀기면 넘긴다.
+// 2-10) 터치·펜 스와이프: 10px 뒤 방향을 정하고, 폭 20%(최대 120px) 또는 48px 이상 빠른 밀기면 넘긴다.
 // 가장자리 16px에서 시작·두 손가락·확대 중·세로 우세는 넘기지 않고, 못 미치면 제자리로 돌아온다.
 let sw = null;
 const W = () => window.innerWidth;
 const dragTarget = () => (mode === "panel" ? null : slides[current]);
-const settle = (s) => { if (!s) return; s.classList.remove("is-dragging"); s.classList.add("is-settling"); s.style.transform = ""; setTimeout(() => s.classList.remove("is-settling"), FAST); };
+const settle = (s) => { if (!s) return; s.classList.remove("is-dragging"); s.classList.add("is-settling"); s.style.transform = ""; setTimeout(() => s.classList.remove("is-settling"), D3); };
 document.addEventListener("pointerdown", (e) => {
   if (e.pointerType === "mouse" || body.classList.contains("overview")) return;
   if (sw) { settle(sw.drag ? dragTarget() : null); sw = null; return; } // 두 번째 손가락
-  if (e.target instanceof Element && e.target.closest(".deck-btn, .deck-group, .deck-progress")) return;
+  if (e.target instanceof Element && e.target.closest(".deck-ui, .button")) return;
   if (e.clientX < 16 || e.clientX > W() - 16) return;
   if ((window.visualViewport?.scale ?? 1) > 1.01) return;
   sw = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), dir: null, drag: false };
@@ -392,7 +358,7 @@ document.addEventListener("pointermove", (e) => {
   if (sw.dir === "x") {
     const s = dragTarget();
     if (!s) return;
-    const k = parseFloat(root.style.getPropertyValue("--deck-k")) || 1;
+    const k = deckK || 1;
     const edge = (dx > 0 && current === 0) || (dx < 0 && current === total - 1);
     sw.drag = true;
     s.classList.add("is-dragging");
@@ -414,7 +380,8 @@ const endSwipe = (e, cancel) => {
 document.addEventListener("pointerup", (e) => endSwipe(e, false));
 document.addEventListener("pointercancel", (e) => endSwipe(e, true));
 
-// 3-10) 포인터가 3초 멈추면 조작부를 흐리게. 움직이거나 누르면 바로 돌아오고, 조작부에 포커스가 있으면 숨지 않는다
+// 2-11) 포인터가 멈추면 조작부를 쉬는 모양으로(버튼 면 · 테두리를 지우고 글자 text-3 — controls.css body.ui-idle, 투명도는 쓰지 않는다).
+//       움직이거나 누르면 바로 돌아오고, 조작부에 포커스가 있으면 바뀌지 않는다. 키로 넘기면 곧바로 쉬는 모양(발표 리모컨)
 let idleTimer = 0;
 const uiFocused = () => !!document.activeElement?.closest?.(".deck-ui");
 const wake = () => {
@@ -427,20 +394,17 @@ document.addEventListener("pointermove", (e) => { if (e.pointerType === "mouse")
 document.addEventListener("pointerdown", wake, { passive: true });
 document.addEventListener("focusin", (e) => { if (e.target instanceof Element && e.target.closest(".deck-ui")) wake(); });
 
-// 3-11) 장 안 글줄 링크: 덱 배율에 반비례하는 히트 영역(controls.css가 padding으로 넓히고 같은 만큼 margin으로 되돌려 배치는 그대로)
-for (const a of document.querySelectorAll(".slide a[href]")) if (getComputedStyle(a).display === "inline") a.dataset.hit = "";
+// 2-12) 장 안 글줄 링크: 덱 배율에 반비례하는 누름 영역(controls.css). .link는 CSS가 바로 건다 — 클래스 없는 글줄 링크만 여기서 표시한다
+for (const a of document.querySelectorAll(".slide a[href]:not(.link)")) if (getComputedStyle(a).display === "inline") a.dataset.hit = "";
 
-// 4) 시작
+// 3) 시작
 document.getElementById("deck-boot")?.remove();
 current = -1;
 go(parseHash());
 root.classList.add("deck-ready");
-if (!store.get("deck-hint")) { store.set("deck-hint", "1"); showHint(); }
+fitKeys();
+document.fonts?.ready.then(() => { marks.clear(); fitKeys(); });
 
-// 읽기 칸은 덱 글꼴이 오기 전에는 시스템 글꼴로 먼저 그리고(느린 회선에서 빈 칸으로 기다리지 않게), 온 뒤 같은 요소의 글꼴만 바꾼다
-// (요소를 새로 그리지 않아 첫 화면 큰 글자가 글꼴 도착 시각으로 밀리지 않는다). 배치 표시는 다음 장부터 다시 잰다
-document.fonts?.load('700 32px "Pretendard Variable"', "가").then(() => { readRoot.classList.add("font-ok"); marks.clear(); }).catch(() => readRoot.classList.add("font-ok"));
-
-// 인쇄: 개요가 열려 있으면 닫고 그린다(최종 상태 자체는 controls.css의 @media print가 강제한다)
+// 인쇄: 개요가 열려 있으면 닫고 그린다(쪽 크기는 머리 스크립트의 @page, 장 배치는 controls.css @media print)
 window.addEventListener("beforeprint", () => closeOverview());
 })();

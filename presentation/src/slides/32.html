@@ -1,0 +1,74 @@
+<!-- 32 데이터분석 계획 2 · 방법과 일정: 왼쪽 8열에 5~7단계 표(31장과 같은 열) + 수업 주차 각주, 오른쪽 4열에 이중차분 개념 그림(손 SVG) + 그림 각주, 아래 12열에 주차 일정(덱 시간축 .timeline), 맨 아래 이중차분을 읽는 조건(핵심 한 문장) -->
+<section class="slide s32">
+  <div class="head">
+    <p class="tag section-tag" data-hue="blue">검증과 계획</p>
+    <h2 class="headline">관계를 확인한 뒤 이중차분으로 원인에 다가가요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <div class="stack span-8" data-gap="1">
+        <div class="table table--wrap table--multiline s32-table" role="table" aria-label="5~7단계 계획 표">
+          <div class="table__head" role="row">
+            <span role="columnheader">단계</span>
+            <span role="columnheader">무엇을</span>
+            <span role="columnheader">방법 · 수업 연결</span>
+          </div>
+          <div class="table__row" role="row">
+            <div class="table__cell s32-step" role="rowheader"><span class="s32-no">5</span> 관계</div>
+            <div class="table__cell" role="cell">노출 × 청년 고용 변화(직업 단위)</div>
+            <div class="table__cell" role="cell">산점도, Pearson/Spearman, 이상치 전후, 집단별 <span class="s32-week">(7주)</span></div>
+          </div>
+          <div class="table__row" role="row">
+            <div class="table__cell s32-step" role="rowheader"><span class="s32-no">6</span> 원인 추정</div>
+            <div class="table__cell" role="cell">2023년 전후 × 노출 상하위 × 청년/중장년&nbsp;패널</div>
+            <div class="table__cell" role="cell"><mark>이중차분</mark>, 사전 추세·교란 후보<span class="nowrap">(15장에서 든 4개)·</span><span class="nowrap">심슨의 역설 점검</span> <span class="s32-week">(9주)</span></div>
+          </div>
+          <div class="table__row" role="row">
+            <div class="table__cell s32-step" role="rowheader"><span class="s32-no">7</span> 예측</div>
+            <div class="table__cell" role="cell">새 실측으로 관계식을 다시 추정해 2036 경로&nbsp;갱신</div>
+            <div class="table__cell" role="cell">시간순 백테스트, 민감도 <span class="s32-week">(6주 보너스)</span></div>
+          </div>
+        </div>
+        <p class="footnote">괄호 안은 각 방법을 다루는 수업 주차예요. 7주부터 16주까지는 계획 문서 기준이며 확정 일정은 학교 공지를 따라요.</p>
+      </div>
+      <figure class="chart span-4 s32-did">
+        <figcaption class="chart-head">
+          <h3 class="chart-title">이중차분이 비교하는 것</h3>
+          <p class="chart-sub">노출이 크고 작은 두 직업 집단에서 2023년 전과 뒤의 청년 고용 변화가 얼마나 다른지</p>
+        </figcaption>
+        <svg width="368" height="156" viewBox="0 0 368 156" role="img" aria-label="2023년 전에는 노출이 크고 작은 두 직업 집단의 청년 고용선이 나란히 가고(사전 추세 점검), 그 뒤 큰 쪽 선이 앞의 흐름대로 갔을 경로에서 벌어진 만큼이 이중차분임을 보이는 개념 그림이에요.">
+          <line class="base" x1="0" y1="136" x2="232" y2="136"/>
+          <line class="gate" x1="136" y1="20" x2="136" y2="136"/>
+          <text class="tick" x="0" y="12">청년 고용</text>
+          <text class="tick" x="136" y="12" text-anchor="middle">2023년</text>
+          <text class="tick" x="68" y="152" text-anchor="middle">2023년 전</text>
+          <text class="tick" x="184" y="152" text-anchor="middle">2023년 뒤</text>
+          <path class="line s-ctx" d="M0 57.4 L232 31.9"/>
+          <path class="line s-main" d="M0 94.8 L136 79.85 L232 117.3"/>
+          <path class="line dash s-main" d="M136 79.85 L232 69.3"/>
+          <path class="leader" d="M236 69.3 H240 V117.3 H236"/>
+          <text class="note" x="68" y="74.6" text-anchor="middle">사전 추세 점검</text>
+          <text class="slab s-ctx" x="248" y="36.2">노출 작은 직업</text>
+          <text class="slab s-main" x="248" y="73.6">나란히 갔다면</text>
+          <text class="vlab" x="248" y="98.0">이중차분</text>
+          <text class="slab s-main" x="248" y="121.3">노출 큰 직업</text>
+        </svg>
+        <p class="footnote">개념을 보이는 그림이고 선의 높이는 실제 값이 아니에요.</p>
+      </figure>
+    </div>
+    <section class="group s32-plan" aria-labelledby="s32-plan">
+      <h3 class="group__title" id="s32-plan">일정(계획)</h3>
+      <ol class="timeline s32-timeline">
+        <li class="timeline__item"><p class="timeline__when">9주</p><h4 class="timeline__title">데이터 확보·진단</h4></li>
+        <li class="timeline__item"><p class="timeline__when">10~11주</p><h4 class="timeline__title">관계·이중차분</h4></li>
+        <li class="timeline__item"><p class="timeline__when">12주</p><h4 class="timeline__title">민감도·윤리 점검</h4></li>
+        <li class="timeline__item"><p class="timeline__when">13~14주</p><h4 class="timeline__title">발표 자료·대본</h4></li>
+        <li class="timeline__item"><p class="timeline__when">15주</p><h4 class="timeline__title">발표</h4></li>
+      </ol>
+    </section>
+    <div class="takeaway">
+      <p>두 직업 집단의 추세가 2023년 전에 나란해야 그 뒤 벌어진 만큼을 이중차분으로 읽을 수 있어요.</p>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">수업 5~16주 계획 문서 · 수업 방법 결정표(course-domain/method-selector.md) · 종합 보고서 report.md 11절</p><p class="where"><span class="sec">데이터분석 계획 2 · 방법과 일정</span><span class="pg"></span></p></footer>
+</section>

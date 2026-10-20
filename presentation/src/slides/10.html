@@ -1,0 +1,37 @@
+<!-- 10 AGI까지 남은 햇수의 변화 · 차트(8열, 부제에 반대로 움직인 자료와 정의 단서, 차트 아래 관계식 가정 각주) + 옆 칸(4열): 관계식 묶음 → 전문가 회의 그림(16:9).
+     읽어야 하는 단서는 부제 · 각주(.footnote)로, 출처 줄 · 꼬리말에는 자료 · 파일 · 확인일만(3회차 C3-01 · T3-03 · W-37) -->
+<section class="slide s10">
+  <div class="head">
+    <p class="tag section-tag" data-hue="blue">전문가 예상</p>
+    <h2 class="headline">AI 능력이 두 배로 늘 때마다<br>전문가들이 내다본 AGI까지 남은 햇수는 3.2년씩 줄었어요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <figure class="chart span-8" data-chart="agi_forecast_shift" data-kind="yearline" data-w="760" data-h="264" data-key-w="144">
+        <figcaption class="chart-head">
+          <p class="chart-title">AGI 예상 연도 (전문가 설문 2016~2024년 · Metaculus)</p>
+          <p class="chart-sub">반대로 움직인 자료도 있어요. 예측 커뮤니티 Metaculus는 2025년 이후 모델 능력이 더 올랐는데도 중앙값을 2030년에서 2033년으로 늦췄어요. 두 계열은 AGI 정의가 달라 선으로 잇지 않았어요.</p>
+        </figcaption>
+        <p class="footnote">오른쪽 관계식은 설문 3회의 시점을 <span class="nowrap">2022년 7월 15일</span>, <span class="nowrap">2023년 10월 20일</span>, <span class="nowrap">2024년 12월 15일로</span> 가정했어요. 2022년 설문은 처음 발표된 2059년을 썼고, 2026년 보고서는 이 값을 2060년으로 다시&nbsp;집계했어요.</p>
+        <p class="chart-src">AI Impacts 전문가 설문 n = 4회(직접) · Metaculus 질문 5121 커뮤니티 중앙값 9개 시점(2차 인용) · <span class="nowrap">2026. 10. 16. 확인 <span class="tag" data-hue="indigo">기술</span></span></p>
+      </figure>
+      <div class="span-4 s10-side">
+        <section class="group" aria-labelledby="s10-rel">
+          <h3 class="group__title" id="s10-rel">AI 능력과 남은 햇수의 관계식</h3>
+          <div class="group__rows">
+            <div class="group__row">
+              <p class="t-body-strong">남은 햇수 ≈ 32.5&nbsp;−&nbsp;3.2&nbsp;×&nbsp;(능력이 두 배가 된 횟수)</p>
+              <p>남은 햇수는 AGI 예상 연도에서 설문 시점을 뺀 값이고, 두 배가 된 횟수는 업무 크기 1분을 0회로 놓고 셌어요.</p>
+              <p class="t-label c-text-2">상관계수(−1~1, 함께 움직이는 정도) <span class="nowrap">r = −0.97</span></p>
+              <p class="tags"><span class="tag" data-hue="indigo">기술</span><span class="tag" data-hue="indigo">n = 3</span></p>
+            </div>
+          </div>
+        </section>
+        <figure class="media" data-ratio="16:9">
+          <img src="assets/img/10-experts-meeting.jpg" width="2400" height="1792" alt="">
+        </figure>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">AI Impacts ESPAI 2016·2022·2023·2024 (Grace 외) · Metaculus 5121 커뮤니티 중앙값(OWID·LessWrong·80,000 Hours 등 재인용) · analysis/relations.py</p><p class="where"><span class="sec">전문가 예상 · 관계식 R2</span><span class="pg"></span></p></footer>
+</section>

@@ -1,0 +1,17 @@
+/* 05 전체 구조: 도식 글자 · 화살표 모양은 deck.css .diagram 그대로. 마디는 상자 없이 글자 묶음(2회차 S-01 — 카드 없음):
+ * 이름(.n-t, 본문 굵게 · text-1) + 설명(.n-s, 라벨 · text-2). 핵심 마디도 글자색은 text-1(누를 수 없는 강조에 파랑을 쓰지 않는다, 2회차 C-01).
+ * 핵심 문장은 덱 .takeaway 그대로(위 가는 선 + 굵은 본문). 끝의 추정 꼬리표(24)가 줄을 키우지 않게 꼬리말 · 차트 출처와 같은 −4 광학 보정
+ *   (3회차 SC-09 · SL3-16 — 위 선이 다른 장과 같은 y).
+ * 연결선 이름표 R1~R6: 뒤 장 꼬리말의 「관계식 Rn」 번호를 여기서 처음 보인다(1회차 W-35). 상자 · 바탕 없이 글자만, 라벨 굵게(13) · text-2.
+ * 연결선 설명(.e-l)은 읽어야 하는 단서라 차트 주석과 같은 라벨(13) · text-2(2회차 T2-09, design-standard/typography.md 「차트 주석」) */
+.s05 .diagram .e-r {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  fill: var(--color-text-2);
+}
+.s05 .diagram .e-l {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  fill: var(--color-text-2);
+}
+.s05 .takeaway .tag { margin-block: calc(var(--space-half) * -1); }

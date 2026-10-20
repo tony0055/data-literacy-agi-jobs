@@ -1,192 +1,1047 @@
-@import url("tokens.css");
+/* 덱 표준 — 제품 디자인 시스템(C 청량 · 파랑 · 라이트 고정) 위에 덱 뼈대·패턴·차트만 더한다.
+ * 불러오는 순서: ds/tokens.css → ds/layout.css → ds/components.css → deck.css → slides.bundle.css → controls.css
+ * - 값은 시스템 의미 토큰만 쓴다(색·글자·간격·모서리·선·모션). 16진수 색·원시 척도·임의 px/ms를 쓰지 않는다.
+ * - 캔버스는 80rem × 45rem(= layout-max-width 1280 × 720 논리 px, 16:9). 발표 무대·렌더가 장 전체를 확대한다.
+ *   시스템 글자 단계(본문 15/24, 쪽 제목 26/32)를 배율 없이 그대로 쓰고, 1920 화면에서 1.5배로 보인다.
+ * - 시스템에 없는 덱 고유 뼈대(장 머리·본문·꼬리말·히어로·절 표시·카드 없는 묶음·핵심 한 문장·차트·그림·시간축·도식)만 여기서 정의한다.
+ * - 카드 없음(사용자 2026-10-20): 장 안에 바탕 상자·바깥 테두리·둥근 묶음 상자·그림자·배너·색 면을 두지 않는다(도식 마디 · 차트 구간도 선과 글자만).
+ * - 시스템 밖으로 둔 값 · 덱 고유 패턴은 그 자리에 「OP-14: 어긴 규칙 · 까닭 · 날짜 · 다시 나올 가능성」을 적고
+ *   design-standard/README.md 「시스템 밖으로 둔 것」 표에도 둔다. 이유와 쓰는 법은 design-standard/README.md · components.md. */
 
-* { box-sizing: border-box; }
-html, body { margin: 0; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; } /* 휴대폰 글자 자동 확대 끔 — 인라인 svg 글자(2장 고리·32장 일정)가 부풀거나 사라지지 않게 */
-body { background: var(--stage); font-family: var(--font); -webkit-font-smoothing: antialiased; -webkit-print-color-adjust: exact; print-color-adjust: exact; } /* token-ok: 무대 바깥 */
-h1, h2, h3, h4, p, ul, ol, figure, table { margin: 0; }
-ul, ol { padding: 0; list-style: none; }
-img, svg { display: block; max-width: 100%; }
-b, strong { font-weight: 700; }
-em { font-style: normal; font-weight: 700; color: inherit; }
+/* ---------- 글꼴: 시스템 글꼴 스택의 첫 이름(Pretendard Variable 1.3.9)을 저장소 파일로 ---------- */
+@font-face {
+  font-family: "Pretendard Variable";
+  src: url("ds/fonts/PretendardVariable.woff2") format("woff2-variations");
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+}
 
-/* ── 장 ───────────────────────────── */
-.deck { display: flex; flex-direction: column; align-items: center; gap: 48px; padding: 48px 0; }
+/* ---------- 캔버스 · 덱 토큰 ---------- */
+:root {
+  --deck-w: var(--layout-max-width);
+  --deck-h: calc(var(--layout-max-width) * 9 / 16);
+  /* 장 바깥 여백(위 48 · 좌우 64 · 아래 32). 까닭은 design-standard/layout.md 「캔버스」.
+   * 아래 = layout-margin(창 가장자리와 내용 사이 바깥 여백, SP-09). 위 = 한 단계 넓은 48(쪽 단위 간격), 좌우 = 절 사이 64 */
+  --deck-pad-top: var(--space-6);
+  --deck-pad-x: var(--space-8);
+  --deck-pad-bottom: var(--layout-margin);
+  /* 꼬리말 높이: 위 선 + 안쪽 16 + 캡션 두 줄(32). 출처가 한 줄이어도 선 자리는 모든 장에서 같다 */
+  --deck-foot-h: calc(var(--border-1) + var(--space-2) + var(--space-4));
+  /* 12열 격자의 한 열 폭(74) = (장 폭 − 좌우 여백 − 열 사이 11개) ÷ 12 */
+  --deck-col: calc((var(--deck-w) - var(--deck-pad-x) * 2 - var(--layout-gutter) * 11) / 12);
+  /* 숫자 줄의 숫자 칸 폭 = 2열 + 열 사이 하나(172). 칸 사이 24를 더하면 설명이 12열 선에서 시작한다(3회차 SL3-02 — 160이면 선보다 12 앞) */
+  --stat-col: calc(var(--deck-col) * 2 + var(--layout-gutter));
+
+  /* 덱 큰 글자 — 시스템 presets.md 「알아 둘 점」: 덱의 큰 글자(제목, 강조 숫자)와 장 여백은 덱 쪽 지침을 따른다.
+   * 덱 지침(designing-decks-and-motion design-standard.md, 1920 캔버스) Display 64/80 · Number L 56/64를 1280 캔버스로(÷1.5) 옮겨
+   * 4px 격자에 맞췄다: display 44/52, figure 36/44. 글꼴은 Pretendard 고정, 굵기는 시스템 가장 굵은 700(400·600·700 세 단계 유지).
+   * 자간은 시스템과 같은 식(Inter Dynamic Metrics: −0.0223 + 0.185·e^(−0.1745·px)) → 44px −0.022em, 36px −0.022em.
+   * 크기는 4px 격자 위 값이라 간격 단계의 합으로 적는다(시스템 check.mjs 3번이 rem 숫자를 하드코딩으로 센다).
+   * OP-14: TY-22(단계는 시스템 type-*) 밖 — 덱 지침이 맡은 큰 글자 · 2026. 10. 20. */
+  --deck-type-display-size: calc(var(--space-5) + var(--space-half));          /* 44 */
+  --deck-type-display-line-height: calc(var(--space-6) + var(--space-half));   /* 52 */
+  --deck-type-display-letter-spacing: -0.022em;
+  --deck-type-figure-size: calc(var(--space-4) + var(--space-half));           /* 36 */
+  --deck-type-figure-line-height: calc(var(--space-5) + var(--space-half));    /* 44 */
+  --deck-type-figure-letter-spacing: -0.022em;
+
+  /* 차트 중립 데이터 색(맥락 계열 선·점·막대, 산점도 배경 점, 0선 · 기준선 · 범위선, 지시선, 도식 화살표).
+   * 시스템 색상 토큰(color-hue-*)에 무채가 없어 흰 바탕 3:1을 넘는 회색 하나(color-control-border 3.62:1)로 통일한다(AC-09).
+   * 파랑 · 갈색(5.4:1)보다 밝아 흑백에서도 맥락이 뒤로 물러난다(CN-122).
+   * OP-14: CO-03(의미 토큰은 이름에 적힌 쓰임에만) 밖 — 시스템에 차트 중립색이 없음 · 2026. 10. 20. 시스템에 「차트 중립색」을 제안할 후보(OP-12) */
+  --deck-data-neutral: var(--color-control-border);
+
+  /* 덱 모션은 장 사이 이동 하나뿐이고 그 토큰(--motion-page-* · --motion-controls-*)은 controls.css :root에 있다.
+   * 장 안 차례 등장(빌드) · 차트 단계 모션은 없앴다(2026. 10. 21. 개선 3단계 — 정본 MO-01 · 02 「기능 모션만」: 처음 보는 장의 글줄이
+   * 차례로 올라오는 것은 상태 변화 · 위치 관계 · 피드백 어느 쪽도 아니다). 옛 표시 속성 data-build · data-step은 장에서 지웠고 build.ts가 남은 것을 경고한다 */
+}
+
+html {
+  background: var(--color-background-3);
+  color: var(--color-text-1);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* 기본 여백 지우기: :where로 감싸 특이도 0(컴포넌트·패턴 클래스가 늘 이긴다) */
+:where(.deck, .read-root) :where(h1, h2, h3, h4, p, ul, ol, li, figure, figcaption, blockquote, dl, dd) { margin: 0; }
+:where(.deck, .read-root) :where(ul, ol) { padding: 0; list-style: none; }
+:where(.deck, .read-root) img { display: block; max-width: 100%; }
+
+/* 렌더(?check)·JS 없이: 장을 위아래로 잇는다(발표 무대는 controls.css가 덮는다) */
+.deck {
+  display: grid;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+}
+
+/* ?slide=n 렌더: 한 장만 캔버스 크기 그대로 */
+body.solo { background: var(--color-background-1); }
+body.solo .deck { display: block; padding: 0; }
+body.solo .slide[hidden] { display: none; }
+
+/* ---------- 장 뼈대: 머리 · 본문(· 핵심) · 꼬리말 ---------- */
 .slide {
-  position: relative; width: 1920px; height: 1080px; flex: none; overflow: hidden;
-  padding: var(--mt) var(--mx) var(--mb);
-  display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; grid-template-columns: minmax(0, 1fr);
-  background-color: var(--canvas); color: var(--ink);
-  font: var(--t-body) var(--font); letter-spacing: 0;
-  word-break: keep-all; overflow-wrap: break-word;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--space-5);
+  box-sizing: border-box;
+  width: var(--deck-w);
+  height: var(--deck-h);
+  padding: var(--deck-pad-top) var(--deck-pad-x) var(--deck-pad-bottom);
+  overflow: hidden;
+  background: var(--color-background-1);
+  color: var(--color-text-1);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
 }
-.slide[hidden] { display: none; }
-.slide.nohead { grid-template-rows: auto minmax(0, 1fr) auto auto; }
 
-/* 바탕 면: 장 전체의 색을 바꿔 구획한다(카드 대신 면). 면마다 보조 글자색을 따로 둔다 */
-.slide.white { background-color: var(--paper); }
-.slide.stone { background-color: var(--stone-100); }
-.slide.mist { background-color: var(--sage-50); }
-.slide.sage { background-color: var(--sage); }
-.slide.dark { background-color: var(--soot); color: var(--paper); --muted: var(--note-on-soot); --line: var(--line-dark); }
-.slide.glow { background-image: var(--grad-stone); }   /* 미세 그라데이션(소수 장) */
-.slide.mist.glow { background-image: var(--grad-sage); }
+/* 머리: (절 표시) + 쪽 제목(한 장에 하나) + 설명 문단. 사이는 모두 8(제목 + 설명 문단, spacing.md) */
+.head {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-1);
+  flex: none;
+}
 
-/* 머리: 헤드라인이 장의 첫 글자. 섹션명은 꼬리말로 내렸다 */
-.head { margin-bottom: var(--g64); }
-.headline { font: var(--t-headline) var(--font); letter-spacing: -0.02em; max-width: 1600px; }
-.lead { margin-top: var(--g16); font: var(--t-body) var(--font); max-width: 36em; text-wrap: pretty; }
+.headline {
+  font: var(--type-title-1);
+  letter-spacing: var(--type-title-1-letter-spacing);
+  color: var(--color-text-1);
+}
 
-.body { position: relative; min-height: 0; display: flex; flex-direction: column; justify-content: flex-start; }
-/* 본문 칸이 모자라면 차트·도식이 비율을 지킨 채 줄어든다(넘침 대신 축소) */
-.body > * { flex: 0 1 auto; min-height: 0; }
-.body > .grid { grid-auto-rows: minmax(0, auto); }
-.body > .grid > .chart { max-height: 100%; }
-.chart > svg, .chainwrap > svg { flex: 0 1 auto; min-height: 0; }
-.body p, .body li { max-width: 30em; text-wrap: pretty; }
-.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: var(--gutter); align-items: start; }
-.c3 { grid-column: auto / span 3; } .c4 { grid-column: auto / span 4; } .c5 { grid-column: auto / span 5; } .c6 { grid-column: auto / span 6; }
-.c7 { grid-column: auto / span 7; } .c8 { grid-column: auto / span 8; } .c9 { grid-column: auto / span 9; } .c12 { grid-column: auto / span 12; }
-.stack { display: flex; flex-direction: column; gap: var(--g32); min-height: 0; }
-.fill { align-self: stretch; }
+.lead {
+  max-width: var(--layout-line-length);
+  color: var(--color-text-2);
+  text-wrap: pretty;
+}
+
+/* 절 표시: 시스템 색상 꼬리표(.tag[data-hue])를 머리 끝 쪽, 제목 첫 줄과 같은 기준선에 둔다(SP-18 — 부모가 정렬한다).
+ * 제목 위 줄에 두면 모든 장의 본문이 32 줄어서 머리 줄 안에 둔다(꼬리말 끝 쪽의 절 이름 · 쪽 번호와 같은 열). 마크업 순서는 제목 앞(먼저 읽힌다).
+ * 절과 색상의 짝은 design-standard/color.md 「절 색」 표 하나뿐이고 build.ts가 장 번호와 표를 대조한다.
+ * 색은 뜻 없이 절이 바뀐 것만 보인다(CO-15). 절 이름이 뜻을 말한다.
+ * OP-14: CO-35(누를 수 있는 요소의 색을 누를 수 없는 것에) 밖 — 파랑 차례의 절 표시는 color-hue-blue = color-link = color-accent(C 청량)다.
+ * 모양이 링크와 다르다(둘레선 꼬리표 · 밑줄 없음). 노랑 차례는 CO-35 찾기 표시와 같은 색상(덱에 찾기 기능 없음) · 2026. 10. 20.
+ * (절 색 두 색은 사용자 답을 기다리는 중) · 다시 나올 가능성 중간 — design-standard/README.md 「값」 */
+.head:has(> .section-tag) {
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--space-3);
+  align-items: baseline;
+}
+
+/* 꼬리표(높이 24)를 제목 첫 줄(32)과 기준선을 맞추면 꼬리표 아래 끝이 줄 상자 밖으로 1 나가 머리 높이가 33이 된다(2회차 SL-07 —
+ * 본문 시작 y 121로 4px 격자 밖). 글줄 안 꼬리표와 같은 위아래 −4 광학 보정으로 꼬리표가 머리 높이를 정하지 않게 한다(아래 「글줄 안 꼬리표」와 같은 예외) */
+.head > .section-tag {
+  grid-column: 2;
+  grid-row: 1;
+  margin-block: calc(var(--space-half) * -1);
+}
+
+.head:has(> .section-tag) > :not(.section-tag) { grid-column: 1; }
+
+/* 본문: 머리와 꼬리말 사이. 안의 묶음 사이는 32. 남는 높이는 늘리지 않고 본문 아래 빈 곳으로 둔다(SP-60) */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* 핵심 한 문장: 상자 · 배너 없이 위 가는 선(border-1 separator) + 본문 굵게(type-body-strong), 아이콘 없음.
+ * 시스템 배너는 피드백 메시지라(WR-62) 내용 강조에 쓰지 않는다. 두 번째 줄(범위 · 라벨)은 글자 클래스로 낮춘다.
+ * 본문 맨 아래에 붙여 모든 장에서 같은 자리에 둔다(margin auto = 밀어 정렬). 위 묶음에는 끝 선이 없어 선이 겹치지 않는다.
+ * 한 줄이 기본이다 — 두 줄이면 위 선이 다른 장보다 올라간다(2회차 SL-06). 범위 · 라벨 둘째 줄은 되도록 본문이나 출처로.
+ * OP-14: WR-62(강조 문장 = 배너 아님)에 맞춘 덱 고유 패턴 — 시스템에 「핵심 한 문장」 컴포넌트가 없다 · 2026. 10. 20. · 다시 나올 가능성 높음(시스템 제안 후보) */
+.takeaway {
+  display: grid;
+  gap: var(--space-half);
+  flex: none;
+  margin-top: auto;
+  padding-top: var(--space-2);
+  border-top: var(--border-1) solid var(--color-separator);
+  font: var(--type-body-strong);
+  letter-spacing: var(--type-body-strong-letter-spacing);
+  color: var(--color-text-1);
+  text-wrap: pretty;
+}
+
+/* 꼬리말: 출처(시작 쪽) · 절 이름과 쪽 번호(끝 쪽). 높이를 고정해 위 선이 모든 장에서 같은 자리다.
+ * 두 쪽 모두 아래 끝에 붙인다 — 출처 줄 안 꼬리표는 줄 높이를 키우지 않아(아래 「글줄 안 꼬리표」) 쪽 번호와 같은 기준선이다(SP-18).
+ * 꼬리말 글은 순수 출처(기관 · 자료 이름 · 파일 경로 · 기준일)만 text-3 캡션으로 싣는다. 생성 이미지 표시는 장마다 하지 않고
+ * 34장 꼬리말에서 한 번(쓴 장 번호 + assets/img/MANIFEST.md, 사용자 2026. 10. 21.). 읽어야 하는 단서 · 풀이는
+ * 본문 · 차트 안 .footnote(13/20 · text-2)로(정본 CO-05 필수, 3회차 C3-01 · T3-03). 쪽 번호 「n / 34」는 분수 꼴(WR-84 권장 밖)이지만
+ * 발표 화면의 자리 표시라 짧은 꼴로 둔다(3회차 T3-14, 판단 기록) */
+.foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex: none;
+  box-sizing: border-box;
+  height: var(--deck-foot-h);
+  padding-top: var(--space-2);
+  border-top: var(--border-1) solid var(--color-separator);
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  color: var(--color-text-3);
+}
+
+/* 출처 줄은 읽기 폭(40em)을 걸지 않는다 — 꼬리말 높이가 캡션 두 줄로 고정이라 폭을 줄이면 세 줄로 넘친다(2회차 SL-15 · T2-13 판단,
+ * layout.md 「캔버스」). 끝 줄에 한 어절 · 괄호 조각만 남지 않게 pretty만 건다. 풀이 문장은 꼬리말이 아니라 본문 · 차트 부제로 */
+.source {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-wrap: pretty;
+}
+
+.where {
+  display: inline-flex;
+  gap: var(--space-2);
+  flex: none;
+  white-space: nowrap;
+}
+
+.pg {
+  color: var(--color-text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 글자 역할(시스템 type-* 그대로, font + 짝 자간) ---------- */
+.t-title-2 { font: var(--type-title-2); letter-spacing: var(--type-title-2-letter-spacing); }
+.t-heading { font: var(--type-heading); letter-spacing: var(--type-heading-letter-spacing); }
+.t-body { font: var(--type-body); letter-spacing: var(--type-body-letter-spacing); }
+.t-body-strong { font: var(--type-body-strong); letter-spacing: var(--type-body-strong-letter-spacing); }
+.t-label { font: var(--type-label); letter-spacing: var(--type-label-letter-spacing); }
+.t-label-strong { font: var(--type-label-strong); letter-spacing: var(--type-label-strong-letter-spacing); }
+.t-caption { font: var(--type-caption); letter-spacing: var(--type-caption-letter-spacing); }
+
+/* 글자 역할 클래스를 단 문단도 끝 줄에 한 어절 · 괄호 조각만 남지 않게(3회차 T3-04 — 클래스 없는 문단만 pretty라 37개 문단이 빠졌다).
+ * 한 줄짜리 · 글줄 안 조각에는 아무 일도 하지 않는다 */
+:is(.t-title-2, .t-heading, .t-body, .t-body-strong, .t-label, .t-label-strong, .t-caption) { text-wrap: pretty; }
+
+/* 덱 큰 글자(위 :root 「덱 큰 글자」). 글꼴 · 굵기는 시스템 title-1(700)에서 가져오고 크기 · 행간만 덱 값으로 */
+.t-display,
+.hero .headline {
+  font: var(--type-title-1);
+  font-size: var(--deck-type-display-size);
+  line-height: var(--deck-type-display-line-height);
+  letter-spacing: var(--deck-type-display-letter-spacing);
+}
+
+.c-text-1 { color: var(--color-text-1); }
+.c-text-2 { color: var(--color-text-2); }
+.c-text-3 { color: var(--color-text-3); }
+
+/* 숫자 칸·표의 숫자는 같은 폭 숫자(TY-47). font 단축 속성이 되돌리므로 글자 역할 클래스보다 뒤에 둔다 */
+.num { font-variant-numeric: tabular-nums; }
 .nowrap { white-space: nowrap; }
+.measure { max-width: var(--layout-line-length); }
 
-/* 결론 한 줄: 바탕 없이 위 1px 선 + 한 문장(라벨은 '핵심' 하나) */
-.sowe { position: relative; margin-top: var(--g32); padding-top: var(--g16); font: var(--t-body-strong) var(--font); text-wrap: pretty; }
-.sowe::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line); }
-.sowe > b { margin-right: var(--g16); }
-.sowe a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
-
-/* 꼬리말: 출처(최대 두 줄, 말줄임 없음) · 섹션명 · 쪽 번호. 쪽 번호는 아래 끝에 붙어 장마다 같은 자리 */
-.foot { margin-top: var(--g24); min-height: 28px; display: flex; align-items: flex-end; justify-content: space-between; gap: var(--g48); font: var(--t-caption) var(--font); color: var(--muted); }
-.source { flex: 1 1 auto; min-width: 0; max-width: 1180px; text-wrap: pretty; }
-.where { flex: none; display: flex; gap: var(--g24); }
-.pg { flex: none; font-weight: 600; }
-
-/* 경계가 필요한 묶음만 쓰는 카드(장당 0~1개). 그림자 없이 면 색 한 단계 */
-.card { padding: var(--g32); border-radius: var(--r-core); background: var(--paper); }
-
-/* 1px 구분선: 목록·열 사이(상자로 둘러싸지 않는다) */
-.rows { display: flex; flex-direction: column; }
-.rows > * { position: relative; padding: var(--g24) 0; }
-.rows > *::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line); }
-
-/* 주장 라벨(알약): 글줄 안에 붙는 인라인 라벨. 잉크 7% 바탕 + 잉크 글자 */
-.tag { display: inline; margin-left: var(--g8); padding: 0 var(--g8); border-radius: var(--r-pill); background: var(--tag-bg); color: var(--ink); font: var(--t-small-strong) var(--font); letter-spacing: 0; white-space: nowrap; }
-.tag.est { background: var(--sage-50); color: var(--sage-ink); } /* 추정 라벨 7.14:1 */
-.dark .tag, .bleed .tag { background: var(--tag-bg-dark); color: var(--paper); }
-.dark .tag.est, .bleed .tag.est { background: var(--sage); color: var(--ink); }
-
-/* 숫자: 보조 숫자 40, 같은 장의 큰 숫자 64(영웅 숫자가 있는 장만), 영웅 숫자 96(덱에서 두 장) */
-.num { display: block; font: var(--t-number) var(--font); letter-spacing: -0.02em; font-variant-numeric: proportional-nums; }
-.num.big { font: var(--t-headline) var(--font); letter-spacing: -0.03em; }
-.num.fig { font: var(--t-figure) var(--font); letter-spacing: -0.03em; }
-.num.sm { font: var(--t-body-strong) var(--font); letter-spacing: 0; }
-.num.sm .unit { margin-left: 0; }
-.num.hero { font: var(--t-hero) var(--font); letter-spacing: -0.04em; }
-.num.chip { display: inline-block; margin-left: calc(var(--g16) * -1); padding: 0 var(--g16); border-radius: var(--r-pill); background: var(--ink); color: var(--paper); }
-.num.chip .unit, .num.chip.hl .unit { color: inherit; }
-.num.chip.hl { background: var(--accent); color: var(--paper); }
-.p-ink .num.chip { background: var(--sage); color: var(--ink); }
-.num .unit { margin-left: var(--g8); font: var(--t-body-strong) var(--font); letter-spacing: 0; }
-.num + p, .num + .k { margin-top: var(--g8); }
-.hl { color: var(--accent); }
-.dark .hl, .bleed .hl, .p-ink .hl { color: var(--sage); }
-.num.hl .unit { color: var(--ink); }
-.dark .num.hl .unit, .bleed .num.hl .unit, .p-ink .num.hl .unit { color: var(--paper); }
-
-/* 표: 칸 글자는 열 시작점에 맞춘다(안쪽 왼쪽 여백 0, 오른쪽에 거터) */
-.plan, .tone-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.plan th, .tone-table th { padding: 0 var(--g48) var(--g16) 0; border-bottom: 2px solid var(--ink); text-align: left; font: var(--t-small-strong) var(--font); color: var(--ink); white-space: nowrap; }
-.plan td, .tone-table td { padding: var(--g16) var(--g48) var(--g16) 0; border-bottom: 1px solid var(--line); vertical-align: top; font: var(--t-small) var(--font); font-variant-numeric: tabular-nums; text-wrap: pretty; }
-/* 표 열 폭 = 열 n개 × (열 폭 + 거터) ÷ 1600(본문 폭). 글자가 12열 시작점에 맞는다 */
-.plan th.w2, .tone-table th.w2 { width: 17.1667%; }
-.plan th.w4, .tone-table th.w4 { width: 34.3333%; }
-.plan th.w5, .tone-table th.w5 { width: 42.9167%; }
-.plan th:last-child, .plan td:last-child, .tone-table th:last-child, .tone-table td:last-child { padding-right: 0; }
-.plan td:first-child { font-weight: 700; }
-.plan .r, .plan th.r { text-align: right; }
-.dark .plan th, .dark .tone-table th { border-bottom-color: var(--paper); color: var(--paper); }
-
-/* 고대비 · 강제 색 모드: 라벨 알약과 결론 선이 바탕색 없이도 보이게 */
-@media (forced-colors: active) {
-  .tag, .kicker, .pill { border: 1px solid CanvasText; }
-  .sowe::after, .rows > *::after { background: CanvasText; }
-}
-@media (prefers-contrast: more) {
-  .tag { background: var(--paper); color: var(--ink); outline: 1px solid var(--ink); }
-  .tag.est { outline-color: var(--sage-ink); }
+/* 각주 · 단서 문장(「* 3.5배는 … 섞인 값이에요」처럼 읽어야 하는 주석): 라벨 13/20 · text-2(정본 CO-05 — 2단계 = 각주 · 보충 글,
+ * 덱 color.md 「주석 = text-2」). 출처 · 캡션 · 번호만 text-3(캡션 12px)에 둔다. 세 줄이 넘어도 행간이 넉넉한 라벨 단계(TY-41).
+ * 자리(3회차 C3-01 · T3-03 · SC-12 결정): 차트의 단서 = figure.chart 안 그림 뒤 · 출처 앞(사이는 차트 row-gap 8), 그림 · 사진의 단서 =
+ * figure.media 밖 바로 뒤(캡션은 사진 출처만 — 생성 이미지에는 캡션을 달지 않는다), 장 전체의 단서 = 본문 맨 아래(핵심 한 문장 위) 또는 그 묶음 끝.
+ * 꼬리말 · 차트 출처 · 캡션에는 기관 · 자료 · 파일 경로 · 기준일만 남긴다.
+ * OP-14: 시스템 글자 역할 표에 「각주」 역할이 없다(TY-20 — 라벨 단계를 각주에 배정, 덱 고유) · 2026. 10. 21. · 다시 나올 가능성 중간 */
+.footnote {
+  max-width: var(--layout-line-length);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-2);
+  text-wrap: pretty;
 }
 
-/* ── 차트: 이중 테두리 카드에 담는다 ── */
-.chart { display: flex; flex-direction: column; gap: var(--g16); min-width: 0; padding: var(--g48); border-radius: var(--r-core); background: var(--paper); box-shadow: var(--bezel); }
-.chart.bare { padding: 0; background: none; box-shadow: none; border-radius: 0; }
-.chart-title { font: var(--t-title) var(--font); letter-spacing: -0.02em; }
-.chart-sub { font: var(--t-body) var(--font); color: var(--ink); } /* 읽는 법 문장은 본문과 같은 잉크 */
-.chart-head { display: flex; flex-direction: column; gap: var(--g8); }
-.chart-src { font: var(--t-small) var(--font); color: var(--note); }
-.chart > .chart-src { max-width: 36em; letter-spacing: 0; } /* 차트 출처 줄은 한 줄 45자 안팎에서 줄바꿈, 작은 글자라 자간을 좁히지 않는다 */
-/* 차트 안: 글자는 잉크·회색만(계열은 옆의 점·선 색), 크기는 본문 프리셋 20px 하나, 굵기 400·600·700 */
-.chart svg { width: 100%; height: auto; overflow: visible; }
-.chart svg text { font-family: var(--font); font-size: 20px; font-weight: 400; fill: var(--note); font-variant-numeric: tabular-nums; }
-.chart svg .vlab { font-weight: 700; fill: var(--ink); }
-.chart svg .slab, .chart svg .note { font-weight: 600; fill: var(--ink); }
-.chart svg .cat { fill: var(--ink); }
-.chart svg .cat-hi { font-weight: 700; }
-.chart svg .edge-lab { font-weight: 600; fill: var(--ink); }
-.chart svg .band-lab, .chart svg .gate-lab { font-weight: 600; fill: var(--note); }
-/* 이름표 뒤 바탕색 테(점선·격자가 글자를 지나가도 읽히게) */
-.chart svg .vlab, .chart svg .slab, .chart svg .note, .chart svg .gate-lab { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
-/* 격자·축: 옅은 실선 */
-.chart svg .grid line { stroke: var(--chart-grid); stroke-width: 1; }
-.chart svg .base, .chart svg .grid .zero { stroke: var(--chart-mid); stroke-width: 1.5; }
-.chart svg rect, .chart svg circle { transform-box: fill-box; }
-.chart svg rect { transform-origin: 0 50%; }
-.chart svg circle { transform-origin: 50% 50%; stroke: var(--paper); stroke-width: 2; }
-/* 계열: 강조(인디고) · 비교(잉크) · 맥락(스톤). 인접 계열 밝기 차 ΔL* ≥ 15(프로젝터 모사) */
-.chart svg .b-worse { fill: var(--chart-hi); }
-.chart svg .b-evid { fill: var(--ink); }
-.chart svg .b-neutral { fill: var(--chart-lo); }
-.chart svg .l-worse, .chart svg .l-evid, .chart svg .l-neutral { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.chart svg .l-worse { stroke: var(--chart-hi); stroke-width: 5; }
-.chart svg .l-evid { stroke: var(--ink); stroke-width: 3.5; }
-.chart svg .l-neutral { stroke: var(--chart-lo); stroke-width: 3.5; }
-/* 점선은 뜻이 있을 때만(출처·정의가 다른 계열), 뜻은 이름표·출처 줄에 적는다 */
-.chart svg .dash-a { stroke-dasharray: 8 7; }
-.chart svg .dash-b { stroke-dasharray: 2 8; }
-.chart svg .dot { fill: var(--ink); fill-opacity: .5; }
-.chart svg .band { fill: var(--canvas); } /* 구간·외삽 띠는 중립 스톤(강조색은 데이터 계열에만) */
-.chart svg .gate { stroke: var(--chart-mid); stroke-width: 1.5; stroke-dasharray: 2 7; }
-.chart svg .leader { stroke: var(--note); stroke-width: 1.5; }
-.chart svg .range { stroke: var(--note); stroke-width: 6; stroke-linecap: round; }
-.legend { display: flex; flex-wrap: wrap; gap: var(--g8) var(--g24); font: var(--t-caption) var(--font); color: var(--note); }
+/* 각주 표시(*): 어디에 붙어도 한 모양 — 라벨 굵게 13/600(3회차 T3-18: 단위 안 15/600 · 큰 숫자 안 22/700 · 표 안 13/600으로 셋이었다).
+ * 폭 0으로 숫자 뒤에 매달아 끝 맞춤한 자릿수를 밀지 않는다(TY-47). 표 칸에서는 칸 사이 24 안에, 숫자 뒤에서는 그 뒤 여백 안에 놓인다.
+ * 마크업: 숫자 · 단위 바로 뒤 <span class="fn">*</span>(큰 숫자 안이어도 같은 꼴). 캡션(12/16) 줄에는 두지 않는다 — 줄 높이 20이 캡션 줄을 키운다 */
+.fn {
+  display: inline-block;
+  inline-size: 0;
+  overflow: visible;
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
 
-/* ── 발표 무대: 한 장씩, 장 사이는 페이지 좌우 전환(transitions.dev) ── */
-body.stage { overflow: hidden; height: 100dvh; }
-body.stage .deck { position: fixed; left: 50%; top: 50%; width: 1920px; height: 1080px; padding: 0; gap: 0; display: block; transform-origin: 0 0; }
-body.stage .slide { position: absolute; inset: 0; }
-body.overview { overflow-y: auto; height: auto; }
-body.overview .deck { position: static; transform: none !important; width: auto; height: auto; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 24px; padding: 24px; }
-body.overview .slide { position: relative; visibility: visible !important; transform: scale(0.206) !important; transform-origin: top left; margin: 0 -1525px -858px 0; opacity: 1 !important; filter: none !important; pointer-events: auto !important; cursor: pointer; border-radius: 40px; } /* token-ok constitution-ok: 0.206 축소 보정 */
-@media (hover: hover) and (pointer: fine) { body.overview .slide:hover { outline: 10px solid var(--sage); } }
-body.solo { background: none; overflow: hidden; }
-.solo .deck { padding: 0; gap: 0; }
+/* 핵심어 형광펜(color-hue-blue-mark). 한 문장에 낱말 · 구절 하나(CO-38). 같은 값이 시스템 글자 선택 바탕
+ * (color-selection-text-background)이라 발표 중 글을 끌어 선택하면 형광펜과 같은 모양이 된다(3회차 C3-09 — 정본에 적을 빈 곳, 판단 기록) */
+mark {
+  background: var(--color-hue-blue-mark);
+  color: inherit;
+}
 
-.replay-btn { position: fixed; right: 24px; bottom: 24px; z-index: 10; height: 48px; padding: 0 8px 0 24px; display: inline-flex; align-items: center; gap: var(--g8); border: 0; border-radius: var(--r-pill); background: var(--paper); color: var(--ink); font: var(--t-caption-strong) var(--font); cursor: pointer; box-shadow: var(--sh-float); transition: transform var(--duration-quick) var(--ease-soft); }
-.replay-btn::after { content: "↺"; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent-50); color: var(--accent); transition: transform var(--duration-fast) var(--ease-soft); }
-@media (hover: hover) and (pointer: fine) { .replay-btn:hover::after { transform: rotate(-40deg) scale(1.05); } }
-.replay-btn:active { transform: scale(0.98); }
-.replay-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-body.solo .replay-btn, body.overview .replay-btn { display: none; }
+/* 점 목록: 세로 항목 사이 8, 점 자리 들여쓰기 24.
+ * OP-14: 시스템에 점 목록 컴포넌트가 없다(덱 고유, 33장) — 브라우저 disc 그대로 · 2026. 10. 20. · 다시 나올 가능성 중간 */
+.deck .bullets {
+  display: grid;
+  gap: var(--space-1);
+  padding-inline-start: var(--space-3);
+  list-style: disc;
+}
 
-@page { size: 1920px 1080px; margin: 0; }
-@media print {
-  body { background: none; overflow: visible; height: auto; }
-  .deck { position: static !important; transform: none !important; display: block !important; width: auto !important; height: auto !important; padding: 0; }
-  .slide { position: relative !important; visibility: visible !important; opacity: 1 !important; filter: none !important; transform: none !important; break-after: page; }
-  .slide:last-child { break-after: auto; }
-  .replay-btn { display: none !important; }
-  .t-stagger-line { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; } /* 인쇄는 최종 상태 */
-  .t-digit { animation: none !important; }
-  * { box-shadow: none !important; }
+/* ---------- 배치: 12열 격자(열 사이 layout-gutter 24) ---------- */
+.cols {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--layout-gutter);
+  row-gap: var(--space-4);
+  align-items: start;
+  min-width: 0;
+}
+
+.cols > * { min-width: 0; }
+
+.span-3 { grid-column: span 3; }
+.span-4 { grid-column: span 4; }
+.span-5 { grid-column: span 5; }
+.span-6 { grid-column: span 6; }
+.span-7 { grid-column: span 7; }
+.span-8 { grid-column: span 8; }
+.span-9 { grid-column: span 9; }
+.span-12 { grid-column: 1 / -1; }
+
+/* 짧은 머리 + 설명 묶음(제목 + 설명 8). 줄 · 칸 없이 문단 하나뿐인 묶음이라 제목은 묶음 제목과 같은 type-heading(18) —
+ * 옆 · 위아래의 .group__title · .chart-title과 같은 단계다(2회차 T2-01: 15 · 18이 같은 자리에서 섞였다). 묶음 안 항목 제목은 .group__row > h3(15).
+ * OP-14: 시스템에 「제목 + 문단」 묶음 컴포넌트가 없다(GroupBox 제목은 label-strong 13 — 덱은 type-heading 18, TY-20 · TY-21 역할 재배정) ·
+ * 2026. 10. 21. · 다시 나올 가능성 중간 */
+.block {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+
+.block > h3 {
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.block > p:not([class]) { color: var(--color-text-2); text-wrap: pretty; }
+
+/* 묶음 줄 · 칸 · 짧은 묶음의 문단은 글자 역할 클래스가 있어도 읽기 폭 40em에서 멈춘다(TY-44 — 3회차 SL3-04 · T3-09: 클래스 없는 문단만
+ * 멈추고 p.t-label은 56em까지 늘었다. 장 CSS 세 곳(6 · 25 · 30장)에 따로 걸던 상한을 여기 한 번) */
+:is(.group, .group__cell, .block) > p:is(:not([class]), .t-label, .c-text-2) { max-width: var(--layout-line-length); }
+
+/* ---------- 묶음: 카드 없이 제목 + 항목 사이 가는 선 ----------
+ * 사용자 결정(2026-10-20) 「카드 형태의 UI는 쓰지 마」(시스템 shape.md 「카드는 없다」). 시스템 GroupBox에서 상자(바탕 2 + 선 + radius-3)만 지우고
+ * 짜임은 그대로 따른다: 제목 → 항목, 항목 사이에만 가는 선(.groupbox__row + .groupbox__row와 같다). 묶음 위아래를 닫는 선은 없다
+ * — 그래서 핵심 한 문장 위 선 · 꼬리말 위 선과 겹치지 않는다(이중선 없음).
+ *   .group > .group__title(있을 때만) + .group__rows(세로 항목) 또는 .group__cols(가로 칸)
+ *   - 세로 항목: 항목 사이 선 위아래 16. 첫 항목 위 · 끝 항목 아래는 0(묶음 높이 = 내용 높이, 남는 높이는 묶음 밖 — SP-60)
+ *   - 가로 칸: 12열 격자 선에서 칸이 시작하고(칸 사이 = 열 사이 24), 칸 사이 세로 선은 열 사이 가운데
+ *   선은 모두 border-1 color-separator. 글 시작선은 장 본문과 같다(안쪽 좌우 0).
+ * 행 사이 선은 정본 그대로 갈린다: 시스템 GroupBox 행(.groupbox__row + .groupbox__row)은 선, 시스템 표(.table__row)는 선 없는 둥근 행.
+ *   그래서 열 머리 없는 이름 ↔ 값 · 항목 목록 = .group(선), 열 머리가 있는 비교 표 = .table(선 없음). 행 수가 아니라 짜임으로 고른다(2회차 S-07).
+ * OP-14: CN-99(GroupBox는 상자 안) 밖 — 상자만 지운 묶음(사용자 「카드 형태의 UI는 쓰지 마」) · 2026. 10. 20. · 다시 나올 가능성 높음(덱마다, 시스템 제안 후보) */
+.group {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* 묶음 제목: 묶음 안 항목 제목(body-strong 15)보다 한 단계 큰 type-heading(18) · text-1(TY-34 위계는 글자 단계로).
+ * 차트 제목(.chart-title)도 같은 단계라 나란한 차트 · 묶음의 제목 줄이 같다. 끝 문장부호 없음(CN-101).
+ * OP-14: 정본 GroupBox 제목(components.css label-strong 13/600) 대신 type-heading 18/600(정본 DESIGN.md의 heading 배정은 빈 상태 · 대화상자 ·
+ * 도구 막대 제목) — 장 안 묶음이 장 제목 26 바로 아래 단계라 13이면 항목 15보다 작아진다(2회차 T2-01, 3회차 T3-15 기록) · 2026. 10. 21. ·
+ * 다시 나올 가능성 높음(시스템에 「묶음 제목」 역할을 제안할 후보, OP-12) */
+.group__title {
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.group__rows {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+}
+
+/* 항목 안 덩어리 사이는 한 값 8(제목 + 설명 문단, 숫자 + 설명 모두 — spacing.md 「제목·설명 묶음」) */
+.group__row {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+  padding-block: var(--space-2);
+}
+
+.group__row:first-child { padding-block-start: 0; }
+.group__row:last-child { padding-block-end: 0; }
+
+.group__row + .group__row {
+  border-top: var(--border-1) solid var(--color-separator);
+}
+
+.group__row > h3,
+.group__row > h4 {
+  font: var(--type-body-strong);
+  letter-spacing: var(--type-body-strong-letter-spacing);
+}
+
+.group__row > p:not([class]) {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-2);
+  text-wrap: pretty;
+}
+
+/* 가로 칸: 기본 3, data-cols="2"·"4". 칸 사이는 열 사이(layout-gutter 24)라 본문 폭(1152)에서 칸 시작이 12열 격자 선과 같다
+ * (3칸 = 4 · 4 · 4열 → 64 · 456 · 848, 2칸 = 6 · 6 → 64 · 652, 4칸 = 3 · 3 · 3 · 3 → 64 · 358 · 652 · 946 — .cols의 span과 같은 선, 2회차 SL-03 · SL-12).
+ * 짝수 열 칸(.span-6 · 히어로 글 열) 안의 2칸도 격자 선에 선다. 칸 사이 세로 선은 열 사이 가운데에 그린다(흐름 밖 ::before — 칸 글 폭을 줄이지 않는다).
+ * 위아래를 닫는 선은 없다. 칸 폭을 장 CSS에서 다시 나누지 않는다(나누면 격자 선을 벗어난다) */
+.group__cols {
+  --group-cols: 3;
+  display: grid;
+  grid-template-columns: repeat(var(--group-cols), minmax(0, 1fr));
+  column-gap: var(--layout-gutter);
+  min-width: 0;
+}
+
+.group__cols[data-cols="2"] { --group-cols: 2; }
+.group__cols[data-cols="4"] { --group-cols: 4; }
+
+.group__cell {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.group__cell + .group__cell::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(var(--layout-gutter) / -2);
+  border-inline-start: var(--border-1) solid var(--color-separator);
+}
+
+.group__cell > p:not([class]) { color: var(--color-text-2); text-wrap: pretty; }
+
+/* 숫자 줄: [숫자 + 단위 160] [설명]. 숫자는 절 제목 크기(type-title-2).
+ * 숫자 칸은 오른쪽 덩어리 수만큼만 행을 걸친다(설명 하나면 한 행, 설명 + 꼬리표면 두 행 …). 늘 세 행을 걸치면
+ * 덩어리가 적은 줄에 빈 행과 그 사이 8이 생겨 줄 아래가 벌어진다(19 · 33장 장 CSS 땜질을 여기로 옮겼다) */
+.group__row--stat {
+  grid-template-columns: var(--stat-col) minmax(0, 1fr);
+  column-gap: var(--space-3);
+  align-items: baseline;
+}
+
+.group__row--stat:has(> :nth-child(3)) > .figure { grid-row: span 2; }
+.group__row--stat:has(> :nth-child(4)) > .figure { grid-row: span 3; }
+.group__row--stat:has(> :nth-child(5)) > .figure { grid-row: span 4; }
+
+/* 핵심 숫자: 숫자와 단위를 붙여 쓴다(WR-79 — 사이 간격 0, 「약 320만 개」처럼 띄울 곳은 마크업 공백).
+ * 숫자는 비례 폭이 기본 — 홀로 서는 숫자(「11개」)를 같은 폭으로 쓰면 「1 1」처럼 벌어진다(2회차 T2-07). 같은 폭 숫자는
+ * 숫자 줄(.group__row--stat)처럼 숫자가 한 열로 쌓여 자릿수를 견줄 때만(TY-47).
+ * 색은 늘 text-1 — 누를 수 없는 강조를 파랑(링크 · 주 버튼과 같은 값)으로 칠하지 않는다(정본 CO-35, 2회차 C-01 · C-04). 강조는 크기(.figure--display) · 굵기로.
+ * OP-14: 시스템에 「핵심 숫자」 컴포넌트가 없다 — 글자 역할 title-2(정본 배정은 절 제목)를 숫자에 재배정(TY-20 · TY-21) · 2026. 10. 20. ·
+ * 다시 나올 가능성 높음(데이터 덱마다) */
+.figure {
+  display: block;
+  font: var(--type-title-2);
+  letter-spacing: var(--type-title-2-letter-spacing);
+  white-space: nowrap;
+  color: var(--color-text-1);
+}
+
+.group__row--stat > .figure { font-variant-numeric: tabular-nums; }
+
+span.figure { display: inline-block; }
+
+.figure__unit {
+  font: var(--type-body-strong);
+  letter-spacing: var(--type-body-strong-letter-spacing);
+  color: var(--color-text-2);
+}
+
+/* 큰 핵심 숫자(히어로 · 결론 장 · 한 장에 숫자 하나가 주인공일 때): 덱 figure 36/44, 단위는 type-heading.
+ * 홀로 서는 숫자라 비례 폭 숫자(같은 폭이면 「11」이 헐렁하다, typography.md 「숫자」). 색은 .figure와 같은 text-1(장 CSS에서 파랑으로 덮지 않는다) */
+.figure--display {
+  font-size: var(--deck-type-figure-size);
+  line-height: var(--deck-type-figure-line-height);
+  letter-spacing: var(--deck-type-figure-letter-spacing);
+  font-variant-numeric: normal;
+}
+
+.figure--display .figure__unit {
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+}
+
+/* 번호 줄: [번호 32] [제목 + 설명]. 번호 칸은 오른쪽 덩어리 수만큼만 행을 걸친다(제목만 있으면 한 행 — 33장) */
+.group__row--step {
+  grid-template-columns: var(--space-4) minmax(0, 1fr);
+  column-gap: var(--space-2);
+}
+
+.group__row--step:has(> :nth-child(3)) > .group__no { grid-row: span 2; }
+.group__row--step:has(> :nth-child(4)) > .group__no { grid-row: span 3; }
+
+.group__no {
+  font: var(--type-body-strong);
+  letter-spacing: var(--type-body-strong-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-3);
+}
+
+/* 이름 ↔ 값 줄: [이름(+ 아래 설명)] [값, 끝 맞춤]. 셋째 자식부터는 줄 전체 폭(덧붙이는 설명) */
+.group__row--pair {
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--space-3);
+  align-items: baseline;
+}
+
+.group__row--pair > :nth-child(n + 3) { grid-column: 1 / -1; }
+
+/* 이름 + 작은 설명은 작은 글 덩어리라 4(spacing.md) */
+.group__label {
+  display: grid;
+  gap: var(--space-half);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+  color: var(--color-text-1);
+}
+
+/* 이름 아래 작은 설명: 값 · 단서(「노출도 β 0.806」)가 들어가 읽어야 하는 글이라 text-2(정본 CO-05, 2회차 C-05).
+ * 시스템 .groupbox__desc(text-3)는 설정 화면의 보충 글이라 단계가 다르다 */
+.group__desc {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-2);
+}
+
+.group__value {
+  font: var(--type-body-strong);
+  letter-spacing: var(--type-body-strong-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  white-space: nowrap;
+}
+
+/* 꼬리표 묶음: 설명 끝의 주장 라벨들. 이웃 꼬리표 사이 가로 8 · 세로 4 — 정본 spacing.md 「꼬리표 급: 이웃 사이는 가로 항목 규칙(24)」 밖.
+ * OP-14: 라벨 둘(「기술」 「직접」)이 한 주장의 꼬리표 한 덩어리라 가로 항목(24)이 아니라 낱말 사이로 본다(2회차 SL-18) · 2026. 10. 21. · 다시 나올 가능성 중간 */
+.tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-half) var(--space-1);
+  vertical-align: middle;
+}
+
+/* ---------- 표: 시스템 .table 그대로(사용자가 고른 「선 없이 둥근 행」, 표 글자 type-label 13/20) ----------
+ * 덱이 더하는 것은 줄바꿈 변형 하나(.table--wrap)와 자리 맞춤뿐이다. 행 사이 선 · 끝 선 · 글자 크기 덮어쓰기는 없다.
+ * .table--wrap: 덱의 표는 정보 표라 말줄임으로 글이 잘리면 안 된다. 칸 안 줄바꿈 + 행 위아래 안쪽 8.
+ *   행 최소 높이(size-control-2, 36)는 안쪽 여백까지 포함해 잰다(border-box) — 한 줄 행이 36 그대로다.
+ * 걸침: 시스템 표는 둥근 행 바탕 자리로 둘레 8 + 행 안쪽 16을 갖는다. 덱 표는 그만큼(24) 바깥으로 걸쳐 칸 글을 장 본문 · 묶음 제목과
+ *   같은 시작선에 둔다(SP-18). 행 바탕(호버)만 장 좌우 여백 · 열 사이 안으로 걸치고, 머리 아래 선은 글 폭에 맞춘다.
+ *   OP-14 · SP-61(자식 바깥 여백) 밖 — 시스템 「탭 걸침」과 같은 겹침 보정, layout.md 예외 표 · 2026. 10. 20.
+ * 아래 걸침: 표 아래 안쪽 8 + 끝 행 아래 안쪽 8은 호버 바탕 자리라 글이 없다. 그만큼(16) 아래로 걸쳐 표 뒤 묶음 사이가 글 뒤와 같게 한다
+ *   (3회차 SL3-07 — 표 뒤만 글자 사이 52, 글 뒤는 36~38). 다음 요소는 끝 행 바탕 아래 끝보다 위로 오지 않는다(부모 간격 8 이상).
+ *   OP-14 · SP-61 밖 — 위와 같은 겹침 보정, layout.md 예외 표 · 2026. 10. 21. fit.js는 이 16을 잘림으로 세지 않는다.
+ * 머리 없는 표(23장 계산 표 두 개 · 26장 다른 가정 표): 열 머리 없이 행만 있는 시스템 표. 이름 ↔ 값 목록은 기본이 .group__row--pair(행 사이 선)지만
+ *   줄마다 계산 차례(+ · ×)나 시나리오 값이 이어 읽히는 짧은 표는 옆 표와 같은 꼴(선 없는 둥근 행)로 둔다(2회차 S-07, 3회차 SC-04 기록).
+ *   OP-14: 정본 components.md 표는 열 머리가 있다 · 2026. 10. 21. · 다시 나올 가능성 중간(계산 과정을 보이는 장)
+ * 열 너비는 장 CSS에서: .sNN .xxx-table :is(.table__head, .table__row) { grid-template-columns: … } */
+.table--wrap {
+  margin-inline: calc((var(--space-1) + var(--space-2)) * -1);
+  margin-block-end: calc(var(--space-1) * -2);
+}
+
+/* 머리 아래 선은 칸 글 폭에 맞춘다(행 안쪽 16을 머리 바깥 여백으로 옮긴 것 — 열 폭은 행과 같다). 장의 다른 가로선과 같은 시작 · 끝선 */
+.table--wrap > .table__head {
+  margin-inline: var(--space-2);
+  padding-inline: 0;
+}
+
+.table--wrap .table__row {
+  box-sizing: border-box;
+  padding-block: var(--space-1);
+}
+
+.table--wrap .table__cell {
+  overflow: visible;
+  white-space: normal;
+  text-overflow: clip;
+}
+
+.table--wrap .table__cell--name { align-items: baseline; }
+
+/* 여러 줄 칸이 섞인 표(.table--wrap.table--multiline, 30 · 31 · 32장): 행 안 칸의 첫 줄 기준선을 맞춘다 — 한 줄 칸(쟁점 · 단계 이름)이
+ * 여러 줄 칸 옆에서 행 가운데에 뜨지 않는다(SP-18). 칸 끝 줄에 한 어절만 남지 않게 text-wrap: pretty(1회차 T-07) */
+.table--multiline > .table__row { align-items: baseline; }
+.table--multiline .table__cell { text-wrap: pretty; }
+
+/* 칸 아래 작은 줄(「AI가 해내는 연도 2026」 · 시나리오 범위): 값이 들어가 읽어야 하는 글이라 text-2(정본 CO-05, 2회차 C-05).
+ * 시스템 .table__cell--muted(text-3)는 값이 없는 보충 글 몫이라 값 칸에 쓰지 않는다(3회차 C3-04).
+ * OP-14: 시스템 table__cell 이름에 덱이 더한 변형(칸 안 둘째 줄 — 시스템 표는 한 줄 칸) · 2026. 10. 21. · 다시 나올 가능성 중간 */
+.table__cell--sub {
+  display: block;
+  color: var(--color-text-2);
+}
+
+/* charts.js 블록이 그리는 표의 기본 열(장 CSS에서 바꿔도 된다) */
+.gates-table :is(.table__head, .table__row) {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));
+}
+
+.poster-table :is(.table__head, .table__row) {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr) minmax(0, 1.3fr);
+}
+
+/* 블록 표의 강조 열 · 행: 장 마크업 data-main(gates = 시나리오 이름 · poster = 직업군 이름) → charts.js가 그 칸 · 행에 data-main을 단다.
+ * 강조는 명도로: 강조 열 · 행은 text-1, 같은 자리의 나머지는 text-2(여전히 읽는 글 — CO-05). 파랑은 링크 · 조작부 몫이라
+ * 누를 수 없는 표 강조에 쓰지 않는다(정본 CO-35, 2회차 C-01). 열 · 행 이름이 글자로 뜻을 말한다(색만으로 말하지 않는다) */
+.gates-table .table__head > [data-main],
+.gates-table .table__row > [data-main] .num { color: var(--color-text-1); }
+.gates-table:has([data-main]) .table__row > .table__cell--numeric:not([data-main]) .num { color: var(--color-text-2); }
+.poster-table:has([data-main]) .table__row:not([data-main]) > :first-child .t-label-strong { color: var(--color-text-2); }
+.poster-table .table__row[data-main] > :first-child .t-label-strong { color: var(--color-text-1); }
+
+/* 시작 칸: 연도(또는 「이미 감소」) + 주장 라벨 한 줄, 아래에 시나리오 범위 */
+.poster-table .poster-when {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-half);
+}
+
+.poster-table .poster-when > :first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* ---------- 시간축: 차례대로 놓인 단계 ----------
+ * 단계 위 가는 선(border-1 separator, 구분선 — shape.md). 때 글자는 읽는 값이라 text-2, 지금 단계만 text-1(명도로 강조 —
+ * 파랑은 링크 · 조작부 몫이라 쓰지 않는다, 정본 CO-35 · 2회차 C-01. 선 굵기로도 표시하지 않는다: border-2는 초점 고리 몫).
+ * 「지금」이라는 낱말은 장 마크업이 적는다(색만으로 말하지 않는다).
+ * OP-14: 시스템에 시간축 컴포넌트가 없다(덱 고유 패턴) · 2026. 10. 20. · 다시 나올 가능성 중간 */
+.timeline {
+  --timeline-cols: 4;
+  display: grid;
+  grid-template-columns: repeat(var(--timeline-cols), minmax(0, 1fr));
+  column-gap: var(--layout-gutter);
+}
+
+.timeline__item {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+  border-top: var(--border-1) solid var(--color-separator);
+}
+
+.timeline__when {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  color: var(--color-text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline__item[data-current] .timeline__when { color: var(--color-text-1); }
+
+.timeline__title {
+  font: var(--type-body-strong);
+  letter-spacing: var(--type-body-strong-letter-spacing);
+  text-wrap: pretty;
+}
+
+.timeline__text {
+  max-width: var(--layout-line-length);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-2);
+  text-wrap: pretty;
+}
+
+/* 세로 시간축: 단계가 위에서 아래로 한 줄씩. 줄 = [때][단계 이름][설명](열 비율은 --timeline-row로 바꾼다). 줄 높이 = 내용 높이.
+ * 줄 사이 16 + 줄 위 선 아래 16 — 줄 사이 선의 위아래가 같다(묶음 항목 사이 선과 같은 짜임, 29장 장 CSS 땜질을 여기로 옮겼다) */
+.timeline--vertical {
+  --timeline-row: minmax(0, 2fr) minmax(0, 2.5fr) minmax(0, 7.5fr);
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--space-2);
+}
+
+.timeline--vertical > .timeline__item {
+  grid-template-columns: var(--timeline-row);
+  column-gap: var(--layout-gutter);
+  align-items: baseline;
+}
+
+/* ---------- 차트: 제목 → 부제 → 그림 → 출처 ----------
+ * OP-14: 시스템 컴포넌트에 차트가 없다(정본 components.md 「남은 것」) — 덱이 토큰만으로 그린다 · 2026. 10. 20. · 다시 나올 가능성 높음(시스템 제안 후보).
+ * 사이는 세로만 8(row-gap) — .group__row--stat.chart(21장)처럼 다른 패턴과 겹쳐 쓸 때 그 패턴의 열 사이를 덮지 않는다(2회차 SL-10) */
+.chart {
+  display: grid;
+  align-content: start;
+  row-gap: var(--space-1);
+  min-width: 0;
+}
+
+/* 제목 + 부제 = 제목 + 설명 문단이라 8(정본 spacing.md 「제목·설명 묶음은 두 값만」 — 3회차 SL3-09, 4에서 고침) */
+.chart-head {
+  display: grid;
+  gap: var(--space-1);
+}
+
+/* 차트 제목 = 묶음 제목과 같은 type-heading(18) — 차트 하나가 묶음 하나다 */
+.chart-title {
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+}
+
+.chart-sub {
+  max-width: var(--layout-line-length);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-2);
+  text-wrap: pretty;
+}
+
+/* 출처: 끝의 꼬리표 · 짧은 낱말이 혼자 다음 줄로 넘어가지 않게(text-wrap: pretty).
+ * 출처 줄은 기관 · 자료 · n · 확인일 · 주장 라벨만 text-3 캡션으로. 축 뜻 · 뺀 점 · 정의 · 범례 같은 단서는 그림 뒤 p.footnote(13/20 · text-2)로
+ * (정본 CO-05 필수 — 읽어야 하는 정보를 3단계 색에만 싣지 않는다, 3회차 C3-01 · T3-03). 자리가 없어 출처 줄에 남길 때만
+ * 그 조각을 span.c-text-2로 감싼다(색은 CO-05를 지키지만 12px이라 덱 기준 밖 — 보고에 남긴다) */
+.chart-src {
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  color: var(--color-text-3);
+  text-wrap: pretty;
+}
+
+/* 글줄 안 꼬리표(높이 24 = space-3): 위아래 −12(높이의 절반)로 바깥 상자 높이를 0으로 만들어 글줄 높이에 아무것도 보태지 않는다 —
+ * 줄 높이가 늘 그 글자 역할의 행간 그대로다(캡션 16 · 라벨 20 · 본문 24, 정수). 꼬리표는 같은 자리(가운데 · 기준선 맞춤)에 그대로 그려진다.
+ *   꼬리말 출처 줄 — 쪽 번호 · 절 이름이 모든 장에서 같은 자리 · 같은 기준선(1회차 T-09 · L-10)
+ *   차트 출처 줄 — 꼬리표가 든 줄도 16(1회차 L-10 · SC-14). −4일 때는 가운데 맞춤 계산으로 20.8125처럼 소수가 남았다(3회차 SL3-11)
+ *   본문 · 설명 · 각주 · 핵심 한 문장 · 이름 ↔ 값 줄의 이름 — 꼬리표가 든 줄만 4(라벨) · 1(본문) 커져 문단 행간이 20 / 22 / 22로
+ *   고르지 않았고 이어지는 요소가 4px 격자 밖으로 밀렸다(3회차 SL3-10 · T3-10 · SC-07 · SC-09 · SL3-16 — 공통으로 넓힘)
+ * 고르는 법: 글 요소(p · span · li · dd · h3 · h4) 바로 안의 꼬리표 · 꼬리표 묶음. 따로 선 꼬리표 줄(p.tags — 격자 항목), 표 칸 · 28장 시작 칸
+ * (flex 항목), 절 표시(.head > .section-tag, 아래 −4)는 고르지 않는다 — 그 자리에서는 높이가 0이 되면 이웃과 겹친다.
+ * OP-14 · SP-61(자식 바깥 여백) 밖 — 글줄 안 꼬리표의 광학 보정, layout.md 예외 표 · 2026. 10. 20.(차트 출처 · 이름 줄로 넓힘 10. 21., 모든 글줄 · −12로 10. 21.) */
+:is(p, span, li, dd, h3, h4):not(.tags, .table__cell, .poster-when > *) > :is(.tag, .tags) { margin-block: calc(var(--space-3) / -2); }
+
+/* 캡션 줄(꼬리말 출처 · 차트 출처, 12/16) 안 꼬리표는 줄 상자 위에 맞추고(top) 위아래 −4 — 바깥 상자 = 줄 높이 16이라 줄을 키우지 않고,
+ * 꼬리표가 그 줄의 가운데 정수 자리에 선다(가운데 맞춤 middle은 기준선 + x-높이 절반이라 꼬리표 위치가 .81처럼 소수였다, 3회차 SL3-11) */
+p:is(.chart-src, .source) :is(.tag, .tags):not(.tags > *) {
+  vertical-align: top;
+  margin-block: calc(var(--space-half) * -1);
+}
+
+/* 차트 출처의 꼬리표는 대개 끝 줄 끝에 있어 출처 줄(16) 아래로 4 나간다 — 아래 안쪽 4로 차트 상자 안에 둔다(넘침 없음).
+ * 줄 사이는 16 그대로이고, 꼬리표가 든 출처는 끝에 4만 더 쓴다 */
+.chart-src:has(.tag) { padding-block-end: var(--space-half); }
+
+.chart svg,
+.diagram {
+  display: block;
+  overflow: visible;
+}
+
+/* 차트 안 글자: 눈금·축 이름은 캡션, 값·계열 이름은 라벨(시스템 바닥 12px 이상). 견줘 읽는 숫자라 같은 폭 숫자(TY-47) — font 뒤에 둔다.
+ * 도식(.diagram) 글자는 비례 폭: 마디 글의 숫자(「4.1배」 「15%」)는 축 · 열로 견주지 않는다(2회차 T2-08) */
+.chart svg text,
+.diagram text {
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  fill: var(--color-text-3);
+}
+
+.chart svg text { font-variant-numeric: tabular-nums; }
+
+/* 축 이름(charts.js .alab.axis-name — 세로 · 가로축 이름, 열 이름, 보조 눈금 이름): 단위 · 기준(「연말 기준」 · 「≈17시간」 ·
+ * 「대체 압력이 일자리 5%에 이르는 해」)이 들어 있어 읽어야 하는 글이라 text-2(정본 CO-05, 3회차 C3-04). 눈금 숫자 · 연도는 text-3 그대로 */
+.chart svg .axis-name { fill: var(--color-text-2); }
+
+.chart svg .vlab {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  fill: var(--color-text-1);
+}
+
+/* 계열 이름표: 파랑 · 갈색 계열은 그 색(글자 5.4:1), 맥락 계열은 회색 선과 따로 text-2 — 읽어야 하는 이름이라 4단계 글자색에 싣지 않는다(CO-05) */
+.chart svg .slab {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  fill: var(--series-label, var(--series, var(--color-text-1)));
+}
+
+.chart svg .note {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  fill: var(--color-text-2);
+}
+
+/* 주석(.note) · 「미도달」(charts.js가 .halo를 단다)처럼 격자선 위에 놓이는 글자: 장 바탕색 외곽을 글자 뒤에 그려
+ * (paint-order: stroke) 선을 글자 둘레에서 끊는다. 외곽 6 = 글자 밖으로 3 — 낱말 사이 띄어쓰기(약 4)까지 덮는다 */
+.chart svg :is(.note, .halo) {
+  paint-order: stroke;
+  stroke: var(--color-background-1);
+  stroke-width: calc(var(--border-2) * 3);
+  stroke-linejoin: round;
+}
+
+.chart svg .cat {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  fill: var(--color-text-1);
+}
+
+.chart svg .cat-hi {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 구간 시작선 이름(7장 「2024년 이후 …」 · 24장 「16시간 위는 …」)과 「미도달」은 읽어야 하는 단서라 주석과 같은 라벨 13 · text-2(2회차 T2-09) */
+.chart svg .zone-lab {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  fill: var(--color-text-2);
+}
+
+/* 계열 색: 같은 대상은 덱 어디서나 같은 색(design-standard/color.md 「차트 계열 색」 표).
+ *   s-main 파랑 = 기준 시나리오 · AGI 예상 연도 · 사무직 · 그 장의 핵심 계열
+ *   s-alt  갈색 = 빠름 시나리오 · 모든 직업 자동화 예상 연도 · 비교 계열(전문직)
+ *   s-ctx  중립 = 신중 시나리오 · 맥락 계열(Metaculus · KDI · 판매직 · 그 밖) — 선 · 점 · 막대는 --deck-data-neutral, 이름표는 text-2
+ * OP-14: s-main 파랑(color-hue-blue = color-link = color-accent, C 청량)은 CO-35(누를 수 있는 요소의 색을 누를 수 없는 것에) 밖 — 데이터 계열 색을
+ * 덱 전체에서 잇는다(CN-120). 모양이 링크와 다르다(선 · 점 · 막대와 그 끝 이름표, 링크는 늘 밑줄) · 2026. 10. 21. · 다시 나올 가능성 중간(강조색이 파랑인 프리셋의 덱마다) */
+.s-main { --series: var(--color-hue-blue); }
+.s-alt { --series: var(--color-hue-brown); }
+.s-ctx { --series: var(--deck-data-neutral); --series-label: var(--color-text-2); }
+
+/* 데이터 선 굵기 border-2: 격자(border-1)보다 한 단계 굵어 값이 앞에 선다(CN-120).
+ * OP-14: 정본 shape.md의 border-2 배정은 초점 고리 · 오류 칸뿐(선 굵기 배정 밖, 차트는 정본 「남은 것」) · 2026. 10. 20. · 다시 나올 가능성 높음(차트마다) */
+.chart svg .line {
+  fill: none;
+  stroke: var(--series);
+  stroke-width: var(--border-2);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 선 모양(색만으로 계열을 가리지 않게, CN-122 · 1회차 C-10): 맥락 계열 = 파선(chart-data dash: true), KDI 교차확인 = 점선(dash: "dot").
+ * 점선은 길이 0 + 둥근 끝이라 지름 2(border-2)의 점이 8마다 놓인다 */
+.chart svg .line.dash { stroke-dasharray: var(--space-1) var(--space-half); }
+.chart svg .line.dash--dot { stroke-dasharray: 0 var(--space-1); }
+
+/* 점: 파랑 · 갈색은 흑백에서 같은 명도라(상대휘도 비 1.00, 2회차 C-02) 색 말고 모양으로도 가른다 — 갈색(s-alt) 계열 점은
+ * 네모(charts.js가 rect.dot.dot--sq로 그린다, 손 SVG도 같은 클래스), 파랑 · 중립은 원. 이름표 바로 옆 끝 점도 같은 모양이다(CN-122) */
+.chart svg .dot {
+  fill: var(--series);
+  stroke: var(--color-background-1);
+  stroke-width: var(--border-2);
+}
+
+.chart svg .dot--sq { rx: var(--radius-0); }
+
+/* 산점도 배경 점: 중립 데이터 색(흰 바탕 3.62:1, AC-09). 흰 테두리로 겹친 점을 나눈다 */
+.chart svg .dot-bg {
+  fill: var(--deck-data-neutral);
+  stroke: var(--color-background-1);
+  stroke-width: var(--border-1);
+}
+
+/* 막대: 직각(radius-0) — 막대 끝이 0선에 그대로 닿아 길이로 읽힌다. svg 속성 rx보다 CSS가 이긴다 */
+.chart svg .bar,
+.chart svg .clip { fill: var(--series); }
+
+.chart svg .bar { rx: var(--radius-0); }
+
+/* 한 막대의 조각(나머지 몫 · 범위 끝): 중립 색 + 바탕색 1px 틈으로 이웃 조각과 나눈다(CN-123) */
+.chart svg .bar.seg {
+  stroke: var(--color-background-1);
+  stroke-width: var(--border-1);
+}
+
+.chart svg .grid-lines line {
+  stroke: var(--color-separator);
+  stroke-width: var(--border-1);
+}
+
+.chart svg .grid-lines line.zero,
+.chart svg .base {
+  stroke: var(--deck-data-neutral);
+  stroke-width: var(--border-1);
+}
+
+/* 구간 시작선(7장 「2024년 이후」 세로선 · 24장 「16시간 위」 가로선): 구간은 색 면으로 칠하지 않고 시작선 하나 + 이름으로 보인다
+ * (2회차 S-02 — 옅은 파랑 면이 설명 글이 든 상자처럼 읽혔고, 주 계열과 같은 색상이라 CN-123에도 걸렸다). 중립 데이터 색 실선 1 —
+ * 직급 문턱(.gate)은 점선이라 모양으로 갈린다 */
+.chart svg .zone {
+  stroke: var(--deck-data-neutral);
+  stroke-width: var(--border-1);
+}
+
+.chart svg .leader {
+  fill: none;
+  stroke: var(--deck-data-neutral);
+  stroke-width: var(--border-1);
+}
+
+/* 직급 문턱 · 기준 시점 같은 가로 · 세로 기준선: 둥근 점(지름 2, 4마다) — 같은 중립 회색인 맥락 계열 파선(8 · 4, 굵기 2)과 모양으로 갈린다
+ * (3회차 C3-08: 24장에서 1px 4 · 4 파선이 신중 시나리오 파선과 굵기 · 길이로만 갈렸다). 26장 KDI 점선(8마다)보다 촘촘하다 */
+.chart svg .gate {
+  stroke: var(--deck-data-neutral);
+  stroke-width: var(--border-2);
+  stroke-linecap: round;
+  stroke-dasharray: 0 var(--space-half);
+}
+
+.chart svg .range {
+  stroke: var(--deck-data-neutral);
+  stroke-width: var(--space-half);
+  stroke-linecap: round;
+}
+
+/* ---------- 도식(손으로 그린 SVG): 마디 · 화살표 ----------
+ * 마디는 상자 없이 글자 묶음(이름 n-t 굵게 + 설명 n-s)과 연결선만 — 둘레선 둥근 상자는 그림자 없는 카드로 읽힌다(2회차 S-01,
+ * 사용자 「카드 형태의 UI는 쓰지 마」). 마디에 rect를 두지 않는다(옛 「rect 숨김」 규칙은 쓰는 곳이 없어 3회차 SC-14에서 지웠다).
+ * 마디 이름은 모두 text-1 굵게 — 누를 수 없는 글자를 파랑으로 칠하지 않는다(정본 CO-35, 결정 2). 핵심 경로(AI가 AI 개발을 돕는 R1 화살표)만
+ * 차트 주 계열 파랑 선(.edge--key) — AI 능력 계열이 차트에서 늘 파랑이라 같은 대상을 잇는다(CN-120, 글자가 아니라 데이터 표시).
+ * 선 굵기 border-2(차트 선과 같은 데이터 선 — 정본 shape.md의 border-2 배정은 초점 고리 · 오류 칸뿐, 아래 차트 선과 같은 예외).
+ * OP-14: 시스템에 도식 컴포넌트가 없다(덱 고유 패턴) · 2026. 10. 20.(상자 · 파랑 이름 없앰 2026. 10. 21.) · 다시 나올 가능성 중간.
+ * OP-14: .edge--key · .mk--key 파랑은 CO-35(누를 수 있는 색을 누를 수 없는 것에) 밖 — 데이터 계열 색 잇기(CN-120), 모양이 링크와 다름(선 · 화살촉) · 2026. 10. 21. · 가능성 중간 */
+.diagram .n-t {
+  font: var(--type-body-strong);
+  letter-spacing: var(--type-body-strong-letter-spacing);
+  fill: var(--color-text-1);
+}
+
+.diagram .n-s {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  fill: var(--color-text-2);
+}
+
+.diagram .edge {
+  fill: none;
+  stroke: var(--deck-data-neutral);
+  stroke-width: var(--border-2);
+}
+
+.diagram .edge--key { stroke: var(--color-hue-blue); }
+.diagram .edge--dash { stroke-dasharray: var(--space-1) var(--space-half); }
+.diagram .mk { fill: var(--deck-data-neutral); }
+.diagram .mk--key { fill: var(--color-hue-blue); }
+
+/* 연결선 설명(「개발 가속」 · 「전력이 제한」)은 읽어야 하는 주석이라 라벨 13 · text-2(차트 .note와 같은 단계, 2회차 T2-09) */
+.diagram .e-l {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  fill: var(--color-text-2);
+}
+
+/* ---------- 그림: 사진 · 생성 이미지(figure.media, img.media) ----------
+ * 그림(+ 필요할 때만 캡션 figcaption.media__caption — 사진 출처 자리, 그림과 캡션 사이 8). 생성 이미지에는 캡션을 달지 않는다:
+ *   「이미지: Gemini 생성」을 그림마다 적지 않고 34장 꼬리말에서 한 번에 밝힌다(쓴 장 번호 + assets/img/MANIFEST.md, 사용자 2026. 10. 21.).
+ *   지금 장 파일에서 .media__caption을 쓰는 곳은 0이다(9장 인물 사진 출처도 꼬리말).
+ * 바탕 · 테두리 · 그림자 없음(카드처럼 보이지 않게). 모서리 radius-2 — shape.md에 그림 배정이 없어, 장(창) 안에 놓이는 요소의 단계
+ *   (버튼 · 입력 칸 · 배너 · 선택 행 = radius-2)를 쓴다. 장 가장자리까지 닿는 그림(히어로)은 radius-0.
+ * 비율 세트(3회차 SC-05 결정 — 같은 쓰임의 사진이 11가지 비율이었다): 기본은 원래 비율(자르지 않음). 칸에 맞춰 자를 때는
+ *   data-ratio 여섯 가지 중에서만 고른다 — 가로 "16:9" · "3:2" · "4:3", 정사각 "1:1", 세로 "3:4" · "2:3"(object-fit: cover).
+ *   장 CSS에서 aspect-ratio를 따로 주지 않는다(예외는 13장 손 그림 한 칸 — 원본 2×2 격자의 오른쪽 아래 사분면만 16:9 칸에 보이는 span 래퍼,
+ *   README 「값」). 장 CSS는 이 파일의 덱 토큰(--media-ratio · --deck-col · --stat-col 등)을 쓰지 않는다 — 시스템 검사(check.mjs)가 장 CSS를
+ *   따로 읽어 「없는 토큰」으로 센다. 그래서 13장은 16 / 9를 직접 적는다.
+ *   그림 높이는 4px 격자에 맞춰 반올림한다(아래 @supports — 폭 368의 3:2가 245.33처럼 소수가 되어 아래 요소가 반 픽셀에 놓였다, 3회차 SL3-11).
+ * 자르는 기준점은 오른쪽 아래(100% 100%) — Gemini 생성 이미지의 오른쪽 아래 워터마크가 잘리지 않는다(워터마크는 지우지 않는다).
+ *   주인공이 왼쪽에 있으면 장 CSS에서 --media-position만 바꾸되 오른쪽 아래 모서리는 화면 안에 남긴다(예: 0% 100%는 안 된다).
+ * 장식 그림(분위기 · 비유만 전하는 그림)은 alt=""(AC-65), 대상을 보여 주는 그림만 설명을 둔다(assets/img/MANIFEST.md 「대체 글」).
+ * OP-14: 시스템에 그림 컴포넌트 · 그림 모서리 배정이 없다(shape.md) — 장 안 요소 단계 radius-2 · 2026. 10. 20. · 다시 나올 가능성 높음(시스템 제안 후보) */
+.media {
+  --media-position: 100% 100%;
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.media > img,
+img.media {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-2);
+  object-fit: cover;
+  object-position: var(--media-position);
+}
+
+.media[data-ratio] { container-type: inline-size; }
+.media[data-ratio="16:9"] { --media-ratio: 16 / 9; }
+.media[data-ratio="3:2"] { --media-ratio: 3 / 2; }
+.media[data-ratio="4:3"] { --media-ratio: 4 / 3; }
+.media[data-ratio="1:1"] { --media-ratio: 1 / 1; }
+.media[data-ratio="3:4"] { --media-ratio: 3 / 4; }
+.media[data-ratio="2:3"] { --media-ratio: 2 / 3; }
+.media[data-ratio] > img { aspect-ratio: var(--media-ratio); }
+
+/* 높이 = 칸 폭 ÷ 비율을 4로 반올림(round()가 없는 브라우저는 위 aspect-ratio 그대로) */
+@supports (width: round(nearest, 1%, 1%)) {
+  .media[data-ratio] > img {
+    aspect-ratio: auto;
+    height: round(nearest, calc(100cqi / (var(--media-ratio))), var(--space-half));
+  }
+}
+
+.media__caption {
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  color: var(--color-text-3);
+}
+
+/* ---------- 히어로(1장): 큰 그림 + 큰 제목 + 부제 + 두 숫자 ----------
+ * 12열 격자 6 + 6: 왼쪽 6열(564)에 글, 오른쪽은 7열 시작선(652)부터 장 오른쪽 · 위 · 아래 가장자리까지 그림(628 × 720, radius-0).
+ * 그림은 흐름 밖(시스템 layout.md 「흐름 밖(.float)」)에 두고 장 끝 안쪽 여백을 그림 폭 + 열 사이로 넓힌다 — 꼬리말도 글 열 안에 선다.
+ * 본문은 세로 가운데(표지만, components.md): 제목 묶음 → 64(절 사이) → 두 숫자. 남는 높이는 위아래로 나뉜다.
+ * 그림 위에 글자를 얹지 않는다. 생성형 AI 표시는 1장에도 두지 않고 34장 꼬리말에서 한 번에 밝힌다(사용자 2026. 10. 21.).
+ * 두 숫자는 .figure--display 그대로 text-1(파랑으로 덮지 않는다 — 정본 CO-35, 2회차 C-01 · C-04).
+ * OP-14: 시스템에 히어로가 없고 큰 글자는 덱 지침(presets.md:143) · 2026. 10. 20. · 다시 나올 가능성 높음(덱 표지마다) */
+.slide.hero {
+  --hero-media-w: calc((var(--deck-w) - var(--deck-pad-x) * 2 - var(--layout-gutter)) / 2 + var(--deck-pad-x));
+  padding-inline-end: calc(var(--hero-media-w) + var(--layout-gutter));
+}
+
+.hero .body {
+  justify-content: center;
+  gap: var(--space-8);
+}
+
+/* 제목 묶음: 큰 제목 → 16 → [부제(heading · text-2) → 8 → 설명 문단]. 큰 글자 뒤라 제목 아래만 한 단계 넓힌다.
+ * 부제 + 설명은 제목 + 설명 문단 관계(8, spacing.md)라 마크업에서 .stack[data-gap="1"]로 묶는다 — 간격은 모두 부모 gap(SP-61).
+ *   <div class="hero__head"><h1 class="headline">…</h1><div class="stack" data-gap="1"><p class="t-heading c-text-2">부제</p><p class="lead">설명</p></div></div>
+ * 설명 문단 폭은 .lead(읽기 폭 40em) 그대로 */
+.hero__head {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+}
+
+.hero__media {
+  display: block;
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: var(--hero-media-w);
+}
+
+.hero__media > img {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-0);
 }

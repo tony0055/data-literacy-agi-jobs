@@ -1,0 +1,45 @@
+<!-- 17 한국 직업 대분류 · 연도 선(6열, 부제에 축 · 표시 범위 단서) + 2019→2025 변화율과 다른 연구(3열) + 출근길 그림(3열, 비율 세트 3:4) + 핵심 한 문장(한 줄) -->
+<!-- 그림은 한국 도시 업무 지구의 아침 출근길(생성 이미지, 서울 특정 장소가 아님 — assets/img/MANIFEST.md). 분위기 그림이라 alt를 비운다(AC-65).
+     판매직 설명(2회차 D-04 · W-28): research/jobs-korea.md 67행(KEIS 연구사업 2025-40 3장 — 노출도(AI·로봇·소프트웨어)로 판매는 노출이 낮은데 취업자 감소),
+     148행(KOSIS 표 — 「KEIS는 온라인 상거래 등 구조 변화로 해석」). 같은 보고서의 「대체 가능성 70% 이상 고위험 비중」은 판매 62.6%(63행)로
+     2036 추정 모형 입력(projection_2036.py r)과 다른 지표라 이름을 붙여 가른다. 62.6%는 23~28장 화면에 나오지 않아 장 번호 대신 「2036 추정 모형」으로 가리킨다(3회차 D3-08),
+     고위험의 기준(대체 가능성 70% 이상)은 처음 나오는 이 자리에서 푼다(3회차 W-04). 「무인화」는 69행 2034년 인력수급 전망 보도(2차)의 말이라 지난 감소의 까닭에서 뺐다.
+     축 단서(세로축 80부터)와 표시 범위(대분류 9개 중 3개)는 차트 출처에서 부제로 옮겼다(3회차 C3-01 · W-26). 핵심 한 문장은 report.md 0-4절 「총량에는 아직 나타나지 않았습니다」에 맞춰 「총량에서는」(3회차 W-12).
+     다른 연구: 67행(KEIS 「상관 매우 약하거나 없음」) · 52행(국회예산정책처 「일관된 영향 발견 못함, 잠정적」) -->
+<section class="slide s17">
+  <div class="head">
+    <p class="tag section-tag" data-hue="yellow">실제 고용</p>
+    <h2 class="headline">한국도 사무직·전문직 취업자는 아직 늘고 있어요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <figure class="chart span-6" data-chart="kr_occupation_index" data-kind="yearline" data-w="564" data-h="300" data-key-w="104">
+        <figcaption class="chart-head">
+          <p class="chart-title">직업군별 추이 2019~2025년 (2019년 기준 = 100)</p>
+          <p class="chart-sub">세로축은 변화를 견주려고 80부터 그렸어요. 대분류 9개 중 3개만 보여요(9개 합 = 전체로 검산).</p>
+        </figcaption>
+        <p class="chart-src">KOSIS 직업별 취업자(DT_1DA7E08S_NEW) 연평균 · 2026. 10. 16. 확인 <span class="tag" data-hue="indigo">기술</span></p>
+      </figure>
+      <div class="span-3 stack" data-gap="4">
+        <section class="group" aria-labelledby="s17-chg">
+          <h3 class="group__title" id="s17-chg">2019→2025 변화율</h3>
+          <div class="group__rows">
+            <div class="group__row group__row--pair"><p class="group__label">전문직</p><p class="group__value">+19.7%</p></div>
+            <div class="group__row group__row--pair"><p class="group__label">사무직</p><p class="group__value">+8.7%</p></div>
+            <div class="group__row group__row--pair"><p class="group__label">판매직</p><p class="group__value">−17.6%</p><p class="t-label c-text-2 s17-note">한국고용정보원 노출도(AI·로봇·소프트웨어)로는 낮은 직군이에요. 이 기관은 감소 까닭을 온라인 상거래 등 구조 변화로 봐요. 2036 추정 모형에 넣은 판매 고위험 비중 62.6%는 대체 가능성이 70% 이상인 일자리 몫이라 노출도와는 다른&nbsp;지표예요.</p></div>
+          </div>
+        </section>
+        <div class="block">
+          <p class="t-label c-text-2">한국고용정보원은 노출도와 취업자 증감의 상관이 매우 약하거나 없다고 보고, 국회예산정책처도 일관된 영향을 찾지&nbsp;못했어요(잠정).</p>
+        </div>
+      </div>
+      <figure class="media span-3" data-ratio="3:4">
+        <img src="assets/img/17-seoul-commute.jpg" width="2400" height="1792" alt="">
+      </figure>
+    </div>
+    <div class="takeaway">
+      <p>취업자 수는 오히려 늘어 총량에서는 AI의 영향이 드러나지 않으니, 변화는 <mark>새로 들어오는 신입</mark>에서 찾아야 해요.</p>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">KOSIS · 한국고용정보원 연구사업 2025-40 · 국회예산정책처 경제현안분석 110호(2026년 9월)</p><p class="where"><span class="sec">실제 고용 2 · 한국 직업 대분류</span><span class="pg"></span></p></footer>
+</section>

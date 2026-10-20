@@ -1,0 +1,69 @@
+<!-- 06 재귀적 자기개선 · 지금 보이는 사례
+     위 줄 12열 7 + 5: 회사가 밝힌 AI 작성 코드 비율(손 SVG 세로 막대 662 × 200) | 그림(06-ai-builds-ai.jpg, 16:9 — 오른쪽 아래 기준으로 위만 잘라 워터마크 보존)
+     아래 줄: 연구·연산 사례 두 칸(칸 사이 세로선, 바탕 상자 없음). 그림은 분위기 그림(장 메시지의 사실을 보여 주지 않음)이라 alt=""(AC-65). 그림 생성 표시 캡션은 두지 않고 34장 출처에 한 번(사용자 2026. 10. 21.).
+     막대: 바닥 y 156, 100% = y 36 → 1%당 1.2. 「초과 · 이상」(하한) 값은 막대 위 삼각형(charts.js 범위 밖 표시와 같은 모양)으로 보인다(1회차 D-05).
+     막대 자리는 회사별 묶음이라 가로 간격이 날짜 간격과 비례하지 않는다 — 부제에 적는다(3회차 D3-21).
+     꼬리표 「2차」 「자체 보고」는 따로 단다(10 · 11장처럼 한 꼬리표에 하나, 뜻은 34장). OpenAI 목표는 영어 원문(research/agi-timelines.md 74행)의 번역 · 요약이라 따옴표를 쓰지 않는다(3회차 W-35) -->
+<section class="slide s06">
+  <div class="head">
+    <p class="tag section-tag" data-hue="yellow">AI 발전 속도</p>
+    <h2 class="headline">AI 회사들은 이미<br>자사 모델로 다음 모델을 만들고 있어요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <figure class="chart span-7">
+        <figcaption class="chart-head">
+          <h3 class="chart-title">회사가 밝힌 AI 작성 코드 비율(%)</h3>
+          <p class="chart-sub">Google은 새 코드, Anthropic은 사내 코드 기준이라 정의가 달라요. 가로 간격은 시간과 무관해요.</p>
+        </figcaption>
+        <svg width="662" height="200" viewBox="0 0 662 200" role="img" aria-label="회사가 밝힌 AI 작성 코드 비율은 Google 새 코드가 2024년 10월 25% 초과, 2026년 4월 75%이고 Anthropic 사내 코드가 2026년 5월 90% 이상이에요.">
+          <g class="grid-lines">
+            <line x1="40" y1="126" x2="662" y2="126"/>
+            <line x1="40" y1="96" x2="662" y2="96"/>
+            <line x1="40" y1="66" x2="662" y2="66"/>
+            <line x1="40" y1="36" x2="662" y2="36"/>
+          </g>
+          <text class="tick" x="32" y="160" text-anchor="end" aria-hidden="true">0</text>
+          <text class="tick" x="32" y="130" text-anchor="end" aria-hidden="true">25</text>
+          <text class="tick" x="32" y="100" text-anchor="end" aria-hidden="true">50</text>
+          <text class="tick" x="32" y="70" text-anchor="end" aria-hidden="true">75</text>
+          <text class="tick" x="32" y="40" text-anchor="end" aria-hidden="true">100</text>
+          <g>
+            <rect class="bar bar--col s-main" x="118" y="126" width="64" height="30"/>
+            <rect class="bar bar--col s-main" x="238" y="66" width="64" height="90"/>
+            <rect class="bar bar--col s-alt" x="458" y="48" width="64" height="108"/>
+          </g>
+          <line class="base" x1="40" y1="156" x2="662" y2="156"/>
+          <path class="clip s-main" d="M145,121 L155,121 L150,112 Z" aria-hidden="true"/>
+          <path class="clip s-alt halo" d="M485,43 L495,43 L490,34 Z" aria-hidden="true"/>
+          <text class="vlab" x="150" y="106" text-anchor="middle">25% 초과</text>
+          <text class="vlab" x="270" y="58" text-anchor="middle">75%</text>
+          <text class="vlab halo" x="490" y="28" text-anchor="middle">90% 이상</text>
+          <text class="cat" x="150" y="176" text-anchor="middle" aria-hidden="true">2024년 10월</text>
+          <text class="cat" x="270" y="176" text-anchor="middle" aria-hidden="true">2026년 4월</text>
+          <text class="cat" x="490" y="176" text-anchor="middle" aria-hidden="true">2026년 5월</text>
+          <text class="cat cat-hi" x="210" y="196" text-anchor="middle" aria-hidden="true">Google · 새 코드</text>
+          <text class="cat cat-hi" x="490" y="196" text-anchor="middle" aria-hidden="true">Anthropic · 사내 코드</text>
+        </svg>
+        <p class="chart-src">보도로 옮긴 값 · Anthropic은 최고재무책임자(CFO) 발언 <span class="tags"><span class="tag" data-hue="indigo">2차</span><span class="tag" data-hue="indigo">자체 보고</span></span></p>
+      </figure>
+      <figure class="media span-5" data-ratio="16:9">
+        <img src="assets/img/06-ai-builds-ai.jpg" width="2400" height="1792" alt="">
+      </figure>
+    </div>
+    <section class="group" aria-labelledby="s06-more">
+      <h3 class="group__title" id="s06-more">연구·연산 사례</h3>
+      <div class="group__cols" data-cols="2">
+        <div class="group__cell">
+          <h4 class="t-body-strong">OpenAI는 ‘자동화 연구 인턴’ 목표를 이뤘다고 발표했어요</h4>
+          <p class="t-label c-text-2">2025년 10월에 2026년 9월까지 인턴, 2028년 3월까지 연구자를 만들겠다고 했고, 2026년 9월 첫 단계를 자체 측정으로 달성했다고 밝혔어요. 4시간부터 8시간까지 걸리는 과제에서는 성공한 사례의 절반 넘게 <span class="nowrap">사람이 개입했어요. <span class="tag" data-hue="indigo">2차</span></span></p>
+        </div>
+        <div class="group__cell">
+          <h4 class="t-body-strong">AlphaEvolve가 Google 연산 자원 0.7%를 되찾았어요</h4>
+          <p class="t-label c-text-2">Gemini 핵심 계산을 23% 빠르게 하고 학습 시간을 1% 줄였어요(2025년 5월). <span class="tag" data-hue="indigo">직접</span></p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="foot"><p class="source">Semafor·TechSpot 보도, OpenAI 발표 요약(HelpNetSecurity 등), Google DeepMind 블로그</p><p class="where"><span class="sec">재귀적 자기개선 · 지금 보이는 사례</span><span class="pg"></span></p></footer>
+</section>

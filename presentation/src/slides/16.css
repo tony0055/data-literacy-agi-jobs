@@ -1,0 +1,13 @@
+/* 16 머신러닝 예측 비교 */
+/* 표(시스템 표 그대로, 행 높이 = 내용): [모형] [노출도 포함] [노출도 뺌]. 숫자 칸은 끝 맞춤, 각주 *는 .fn(폭 0)이라 자릿수가 밀리지 않는다 */
+.s16 .s16-table :is(.table__head, .table__row) {
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+}
+
+/* 노출도 3종 막대의 값 이름표 안 지표 이름: 파랑 끝 = 가장 낮은 값(Microsoft), 회색 끝 = 가장 높은 값(Anthropic)을 값 옆에서 바로 읽게 한다
+ * (색 범례 대신 — CN-123, 3회차 C3-01). 값(라벨 굵게 · text-1)보다 한 단계 낮은 라벨 400 · text-2 */
+.s16 .chart svg .s16-who {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  fill: var(--color-text-2);
+}

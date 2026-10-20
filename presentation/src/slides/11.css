@@ -1,0 +1,24 @@
+/* 11 두 예상의 차이: 숫자 묶음(4열 368) + 차트(8열 760). 줄은 라벨 → 숫자 → 계산 · 그림 순서, 덩어리 사이 8(덱 기본).
+ * 묶음 아래가 200 가까이 비던 자리(1회차 L-01)를 설문별 두 예상 연도 차이(105 → 69 → 56년, chart-data espai_two_clocks.간격) 막대로 채운다.
+ * 각주는 묶음 끝(항목 아래 8)의 덱 공통 .footnote(라벨 13/20 · text-2 · pretty — 3회차 T3-03, 장 CSS의 따로 준 규칙은 지움) */
+/* AGI 3.2년 · 모든 직업 자동화 11.2년을 나란히 두 칸(숫자 + 이름). 칸 사이 24(가로 항목 사이), 숫자 ↔ 이름 4(작은 글 덩어리) */
+.s11 .s11-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--space-3);
+}
+
+.s11 .s11-num {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-half);
+}
+
+/* 각주 표시(*)는 덱 공통 .fn(폭 0)에 라벨 굵은 글자(13/600)로 — 큰 숫자 줄(22/700) 안에서도 별이 숫자만큼 커지지 않게(3회차 T3-18) */
+.s11 .fn {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+/* 두 예상 연도 차이 막대는 손 SVG(viewBox = 실제 픽셀 368 × 84, 1년 = 232 / 105 px). 줄 28마다 막대 12. 굵은 이름표 2024년 설문(56년)이 핵심이라
+ * 파랑(s-main), 앞 두 설문은 맥락 중립 — 2 · 4 · 8 · 12 · 14장과 같은 짜임(2회차 C-06). 모양은 덱 차트 클래스 그대로 */

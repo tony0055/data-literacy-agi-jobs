@@ -1,0 +1,37 @@
+/* 09 회사 대표들의 말: 세 사람을 예상 시점 순서(2026 → 2028 → 2030)로 나란히.
+ * 칸은 12열 격자 4 · 4 · 4(368 · 368 · 368, 시작 64 · 456 · 848, 칸 사이 24)이고 사진은 덱 허용 비율 4:3(368 × 276)으로 모두 같게 자른다
+ *   — 3회차 SL3-05 · SC-05: 원래 비율로 높이만 맞추면 폭 200 · 189 · 480, 틈 94 · 105로 고르지 않고 줄 끝이 1132(본문 끝 1216에서 84 모자람)였다.
+ * 사진은 실제 인물 사진(Wikimedia Commons, 워터마크 없음)이라 자르는 기준점을 얼굴 쪽으로 옮긴다(덱 기본 오른쪽 아래는 Gemini 워터마크 보존용).
+ * 영상 링크는 올트먼 발언의 출처(2025. 10. 28. 라이브)라 그 칸의 출처 줄 아래에 정본 글 링크(.link)로 둔다(2회차 S-06).
+ *   링크 시각(474초)은 2차 확인이라 바로 아래 각주(.footnote)로 밝힌다(3회차 D3-13 — 꼬리말에는 출처만).
+ * 높이(가장 긴 올트먼 칸): 사진 276 + 16 + 발언 24 + 8 + (회사 · 이름 20 + 4 + 때 · 꼬리표 24 + 4 + 영상 링크 20 + 4 + 각주 두 줄 40) = 440 ≤ 본문 447. */
+.s09 .s09-people {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--layout-gutter);
+}
+
+.s09 .s09-who {
+  grid-column: span 4;
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* 얼굴이 자른 틀 안에 오게: 세로 사진 둘은 위쪽, 가로 사진은 허사비스가 앉은 오른쪽 */
+.s09 .s09-photo--amodei { --media-position: 50% 20%; }
+.s09 .s09-photo--altman { --media-position: 50% 4%; }
+.s09 .s09-photo--hassabis { --media-position: 100% 50%; }
+
+/* 발언 → (회사 · 이름, 때 · 출처 · 라벨, 영상 링크, 각주): 발언과 덩어리 사이 8, 덩어리 안 4 */
+.s09 .s09-say {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.s09 .s09-meta {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-half);
+}

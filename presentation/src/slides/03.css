@@ -1,0 +1,43 @@
+/* 03 세 가지 질문(카드 없음: 바탕 상자 없이 칸 사이 세로선 — 덱 .group__cols)
+ * - 칸 폭은 덱 .group__cols 그대로(12열 선 4 · 4 · 4 — 장 CSS에서 칸 폭을 따로 주지 않는다, 2회차 SL-03 · SL-12 · SL-13).
+ * - 칸: [그림] 16 [질문 + 무엇을 재나(사이 8)] 16 [답하는 장]. 세 칸이 세 행을 함께 써서(서브그리드, SP-62)
+ *   설명 줄 수가 달라도 답하는 장 줄이 같은 높이에 온다. 칸 높이 = 내용 높이(남는 높이는 칸 밖, SP-60).
+ *   그림 ↔ 글 묶음 ↔ 답하는 장은 서로 다른 덩어리라 한 단계 넓은 16, 질문 + 설명 문단은 8(spacing.md 「제목 + 설명 문단」).
+ * - 그림 비율은 덱 허용 세트의 16:9(마크업 data-ratio — 장 CSS의 직접 비율 3 / 2를 지움, 3회차 SC-05). 368 × 207로 높이가 정수이고(3회차 SL3-11),
+ *   정의를 각주로 옮겨 생긴 본문 아래 자리에 각주(세 줄)가 든다. 기준점은 덱 기본(오른쪽 아래)이라 위만 잘리고 워터마크는 남는다.
+ * - 질문은 type-heading(18) — 이 장의 주인공이 세 질문이라 칸 설명(본문 15)보다 한 단계 위(TY-34). 번호는 text-3.
+ * - 답하는 장: 장 번호(라벨 굵게, text-2) + 절 이름(라벨, text-3).
+ * - 용어 각주는 덱 .footnote(13/20 · text-2 · 읽기 폭 40em) 그대로, 본문 맨 아래(3회차 C3-01 · T3-03 — 꼬리말에서 옮김). */
+.s03 .s03-qs { grid-template-rows: repeat(3, auto); }
+.s03 .s03-qs > .group__cell {
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: var(--space-2);
+}
+.s03 .s03-text {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+.s03 .s03-text > p { color: var(--color-text-2); text-wrap: pretty; }
+.s03 .s03-q {
+  display: flex;
+  gap: var(--space-1);
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+}
+.s03 .s03-no {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-3);
+}
+.s03 .s03-where {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-3);
+}
+.s03 .s03-where > .num {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-2);
+}

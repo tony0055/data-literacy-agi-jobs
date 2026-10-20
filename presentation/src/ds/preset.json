@@ -1,0 +1,53 @@
+{
+  "_about": "생성 파일 — scripts/build.mjs. 풀린 조합(빠진 칸은 default 프리셋)과 고정 축 값.",
+  "id": "custom",
+  "from": "default",
+  "name": "직접 고름(기본 바탕)",
+  "about": "default 프리셋에서 variant=C, accent=blue, context=light로 바꿈",
+  "variant": "C",
+  "variantName": "청량",
+  "accent": "blue",
+  "accentName": "파랑",
+  "context": "light",
+  "contextName": "라이트",
+  "contextNote": "맥락 고정 조합 — 덱·인쇄·이미지·시안용. 배포하는 앱은 자동(CO-25).",
+  "fixed": {
+    "font": {
+      "label": "글꼴",
+      "key": "pretendard",
+      "name": "Pretendard"
+    },
+    "scale": {
+      "label": "글자 단계",
+      "key": "standard",
+      "name": "표준"
+    },
+    "shape": {
+      "label": "형태",
+      "key": "mid",
+      "name": "그림자 중간"
+    },
+    "icons": {
+      "label": "아이콘",
+      "key": "lucide",
+      "name": "Lucide"
+    },
+    "motion": {
+      "label": "모션",
+      "key": "relaxed",
+      "name": "여유 있게"
+    },
+    "components": {
+      "label": "컴포넌트",
+      "key": "solid",
+      "name": "채움"
+    },
+    "density": {
+      "label": "밀도",
+      "key": "standard",
+      "name": "표준"
+    }
+  },
+  "warnings": [],
+  "generated": "2026-10-20T13:09:16.271Z"
+}

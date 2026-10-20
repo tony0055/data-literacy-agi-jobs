@@ -1,5 +1,8 @@
-# 검사 임시 결과(다시 만들 수 있다). PR에 넣을 before/after 이미지는 qa/pr/<번호>/에 따로 커밋한다
+# 렌더·검사 결과(다시 만들 수 있다): bun scripts/render.ts → presentation/renders/
 presentation/renders/
-qa/shots/
+# 빌드가 쓰다 남긴 임시 파일(정상이면 rename으로 사라진다)
+presentation/**/*.tmp
+# 생성 이미지 원본 PNG는 커밋하지 않는다(덱은 JPEG만 쓴다, 사용자 결정 2026. 10. 21.)
+presentation/assets/img/*.png
 __pycache__/
 .DS_Store

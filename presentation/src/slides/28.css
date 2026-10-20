@@ -1,0 +1,27 @@
+/* 28 직업군별 대체 시작: 라벨 풀이 각주(charts.js) → 표(행 높이 = 내용 높이) → 「시작」 뜻 각주(.footnote — 꼬리말에는 출처만, 3회차 C3-01), 왼쪽 8열.
+ * 신호 칸 끝 줄에 기간 괄호만 남지 않게는 charts.js가 단 .table--multiline(text-wrap: pretty, 3회차 T3-04).
+ * 오른쪽 4열은 그림 4:3(덱 허용 비율, 4열 그림은 4:3 — 3회차 SC-05). 원본도 4:3이라 자르지 않고 워터마크(오른쪽 아래)가 그대로 보인다.
+ *   표보다 그림이 짧아 남는 높이는 그림 아래 빈 곳으로 둔다(그림을 늘리지 않는다 — layout.md 「남는 높이는 늘리지 않는다」).
+ * 제목이 말하는 사무직 행은 장 마크업 data-main="사무직"(강조 모양은 deck.css가 정한다). 시작 칸 모양은 deck.css .poster-when */
+
+/* 범례 ↔ 표 ↔ 각주: 라벨 · 각주와 표 사이 8(spacing.md 「간격 배정」) */
+.s28 .s28-poster {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+
+/* 표 열: 12열 격자에 맞춘다 — 직업군 2열(172) · 신호 4열(368) · 시작 나머지(2열). 25장 표 첫 열과 같은 시작선(L-15).
+ * 100%는 행 글 폭(8열 = 760), 열 하나 = (760 − 열 사이 7개) ÷ 8 */
+.s28 .poster-table :is(.table__head, .table__row) {
+  grid-template-columns:
+    calc((100% - var(--layout-gutter) * 7) / 8 * 2 + var(--layout-gutter))
+    calc((100% - var(--layout-gutter) * 7) / 8 * 4 + var(--layout-gutter) * 3)
+    minmax(0, 1fr);
+}
+
+/* 이름 칸: 직업군 이름과 묶음 이름 사이는 작은 글 덩어리 간격 */
+.s28 .poster-table .table__row > :first-child {
+  display: grid;
+  gap: var(--space-half);
+}

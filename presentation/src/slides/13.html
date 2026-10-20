@@ -1,0 +1,49 @@
+<!-- 13 직업 전체 상관 · 산점도(8열, 부제에 β 정의 · 아래에 표본 분포 각주) + 상관을 세 표본에서 잰 값(4열, 표본마다 직업 수) + 그 아래 노트북 손 그림 한 칸(3열 폭, 가로축의 컴퓨터 일 끝을 떠올리게 하는 분위기 그림이라 alt를 비운다 — AC-65) -->
+<!-- 세 값의 표본(D-03): −0.017 = 2022년 고용 1만 명 이상 639개, 다른 지표 = 651 · 628개, 이상치 뺌 = 고용 하한 없는 770개에서 30개를 뺀 740개
+     (analysis/out/occupation_results.json corr.*.고용1만명이상_22_25 · course_checks.7주_이상치_민감도)
+     β 정의: research/data-sources.md 38행 — dv_rating_beta = E1 + 0.5·E2(E1 = LLM만으로 과업 시간을 50% 이상 줄일 수 있는 과업, E2 = LLM 위에 만든 추가 소프트웨어가 있어야 줄이는 과업)
+     각주(3회차 C3-01 · T3-03 — 꼬리말 · 차트 출처에서 본문 .footnote로 옮김): course_checks.4주_분포요약_고용변화율_pct(평균 3.43 · 중앙값 3.35 · SD_표본_ddof1 18.71 · 왜도 1.91)
+     · 5주_이상치후보(|z|>3 10개, IQR 30개, 처리 「삭제하지 않음 … 민감도로만 쓴다」). 부트스트랩 2,000회(report.md 4절) -->
+<section class="slide s13">
+  <div class="head">
+    <p class="tag section-tag" data-hue="yellow">실제 고용</p>
+    <h2 class="headline">그런데 직업 전체로 보면 AI 노출도와 고용 변화는 아직 거의 상관이 보이지 않아요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <div class="span-8 stack" data-gap="1">
+        <figure class="chart" data-chart="occ_scatter" data-kind="scatter" data-w="760" data-h="300">
+          <figcaption class="chart-head">
+            <p class="chart-title">점 하나가 직업 하나 · 세로축은 2022→2025 변화율 (%)</p>
+            <p class="chart-sub">β(Eloundou 외) = LLM(대규모 언어 모델)만으로 시간을 절반 이상 줄일 업무 비중 + 도구를 더해야 그렇게 되는 쪽의 절반. 점 크기는 2022년 고용이에요(큰 것만 구별).</p>
+          </figcaption>
+          <p class="chart-src">n = 639 직업(2022년 고용 1만 명 이상) · BLS OEWS 2022·2025 · 2026. 10. 16. 확인 <span class="tag" data-hue="indigo">기술</span></p>
+        </figure>
+        <p class="footnote">고용 하한 없는 직업 770개(수업 4·5주)의 변화율은 평균 3.43%, 중앙값 3.35%, 표준편차 18.71(n−1로 나눈 표본 값), 왜도 1.91이에요. 이상치 후보(z 점수로 10개, IQR로 30개)는 지우지 않고 민감도로만&nbsp;썼어요.</p>
+      </div>
+      <div class="span-4 stack" data-gap="4">
+        <section class="group" aria-label="순위 상관을 세 표본에서 잰 값">
+          <div class="group__rows">
+            <div class="group__row">
+              <p class="t-label c-text-2">Spearman 순위 상관 · 직업 639개</p>
+              <p class="figure">−0.017</p>
+              <p>부트스트랩(표본을 다시 뽑아 보는 방법) 95% 구간이 <span class="nowrap">−0.10부터 0.065까지라</span> 0과 구별되지 않아요.</p>
+            </div>
+            <div class="group__row group__row--pair">
+              <p class="group__label">Microsoft·Anthropic의 지표로 바꿔도<span class="group__desc">직업 651개 · 628개, 순위 상관 ρ의 절댓값</span></p>
+              <p class="group__value">0.05 이하</p>
+            </div>
+            <div class="group__row group__row--pair">
+              <p class="group__label">IQR(사분위 범위) 기준 이상치 후보 30개를 빼도<span class="group__desc">고용 하한 없는 770개 중 남은 740개</span></p>
+              <p class="group__value">0.033</p>
+            </div>
+          </div>
+        </section>
+        <figure class="media s13-media" data-ratio="16:9">
+          <span class="s13-cell"><img src="assets/img/13-hands-of-work.jpg" width="2400" height="1792" alt=""></span>
+        </figure>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">BLS(미국 노동통계국) OEWS(직업별 고용·임금 조사) 2022·2025 · Eloundou 외(2024) β · analysis/occupation_analysis.py</p><p class="where"><span class="sec">실제 고용 1 · 미국 세부 직업 · 수업 7주 상관</span><span class="pg"></span></p></footer>
+</section>

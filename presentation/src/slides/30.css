@@ -1,0 +1,14 @@
+/* 30 반대 증거 맞대기: 왼쪽 8열 = 시스템 표 3열(쟁점 · AI 쪽 근거 · 다른 원인 근거) → 32 → 이중차분 뜻(.block), 오른쪽 4열 저울 그림(1:1, 오른쪽 아래 기준 자름).
+ * - 왼쪽 8열은 .stack[data-gap="4"](묶음 사이 32 — 부모 gap, SP-61). 표 아래 빈 칸(2회차 SL-04 172px)을 꼬리말에 있던 이중차분 풀이로 채웠다
+ *   — 핵심 한 문장이 쓰는 낱말을 쓰기 전에 풀고(WR-13), 꼬리말은 출처만 남긴다(2회차 T2-13).
+ *   표 뒤 간격(3회차 SL3-07)과 풀이 문단의 읽기 폭 40em(SL3-04)은 deck.css 공통 규칙이 맡는다 — 여기서 다시 주지 않는다.
+ * - 표 열은 12열 격자에 맞춘다(31 · 32장 표와 같은 2 · 3 · 3열 = 172 · 270 · 270): 행을 8열 격자로 두고 칸이 열을 걸친다.
+ *   두 근거 열은 같은 폭(같은 무게로). 칸 글자는 표 그대로(type-label), 행 높이 = 내용 높이.
+ *   칸 글은 모두 명사구(… 업종 · … 원격근무 · … 속도 · … 사례)로 끝맺는다 — 서술형 명사 끝맺음(「설명」 「뿐」 「없음」)을 섞지 않는다(3회차 W-17, WR-85).
+ * - 여러 줄 칸이 섞인 행이라 덱 공통 변형 .table--multiline(첫 줄 기준선 맞춤 · text-wrap: pretty, deck.css)을 쓴다. */
+.s30 .s30-table :is(.table__head, .table__row) {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.s30 .s30-table :is(.table__head, .table__row) > :first-child { grid-column: span 2; }
+.s30 .s30-table :is(.table__head, .table__row) > :not(:first-child) { grid-column: span 3; }

@@ -1,0 +1,46 @@
+/* 04 결론 먼저(카드 없음: 바탕 상자 대신 칸 사이 세로선)
+ * - 칸 폭은 덱 .group__cols 그대로(12열 선 4 · 4 · 4). 아래 2036년 줄은 8 + 4라 막대가 위 셋째 칸과 같은 선에서 시작한다(2회차 SL-03).
+ * - 칸: [질문 + 숫자(사이 8)] 16 [설명] 16 [비교 막대] 16 [꼬리표]. 덩어리 사이는 한 단계 넓은 16 — 3장과 같은 관계 간격(2회차 SL-02).
+ *   세 칸이 행을 함께 써서(서브그리드, SP-62) 설명 줄 수가 달라도 비교 막대와 꼬리표가 같은 높이에서 시작한다. 칸 높이 = 내용 높이.
+ * - 질문은 type-heading(18) — 3장의 같은 세 질문과 같은 단계(2회차 T2-01, TY-20 · TY-34). 번호는 text-3.
+ * - 3.5배 각주(p.footnote, 묶음 끝 — 3회차 C3-01 · T3-03): 칸 끝 꼬리표 줄과 다른 덩어리라 한 단계 넓은 16(부모 gap, SP-61). 한 줄.
+ *   각주 표시(.fn, 폭 0)는 13/600(3회차 T3-18 — 숫자 크기 22로 커지지 않게).
+ * - 2036년 줄: 정의 문단(8열) | 시나리오 세 막대(4열). 막대 색은 시나리오 계열 색(신중 중립 · 기준 파랑 · 빠름 갈색, color.md).
+ *   정의 문단은 읽기 폭 40em(.measure — 3회차 SL3-04 · T3-09: 728px = 56em이던 것). 세 줄이 되어 묶음 제목(18) 줄을 두면 본문 479를 넘어
+ *   이름(「2036년 대체 압력」)을 문단 첫머리 라벨 굵게 · text-1로 둔다 — 줄 높이 = 막대 72.
+ * - 핵심 문장은 한 줄(1회차 SC-16: 두 줄이면 위 선이 다른 장보다 28 올라간다).
+ * - 핵심 문장 안 꼬리표(24)가 줄을 42로 키워 위 선이 다른 장보다 1 올라간다(3회차 SC-09 · SL3-16) — 꼬리말 · 차트 출처와 같은 −4 광학 보정.
+ * - 자세히 다루는 장은 라벨(text-3). */
+.s04 .s04-nums { gap: var(--space-2); }
+.s04 .s04-strip { grid-template-rows: repeat(4, auto); }
+.s04 .s04-strip > .group__cell {
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: var(--space-2);
+}
+.s04 .s04-head {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+.s04 .s04-q {
+  display: flex;
+  gap: var(--space-1);
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+}
+.s04 .s04-no {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-3);
+}
+.s04 .s04-more {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-3);
+}
+.s04 .figure > .fn {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+.s04 .s04-2036 .t-label { text-wrap: pretty; }
+.s04 .takeaway .tag { margin-block: calc(var(--space-half) * -1); }

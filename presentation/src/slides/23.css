@@ -1,0 +1,32 @@
+/* 23 모형의 뼈대: 12열 7 + 5에 묶음 넷을 바로 놓는다(.cols 두 줄) — 위 두 묶음이 한 행을 함께 써서 아래 두 묶음의 제목이 같은 선에서 시작한다(1회차 L-06, SP-62).
+ * 표는 시스템 표(table table--wrap), 회사 도입 기간의 근거는 이름 ↔ 값 줄 둘(덱 패턴 「셋까지는 pair」 — 3회차 SC-04). 묶음 제목과 표 칸 글이 같은 시작선이다.
+ * 각주(.footnote)는 묶음 안 마지막 덩어리(묶음 gap 8): 왼쪽 = 본격화 뜻 · 소수점 · 반올림, 오른쪽 = 모형에서 뺀 것(3회차 C3-01 · T3-03 — 꼬리말에서 옮김).
+ * 시나리오 표 열 · 계산 표(머리 없이, 마지막 줄 = 합계 굵게) */
+
+/* 시나리오 표: 첫 칸 = 12열 한 열 폭(74) — 둘째 칸 글이 12열 선(162)에서 시작한다(3회차 SL3-13: 첫 칸 64면 152로 선 −10) */
+.s23 .scen-table .table__head,
+.s23 .scen-table .table__row {
+  grid-template-columns: calc((var(--layout-max-width) - var(--space-8) * 2 - var(--layout-gutter) * 11) / 12) minmax(0, 2.4fr) repeat(2, minmax(0, 1fr));
+}
+
+/* 좌우 행 맞춤(2회차 SL-11): 왼쪽 표는 머리(28 + 선 1 + 아래 4 = 33) 뒤에 행이 오고, 오른쪽 계산 표는 머리 없이 행(36)부터라
+ * 두 표의 행이 3씩 어긋났다. 왼쪽 머리 자리를 행 하나(36)와 같게 — 위 안쪽 4 + 글 칸 27 + 선 1 + 아래 4 —
+ * 두면 왼쪽 행 셋이 오른쪽 둘째~넷째 행과 같은 높이에 서고, 머리 글도 오른쪽 첫 행 글과 같은 높이(행 가운데 18)에 놓인다.
+ * 머리 모양(선 · 글자)은 시스템 그대로이고 높이만 맞춘다(SP-62 행을 함께 쓰기).
+ * OP-14: 시스템 표 머리 높이(size-control-1) 밖 — 머리 없는 옆 표와 행을 함께 쓰려고 · 2026. 10. 21. · 다시 나올 가능성 낮음(이 장 하나) */
+.s23 .scen-table > .table__head {
+  min-height: calc(var(--size-control-1) - var(--border-1));
+  padding-block-start: var(--space-half);
+}
+
+/* 계산 표: 머리 없는 이름 ↔ 값 표(4행). 값 넷이 한 줄로 이어지는 계산(더하기 · 곱하기)이라 열 머리가 뜻을 더하지 않고,
+ * 머리를 달면 표마다 36씩 늘어 본문 높이(423)를 넘는다.
+ * OP-14: 덱 components.md 「값 셋 이상 · 견줄 열 둘 이상이면 머리 있는 표」 밖 — 열이 이름 · 값 하나씩인 계산 줄 · 2026. 10. 21. · 다시 나올 가능성 중간(26장도 같은 꼴) */
+.s23 .calc-table .table__row {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.s23 .calc-table .table__row:last-child {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}

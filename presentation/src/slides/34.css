@@ -1,0 +1,57 @@
+/* 34 출처: 직접 확인한 자료 표(시스템 표 4열 — 기관 · 자료 · 이 발표에서 · 확인) → 32 → 원문 링크 줄 → 32 → 라벨 뜻(묶음).
+ * - 차례: 자료 → 그 원문(확인 경로) → 꼬리표 읽는 법(범례). 링크 줄을 본문 맨 아래에 두면 누름 여백(controls.css, 위아래 12)이 본문 아래 끝을 넘어
+ *   fit.js 「본문 아래」 검사에 걸렸다(+3) — 링크 줄을 표 바로 뒤로 올려 여백이 본문 안에 든다.
+ * - 표 열은 12열 격자 선에 선다(3회차 SL3-01 — 비율 열이라 64 · 308 · 692 · 996으로 선을 벗어났다): 2 · 4 · 3 · 3열 → 64 · 260 · 652 · 946
+ *   (28 · 30~32장 표의 260 · 652와 같은 선, 아래 라벨 뜻의 652 · 946과 같은 선). 기관 칸 「OpenAI · Microsoft · Anthropic」은 173px로
+ *   2열(172)보다 1px 넓어 한 덩어리(.nowrap)로 둔다 — 열 사이 24 안으로 1px 나가고 줄은 꺾이지 않는다.
+ * - 행 묶음(rowgroup) 둘(다시 계산한 자료 → 직접 확인한 자료)은 이름 줄 없이 차례로 잇는다. 묶음 이름은 aria-label로 남기고, 화면에서는
+ *   「확인」 열(재계산 · 직접 계산 ↔ 직접 확인)이 갈래를 말한다. 이름 줄 두 개(96px)를 라벨 뜻에 내주었다 — 본문 479 안에 표 · 라벨 뜻 · 원문이 함께 든다.
+ * - 제목은 표가 담는 범위대로 「직접 확인한 자료」(3회차 W-14 · D3-10). 한국은행 이슈노트에 2025-22(23장 51.8%의 출처, research/jobs-korea.md 38행)를 더했다.
+ *   표에 없는 2차 · 회사 발표 · 예측 자료(Metaculus · McKinsey · IEA · Epoch AI · Stanford · NY Fed 등)는 꼬리말 출처 줄이 각 장 꼬리말 · research/*.md를 가리킨다.
+ * - 라벨 뜻(덱에 쓴 주장 꼬리표 11개 — 1장 꼬리말이 「모든 라벨 뜻은 34장」으로 가리킨다): 4열씩 네 칸, 칸마다 [꼬리표][뜻] 두 열(꼬리표 열 = 그 칸에서 가장 긴 꼬리표).
+ *   칸 차례는 갈래대로: 결론 등급(기술 · 추정) → 확인 상태(직접 · 2차 · 자체 보고) → 회사 · 말의 종류(회사 주장 · 예측 · 내부 목표) → 근거의 세기(시간순 검증 · n = 3 · 가정 공개).
+ *   「기술」 뜻이 두 줄이라 첫 칸은 두 항목만 둔다(네 칸 모두 세 줄 높이 76 안).
+ *   뜻은 report.md 첫머리(결론 등급 · 확인 상태), spec.md 제약(예측 ≠ 실측, 목표와 예측을 섞지 않음), research/biocomputing.md 10행(회사 주장 = 독립 검증 없음),
+ *   research/agi-timelines.md 11행(사내 코드 비율 = 자체 보고), report.md 5절(시간순 분할 백테스트) · 3절(R2 · R3 설문 3회 = n = 3)에서 옮겼다.
+ *   「기술」은 결론 등급이라 첫 칸 첫 줄에 「있는 그대로 적음: 정확한 집계나 함께 움직임, 원인은 아님」(1장 꼬리말과 같은 낱말)으로 푼다 — technology로 읽히지 않게
+ *   (오케스트레이터 결정 2026. 10. 21. — 한자 「記述」은 Pretendard에 없어 대체 글꼴이 섞이므로 쓰지 않는다. 뜻은 report.md 첫머리 「기술(함께 움직임, 정확한 집계)」).
+ *   뜻 글은 읽어야 하는 글이라 라벨 13 · text-2. 꼬리표는 글줄 안 꼬리표 규칙(deck.css, 위아래 −12)으로 줄 높이 20을 지키게 span 안에 둔다(줄 사이 8).
+ * - 원문 링크 줄: 「원문」은 묶음 제목이 아니라 줄 라벨이라 h3가 아니라 p.t-label-strong(3회차 T3-07 — 13 제목이 15 항목보다 작았다).
+ *   링크는 독립 링크 목록이라 누름 영역 24 이상(AC-44): a[data-hit](controls.css 공통 규칙, 좌우 여백 상한으로 이웃과 겹치지 않음 — SL3-06). */
+.s34 .s34-group {
+  display: grid;
+}
+
+.s34 .s34-table .table__head,
+.s34 .s34-table .table__row {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.s34 .s34-table :is(.table__head, .table__row) > :nth-child(1) { grid-column: span 2; }
+.s34 .s34-table :is(.table__head, .table__row) > :nth-child(2) { grid-column: span 4; }
+.s34 .s34-table :is(.table__head, .table__row) > :nth-child(n + 3) { grid-column: span 3; }
+
+/* 라벨 뜻: 12열 격자 4칸(3 · 3 · 3 · 3열 → 64 · 358 · 652 · 946) */
+.s34 .s34-label-cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--layout-gutter);
+}
+
+.s34 .s34-label-col {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
+  align-items: baseline;
+  gap: var(--space-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-2);
+}
+
+.s34 .s34-links {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: var(--space-4);
+}

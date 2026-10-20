@@ -1,0 +1,53 @@
+<!-- 21 전력 제약 · 왼쪽 = 송전탑과 데이터센터 그림 · 오른쪽 = 두 성장 속도를 숫자 줄 둘로(핵심 숫자 | 이름 + 근거 + 손 막대) + 핵심 한 문장. 두 숫자는 같은 단위(연 N배)로 견준다(2회차 D-07). 손 막대 = 이름 칸 끝 88 · 0선 100 -->
+<section class="slide s21">
+  <div class="head">
+    <p class="tag section-tag" data-hue="blue">속도를 바꾸는 요인</p>
+    <h2 class="headline">속도를 늦출 제약 가운데 가장 먼저 걸릴 것은 전력이에요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <figure class="media span-5" data-ratio="4:3">
+        <img src="assets/img/21-power-datacenter.jpg" width="2400" height="1792" alt="맑은 낮의 송전탑과 지붕에 냉각 설비가 줄지은 데이터센터 건물">
+      </figure>
+      <section class="group span-7" aria-label="전력이 느는 속도 둘">
+        <div class="group__rows">
+          <div class="group__row group__row--stat chart">
+            <p class="figure"><span class="figure__unit">연</span> 1.15<span class="figure__unit">배</span></p>
+            <h3>데이터센터 전체 전력</h3>
+            <p>IEA 415TWh(테라와트시, 2024) → 945TWh(2030), 해마다 14.7%씩 늘어요. Epoch&nbsp;AI도 2030년 무렵의 첫 병목으로 전력을 꼽았어요.</p>
+            <svg width="466" height="76" viewBox="0 0 466 76" role="img" aria-label="가로 막대 차트예요. 데이터센터 전체 전력은 2024년 415TWh, 2030년 945TWh예요.">
+              <line class="base" x1="100" y1="0" x2="100" y2="76"/>
+              <text class="cat" aria-hidden="true" x="88" y="22" text-anchor="end">2024</text>
+              <rect class="bar s-ctx" x="100" y="12" width="123" height="12"/>
+              <text class="vlab" x="231" y="22">415TWh</text>
+              <text class="cat cat-hi" aria-hidden="true" x="88" y="62" text-anchor="end">2030</text>
+              <rect class="bar s-main" x="100" y="52" width="280" height="12"/>
+              <text class="vlab" x="388" y="62">945TWh</text>
+            </svg>
+          </div>
+          <div class="group__row group__row--stat chart">
+            <p class="figure"><span class="figure__unit">연</span> 2.9<span class="figure__unit">배</span></p>
+            <h3>가장 큰 AI 모델 학습에 드는 전력</h3>
+            <p>학습 연산 증가 연 4.1배를 칩 효율 개선 연 1.41배로 나눈 값이에요. Epoch&nbsp;AI 전망<span class="nowrap">(연 2.2배에서 2.9배)의</span> 윗값과 같아요. <span class="tag" data-hue="purple">추정</span></p>
+            <svg width="466" height="116" viewBox="0 0 466 116" role="img" aria-label="가로 막대 차트예요. 학습 연산 증가는 연 4.1배, 칩 효율 개선은 연 1.41배, 학습에 드는 전력은 연 2.9배예요.">
+              <line class="base" x1="100" y1="0" x2="100" y2="116"/>
+              <text class="cat" aria-hidden="true" x="88" y="22" text-anchor="end">학습 연산 증가</text>
+              <rect class="bar s-ctx" x="100" y="12" width="280" height="12"/>
+              <text class="vlab" x="388" y="22">4.1배</text>
+              <text class="cat" aria-hidden="true" x="88" y="62" text-anchor="end">칩 효율 개선</text>
+              <rect class="bar s-ctx" x="100" y="52" width="96.3" height="12"/>
+              <text class="vlab" x="204.3" y="62">1.41배</text>
+              <text class="cat cat-hi" aria-hidden="true" x="88" y="102" text-anchor="end">학습에 드는 전력</text>
+              <rect class="bar s-main" x="100" y="92" width="198" height="12"/>
+              <text class="vlab" x="306" y="102">2.9배</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="takeaway">
+      <p>모형의 신중 시나리오에서는 이 제약 때문에 2028년부터 AI 능력이 두 배가 되는 기간이 1년으로 늘어요.</p>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">Epoch AI · IEA Energy and AI · research/biocomputing.md</p><p class="where"><span class="sec">전력 제약 · 관계식 R5</span><span class="pg"></span></p></footer>
+</section>
