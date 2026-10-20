@@ -90,7 +90,10 @@ def main():
             g_real = year_reaching(mins * REAL_WORLD_DISCOUNT, sc["doubling"])
             rows.append({"직급": rank, "업무단위": unit, "분": mins,
                          "능력문턱": round(g, 1), "대체본격화": round(g + sc["lag"], 1),
-                         "능력문턱_현실할인": round(g_real, 1), "대체본격화_현실할인": round(g_real + sc["lag"], 1)})
+                         "능력문턱_현실할인": round(g_real, 1), "대체본격화_현실할인": round(g_real + sc["lag"], 1),
+                         # 표에 「그해」(정수 연도, 버림)로 찍을 때 쓰는 소수 둘째 자리 값. 소수 첫째 자리 반올림(2030.97 → 2031.0)을
+                         # 버리면 한 해 늦게 찍힌다(2회차 D-10). 계산은 위 값과 같고 아래 단계의 입력은 바꾸지 않는다
+                         "능력문턱_소수2": round(g, 2), "대체본격화_소수2": round(g + sc["lag"], 2)})
         path = [{"t": round(t, 2), "p80_min": round(p80_at(t, sc["doubling"]), 1)}
                 for t in [P80_START_T + i / 4 for i in range(0, 4 * 11)] if t <= 2036.99]
         cap[name] = {"설명": sc["설명"], "확산시차_년": sc["lag"], "직급": rows, "경로": path}
@@ -147,6 +150,8 @@ def main():
         for n in SCEN:
             pct = {y: 100 * waves[n][k][y] / emp25[k] for y in YEARS}
             row[n] = {"중앙연도": round(gate_week[n] + SCEN[n]["lag"] + phi[k] * SCEN[n]["phys_lag"], 1) if r[k] is not None else None,
+                      # 표시용 둘째 자리(2회차 D-17: 2027.6 + 4 + 0.25 = 2031.85가 첫째 자리 반올림에서 2031.8로 찍힌다). 계산 입력은 그대로
+                      "중앙연도_소수2": round(gate_week[n] + SCEN[n]["lag"] + phi[k] * SCEN[n]["phys_lag"], 2) if r[k] is not None else None,
                       "2030": round(waves[n][k][2030]), "2036": round(waves[n][k][2036]), "2036_비율_pct": round(pct[2036], 1),
                       "5pct_도달연도": next((y for y in YEARS if pct[y] >= 5), None)}
         by_group[k] = row

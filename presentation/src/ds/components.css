@@ -1,0 +1,2176 @@
+/* 컴포넌트 — 2단계 1바퀴 견본의 예시 화면이 쓰는 최소 묶음.
+   - 의미 토큰만 쓴다(CO-02, TK-04). 원시 토큰과 고정 값(16진수 색, 픽셀, 밀리초)을 쓰지 않는다.
+   - 모션은 transform·opacity만 쓰고 토큰(--motion-* 패턴, --duration-*, --easing-*)으로 맞춘다(tokens/motion.json).
+     키보드로 한 동작에는 모션을 두지 않는다: <html data-input="keyboard">면 전환을 끈다(specimen.js가 단다).
+   - 호버는 포인터가 있는 기기에서만 그린다. 동작 줄이기를 켜면 움직임 대신 투명도로 눌림을 보인다.
+   - 초점 고리는 한 스타일(AC-25): --border-2 두께, --color-focus-ring, 요소 모양을 따라 그린다. */
+
+/* ---------- 공통 ---------- */
+
+/* 아이콘: 크기는 글자 역할에 묶은 단계(size-icon-*, IC-24). 선·채움은 세트의 그림(symbol)이 정한다(tokens/icon.json) */
+.icon {
+  flex: none;
+  width: var(--size-icon-1);
+  height: var(--size-icon-1);
+}
+
+/* 큰 글자 옆 아이콘(icon.json textPairs): 제목 3 옆은 크기 2, 제목 1·2 옆은 크기 3 */
+.icon--size-2 {
+  width: var(--size-icon-2);
+  height: var(--size-icon-2);
+}
+
+.icon--size-3 {
+  width: var(--size-icon-3);
+  height: var(--size-icon-3);
+}
+
+/* 회전: 작업이 진행 중일 때만(MO-21). 동작 줄이기에서도 멈추지 않는다(MO-05: 진행 표시를 없애지 않음) */
+.icon--spin {
+  animation: icon-spin calc(var(--duration-4) * 3) linear infinite;
+}
+
+@keyframes icon-spin {
+  to { transform: rotate(1turn); }
+}
+
+:focus-visible {
+  outline: var(--border-2) solid var(--color-focus-ring);
+  outline-offset: var(--border-2);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.link {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: var(--border-2);
+  border-radius: var(--radius-1);
+}
+
+/* ---------- 버튼 (CC-12 주·보조·취소·위험, CC-23 눌림) ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: var(--size-control-2);
+  padding: 0 var(--space-2);
+  border: var(--border-1) solid transparent;
+  border-radius: var(--radius-2);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform var(--duration-1) var(--easing-productive);
+  min-width: calc(var(--space-8) + var(--space-2));
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.button--primary {
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+}
+
+.button--secondary {
+  background: var(--color-control);
+  color: var(--color-control-text);
+  border-color: var(--color-separator-opaque);
+}
+
+.button--danger {
+  background: var(--color-status-danger);
+  color: var(--color-text-on-accent);
+}
+
+.button--small {
+  min-height: var(--size-control-1);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-1);
+}
+
+.button--icon {
+  min-width: var(--size-control-1);
+  min-height: var(--size-control-1);
+  padding: 0;
+  border-radius: var(--radius-1);
+  background: transparent;
+  color: var(--color-text-3);
+}
+
+.button:disabled {
+  background: var(--color-fill-3);
+  border-color: transparent;
+  color: var(--color-control-text-disabled);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button--secondary:hover,
+  .button--icon:hover {
+    background: var(--color-control-hover);
+  }
+
+  .button--primary:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .button--danger:hover {
+    background: var(--color-status-danger-hover);
+  }
+}
+
+/* ---------- 입력 칸 (CC-68~CC-77, WR-73) ---------- */
+
+/* 칸은 위에서부터 쌓는다: 옆 칸에 오류 문구가 있어 줄이 높아져도 입력 칸 높이와 위치가 같다 */
+.field {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.field__label {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.field__hint {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-3);
+}
+
+.field__message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-status-error);
+}
+
+.field__message .icon {
+  margin-top: calc(var(--space-half) / 2);
+}
+
+.input {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--size-control-2);
+  padding: 0 var(--space-2);
+  border: var(--border-1) solid var(--color-control-border);
+  border-radius: var(--radius-2);
+  background: var(--color-control);
+  color: var(--color-control-text);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+}
+
+.input::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--color-status-error);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-status-error);
+}
+
+/* 검색 입력: 앞쪽 검색 아이콘, 뒤쪽 지우기 버튼(CC-78).
+   칸 안에 겹쳐 놓는 아이콘·버튼(검색 돋보기·지우기, 선택 상자 꺾쇠, 자동 완성 토글, 날짜 버튼)은 한 방식이다:
+   position: absolute + inset-inline으로 놓고, 보이는 아이콘(16)이 칸 가장자리에서 16에 온다.
+   아이콘 버튼(28)은 안에 6이 남으므로 끝에서 16 − 6 = 10에 둔다. 칸 끝 안쪽 여백은 16 + 아이콘 16 + 8 = 40 */
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.search__icon {
+  position: absolute;
+  inset-inline-start: var(--space-2);
+  color: var(--color-text-3);
+  pointer-events: none;
+}
+
+.search .input {
+  padding-inline: calc(var(--space-2) + var(--size-icon-1) + var(--space-1));
+}
+
+.search__clear {
+  position: absolute;
+  inset-inline-end: calc(var(--space-2) - (var(--size-control-1) - var(--size-icon-1)) / 2);
+}
+
+/* ---------- 선택 상자 (CC-57~CC-60) ---------- */
+
+.select {
+  position: relative;
+  display: inline-grid;
+  align-items: center;
+  min-width: 0;
+}
+
+.select__control {
+  appearance: none;
+  -webkit-appearance: none;
+  grid-area: 1 / 1;
+  min-height: var(--size-control-2);
+  padding: 0 calc(var(--space-2) + var(--size-icon-1) + var(--space-1)) 0 var(--space-2);
+  border: var(--border-1) solid var(--color-control-border);
+  border-radius: var(--radius-2);
+  background: var(--color-control);
+  color: var(--color-control-text);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+}
+
+.select--small .select__control {
+  min-height: var(--size-control-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  padding: 0 calc(var(--space-2) + var(--size-icon-1) + var(--space-1)) 0 var(--space-2);
+}
+
+.select__chevron {
+  position: absolute;
+  inset-inline-end: var(--space-2);
+  color: var(--color-text-3);
+  pointer-events: none;
+}
+
+/* ---------- 스위치 (CC-27, CC-32, CC-34) ---------- */
+
+.switch {
+  position: relative;
+  flex: none;
+  width: var(--space-5);
+  height: var(--space-3);
+  padding: 0;
+  border: 0;
+  border-radius: calc(var(--space-3) / 2); /* 알약 모양: 높이(space-3)의 절반 */
+  background: var(--color-fill-1);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-control-border);
+}
+
+/* 손잡이 둘레 2(layout.md 예외 표, 구조 보정): 24 높이 안의 20 손잡이 */
+.switch__thumb {
+  position: absolute;
+  top: calc(var(--space-half) / 2);
+  left: calc(var(--space-half) / 2);
+  width: calc(var(--space-2) + var(--space-half));
+  height: calc(var(--space-2) + var(--space-half));
+  border-radius: 50%;
+  background: var(--color-background-1);
+  box-shadow: 0 0 0 var(--border-1) var(--color-control-border); /* 높이 단계는 도구 막대·창·떠 있는 층에만(배정) — 손잡이는 선으로 구분 */
+  transition: transform var(--motion-thumb-slide-move);
+}
+
+.switch[aria-checked="true"] {
+  background: var(--color-control-selected);
+  box-shadow: none;
+}
+
+.switch[aria-checked="true"] .switch__thumb {
+  transform: translateX(var(--space-2));
+  box-shadow: none;
+  background: var(--color-text-on-accent);
+}
+
+/* ---------- 체크박스 (CC-30, CC-34) ---------- */
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--space-3);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.checkbox__box {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+}
+
+.checkbox__input {
+  appearance: none;
+  -webkit-appearance: none;
+  grid-area: 1 / 1;
+  width: var(--space-2);
+  height: var(--space-2);
+  margin: 0;
+  border-radius: var(--radius-1);
+  background: var(--color-control);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-control-border);
+}
+
+.checkbox__input:checked {
+  background: var(--color-control-selected);
+  box-shadow: none;
+}
+
+.checkbox__mark {
+  grid-area: 1 / 1;
+  width: calc(var(--space-2) - var(--space-half));
+  height: calc(var(--space-2) - var(--space-half));
+  color: var(--color-text-on-accent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkbox__input:checked + .checkbox__mark {
+  opacity: 1;
+}
+
+/* ---------- 세그먼트 컨트롤 (CC-37~CC-42) ---------- */
+
+/* 홈 둘레·칸 사이 2(layout.md 예외 표, 구조 보정): 안 칸이 바깥보다 4 작다는 크기 관계(spacing.md)에서 나온 값 */
+.segmented {
+  display: inline-flex;
+  gap: calc(var(--space-half) / 2);
+  padding: calc(var(--space-half) / 2);
+  border-radius: var(--radius-2);
+  background: var(--color-fill-2);
+}
+
+/* 안 칸은 바깥(radius-2)과 동심: 바깥 반지름에서 바깥 안쪽 여백(space-half/2)을 뺀다(SP-10) */
+/* 글자든 아이콘이든 칸 가운데에 놓는다(아이콘이 글자 기준선에 앉아 위로 뜨지 않게) */
+.segmented__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: calc(var(--size-control-2) - var(--space-half));
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: calc(var(--radius-2) - var(--space-half) / 2);
+  background: transparent;
+  color: var(--color-text-2);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform var(--duration-1) var(--easing-productive);
+}
+
+/* 안 칸은 바깥 여백만큼 작아서(촘촘하게에서 20px), 보이지 않는 칸으로 누름 영역을 바깥 높이(size-control-*)까지 넓힌다(AC-44).
+   옆으로는 칸 사이 틈의 절반씩만 넓혀 이웃 칸과 겹치지 않는다. */
+.segmented__item {
+  position: relative;
+}
+
+.segmented__item::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--space-half) / -2) calc(var(--space-half) / -4);
+}
+
+.segmented__item:active {
+  transform: scale(0.97);
+}
+
+/* 선택 칸은 홈(fill-2)과 3:1인 테두리로 상태를 보인다(AC-09). 흰 칸만으로는 1.2:1이라 모자란다 */
+.segmented__item:is([aria-checked="true"], [aria-selected="true"]) {
+  background: var(--color-control);
+  color: var(--color-control-text);
+  box-shadow: 0 0 0 var(--border-1) var(--color-control-border);
+}
+
+.segmented--small .segmented__item {
+  min-height: calc(var(--size-control-1) - var(--space-half));
+  padding: 0 var(--space-2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .segmented__item:is([aria-checked="false"], [aria-selected="false"]):hover {
+    background: var(--color-fill-3);
+  }
+}
+
+/* ---------- 피드백 메시지(배너) (CN-146~CN-150) ---------- */
+
+.banner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-2);
+  color: var(--color-text-1);
+}
+
+/* 광학 보정: 아이콘(16)을 제목 첫 줄(type-body-strong, 줄 높이 24) 가운데에 둔다 = (24 − 16) / 2 */
+.banner__icon {
+  margin-top: var(--space-half);
+}
+
+/* 배너 글 묶음: 제목과 설명 사이는 작은 글 덩어리 간격(부모가 갖는다) */
+.banner > div {
+  display: grid;
+  gap: var(--space-half);
+}
+
+.banner__title {
+  margin: 0;
+  font: var(--type-body-strong);
+  letter-spacing: var(--type-body-strong-letter-spacing);
+}
+
+.banner__text {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+}
+
+/* 광학 보정: 닫기 버튼(28)을 제목 첫 줄(24) 가운데에 = (24 − 28) / 2 = −2, 끝 쪽은 아이콘이 배너 안쪽 여백 선에 가깝게 −4 */
+.banner__close {
+  margin-block-start: calc(var(--space-half) / -2);
+  margin-inline-end: calc(var(--space-half) * -1);
+  color: var(--color-text-2);
+}
+
+/* 나타났다 사라지는 배너(data-animated, 보임 = data-open): 위에서 조금 내려오며 나타나고(motion-banner-slide-in), 투명도만 줄며 사라진다 */
+.banner[data-animated] {
+  opacity: 0;
+  transform: translateY(var(--motion-banner-slide-in-y));
+  visibility: hidden;
+  transition: opacity var(--motion-banner-fade-out), transform 0s var(--motion-banner-fade-out-duration), visibility 0s var(--motion-banner-fade-out-duration);
+}
+
+.banner[data-animated][data-open] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition: opacity var(--motion-banner-slide-in), transform var(--motion-banner-slide-in), visibility 0s;
+}
+
+.banner[data-kind="info"] {
+  background: var(--color-status-info-background);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-status-info);
+}
+.banner[data-kind="info"] .banner__icon { color: var(--color-status-info); }
+
+.banner[data-kind="success"] {
+  background: var(--color-status-success-background);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-status-success);
+}
+.banner[data-kind="success"] .banner__icon { color: var(--color-status-success); }
+
+.banner[data-kind="warning"] {
+  background: var(--color-status-warning-background);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-status-warning);
+}
+.banner[data-kind="warning"] .banner__icon { color: var(--color-status-warning); }
+
+.banner[data-kind="error"] {
+  background: var(--color-status-error-background);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-status-error);
+}
+.banner[data-kind="error"] .banner__icon { color: var(--color-status-error); }
+
+/* ---------- 꼬리표 (CO-15 색상 토큰, CO-14 상태 색) ---------- */
+
+/* 높이 24(space-3), 좌우 8: 13px 글자 위아래에 4px 안팎이 남는다. 36px 표 행 안에서도 위아래 6이 남는다 */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-half);
+  max-width: 100%;
+  min-height: var(--space-3);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-1);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  white-space: nowrap;
+}
+
+/* 색상 꼬리표: 뜻 없이 색상으로만 구별한다(프로젝트 이름 등) */
+.tag[data-hue] {
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-separator);
+}
+
+.tag[data-hue]::before {
+  content: "";
+  flex: none;
+  width: var(--space-1);
+  height: var(--space-1);
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.tag[data-hue="red"] { color: var(--color-hue-red); }
+.tag[data-hue="orange"] { color: var(--color-hue-orange); }
+.tag[data-hue="yellow"] { color: var(--color-hue-yellow); }
+.tag[data-hue="green"] { color: var(--color-hue-green); }
+.tag[data-hue="mint"] { color: var(--color-hue-mint); }
+.tag[data-hue="teal"] { color: var(--color-hue-teal); }
+.tag[data-hue="cyan"] { color: var(--color-hue-cyan); }
+.tag[data-hue="blue"] { color: var(--color-hue-blue); }
+.tag[data-hue="indigo"] { color: var(--color-hue-indigo); }
+.tag[data-hue="purple"] { color: var(--color-hue-purple); }
+.tag[data-hue="pink"] { color: var(--color-hue-pink); }
+.tag[data-hue="brown"] { color: var(--color-hue-brown); }
+
+/* 상태 꼬리표: 글자로 상태를 말하고 색은 거든다(AC-11) */
+.tag[data-status="info"] { color: var(--color-status-info); background: var(--color-status-info-background); }
+.tag[data-status="success"] { color: var(--color-status-success); background: var(--color-status-success-background); }
+.tag[data-status="warning"] { color: var(--color-status-warning); background: var(--color-status-warning-background); }
+.tag[data-status="error"] { color: var(--color-status-error); background: var(--color-status-error-background); }
+
+/* ---------- 사이드바 (CN-63~CN-70, CN-22, CO-10) ---------- */
+
+.sidebar {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-2) var(--space-1);
+  background: var(--color-background-2);
+  border-inline-end: var(--border-1) solid var(--color-separator);
+}
+
+/* 묶음 제목은 항목의 아이콘과 같은 시작선(사이드바 안쪽 8 + 항목 안쪽 16) */
+.sidebar__group {
+  padding: 0 var(--space-2);
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  color: var(--color-text-3);
+}
+
+/* 사이드바 묶음(묶음 제목 + 목록): 제목과 목록 사이는 부모가 갖는다 */
+.sidebar > div {
+  display: grid;
+  gap: var(--space-half);
+}
+
+.sidebar__list {
+  display: grid;
+  gap: var(--space-half);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--size-control-1);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-2);
+  color: var(--color-text-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__item .icon {
+  color: var(--color-text-3);
+}
+
+.sidebar__count {
+  margin-inline-start: auto;
+  color: var(--color-text-3);
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+}
+
+/* 초점이 없는 사이드바의 현재 항목: 비강조 선택 */
+.sidebar__item[aria-current] {
+  background: var(--color-selection-content-background-unfocused);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+/* 사이드바 안에 초점이 있거나 활성으로 그린 사이드바(data-active)는 강조 선택(CO-10) */
+.sidebar:is(:focus-within, [data-active]) .sidebar__item[aria-current] {
+  background: var(--color-selection-content-background);
+  color: var(--color-text-on-accent);
+}
+.sidebar:is(:focus-within, [data-active]) .sidebar__item[aria-current] :is(.icon, .sidebar__count) {
+  color: var(--color-text-on-accent);
+}
+
+/* 사이드바 항목은 행 강조로 초점을 보인다(AC-26): 면에 더해 안쪽 고리 */
+.sidebar__item:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--border-2) var(--color-focus-ring);
+}
+.sidebar__item[aria-current]:focus-visible {
+  box-shadow:
+    inset 0 0 0 var(--border-2) var(--color-focus-ring),
+    inset 0 0 0 calc(var(--border-2) * 2) var(--color-text-on-accent);
+}
+
+/* 색 점: 아이콘 칸(16)을 차지하고 그 가운데에 8px 점을 그린다. 그래서 점 항목과 아이콘 항목의 글자 시작선이 같다 */
+.sidebar__dot {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--size-icon-1);
+  height: var(--size-icon-1);
+}
+.sidebar__dot::before {
+  content: "";
+  width: var(--space-1);
+  height: var(--space-1);
+  border-radius: 50%;
+  background: currentColor;
+}
+.sidebar__dot[data-hue="red"] { color: var(--color-hue-red); }
+.sidebar__dot[data-hue="orange"] { color: var(--color-hue-orange); }
+.sidebar__dot[data-hue="yellow"] { color: var(--color-hue-yellow); }
+.sidebar__dot[data-hue="green"] { color: var(--color-hue-green); }
+.sidebar__dot[data-hue="mint"] { color: var(--color-hue-mint); }
+.sidebar__dot[data-hue="teal"] { color: var(--color-hue-teal); }
+.sidebar__dot[data-hue="cyan"] { color: var(--color-hue-cyan); }
+.sidebar__dot[data-hue="blue"] { color: var(--color-hue-blue); }
+.sidebar__dot[data-hue="indigo"] { color: var(--color-hue-indigo); }
+.sidebar__dot[data-hue="purple"] { color: var(--color-hue-purple); }
+.sidebar__dot[data-hue="pink"] { color: var(--color-hue-pink); }
+.sidebar__dot[data-hue="brown"] { color: var(--color-hue-brown); }
+
+@media (hover: hover) and (pointer: fine) {
+  .sidebar__item:not([aria-current]):hover {
+    background: var(--color-fill-3);
+  }
+}
+
+/* ---------- 표·목록 행과 선택 (CN-77~CN-85, CO-10, AC-26) ---------- */
+
+/* 행 둘레 여백은 표가 갖는다(안쪽 좌우·아래 8). 행은 바깥 여백 없이 칸 안쪽 16 */
+.table {
+  display: grid;
+  min-width: 0;
+  padding: 0 var(--space-1) var(--space-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.table__head,
+.table__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-3);
+  padding-inline: var(--space-2);
+}
+
+.table__head {
+  min-height: var(--size-control-1);
+  border-bottom: var(--border-1) solid var(--color-separator);
+  margin-bottom: var(--space-half);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  color: var(--color-header-text);
+}
+
+.table__row {
+  min-height: var(--size-control-2);
+  border-radius: var(--radius-2);
+}
+
+.table__cell {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table__cell--name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.table__cell--name .icon,
+.table__cell--muted {
+  color: var(--color-text-3);
+}
+
+/* 꼬리표가 든 칸: 칸을 가로 흐름으로 두어 꼬리표가 기준선 틈 없이 행 가운데에 놓인다 */
+.table__cell:has(> .tag) {
+  display: flex;
+  align-items: center;
+}
+
+/* 표의 숫자 칸(날짜·크기·금액)은 같은 폭 숫자로 자릿수를 맞추고 끝 쪽에 맞춘다(TY-47, 2026-10-17 결정). 문장 속 숫자는 기본 비례 폭.
+   머리 칸도 같은 클래스를 달아 끝 쪽에 맞춘다 */
+.table__cell--numeric {
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+.table__row[aria-selected="true"] {
+  background: var(--color-selection-content-background-unfocused);
+}
+
+/* 표 안에 초점이 있거나 활성 목록으로 그린 표는 강조 선택(CO-10) */
+.table:is(:focus-within, [data-active]) .table__row[aria-selected="true"] {
+  background: var(--color-selection-content-background);
+  color: var(--color-text-on-accent);
+}
+.table:is(:focus-within, [data-active]) .table__row[aria-selected="true"] :is(.icon, .table__cell--muted, .tag[data-hue]) {
+  color: var(--color-text-on-accent);
+}
+.table:is(:focus-within, [data-active]) .table__row[aria-selected="true"] .tag[data-hue] {
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-text-on-accent);
+}
+
+.table__row:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--border-2) var(--color-focus-ring);
+}
+.table__row[aria-selected="true"]:focus-visible {
+  box-shadow:
+    inset 0 0 0 var(--border-2) var(--color-focus-ring),
+    inset 0 0 0 calc(var(--border-2) * 2) var(--color-text-on-accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .table__row:not([aria-selected="true"]):hover {
+    background: var(--color-fill-3);
+  }
+}
+
+/* ---------- 빈 상태 (WR-67) ---------- */
+
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-3);
+  text-align: center;
+}
+
+.empty__content {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+}
+
+.empty__icon {
+  width: var(--space-4);
+  height: var(--space-4);
+  color: var(--color-text-4);
+}
+
+.empty__title {
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.empty__text {
+  max-width: var(--layout-line-length);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+  color: var(--color-text-2);
+}
+
+/* ---------- 메뉴 (CC-61~CC-63, 10.25) ---------- */
+
+/* 메뉴는 떠 있는 층(radius-3, elevation-2). 항목 강조는 메뉴 모서리와 동심: radius-3에서 메뉴 안쪽 여백(space-1)을 뺀다(SP-10) */
+.menu-anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + var(--space-half));
+  inset-inline-end: 0;
+  z-index: 1;
+  display: grid;
+  min-width: calc(var(--space-8) * 3);
+  padding: var(--space-1);
+  border-radius: var(--radius-3);
+  background: var(--color-background-elevated-2);
+  box-shadow: var(--elevation-2);
+  color: var(--color-text-1);
+}
+
+.menu--static {
+  position: static;
+}
+
+/* 여닫는 메뉴(data-animated, 열림 = data-open): 트리거 쪽 모서리에서 커지며 나타나고(motion-menu-scale-in), 투명도만 줄며 사라진다(motion-menu-fade-out).
+   닫힌 뒤에는 visibility로 숨겨 초점과 누름을 받지 않는다 */
+.menu[data-animated] {
+  transform-origin: top right;
+  opacity: 0;
+  transform: scale(var(--motion-menu-scale-in-scale));
+  visibility: hidden;
+  transition: opacity var(--motion-menu-fade-out), transform 0s var(--motion-menu-fade-out-duration), visibility 0s var(--motion-menu-fade-out-duration);
+}
+
+/* 트리거의 시작 쪽에 붙는 메뉴: 커지는 기준점도 그 모서리 */
+.menu--start {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
+.menu--start[data-animated] {
+  transform-origin: top left;
+}
+
+.menu[data-animated][data-open] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition: opacity var(--motion-menu-scale-in), transform var(--motion-menu-scale-in), visibility 0s;
+}
+
+.menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--size-control-1);
+  padding: 0 var(--space-1);
+  border: 0;
+  border-radius: calc(var(--radius-3) - var(--space-1));
+  background: transparent;
+  color: inherit;
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  text-align: start;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.menu__item .icon {
+  color: var(--color-text-3);
+}
+
+/* 하나를 고르는 메뉴 항목(menuitemradio): 고른 항목 앞에만 체크 표시 */
+.menu__item[aria-checked="false"] .menu__check {
+  visibility: hidden;
+}
+
+/* 단축키는 끝 쪽으로 밀어 정렬하고(auto), 라벨과는 적어도 24를 띄운다(layout.md 예외 표) */
+.menu__shortcut {
+  margin-inline-start: auto;
+  padding-inline-start: var(--space-3);
+  color: var(--color-text-3);
+}
+
+/* 강조된 항목(포인터를 올렸거나 화살표로 옮긴 항목) */
+.menu__item[data-highlighted],
+.menu__item:focus-visible {
+  outline: none;
+  background: var(--color-selection-content-background);
+  color: var(--color-text-on-accent);
+}
+
+.menu__item[data-highlighted] :is(.icon, .menu__shortcut),
+.menu__item:focus-visible :is(.icon, .menu__shortcut) {
+  color: var(--color-text-on-accent);
+}
+
+/* 다른 항목에 포인터나 초점이 가면 처음 강조를 거둔다 */
+.menu:is(:hover, :focus-within) .menu__item[data-highlighted]:not(:hover, :focus-visible) {
+  background: transparent;
+  color: inherit;
+}
+
+.menu:is(:hover, :focus-within) .menu__item[data-highlighted]:not(:hover, :focus-visible) .icon {
+  color: var(--color-text-3);
+}
+
+.menu__separator {
+  height: var(--border-1);
+  margin: var(--space-1) var(--space-1);
+  background: var(--color-separator);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu__item:hover {
+    background: var(--color-selection-content-background);
+    color: var(--color-text-on-accent);
+  }
+  .menu__item:hover :is(.icon, .menu__shortcut) {
+    color: var(--color-text-on-accent);
+  }
+}
+
+.button--icon[aria-expanded="true"] {
+  background: var(--color-fill-2);
+  color: var(--color-text-1);
+}
+
+/* ---------- 대화상자 (CN-01~CN-18, WR-58) ---------- */
+
+.dialog {
+  display: grid;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: calc(var(--space-8) * 7);
+  padding: var(--space-4);
+  border-radius: var(--radius-3);
+  background: var(--color-background-elevated-2);
+  box-shadow: var(--elevation-2);
+  color: var(--color-text-1);
+}
+
+/* 대화상자는 두 묶음: 내용(제목·설명, 간격 8)과 버튼 줄. 묶음 사이 32는 부모가 갖는다(SP-61).
+   내용에 칸(.field)이 들어가면 제목→칸이 라벨→칸(8)과 같아지지 않게 내용 묶음 간격을 24(칸 사이)로 넓힌다(SP-60) */
+.dialog__content {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.dialog__content:has(.field) {
+  gap: var(--space-3);
+}
+
+.dialog__title {
+  margin: 0;
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+}
+
+.dialog__text {
+  margin: 0;
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+  color: var(--color-text-2);
+}
+
+/* 대화상자 층: 덮개(color-scrim, CN-07)와 가운데 대화상자. 덮개는 투명도만, 대화상자는 가운데에서 커지며 나타난다(motion-dialog-scale-in).
+   닫을 때는 둘 다 투명도만 줄인다(motion-dialog-fade-out). 견본 안에 가둘 때는 --contained */
+.dialog-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: var(--space-3);
+  background: var(--color-scrim);
+}
+
+.dialog-layer--contained {
+  position: absolute;
+  z-index: 1;
+}
+
+.dialog-layer[data-animated] {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--motion-dialog-fade-out), visibility 0s var(--motion-dialog-fade-out-duration);
+}
+
+.dialog-layer[data-animated] .dialog {
+  transform: scale(var(--motion-dialog-scale-in-scale));
+  transition: transform 0s var(--motion-dialog-fade-out-duration);
+}
+
+.dialog-layer[data-animated][data-open] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--motion-dialog-scale-in), visibility 0s;
+}
+
+.dialog-layer[data-animated][data-open] .dialog {
+  transform: none;
+  transition: transform var(--motion-dialog-scale-in);
+}
+
+/* 나란한 버튼은 같은 크기(CC-14). 취소는 시작 쪽 끝, 가장 고를 만한 버튼은 끝 쪽 끝(CN-12) */
+.dialog__actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+/* ========== 1묶음: 자주 쓰는 컴포넌트 (2단계 8바퀴, 채움 모양) ========== */
+
+/* ---------- 라디오 버튼 (CC-26, CC-33, CC-36) ---------- */
+
+.radio-group {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* legend는 fieldset의 격자 항목이 아니라 gap을 받지 못한다. 띄우면 격자 항목이 되어 부모 gap 8을 받는다 */
+.radio-group__legend {
+  float: inline-start;
+  width: 100%;
+  padding: 0;
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.radio-group__items {
+  display: grid;
+  gap: var(--space-1);
+}
+
+/* 가로로 놓으면 라벨 끝과 다음 버튼 사이를 같은 간격으로 둔다(CC-33, 2026-10-17 변경) */
+.radio-group--row .radio-group__items {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-3);
+}
+
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--space-3);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.radio__input {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: var(--space-2);
+  height: var(--space-2);
+  margin: 0;
+  border-radius: 50%;
+  background: var(--color-control);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-control-border);
+}
+
+/* 선택: 강조색 고리 안에 흰 점(채운 원, CC-36) */
+.radio__input:checked {
+  background: var(--color-text-on-accent);
+  box-shadow: inset 0 0 0 calc(var(--space-half) + var(--border-1)) var(--color-control-selected);
+}
+
+.radio:has(:disabled),
+.checkbox:has(:disabled) {
+  color: var(--color-control-text-disabled);
+}
+
+.radio__input:disabled,
+.checkbox__input:disabled {
+  background: var(--color-fill-3);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-separator);
+}
+
+/* ---------- 여러 줄 입력 (10.15, CC-68) ---------- */
+
+.textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: calc(var(--size-control-2) * 3);
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-1) solid var(--color-control-border);
+  border-radius: var(--radius-2);
+  background: var(--color-control);
+  color: var(--color-control-text);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+  resize: vertical;
+}
+
+.textarea::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.field__footer {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.field__count {
+  margin-inline-start: auto;
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  color: var(--color-text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 토글 버튼 (CC-28): 목적 아이콘 + 배경 변화, 켜면 아이콘이 강조색(배경과 3:1) ---------- */
+
+.button--icon[aria-pressed="true"] {
+  background: var(--color-fill-2);
+  color: var(--color-accent);
+}
+
+/* ---------- 툴팁 (CC-10, AC-52, AC-53) ---------- */
+
+/* specimen.js가 하나를 만들어 가리키는 컨트롤 옆에 둔다. 포인터를 툴팁 위로 옮겨도 남고, Esc로 닫는다 */
+.tooltip {
+  position: fixed;
+  z-index: 30;
+  max-width: calc(var(--space-8) * 4);
+  padding: var(--space-half) var(--space-1);
+  border-radius: var(--radius-1);
+  background: var(--color-background-elevated-2);
+  box-shadow: var(--elevation-2);
+  color: var(--color-text-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  transform-origin: top center;
+  opacity: 0;
+  transform: scale(var(--motion-tooltip-fade-in-scale));
+  visibility: hidden;
+  transition: opacity var(--motion-tooltip-fade-out), transform 0s var(--motion-tooltip-fade-out-duration), visibility 0s var(--motion-tooltip-fade-out-duration);
+}
+
+.tooltip[data-side="top"] {
+  transform-origin: bottom center;
+}
+
+.tooltip[data-open] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition: opacity var(--motion-tooltip-fade-in), transform var(--motion-tooltip-fade-in), visibility 0s;
+}
+
+/* 툴팁 하나가 막 떠 있었으면 다음 툴팁은 기다림과 모션 없이 바로(옆 컨트롤로 옮겨 가며 읽을 때) */
+.tooltip[data-instant] {
+  transition-duration: 0s;
+  transition-delay: 0s;
+}
+
+/* ---------- 메뉴 버튼 (CC-61~CC-63) ---------- */
+
+.button--secondary[aria-expanded="true"] {
+  background: var(--color-control-hover);
+}
+
+/* 광학 보정(layout.md 예외 표): 꺾쇠 그림은 오른쪽 여백이 커서 버튼 끝 안쪽이 넓어 보인다. 끝 쪽을 4 당긴다 */
+.button__chevron {
+  margin-inline-end: calc(var(--space-half) * -1);
+  color: var(--color-text-3);
+}
+
+/* ---------- 펼침 (CC-93~CC-97) ---------- */
+
+.disclosure {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.disclosure__summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: fit-content;
+  min-height: var(--space-3);
+  padding-inline-end: var(--space-1);
+  border-radius: var(--radius-1);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  color: var(--color-text-1);
+  list-style: none;
+  cursor: default;
+}
+
+.disclosure__summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosure__summary .icon {
+  color: var(--color-text-3);
+}
+
+/* 접힘: 앞쪽에서 안쪽을, 펼침: 아래를 가리킨다(CC-96) */
+.disclosure[open] > .disclosure__summary .icon {
+  transform: rotate(90deg);
+}
+
+.disclosure__content {
+  display: grid;
+  gap: var(--space-1);
+  padding-inline-start: calc(var(--size-icon-1) + var(--space-1));
+}
+
+.disclosure[open] > .disclosure__content {
+  animation: disclosure-fade-in var(--motion-disclosure-fade-in);
+}
+
+@keyframes disclosure-fade-in {
+  from { opacity: 0; }
+}
+
+/* 펼침 버튼: 숨으면 아래, 보이면 위를 가리킨다(CC-96) */
+.disclosure-button[aria-expanded="true"] .button__chevron {
+  transform: rotate(180deg);
+}
+
+/* ---------- 탭 (CN-71~CN-76): 탭 컨트롤을 내용 칸의 위쪽 가장자리에 걸친다 ---------- */
+
+.tabs {
+  display: grid;
+}
+
+/* 탭 걸침(layout.md 예외 표): 탭 컨트롤 높이의 반만큼 아래 칸에 겹친다 */
+.tabs__list {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  margin-bottom: calc(var(--size-control-2) / -2);
+}
+
+.tabs__panel {
+  padding: calc(var(--size-control-2) / 2 + var(--space-4)) var(--space-4) var(--space-4);
+  border: var(--border-1) solid var(--color-separator);
+  border-radius: var(--radius-3);
+  background: var(--color-background-2);
+}
+
+/* ---------- 팝오버 (CN-46~CN-54) ---------- */
+
+.popover-anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + var(--space-1) + var(--border-1) + var(--space-half)); /* 화살표 높이(8 + 1) + 연 버튼과 4 */
+  left: 50%;
+  translate: -50% 0;
+  z-index: 2;
+  display: grid;
+  gap: var(--space-2);
+  width: max-content;
+  max-width: calc(var(--space-8) * 5);
+  padding: var(--space-3);
+  border-radius: var(--radius-3);
+  background: var(--color-background-elevated-2);
+  box-shadow: var(--elevation-2);
+  color: var(--color-text-1);
+}
+
+/* 화살표: 연 요소를 곧게 가리킨다(CN-47). 바깥 삼각형이 선, 안쪽 삼각형이 바탕 */
+.popover::before,
+.popover::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  width: var(--space-3);
+  height: calc(var(--space-1) + var(--border-1));
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.popover::before {
+  top: calc((var(--space-1) + var(--border-1)) * -1);
+  background: var(--color-separator);
+}
+
+.popover::after {
+  top: calc((var(--space-1) + var(--border-1)) * -1 + var(--border-1));
+  background: var(--color-background-elevated-2);
+}
+
+.popover__title {
+  margin: 0;
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+/* 여닫기: 메뉴·팝오버 패턴(motion-menu-*), 트리거 쪽에서 커진다 */
+.popover[data-animated] {
+  transform-origin: top center;
+  opacity: 0;
+  transform: scale(var(--motion-menu-scale-in-scale));
+  visibility: hidden;
+  transition: opacity var(--motion-menu-fade-out), transform 0s var(--motion-menu-fade-out-duration), visibility 0s var(--motion-menu-fade-out-duration);
+}
+
+.popover[data-animated][data-open] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition: opacity var(--motion-menu-scale-in), transform var(--motion-menu-scale-in), visibility 0s;
+}
+
+/* ---------- 모달 대화상자 (CN-07~CN-09, CN-41~CN-45): <dialog>.showModal() ---------- */
+
+.modal {
+  width: min(calc(var(--space-8) * 8), calc(100vw - var(--space-8)));
+  max-height: calc(100vh - var(--space-8));
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-3);
+  background: var(--color-background-elevated-2);
+  box-shadow: var(--elevation-2);
+  color: var(--color-text-1);
+}
+
+.modal::backdrop {
+  background: var(--color-scrim);
+}
+
+.modal__form {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4);
+}
+
+/* 모달은 두 묶음: 내용(제목 + 본문, 사이 24)과 버튼 줄. 묶음 사이 32는 .modal__form이 갖는다 */
+.modal__content {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.modal__title {
+  margin: 0;
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+}
+
+.modal__body {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* 취소는 시작 쪽 끝, 가장 고를 만한 버튼은 끝 쪽 끝(CN-12). 나란한 버튼은 같은 폭(CC-14) */
+.modal__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.modal__actions .button {
+  min-width: calc(var(--space-8) * 1.5);
+}
+
+/* 열림: 가운데에서 커지며(motion-dialog-scale-in), 닫힘: 투명도만(motion-dialog-fade-out, specimen.js가 data-closing을 단 뒤 닫는다) */
+.modal[open],
+.modal[open]::backdrop {
+  opacity: 1;
+  transition: opacity var(--motion-dialog-scale-in), transform var(--motion-dialog-scale-in);
+}
+
+@starting-style {
+  .modal[open] {
+    opacity: 0;
+    transform: scale(var(--motion-dialog-scale-in-scale));
+  }
+  .modal[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.modal[data-closing],
+.modal[data-closing]::backdrop {
+  opacity: 0;
+  transition: opacity var(--motion-dialog-fade-out);
+}
+
+/* ---------- 도구 막대 (CC-135~CC-148): 앞쪽·가운데·뒤쪽 세 구역, 기호 항목은 테두리 없이 ---------- */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: calc(var(--size-control-2) + var(--space-2));
+  padding: var(--space-1) var(--space-3);
+  border-bottom: var(--border-1) solid var(--color-separator);
+  background: var(--color-background-1);
+  color: var(--color-text-1);
+}
+
+.toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* 제목 앞 안쪽 8(layout.md 예외 표): 앞 묶음 안 버튼 사이(8)보다 한 단계 넓게, 버튼↔제목 = 16 */
+.toolbar__title {
+  margin: 0;
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+  white-space: nowrap;
+  padding-inline-start: var(--space-1);
+}
+
+.toolbar__center {
+  flex: 1;
+  justify-content: center;
+}
+
+/* 구분선 둘레(layout.md 예외 표): 묶음 gap 8 + 8 = 16. 이어 붙은 항목 사이에 끼는 선이라 부모 gap으로 따로 줄 수 없다 */
+.toolbar__divider {
+  flex: none;
+  width: var(--border-1);
+  height: var(--space-3);
+  margin-inline: var(--space-1);
+  background: var(--color-separator);
+}
+
+.toolbar .search {
+  width: calc(var(--space-8) * 3.5);
+}
+
+/* 도구 막대 안 검색 칸은 같은 줄의 아이콘 버튼·작은 세그먼트와 같은 높이(28)·글자(13) */
+.toolbar .search .input {
+  min-height: var(--size-control-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+}
+
+/* ---------- 진행 막대 (CC-107, MO-27~MO-35) ---------- */
+
+.progress {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.progress__label {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-2);
+}
+
+.progress__value {
+  color: var(--color-text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --progress-value: 화면이 넣는 진행 값(0~1). 토큰이 아니라 실행 값이다 */
+.progress__track {
+  --progress-value: 0;
+  position: relative;
+  height: var(--space-half);
+  overflow: hidden;
+  border-radius: var(--radius-1);
+  background: var(--color-fill-2);
+}
+
+/* 확정형: 앞쪽에서 뒤쪽으로 채운다(CC-107) */
+.progress__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-accent);
+  transform-origin: left center;
+  transform: scaleX(var(--progress-value));
+  transition: transform var(--motion-thumb-slide-move);
+}
+
+/* 미확정형: 짧은 막대가 계속 지나간다(작업이 이어지는 동안만, MO-21) */
+.progress__track[data-indeterminate] .progress__fill {
+  width: 40%;
+  right: auto;
+  transform: none;
+  animation: progress-slide calc(var(--duration-4) * 3) linear infinite;
+}
+
+@keyframes progress-slide {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(250%); }
+}
+
+/* ---------- 이동 경로 (CC-98) ---------- */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-2);
+}
+
+.breadcrumb__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* 링크는 좌우 안쪽 여백 없이: 보이는 글자↔구분 기호 = 부모 gap 8(간격 배정). 누름 높이는 24 */
+.breadcrumb__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-half);
+  min-height: var(--space-3);
+  padding: 0;
+  border-radius: var(--radius-1);
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.breadcrumb__link[aria-current="page"] {
+  color: var(--color-text-1);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.breadcrumb__sep {
+  color: var(--color-text-4);
+}
+
+/* 「…」 버튼: 링크와 같은 높이 24(누름 영역 바닥 AC-44), 아이콘 둘레 4 */
+.breadcrumb .button--icon {
+  min-width: var(--space-3);
+  min-height: var(--space-3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .breadcrumb__link:not([aria-current]):hover {
+    color: var(--color-text-1);
+    text-decoration: underline;
+    text-underline-offset: var(--border-2);
+  }
+}
+
+/* ========== 2묶음: 입력·선택·표시 (2단계 9바퀴, 채움 모양) ========== */
+
+/* ---------- 슬라이더 (CC-43~CC-49): 최솟값은 앞쪽, 채운 부분은 강조색, 손잡이는 흰 원 + 3:1 테두리 ---------- */
+
+/* 슬라이더는 두 열 격자: [트랙 | 증감 버튼]. 눈금은 트랙 열에만 놓여 양 끝이 트랙 끝과 맞는다(SP-18).
+   .slider__row는 display: contents로 풀어 그 자식이 바깥 격자에 놓인다. 트랙↔증감 버튼 = 나란한 컨트롤 16 */
+.slider {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  min-width: 0;
+}
+
+.slider > .field__label {
+  grid-column: 1 / -1;
+}
+
+.slider__row {
+  display: contents;
+}
+
+/* --slider-value: 채운 비율(0%~100%). 화면이 넣는 실행 값이다 */
+.slider__input {
+  --slider-value: 50%;
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 1;
+  min-width: 0;
+  height: var(--space-3);
+  margin: 0;
+  background: transparent;
+}
+
+.slider__input::-webkit-slider-runnable-track {
+  height: var(--space-half);
+  border-radius: var(--radius-1);
+  background: linear-gradient(to right, var(--color-accent) var(--slider-value), var(--color-fill-2) var(--slider-value));
+}
+
+.slider__input::-moz-range-track {
+  height: var(--space-half);
+  border-radius: var(--radius-1);
+  background: linear-gradient(to right, var(--color-accent) var(--slider-value), var(--color-fill-2) var(--slider-value));
+}
+
+.slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: var(--size-icon-2);
+  height: var(--size-icon-2);
+  margin-top: calc((var(--space-half) - var(--size-icon-2)) / 2);
+  border-radius: 50%;
+  background: var(--color-control);
+  box-shadow: 0 0 0 var(--border-1) var(--color-control-border);
+}
+
+.slider__input::-moz-range-thumb {
+  width: var(--size-icon-2);
+  height: var(--size-icon-2);
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-control);
+  box-shadow: 0 0 0 var(--border-1) var(--color-control-border);
+}
+
+.slider__input:focus-visible {
+  outline: none;
+}
+
+.slider__input:focus-visible::-webkit-slider-thumb {
+  outline: var(--border-2) solid var(--color-focus-ring);
+  outline-offset: var(--border-2);
+}
+
+.slider__input:focus-visible::-moz-range-thumb {
+  outline: var(--border-2) solid var(--color-focus-ring);
+  outline-offset: var(--border-2);
+}
+
+/* 눈금 라벨은 양 끝만(CC-47) */
+.slider__ticks {
+  grid-column: 1;
+  display: flex;
+  justify-content: space-between;
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  color: var(--color-text-3);
+}
+
+/* ---------- 증감 버튼 (CC-50, CC-51): 값 칸 바로 옆, 누름 영역이 24px 바닥을 넘게 가로로 둔다 ---------- */
+
+/* --stepper-digits: 값의 최대 자릿수(기본 3). 칸 폭은 자릿수에 맞추고 값은 가운데에 둔다 */
+.stepper {
+  --stepper-digits: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.stepper__input {
+  width: calc(var(--stepper-digits) * 1ch + var(--space-2) * 2 + var(--border-1) * 2);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.stepper .button {
+  min-width: var(--size-control-2);
+  padding: 0;
+}
+
+.stepper__unit {
+  margin-inline-start: 0;
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+  color: var(--color-text-2);
+}
+
+/* ---------- 날짜 선택 (CC-52~CC-56): 글자 칸 + 달력 팝오버(칸 바로 아래) ---------- */
+
+.datefield {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  width: fit-content;
+}
+
+.datefield .input {
+  width: calc(var(--space-8) * 2.5);
+  padding-inline-end: calc(var(--space-2) + var(--size-icon-1) + var(--space-1));
+  font-variant-numeric: tabular-nums;
+}
+
+.datefield__button {
+  position: absolute;
+  inset-inline-end: calc(var(--space-2) - (var(--size-control-1) - var(--size-icon-1)) / 2);
+}
+
+.calendar {
+  position: absolute;
+  top: calc(100% + var(--space-half));
+  left: 0;
+  z-index: 2;
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-3);
+  background: var(--color-background-elevated-2);
+  box-shadow: var(--elevation-2);
+  color: var(--color-text-1);
+}
+
+.calendar__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
+
+.calendar__title {
+  margin: 0;
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, calc(var(--size-control-1) + var(--space-half)));
+  gap: var(--space-half);
+}
+
+.calendar__weekday {
+  display: grid;
+  place-items: center;
+  height: var(--space-3);
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  color: var(--color-text-3);
+}
+
+.calendar__day {
+  display: grid;
+  place-items: center;
+  width: calc(var(--size-control-1) + var(--space-half));
+  height: calc(var(--size-control-1) + var(--space-half));
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+.calendar__day[data-outside] {
+  color: var(--color-text-4);
+}
+
+/* 오늘: 강조색 고리(3:1), 고른 날: 강조색 채움 */
+.calendar__day[aria-current="date"] {
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-accent);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.calendar__day[aria-selected="true"] {
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+  box-shadow: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .calendar__day:not([aria-selected="true"]):hover {
+    background: var(--color-control-hover);
+  }
+}
+
+/* ---------- 자동 완성 입력 (CC-64~CC-67): 목록은 칸 폭을 넘지 않는다 ---------- */
+
+.combobox {
+  position: relative;
+  display: grid;
+  align-items: center;
+}
+
+.combobox .input {
+  grid-area: 1 / 1;
+  padding-inline-end: calc(var(--space-2) + var(--size-icon-1) + var(--space-1));
+}
+
+.combobox__toggle {
+  position: absolute;
+  inset-inline-end: calc(var(--space-2) - (var(--size-control-1) - var(--size-icon-1)) / 2);
+}
+
+.combobox__toggle[aria-expanded="true"] .icon {
+  transform: rotate(180deg);
+}
+
+.listbox {
+  position: absolute;
+  top: calc(100% + var(--space-half));
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: grid;
+  max-height: calc(var(--size-control-1) * 6.5 + var(--space-1) * 2); /* 6줄 반 + 위아래 안쪽 8: 반 줄이 보여 더 있음을 알린다 */
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--space-1);
+  list-style: none;
+  border-radius: var(--radius-3);
+  background: var(--color-background-elevated-2);
+  box-shadow: var(--elevation-2);
+  color: var(--color-text-1);
+}
+
+.listbox__option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--size-control-1);
+  padding: 0 var(--space-1);
+  border-radius: calc(var(--radius-3) - var(--space-1));
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+}
+
+.listbox__option mark {
+  background: none;
+  color: inherit;
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.listbox__option .listbox__meta {
+  margin-inline-start: auto;
+  color: var(--color-text-3);
+}
+
+/* 키보드로 고른 항목(aria-activedescendant)과 포인터를 올린 항목: 메뉴 항목과 같은 강조 */
+.listbox__option[data-active] {
+  background: var(--color-selection-content-background);
+  color: var(--color-text-on-accent);
+}
+
+.listbox__option[data-active] .listbox__meta {
+  color: var(--color-text-on-accent);
+}
+
+.listbox__empty {
+  padding: var(--space-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-3);
+}
+
+.listbox[data-animated] {
+  transform-origin: top center;
+  opacity: 0;
+  transform: scale(var(--motion-menu-scale-in-scale));
+  visibility: hidden;
+  transition: opacity var(--motion-menu-fade-out), transform 0s var(--motion-menu-fade-out-duration), visibility 0s var(--motion-menu-fade-out-duration);
+}
+
+.listbox[data-animated][data-open] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition: opacity var(--motion-menu-scale-in), transform var(--motion-menu-scale-in), visibility 0s;
+}
+
+.calendar[data-animated] {
+  transform-origin: top left;
+  opacity: 0;
+  transform: scale(var(--motion-menu-scale-in-scale));
+  visibility: hidden;
+  transition: opacity var(--motion-menu-fade-out), transform 0s var(--motion-menu-fade-out-duration), visibility 0s var(--motion-menu-fade-out-duration);
+}
+
+.calendar[data-animated][data-open] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition: opacity var(--motion-menu-scale-in), transform var(--motion-menu-scale-in), visibility 0s;
+}
+
+/* ---------- 칩 입력 (CC-85~CC-88): 쉼표·Enter로 칩을 만든다. 칸 전체가 입력 칸처럼 보이고 초점 고리도 칸에 ---------- */
+
+.chips {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--size-control-2);
+  padding: var(--space-half) var(--space-1);
+  border: var(--border-1) solid var(--color-control-border);
+  border-radius: var(--radius-2);
+  background: var(--color-control);
+  cursor: text;
+}
+
+/* 칩 입력의 제안 목록은 칸 테두리 바깥 기준: 칸 아래 4, 폭은 칸 테두리와 같다(자동 완성 목록과 같게) */
+.chips > .listbox {
+  top: calc(100% + var(--border-1) + var(--space-half));
+  inset-inline: calc(var(--border-1) * -1);
+}
+
+.chips:has(.chips__input:focus-visible) {
+  outline: var(--border-2) solid var(--color-focus-ring);
+  outline-offset: var(--border-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-half);
+  min-height: calc(var(--size-control-2) - var(--space-1) - var(--border-2));
+  padding-inline: var(--space-1) var(--space-half);
+  border-radius: var(--radius-1);
+  background: var(--color-fill-2);
+  color: var(--color-text-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  white-space: nowrap;
+}
+
+.chip .button--icon {
+  min-width: var(--space-3);
+  min-height: var(--space-3);
+  color: var(--color-text-3);
+}
+
+.chips__input {
+  flex: 1;
+  min-width: calc(var(--space-8) * 1.5);
+  height: calc(var(--size-control-2) - var(--space-1) - var(--border-2));
+  padding: 0 var(--space-half);
+  border: 0;
+  background: transparent;
+  color: var(--color-control-text);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+}
+
+.chips__input:focus-visible {
+  outline: none;
+}
+
+.chips__input::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+/* ---------- 오른쪽 클릭 메뉴 (CC-126~CC-130)·편집 명령 (10.27): 포인터 자리에 연다 ---------- */
+
+.menu--context {
+  position: fixed;
+  top: 0;
+  left: 0;
+  inset-inline-end: auto;
+  z-index: 25;
+}
+
+.menu--context[data-animated] {
+  transform-origin: top left;
+}
+
+/* ---------- 묶음 상자 (CN-99~CN-101): 제목은 상자 위, 안의 하위 묶음은 여백·선으로(상자 안에 상자를 넣지 않는다) ---------- */
+
+.groupbox {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* 제목은 상자 안 행 글자와 같은 시작선(상자 안쪽 24 + 테두리) */
+.groupbox__title {
+  margin: 0;
+  padding-inline: calc(var(--space-3) + var(--border-1));
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  color: var(--color-text-2);
+}
+
+.groupbox__box {
+  display: grid;
+  padding: 0 var(--space-3);
+  border: var(--border-1) solid var(--color-separator);
+  border-radius: var(--radius-3);
+  background: var(--color-background-2);
+}
+
+.groupbox__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: calc(var(--size-control-2) + var(--space-3));
+}
+
+.groupbox__row + .groupbox__row {
+  border-top: var(--border-1) solid var(--color-separator);
+}
+
+.groupbox__label {
+  display: grid;
+  gap: var(--space-half);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.groupbox__desc {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-3);
+}
+
+/* ---------- 아바타 (CN-102, CN-103): 사진, 없으면 머리글자 ---------- */
+
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--size-control-2);
+  height: var(--size-control-2);
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--color-fill-1);
+  color: var(--color-text-1);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  user-select: none;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar--small {
+  width: var(--size-control-1);
+  height: var(--size-control-1);
+}
+
+.avatar-group {
+  display: inline-flex;
+}
+
+.avatar-group .avatar {
+  box-shadow: 0 0 0 var(--border-2) var(--color-background-1);
+}
+
+.avatar-group .avatar + .avatar {
+  margin-inline-start: calc(var(--space-half) * -1);
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.person__text {
+  display: grid;
+  gap: var(--space-half);
+  min-width: 0;
+}
+
+.person__name {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  color: var(--color-text-1);
+}
+
+.person__meta {
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  color: var(--color-text-3);
+}
+
+/* ---------- 문맥 안 상태 표시·배지 (CN-143, CN-151~CN-154) ---------- */
+
+/* 숫자 배지는 안 읽은 항목 수에만, 느낌표 배지는 주의가 필요한 새 정보에만(CN-151) */
+/* 안쪽 좌우 6(layout.md 예외 표): 한 자리 배지가 원(20)으로 남는 값. 두 자리부터 알약으로 늘어난다 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  min-width: var(--size-icon-2);
+  height: var(--size-icon-2);
+  padding: 0 calc(var(--space-half) + var(--border-2));
+  border-radius: calc(var(--size-icon-2) / 2);
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+.badge--alert {
+  background: var(--color-status-danger);
+}
+
+.sidebar__item .badge {
+  margin-inline-start: auto;
+}
+
+/* 강조 선택된 행 안에서는 테두리만 남긴다(강조색 위 강조색이 되지 않게) */
+.sidebar:is(:focus-within, [data-active]) .sidebar__item[aria-current] .badge {
+  background: transparent;
+  color: var(--color-text-on-accent);
+  box-shadow: inset 0 0 0 var(--border-1) var(--color-text-on-accent);
+}
+
+/* 상태 표시: 대상 바로 옆에 아이콘 + 짧은 글(색만으로 알리지 않는다) */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-half);
+  min-height: var(--space-3);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-1);
+  background: none;
+  color: var(--color-text-3);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  white-space: nowrap;
+}
+
+.status[data-kind="success"] .icon { color: var(--color-status-success); }
+.status[data-kind="warning"] .icon { color: var(--color-status-warning); }
+.status[data-kind="error"] { color: var(--color-status-error); }
+
+/* 누르면 자세한 내용을 여는 상태 표시(CN-143 예: 연결 끊김) */
+@media (hover: hover) and (pointer: fine) {
+  button.status:hover {
+    text-decoration: underline;
+    text-underline-offset: var(--border-2);
+  }
+}
+
+/* ---------- 모션 예외 ---------- */
+
+/* 키보드로 한 동작은 바로 바꾼다(MO-03): 누름·이동·여닫기 모두 */
+[data-input="keyboard"] :is(.button, .segmented__item, .switch__thumb, [data-animated], [data-animated] .dialog, .tooltip, .modal) {
+  transition: none;
+}
+
+[data-input="keyboard"] :is(.modal::backdrop, .disclosure__content) {
+  transition: none;
+  animation: none;
+}
+
+/* 동작 줄이기(MO-05): 여닫기는 패턴 토큰이 위치·크기 변화를 빼고 투명도만 남긴다(tokens/motion.json reduced).
+   손잡이는 즉시 옮긴다(motion-thumb-slide-move = 0s). 누름은 크기 대신 투명도로 보인다.
+   [data-reduced-motion]은 견본의 「동작 줄이기 흉내」다 */
+@media (prefers-reduced-motion: reduce) {
+  :is(.button, .segmented__item) {
+    transition: none;
+  }
+  :is(.button, .segmented__item):active {
+    transform: none;
+    opacity: 0.8;
+  }
+}
+
+[data-reduced-motion] :is(.button, .segmented__item) {
+  transition: none;
+}
+
+[data-reduced-motion] :is(.button, .segmented__item):active {
+  transform: none;
+  opacity: 0.8;
+}

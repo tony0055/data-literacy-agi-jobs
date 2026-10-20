@@ -1,0 +1,53 @@
+<!-- 31 데이터분석 계획 1 · 질문과 데이터: 위 12열에 1단계 질문(묶음), 아래 8열에 2~4단계 계획(표 + 수업 주차 각주) + 4열에 두 갈래로 갈라지는 길 그림(16:9). 30 · 32장과 같은 8 + 4 나눔 · 같은 표 열 -->
+<section class="slide s31">
+  <div class="head">
+    <p class="tag section-tag" data-hue="blue">검증과 계획</p>
+    <h2 class="headline">다음 분석은 AI가 신입 채용을 줄였는지를 물어요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <section class="group span-12" aria-labelledby="s31-q">
+        <h3 class="group__title s31-qtitle" id="s31-q"><span class="s31-no">1</span> 질문</h3>
+        <div class="group__rows">
+          <div class="group__row">
+            <p class="t-body-strong">AI 노출이 높은 직업일수록 2023년 이후 <mark>청년·신입</mark> 고용이 더 줄었나요?</p>
+          </div>
+          <dl class="group__row s31-def">
+            <dt>조작적 정의</dt>
+            <dd>노출 = Eloundou β를 한국 직업분류(KSCO)에 연결</dd>
+            <dd><span class="nowrap">청년 = 15~29세</span></dd>
+          </dl>
+        </div>
+      </section>
+      <div class="stack span-8" data-gap="1">
+        <div class="table table--wrap table--multiline s31-table" role="table" aria-label="2~4단계 계획 표">
+          <div class="table__head" role="row">
+            <span role="columnheader">단계 · 무엇을</span>
+            <span role="columnheader">데이터(한 행의 의미)</span>
+            <span role="columnheader">방법 · 수업 연결</span>
+          </div>
+          <div class="table__row" role="row">
+            <div class="table__cell s31-step" role="rowheader"><p class="s31-step__name"><span class="s31-no">2</span> 확보</p><p class="table__cell--sub">직업 × 연령 × 연도 표</p></div>
+            <div class="table__cell" role="cell">KOSIS 지역별고용조사 <span class="nowrap">(한 행 = 직업 중분류·연령·반기),</span> <span class="nowrap">미국 OEWS 2017~2025</span></div>
+            <div class="table__cell" role="cell">출처 목록(sources.csv)에 URL·행 수·해시 <span class="s31-week">(2주)</span></div>
+          </div>
+          <div class="table__row" role="row">
+            <div class="table__cell s31-step" role="rowheader"><p class="s31-step__name"><span class="s31-no">3</span> 진단·정제</p><p class="table__cell--sub">분류 변경·결측·작은 셀</p></div>
+            <div class="table__cell" role="cell">KSCO 7차 개정 연결표</div>
+            <div class="table__cell" role="cell">두 단계를 나누고 <span class="nowrap">cleaning-log에 기록</span> <span class="s31-week">(3주)</span></div>
+          </div>
+          <div class="table__row" role="row">
+            <div class="table__cell s31-step" role="rowheader"><p class="s31-step__name"><span class="s31-no">4</span> 기술 통계</p><p class="table__cell--sub">분포·이상치 후보</p></div>
+            <div class="table__cell" role="cell">직업별 변화율</div>
+            <div class="table__cell" role="cell">평균·중앙값·표준편차(분모 n인지 n−1인지 명시), <span class="nowrap">z와 IQR</span> 양쪽 울타리 <span class="s31-week">(4·5주)</span></div>
+          </div>
+        </div>
+        <p class="footnote">괄호 안은 각 방법을 다루는 수업 주차예요.</p>
+      </div>
+      <figure class="media span-4" data-ratio="16:9">
+        <img src="assets/img/32-forked-path.jpg" width="2400" height="1792" alt="">
+      </figure>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">수업 방법 결정표(course-domain/method-selector.md)</p><p class="where"><span class="sec">데이터분석 계획 1 · 질문과 데이터</span><span class="pg"></span></p></footer>
+</section>

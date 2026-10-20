@@ -1,0 +1,113 @@
+<!-- 15 직업군 섞어 보기 · 숫자 두 개와 가려졌을 수 있는 이유 묶음(5열) + 대분류 18개 안 순위 상관 막대(7열, 손 SVG) -->
+<!-- 막대 값 · 직업 수 · 구간: analysis/out/occupation_results.json corr.eloundou_beta.대분류별_22_25(spearman_rho · n · spearman_95ci_bootstrap).
+     대분류 22개 중 직업 15개 이상인 18개만(occupation_analysis.py len(g) >= 15). 파랑 = 평균 β가 가장 큰 두 대분류(major_summary 노출도_beta_평균 1위 컴퓨터·수학 0.757,
+     2위 사무·행정 지원 0.609) — 색 범례 대신 두 막대의 0 오른쪽(빈 쪽)에 「평균 노출도 1위 · 2위」 이름표를 바로 단다(3회차 C3-01, CN-123). 값 이름표는 가장 긴 막대와 파랑 둘.
+     막대 이름은 차트 시작선에 왼쪽 맞춤, 직업 수는 이름 열 끝에 끝 맞춤(3회차 SL3-03). 막대 하나 = 대분류 하나, 뺀 대분류 풀이는 꼬리말 · 차트 출처에서 부제로 옮겼다(3회차 C3-01 · T3-03).
+     예술·미디어 구간 [−0.603, 0.0]은 위 끝이 0에 닿아 「모두 0보다 작은 곳」에서 뺀다(2회차 D-30).
+     가려졌을 수 있는 이유: course_checks.9주_심슨점검(판단 · 교란후보), major_summary 경영·재무 평균 β 0.525 · +9.1%, 관리직 0.467 · +13.3%(2회차 D-11) -->
+<section class="slide s15">
+  <div class="head">
+    <p class="tag section-tag" data-hue="yellow">실제 고용</p>
+    <h2 class="headline">직업군을 섞어 보면 관계가 가려졌을 수 있어요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <div class="span-5 stack" data-gap="4">
+        <section class="group" aria-label="대분류로 나눠 잰 상관">
+          <div class="group__rows">
+            <div class="group__row">
+              <p class="t-label c-text-2">직업이 15개 이상인 대분류 18개 중 음의 상관이 나온 곳</p>
+              <p class="figure">11<span class="figure__unit">개</span></p>
+              <p>그중 부트스트랩 95% 구간 전체가 0보다 작은 대분류는 의료 지원, 사무·행정 지원 2곳뿐이에요. 예술·미디어는 위 끝이 0에 닿아 뺐어요.</p>
+            </div>
+            <div class="group__row">
+              <p class="t-label c-text-2">대분류별 평균 차이를 빼고 다시 재면</p>
+              <p class="figure">r = −0.078</p>
+              <p>직업 770개 · 95% 구간 −0.16~0.004</p>
+            </div>
+          </div>
+        </section>
+        <section class="group" aria-labelledby="s15-why">
+          <h3 class="group__title" id="s15-why">그럴 수 있는 이유</h3>
+          <div class="group__rows">
+            <div class="group__row">
+              <h4>노출이 큰 편인 대분류의 성장</h4>
+              <p>경영·재무(평균 β 0.525, +9.1%)와 관리직(β 0.467, +13.3%)이 <span class="nowrap">경기·구성</span> 요인으로 함께 늘면서 대분류 안의 음의 관계를 덮었을지 몰라요.</p>
+            </div>
+            <div class="group__row">
+              <h4>둘 다에 영향을 줬을 수 있는 원인(교란 후보)</h4>
+              <p>금리 인상 뒤 테크 채용 조정, 원격근무 확산, 직업 안 연령 구성, 해외 이전과 업무 재분류. 그래서 결론은 ‘함께 움직인다’(기술)까지만&nbsp;써요.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <figure class="chart span-7">
+        <figcaption class="chart-head">
+          <p class="chart-title">대분류 안에서 잰 AI 노출도와 고용 변화율의 순위 상관(ρ)</p>
+          <p class="chart-sub">전체로는 0에 가깝지만 사무·행정은 <span class="nowrap">ρ = −0.29,</span> 컴퓨터·수학은 −0.35예요. 막대마다 대분류 하나, 이름&nbsp;옆 숫자는 직업&nbsp;수예요. 15개 미만인 사회복지, 법률, 건물 관리, 농림어업은 뺐어요.</p>
+        </figcaption>
+        <svg width="662" height="368" viewBox="0 0 662 368" role="img" aria-labelledby="s15-svg-t" aria-describedby="s15-svg-d">
+        <title id="s15-svg-t">직업 대분류 안에서 잰 AI 노출도와 고용 변화율의 순위 상관</title>
+        <desc id="s15-svg-d">가로 막대 차트예요. 직업이 15개 이상인 미국 직업 대분류 18개마다 그 안의 직업들로 AI 노출도 β와 2022→2025 고용 변화율의 Spearman 순위 상관을 쟀어요. 11개 대분류가 0보다 작고 7개는 커요. 의료 지원 −0.65(직업 16개), 컴퓨터·수학 −0.35(21개), 사무·행정 지원 −0.29(50개). 부트스트랩 95% 구간이 모두 0보다 작은 곳은 의료 지원과 사무·행정 지원이에요. 파랑 막대 둘은 평균 노출도가 가장 큰 두 대분류(컴퓨터·수학, 사무·행정 지원)예요.</desc>
+        <g class="grid-lines">
+        <line x1="228.4" y1="6" x2="228.4" y2="348"/>
+        <line x1="306.8" y1="6" x2="306.8" y2="348"/>
+        <line x1="385.2" y1="6" x2="385.2" y2="348"/>
+        <line x1="542.0" y1="6" x2="542.0" y2="348"/>
+        <line x1="620.4" y1="6" x2="620.4" y2="348"/>
+        </g>
+        <text class="tick" aria-hidden="true" x="228.4" y="364" text-anchor="middle">−0.6</text>
+        <text class="tick" aria-hidden="true" x="306.8" y="364" text-anchor="middle">−0.4</text>
+        <text class="tick" aria-hidden="true" x="385.2" y="364" text-anchor="middle">−0.2</text>
+        <text class="tick" aria-hidden="true" x="463.6" y="364" text-anchor="middle">0</text>
+        <text class="tick" aria-hidden="true" x="542.0" y="364" text-anchor="middle">+0.2</text>
+        <text class="tick" aria-hidden="true" x="620.4" y="364" text-anchor="middle">+0.4</text>
+        <text class="cat" aria-hidden="true" x="0" y="19.5">의료 지원</text><text class="s15-n" aria-hidden="true" x="124" y="19.5" text-anchor="end">16개</text>
+        <rect class="bar s-ctx neg" x="207.6" y="10.5" width="256.0" height="10" data-x="의료 지원" data-y="-0.653"/>
+        <text class="vlab" x="199.6" y="19.5" text-anchor="end">−0.65</text>
+        <text class="cat cat-hi" aria-hidden="true" x="0" y="38.5">컴퓨터·수학</text><text class="s15-n" aria-hidden="true" x="124" y="38.5" text-anchor="end">21개</text>
+        <rect class="bar s-main neg" x="324.8" y="29.5" width="138.8" height="10" data-x="컴퓨터·수학" data-y="-0.354"/>
+        <text class="vlab" x="316.8" y="38.5" text-anchor="end">−0.35</text>
+        <text class="note" x="471.6" y="38.5">평균 노출도 1위</text>
+        <text class="cat" aria-hidden="true" x="0" y="57.5">예술·미디어</text><text class="s15-n" aria-hidden="true" x="124" y="57.5" text-anchor="end">36개</text>
+        <rect class="bar s-ctx neg" x="335.8" y="48.5" width="127.8" height="10" data-x="예술·미디어" data-y="-0.326"/>
+        <text class="cat cat-hi" aria-hidden="true" x="0" y="76.5">사무·행정 지원</text><text class="s15-n" aria-hidden="true" x="124" y="76.5" text-anchor="end">50개</text>
+        <rect class="bar s-main neg" x="351.5" y="67.5" width="112.1" height="10" data-x="사무·행정 지원" data-y="-0.286"/>
+        <text class="vlab" x="343.5" y="76.5" text-anchor="end">−0.29</text>
+        <text class="note" x="471.6" y="76.5">평균 노출도 2위</text>
+        <text class="cat" aria-hidden="true" x="0" y="95.5">설치·정비</text><text class="s15-n" aria-hidden="true" x="124" y="95.5" text-anchor="end">50개</text>
+        <rect class="bar s-ctx neg" x="352.7" y="86.5" width="110.9" height="10" data-x="설치·정비" data-y="-0.283"/>
+        <text class="cat" aria-hidden="true" x="0" y="114.5">경영·재무</text><text class="s15-n" aria-hidden="true" x="124" y="114.5" text-anchor="end">30개</text>
+        <rect class="bar s-ctx neg" x="358.2" y="105.5" width="105.4" height="10" data-x="경영·재무" data-y="-0.269"/>
+        <text class="cat" aria-hidden="true" x="0" y="133.5">보안</text><text class="s15-n" aria-hidden="true" x="124" y="133.5" text-anchor="end">23개</text>
+        <rect class="bar s-ctx neg" x="381.3" y="124.5" width="82.3" height="10" data-x="보안" data-y="-0.21"/>
+        <text class="cat" aria-hidden="true" x="0" y="152.5">교육</text><text class="s15-n" aria-hidden="true" x="124" y="152.5" text-anchor="end">58개</text>
+        <rect class="bar s-ctx neg" x="391.1" y="143.5" width="72.5" height="10" data-x="교육" data-y="-0.185"/>
+        <text class="cat" aria-hidden="true" x="0" y="171.5">판매</text><text class="s15-n" aria-hidden="true" x="124" y="171.5" text-anchor="end">21개</text>
+        <rect class="bar s-ctx neg" x="392.6" y="162.5" width="71.0" height="10" data-x="판매" data-y="-0.181"/>
+        <text class="cat" aria-hidden="true" x="0" y="190.5">의료 전문</text><text class="s15-n" aria-hidden="true" x="124" y="190.5" text-anchor="end">67개</text>
+        <rect class="bar s-ctx neg" x="397.7" y="181.5" width="65.9" height="10" data-x="의료 전문" data-y="-0.168"/>
+        <text class="cat" aria-hidden="true" x="0" y="209.5">과학</text><text class="s15-n" aria-hidden="true" x="124" y="209.5" text-anchor="end">47개</text>
+        <rect class="bar s-ctx neg" x="444.0" y="200.5" width="19.6" height="10" data-x="과학" data-y="-0.05"/>
+        <text class="cat" aria-hidden="true" x="0" y="228.5">생산</text><text class="s15-n" aria-hidden="true" x="124" y="228.5" text-anchor="end">98개</text>
+        <rect class="bar s-ctx" x="463.6" y="219.5" width="9.0" height="10" data-x="생산" data-y="0.023"/>
+        <text class="cat" aria-hidden="true" x="0" y="247.5">관리직</text><text class="s15-n" aria-hidden="true" x="124" y="247.5" text-anchor="end">36개</text>
+        <rect class="bar s-ctx" x="463.6" y="238.5" width="11.4" height="10" data-x="관리직" data-y="0.029"/>
+        <text class="cat" aria-hidden="true" x="0" y="266.5">건축·공학</text><text class="s15-n" aria-hidden="true" x="124" y="266.5" text-anchor="end">35개</text>
+        <rect class="bar s-ctx" x="463.6" y="257.5" width="11.8" height="10" data-x="건축·공학" data-y="0.03"/>
+        <text class="cat" aria-hidden="true" x="0" y="285.5">운송</text><text class="s15-n" aria-hidden="true" x="124" y="285.5" text-anchor="end">45개</text>
+        <rect class="bar s-ctx" x="463.6" y="276.5" width="24.3" height="10" data-x="운송" data-y="0.062"/>
+        <text class="cat" aria-hidden="true" x="0" y="304.5">개인 서비스</text><text class="s15-n" aria-hidden="true" x="124" y="304.5" text-anchor="end">28개</text>
+        <rect class="bar s-ctx" x="463.6" y="295.5" width="48.2" height="10" data-x="개인 서비스" data-y="0.123"/>
+        <text class="cat" aria-hidden="true" x="0" y="323.5">건설</text><text class="s15-n" aria-hidden="true" x="124" y="323.5" text-anchor="end">56개</text>
+        <rect class="bar s-ctx" x="463.6" y="314.5" width="76.8" height="10" data-x="건설" data-y="0.196"/>
+        <text class="cat" aria-hidden="true" x="0" y="342.5">음식 서비스</text><text class="s15-n" aria-hidden="true" x="124" y="342.5" text-anchor="end">15개</text>
+        <rect class="bar s-ctx" x="463.6" y="333.5" width="154.1" height="10" data-x="음식 서비스" data-y="0.393"/>
+        <line class="base" x1="463.6" y1="6" x2="463.6" y2="348"/>
+        </svg>
+        <p class="chart-src">미국 직업 대분류 18개 · 2022→2025 · BLS OEWS · Eloundou 외 β <span class="tag" data-hue="indigo">기술</span></p>
+      </figure>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">analysis/occupation_analysis.py · 대분류별 ρ와 부트스트랩 구간 · 대분류 평균을 뺀 상관(부트스트랩 2,000회, 시드 42)</p><p class="where"><span class="sec">실제 고용 1 · 수업 9주 층화 · 심슨의 역설</span><span class="pg"></span></p></footer>
+</section>

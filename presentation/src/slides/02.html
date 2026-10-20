@@ -1,0 +1,34 @@
+<!-- 02 전제 · 막대 차트를 본문 폭 전체로, 용어 두 개는 그 아래 두 칸(묶음 제목 + 칸 사이 세로선, 바탕 상자 없음). 차트 제목 · 묶음 제목은 h3, 항목 제목은 h4(3회차 T3-17).
+     장 제목(3회차 W-01 · D3-04): report.md §0-1 · relations.json R1 해석은 「같은 기간」, 등급 기술(원인 아님) — 순서 · 원인으로 읽히는 「그 뒤로」를 쓰지 않는다. 같은 낱말 되풀이를 줄인 글(사용자 2026. 10. 21.): 「사이 … 도」로 같은 기간만 말하고, 「훨씬」은 188일 → 105일(약 1.8배 빨라짐)이라 쓴다.
+     계산 방법(회귀 풀이, 3회차 W-25)은 읽어야 하는 단서라 차트 안 그림 뒤 각주(p.footnote, 3회차 결정)로, 차트 출처는 파일 · 기준일만.
+     차트 높이: 행 48(본문 447 안에 각주 한 줄이 들게 56에서 줄임). 이름표 폭 92 = 가장 긴 이름 「2019년 이후 전체」 실측 91.3 — 이름 시작이 본문 시작선(3회차 SL3-03) -->
+<section class="slide s02">
+  <div class="head">
+    <p class="tag section-tag" data-hue="blue">질문과 결론</p>
+    <h2 class="headline">AI 회사들이 자사 모델의 도움으로 다음 모델을 만드는 사이<br>능력이 커지는 속도도 훨씬 빨라졌어요</h2>
+  </div>
+  <div class="body">
+    <figure class="chart" data-chart="metr_horizon" data-path="배가주기_일" data-kind="hbar" data-w="1152" data-row-h="48" data-label-w="92" data-unit="일" data-digits="0" data-main="2024이후" data-labels='{"2019이후":"2019년 이후 전체","2023이후":"2023년 이후","2024이후":"2024년 이후"}'>
+      <figcaption class="chart-head">
+        <h3 class="chart-title">AI가 맡을 수 있는 업무 크기가 두 배가 되는 데 걸린 기간(일)</h3>
+        <p class="chart-sub">짧을수록 업무 크기가 빨리 커진다는 뜻이에요.</p>
+      </figcaption>
+      <p class="footnote">시작 연도마다 발표 당시 최고 기록을 세운 모델들의 점에 가장 잘 맞는 직선을 찾는 회귀로 계산했어요.</p>
+      <p class="chart-src">계산 analysis/timeline_analysis.py · 2026. 10. 16. 확인 <span class="tag" data-hue="indigo">기술</span></p>
+    </figure>
+    <section class="group" aria-labelledby="s02-term">
+      <h3 class="group__title" id="s02-term">용어</h3>
+      <div class="group__cols" data-cols="2">
+        <div class="group__cell">
+          <h4 class="t-body-strong">AI가 맡을 수 있는 업무 크기</h4>
+          <p>AI가 절반 확률로 끝내는 과제를 사람이 하면 걸리는 시간으로 재요(METR 50% 시간지평). 앞으로는 이 크기를 ‘AI 능력’이라고도 불러요.</p>
+        </div>
+        <div class="group__cell">
+          <h4 class="t-body-strong">재귀적 자기개선</h4>
+          <p>AI가 다음 모델 개발을 돕는 일을 말해요. 회사들이 밝힌 사례는 6장에서 봐요.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="foot"><p class="source">METR Time Horizon 1.1 원본 YAML(2026년 5월 갱신)</p><p class="where"><span class="sec">전제</span><span class="pg"></span></p></footer>
+</section>

@@ -1,0 +1,49 @@
+/* 32 계획 2: 왼쪽 8열 5~7단계 표 + 각주, 오른쪽 4열 이중차분 개념 그림 + 그림 각주, 아래 12열 주차 일정(덱 시간축).
+ * - 표는 31장과 같은 열(8열 격자에 2 · 3 · 3열 = 172 · 270 · 270)과 행 모양(시스템 표, 행 위아래 8)이라 31 → 32로 넘겨도 칸이 제자리에 있다.
+ *   여러 줄 칸이 섞여 덱 공통 변형 .table--multiline(첫 줄 기준선 맞춤 · text-wrap: pretty)을 쓴다. 행 높이 = 내용 높이.
+ *   칸 안 여러 항목은 쉼표로 잇는다(WR-91 — 줄 끝에 「·」 구분점이 남지 않게, 3회차 T3-08).
+ *   교란 후보는 덱 안 숫자와 맞춰 「교란 후보 점검(15장에서 든 4개)」(3회차 W-22, 오케스트레이터 결정 2026. 10. 21. — 수업 점검 항목
+ *   method-selector.md 「교란 후보 3개」는 최소 기준, 덱에는 analysis/out/occupation_results.json 교란후보 4개를 쓴다).
+ * - 표 아래 각주(p.footnote, 표 → 8): 괄호 주차의 뜻과 「7주부터 16주까지는 계획 문서 기준」 — 꼬리말에 있던 단서를 본문으로 옮겼다
+ *   (3회차 C3-01 · T3-03, 꼬리말은 출처만). 표 아래 빈 곳(SL3-08 — 표 293 · 그림 388)을 행을 늘리지 않고 이 각주로 메운다.
+ * - 개념 그림은 손 SVG를 figure.chart 안에 두고 차트 클래스를 빌린다(viewBox = 실제 픽셀). 등장 모션이 없어 data-step 표시는 두지 않는다(L-03 · SC-14).
+ *   노출 큰 직업 = 이 장의 핵심 계열 s-main(나란히 갔을 경로는 같은 색 점선 — color.md에 적힌 이 장만의 파선 뜻), 노출 작은 직업 = 맥락 s-ctx,
+ *   2023년 = 문턱 점선(.gate), 이중차분 = 지시선 괄호(.leader). 값이 없는 그림이라 눈금 숫자를 두지 않는다. 두 직선 기울기는 같다(−0.110, 나란함).
+ *   그림 높이 156(3회차에 168에서 줄임 — 일정을 시간축으로 바꾸며 본문이 3px 넘쳐 fit.js 「본문 아래」에 걸렸다. 세로만 116/124로 눌러 비례 · 평행은 그대로).
+ *   「선의 높이는 실제 값이 아니에요」는 읽어야 하는 단서라 차트 출처(text-3)가 아니라 그림 뒤 각주(text-2)로 둔다. 출처 줄은 없다(자료가 없는 개념 그림).
+ * - 일정(3회차 SC-02 · C3-03 · C3-04): 채운 막대 띠(파랑 한 칸 + 회색 네 칸)를 지우고 29장과 같은 덱 시간축(.timeline — 단계 위 가는 선 + 주차 + 이름)으로 그린다.
+ *   어느 단계도 파랑으로 칠하지 않는다(누를 수 없는 강조는 파랑이 아니다 — CO-35). 주차는 시간축 그대로 label-strong · text-2(값이 있는 글, CO-05).
+ *   단계 칸은 12열 격자 선에 선다 — 2 · 3 · 2 · 3 · 2열(시작 64 · 260 · 554 · 750 · 1044). 두 주짜리 단계(10~11주 · 13~14주)가 한 열 넓다
+ *   (기간 비례는 주차 글자가 말하고, 칸 폭은 격자 선을 지킨다).
+ * - 맨 아래 핵심 한 문장(.takeaway, 본문 맨 아래 같은 자리): 개념 그림의 「사전 추세 점검」 · 「나란히 갔다면」을 글로 — 이중차분을 원인 쪽으로 읽는 조건. */
+.s32 .s32-table :is(.table__head, .table__row) {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.s32 .s32-table :is(.table__head, .table__row) > :first-child { grid-column: span 2; }
+.s32 .s32-table :is(.table__head, .table__row) > :not(:first-child) { grid-column: span 3; }
+
+.s32 .s32-step {
+  display: flex;
+  gap: var(--space-1);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.s32 .s32-no {
+  color: var(--color-text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 수업 주차는 「방법 · 수업 연결」 열의 내용이라 읽어야 하는 글 — text-2(CO-05) */
+.s32 .s32-week {
+  color: var(--color-text-2);
+}
+
+/* 일정: 12열 격자 위의 시간축 — 단계 칸이 열을 걸친다 */
+.s32 .s32-timeline {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.s32 .s32-timeline > :nth-child(odd) { grid-column: span 2; }
+.s32 .s32-timeline > :nth-child(even) { grid-column: span 3; }

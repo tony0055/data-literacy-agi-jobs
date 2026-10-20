@@ -1,0 +1,5 @@
+/* 06 재귀적 자기개선 · 지금 보이는 사례
+ * - 아래 사례 두 칸의 설명 문단은 읽기 폭 40em에서 멈춘다(2회차 SL-15, TY-44 — 칸 폭 564에서 한 줄이 41.9em까지 늘던 것).
+ * - 문단 끝 꼬리표(24)가 라벨 줄(20)을 키우지 않게 꼬리말 · 차트 출처와 같은 위아래 −4 광학 보정(3회차 T3-10 · SL3-10 · SC-07). */
+.s06 .group__cell > p { max-width: var(--layout-line-length); }
+.s06 .group__cell > p .tag { margin-block: calc(var(--space-half) * -1); }

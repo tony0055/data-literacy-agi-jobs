@@ -1,0 +1,9 @@
+/* 15 직업군 섞어 보기 */
+/* 막대 이름 옆 직업 수: 이름(type-label)보다 한 단계 낮은 캡션 크기, 색은 text-2 — 값을 지닌 글이라 3단계 색에 싣지 않는다(정본 CO-05, 3회차 C3-04).
+ * 이름은 시작선에 왼쪽 맞춤, 직업 수는 이름 열 끝에 끝 맞춤해 한 열로 쌓는다 */
+.s15 .chart svg .s15-n {
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  fill: var(--color-text-2);
+}

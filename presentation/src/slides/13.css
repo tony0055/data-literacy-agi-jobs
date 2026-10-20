@@ -1,0 +1,31 @@
+/* 13 직업 전체 상관 */
+/* 손 그림: 원본은 네 직업의 손 2×2 격자(2400 × 1792)다. 오른쪽 아래 칸(노트북 손 — 가로축의 컴퓨터 일 끝)만 한 장으로 보여 준다.
+ * 아래 두 칸을 따로 보이면 왼쪽 칸에 워터마크가 없었고(3회차 M-02), 두 칸을 한 장으로 자르면 가운데 흰 홈이 이음선으로 남았다(2회차 S-10 · SL-14).
+ * 비율은 덱 비율 세트의 16:9(figure에 data-ratio="16:9" — 칸 폭 기준 컨테이너가 된다), 높이는 deck.css와 같게 4px 격자로 반올림(3회차 SL3-11).
+ * 덱 변수 --media-ratio는 장 CSS 단독 검사(check.mjs --scan=src/slides)에서 없는 토큰으로 잡혀 같은 값 16 / 9를 여기 적는다.
+ * 폭은 4열 안 3열(270 — 사진 폭 단계 270 · 368 · 466, 시작선은 4열 시작선). 그림이 칸의 직계 img가 아니라 덱 규칙 대신 칸(span)에 비율을 건다:
+ * 칸 안에 원본을 2400/1194배 폭으로 놓고 오른쪽 아래에 붙이면 원본 격자 한 칸(가로 1194, 흰 홈 x 1194~1205) 안만 보이고 오른쪽 아래 워터마크가 남는다 */
+.s13 .s13-media {
+  width: calc(75% - var(--layout-gutter) / 4);
+}
+
+/* 폭은 칸 폭 그대로, 높이는 round()가 있으면 4px 격자로 반올림한 값(폭 · 높이를 다 정하면 비율은 쓰이지 않는다). round()가 없는 브라우저는 높이 선언을 버리고 비율로 높이를 낸다 */
+.s13 .s13-cell {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  height: round(nearest, calc(100cqi * 9 / 16), var(--space-half));
+  border-radius: var(--radius-2);
+}
+
+.s13 .s13-cell > img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: block;
+  width: calc(100% * 2400 / 1194);
+  max-width: none;
+  height: auto;
+}

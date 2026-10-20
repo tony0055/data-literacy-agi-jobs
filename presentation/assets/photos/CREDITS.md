@@ -6,9 +6,17 @@
 | amodei.jpg | https://commons.wikimedia.org/wiki/File:Dario_Amodei_in_2023.jpg | UK Prime Minister Flickr 계정 (2023-05-24) | CC BY 2.0 |
 | hassabis.jpg | https://commons.wikimedia.org/wiki/File:Demis_Hassabis_at_2024_Nobel_Week_2.jpg | Jenny8lee (2024-12-07) | CC BY-SA 4.0 |
 
-덱에서는 잘라서(object-fit) 쓰고, 해당 장 하단에 촬영자·라이선스를 적는다.
+덱에서는 잘라서(object-fit) 쓰고, 해당 장(9장) 꼬리말에 촬영자·라이선스를 적는다.
 
-## 장면 사진 (이미지 생성이 안 될 때 쓰는 대체본)
+## 폴더에 있지만 덱에서 안 쓰는 파일(2026. 10. 21. 확인 — `grep -o 'assets/photos/[^"]*' src/slides/*.html`)
+
+| 파일 | 무엇 | 상태 |
+| --- | --- | --- |
+| openai-livestream-thumb.jpg | OpenAI 라이브 영상(YouTube, 2025. 10. 28.) 썸네일 — 옛 9장 영상 링크 줄에 썼다. 권리는 OpenAI · 출처 기록 없음 | **안 씀**. 9장 영상 링크가 글줄 링크로 바뀌었다. 지울지는 사용자 판단(지우지 않았다) |
+
+## 장면 사진 (이미지 생성이 안 될 때 쓰려던 대체본) — 폴더에 없음
+
+아래 다섯 파일은 지금 `assets/photos/`에 없다(장면 그림은 모두 Gemini 생성 이미지 `assets/img/`로 바꿨다, `assets/img/MANIFEST.md`). 다시 받아 쓸 때를 위해 출처 기록만 남긴다.
 
 | 파일 | 원본 | 촬영자·권리자 | 라이선스 |
 | --- | --- | --- | --- |

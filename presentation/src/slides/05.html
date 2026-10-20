@@ -1,0 +1,52 @@
+<!-- 05 전체 구조 · 흐름 도식(손 SVG, 1152 × 320 실제 픽셀) + 핵심 문장(위 가는 선 + 굵은 본문, 배너 없음).
+     마디는 상자 없이 글자 묶음(이름 + 설명 두세 줄, 가운데 맞춤)이고 연결선이 묶음 가장자리 12 앞에서 멈춘다(2회차 S-01 — 카드 없음).
+     열 가운데 x: 72 · 400 · 716 · 1059 / 줄 위 y: 0 · 120 · 256(일자리 묶음은 가운데 줄 높이에 맞춰 102). 묶음 안: 이름 기준선 +16, 설명 +40 · +60(· +80 · +100).
+     양끝 열은 가장 긴 설명 줄이 도식 양끝(0 · 1152 = 본문 시작선 · 끝선)에 닿게 둔다(3회차 SL3-03 · SL3-15: 잉크가 시작선 안쪽 49 · 끝선 안쪽 46에 있던 것).
+     연결선 이름표 R1~R6 = 뒤 장 꼬리말의 「관계식 Rn」과 같은 번호(analysis/out/relations.json · report.md 3절):
+     R1 배가 가속(AI가 다음 모델 개발을 도와요 → AI 능력, 7 · 8장) · R2 능력 → AGI 예상 · R3 능력 → 직업 자동화 예상(AI 능력 → 전문가 예상, 10 · 11장) ·
+     R4 능력 → 신입 채용 신호(AI 능력 → 컴퓨터로 하는 일, 18장 — 관계식의 가로축이 AI 능력이라 AI 능력에서 나가는 선에 단다, 2회차 D-25) ·
+     R5 연산 → 전력(전력 제한 점선, 21장) · R6 로봇 데이터 시차(로봇 학습 데이터 → 몸을 쓰는 일, 20장).
+     3회차 고친 글: 전력은 21장과 같은 「연 1.15배」(chart-data 표시값 IEA_데이터센터_연배율_소수2, W-36), R5는 「늦출 수 있어요」(relations.json R5 「늦출 수 있는 … 제동 장치」, W-11),
+     몸을 쓰는 일의 시차는 모형 가정(report.md 7절 「이 시차는 추정」, relations.json R6 등급 추정)이라 「봐요」 + 핵심 문장에 추정 꼬리표(W-10), 범위는 낱말로(T3-12) -->
+<section class="slide s05">
+  <div class="head">
+    <p class="tag section-tag" data-hue="blue">질문과 결론</p>
+    <h2 class="headline">따로 보이는 숫자들이 연산·전력에서 일자리까지 이어져요</h2>
+    <p class="lead">컴퓨터 속 AI와 로봇도 한 흐름으로 봐요. 관계식은 한 자료가 바뀔 때 다른 쪽이 얼마나 함께 움직이는지 숫자로 적은 것이고, 연결선에 단 R1부터 R6까지를 뒤 장에서 하나씩 재요.</p>
+  </div>
+  <div class="body">
+    <svg class="diagram" width="1152" height="320" viewBox="0 0 1152 320" role="img" aria-label="연산과 전력이 AI 능력으로 이어지고, 이 능력은 다음 모델 개발을 돕는 고리를 돌며 빨라져요. 능력에서 나간 선은 전문가 예상, 컴퓨터로 하는 일, 로봇 학습 데이터로 가요. 로봇 학습 데이터는 몸을 쓰는 일로, 컴퓨터로 하는 일과 몸을 쓰는 일은 일자리로 모여요. 몸을 쓰는 일은 3년부터 8년까지 늦게 바뀐다고 봐요. 전력은 2030년 전후 능력이 커지는 속도를 늦출 수 있어요. 연결선마다 뒤 장에서 재는 관계식 번호 R1부터 R6까지를 달았어요: R1 개발 가속, R2와 R3 능력에서 전문가 예상, R4 능력에서 컴퓨터로 하는 일, R5 전력 제한, R6 로봇 학습 데이터에서 몸을 쓰는 일.">
+      <defs>
+        <marker id="s05-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+        <marker id="s05-ar-key" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path class="mk mk--key" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+      <g class="node"><text x="72" y="136" text-anchor="middle" class="n-t">연산·전력</text><text x="72" y="160" text-anchor="middle" class="n-s">학습 연산 연 4.1배</text><text x="72" y="180" text-anchor="middle" class="n-s">데이터센터 전력은 연 1.15배</text></g>
+      <g class="node"><text x="400" y="16" text-anchor="middle" class="n-t">AI가 다음 모델 개발을 도와요</text><text x="400" y="40" text-anchor="middle" class="n-s">AI 작성 코드 비율</text><text x="400" y="60" text-anchor="middle" class="n-s">Google 75% · Anthropic 90% 이상</text></g>
+      <g class="node"><text x="400" y="136" text-anchor="middle" class="n-t">AI 능력</text><text x="400" y="160" text-anchor="middle" class="n-s">맡을 수 있는 업무 크기</text><text x="400" y="180" text-anchor="middle" class="n-s">105일마다 두 배</text></g>
+      <g class="node"><text x="716" y="16" text-anchor="middle" class="n-t">전문가 예상</text><text x="716" y="40" text-anchor="middle" class="n-s">능력이 두 배가 될 때마다</text><text x="716" y="60" text-anchor="middle" class="n-s">AGI까지 남은 햇수 3.2년 감소</text></g>
+      <g class="node"><text x="716" y="136" text-anchor="middle" class="n-t">컴퓨터로 하는 일</text><text x="716" y="160" text-anchor="middle" class="n-s">코딩·상담·사무</text><text x="716" y="180" text-anchor="middle" class="n-s">신입 업무부터</text></g>
+      <g class="node"><text x="716" y="272" text-anchor="middle" class="n-t">로봇 학습 데이터</text><text x="716" y="296" text-anchor="middle" class="n-s">원격조작·시뮬레이션</text><text x="716" y="316" text-anchor="middle" class="n-s">회사마다 따로 모아요</text></g>
+      <g class="node"><text x="1059" y="118" text-anchor="middle" class="n-t">일자리</text><text x="1059" y="142" text-anchor="middle" class="n-s">신입 채용이 먼저 줄고</text><text x="1059" y="162" text-anchor="middle" class="n-s">기존 인력의 업무가 바뀌고</text><text x="1059" y="182" text-anchor="middle" class="n-s">인구 감소와 겹쳐</text><text x="1059" y="202" text-anchor="middle" class="n-s">전체 규모에 나타나요</text></g>
+      <g class="node"><text x="1059" y="272" text-anchor="middle" class="n-t">몸을 쓰는 일</text><text x="1059" y="296" text-anchor="middle" class="n-s">생산·물류·판매 현장</text><text x="1059" y="316" text-anchor="middle" class="n-s">3년부터 8년까지 늦게 바뀐다고 봐요</text></g>
+      <path class="edge" d="M156,154 L326,154" marker-end="url(#s05-ar)"/>
+      <path class="edge" d="M372,114 L372,72" marker-end="url(#s05-ar)"/>
+      <path class="edge edge--key" d="M428,72 L428,114" marker-end="url(#s05-ar-key)"/>
+      <text x="440" y="98" class="e-l"><tspan class="e-r">R1</tspan> 개발 가속</text>
+      <path class="edge" d="M476,128 L620,46" marker-end="url(#s05-ar)"/>
+      <text x="560" y="104" class="e-r">R2 · R3</text>
+      <path class="edge" d="M476,154 L652,154" marker-end="url(#s05-ar)"/>
+      <text x="564" y="144" text-anchor="middle" class="e-r">R4</text>
+      <path class="edge" d="M476,180 L640,266" marker-end="url(#s05-ar)"/>
+      <path class="edge" d="M780,154 L976,154" marker-end="url(#s05-ar)"/>
+      <path class="edge" d="M788,290 L976,290" marker-end="url(#s05-ar)"/>
+      <text x="882" y="280" text-anchor="middle" class="e-r">R6</text>
+      <path class="edge" d="M1059,250 L1059,212" marker-end="url(#s05-ar)"/>
+      <path class="edge edge--dash" d="M72,196 C72,252 400,252 400,196" marker-end="url(#s05-ar)"/>
+      <text x="236" y="272" text-anchor="middle" class="e-l"><tspan class="e-r">R5</tspan> AI 능력이 커지는 속도를 전력이 늦출 수 있어요(2030년 전후)</text>
+    </svg>
+    <div class="takeaway">
+      <p>같은 AI 능력이 <mark>로봇 학습 데이터가 쌓이는 만큼</mark> 늦게 몸을 쓰는 일로 넘어간다고 봐요. <span class="tag" data-hue="purple">추정</span></p>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">Epoch AI · IEA · METR · Google·Anthropic 발표(보도) · AI Impacts · 한국은행 · analysis/relations.py</p><p class="where"><span class="sec">전체 구조</span><span class="pg"></span></p></footer>
+</section>

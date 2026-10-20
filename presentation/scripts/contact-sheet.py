@@ -2,9 +2,9 @@
 """장 PNG를 2열 컨택트시트로 묶는다. --pairs면 (before, after)를 한 줄에 나란히 놓는다.
 
 쓰는 법
-  python contact-sheet.py --out qa/shots/x/contact.jpg [--cols 2] [--width 960] [--rows 9] a.png b.png ...
-  python contact-sheet.py --out qa/pr/2/compare.jpg --pairs before-01.jpg after-01.png before-02.jpg after-02.png ...
-  python contact-sheet.py --out qa/pr/2/compare.jpg --pairs --dirs qa/before qa/pr/2/after   (같은 파일 이름끼리 짝)
+  python3 scripts/contact-sheet.py --out renders/contact.jpg [--cols 2] [--width 960] [--rows 9] renders/index/slide-*.png
+  python3 scripts/contact-sheet.py --out renders/compare.jpg --pairs before-01.png after-01.png before-02.png after-02.png ...
+  python3 scripts/contact-sheet.py --out renders/compare.jpg --pairs --dirs renders/before renders/index   (같은 파일 이름끼리 짝)
 
 시트가 길면 --rows 줄마다 나눠 contact-1.jpg, contact-2.jpg …로 저장하고 만든 경로를 한 줄씩 출력한다.
 칸마다 파일 이름(장 번호)을 위에 적는다. PIL이 필요하다.

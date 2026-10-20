@@ -1,0 +1,100 @@
+<!doctype html>
+<!-- @generated-note -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<!-- OP-14: TK-01(값은 토큰 한 곳) 밖 — 메타 태그는 CSS 변수를 못 써서 시스템 color-background-3(C 청량 · 라이트) 값을 그대로 적는다 ·
+     2026. 10. 20.(형식 2026. 10. 21.) · 다시 나올 가능성 낮음. 프리셋을 바꾸면 이 줄도 손으로 바꾼다(design-standard/color.md 「시스템 밖으로 둔 것」) -->
+<meta name="theme-color" content="#E8EEF5">
+<title>AI는 언제쯤 내 일을 대신하게 될까요</title>
+<meta name="description" content="AI 능력, 전문가 예상, 실제 고용 자료로 2036년 한국에서 AI·자동화로 사람이 빠질 수 있는 일자리 수를 추정한 34장짜리 발표예요.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="AI는 언제쯤 내 일을 대신하게 될까요">
+<meta property="og:description" content="AI 능력, 전문가 예상, 실제 고용 자료로 2036년 한국에서 AI·자동화로 사람이 빠질 수 있는 일자리 수를 추정한 34장짜리 발표예요.">
+<meta property="og:url" content="https://tony0055.github.io/data-literacy-agi-jobs/presentation/">
+<meta property="og:image" content="https://tony0055.github.io/data-literacy-agi-jobs/presentation/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AI는 언제쯤 내 일을 대신하게 될까요 · 데이터리터러시의이해 중간고사 발표 표지">
+<meta name="twitter:card" content="summary_large_image">
+<!-- 사이트 아이콘: 정본에 규격이 아직 없어(icons.md 「남은 것」) 그리지 않고, 빈 아이콘으로 브라우저의 /favicon.ico 요청(404)만 막는다 -->
+<link rel="icon" href="data:,">
+<link rel="preload" href="src/ds/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="src/ds/tokens.css">
+<link rel="stylesheet" href="src/ds/layout.css">
+<link rel="stylesheet" href="src/ds/components.css">
+<link rel="stylesheet" href="src/deck.css">
+<link rel="stylesheet" href="src/slides.bundle.css">
+<link rel="stylesheet" href="src/controls.css">
+<script>
+// 첫 페인트부터 발표 무대: 덱 배치(모드·배율·위치)를 여기 한 곳에서 계산하고 present.js가 같은 함수를 다시 부른다.
+// 렌더(?check·?slide)에서는 인쇄 쪽 크기만 넣고 무대는 만들지 않는다. 캔버스는 80rem × 45rem, 막대 높이는 controls.css의 --deck-bar-h(4.25rem = 44 + 24).
+(() => {
+  const q = new URLSearchParams(location.search);
+  const d = document.documentElement;
+  // 인쇄 · PDF 쪽 크기 = 캔버스(토큰 layout-max-width × 9/16). @page는 CSS 변수를 못 써서 토큰 값을 읽어 여기서 넣는다(controls.css 「인쇄」, 2회차 TK-01).
+  // 위의 스타일시트가 다 읽힌 뒤에 도는 스크립트라 토큰 값이 있다
+  {
+    const v = getComputedStyle(d).getPropertyValue("--layout-max-width").trim();
+    const remPx = parseFloat(getComputedStyle(d).fontSize) || 16;
+    const w = (parseFloat(v) || 80) * (/rem$/.test(v) ? remPx : 1);
+    const page = document.createElement("style");
+    page.id = "deck-page";
+    page.textContent = `@page { size: ${w}px ${(w * 9) / 16}px; }`;
+    document.head.append(page);
+  }
+  if (q.has("check") || q.has("slide")) return;
+  d.classList.add("deck-js");
+  const n = Math.max(1, parseInt(location.hash.slice(1), 10) || 1);
+  const boot = document.createElement("style");
+  boot.id = "deck-boot";
+  boot.textContent = `html.deck-js:not(.deck-ready) .deck > .slide:nth-of-type(${n}) { visibility: visible; }`;
+  document.head.append(boot);
+  // 막대(bar): 장 아래에 조작 막대가 들어갈 자리가 생기도록 배율을 고른다
+  // 기둥(rail): 휴대폰 가로처럼 아래 자리가 모자라고 좌우 레터박스가 넓으면 배율을 줄이지 않고 좌우에 세운다
+  // 읽기 칸(panel): 세로 화면(폭 820 이하)은 장을 위에 폭 맞춤으로 두고 아래에 읽기 칸을 연다
+  window.__deckLayout = (safe = { t: 0, r: 0, b: 0, l: 0 }) => {
+    const rem = parseFloat(getComputedStyle(d).fontSize) || 16;
+    const cw = 80 * rem, ch = 45 * rem, bar = 4.25 * rem + safe.b;
+    const W = window.innerWidth, H = window.innerHeight;
+    const fit = Math.min(W / cw, H / ch);
+    let mode, k, x, y;
+    if (W < H && W <= 820) { mode = "panel"; k = W / cw; x = 0; y = safe.t; }
+    else {
+      const side = (W - cw * fit) / 2;
+      if (H - ch * fit >= bar) { mode = "bar"; k = fit; }
+      else if (side >= 3.75 * rem + Math.max(safe.l, safe.r)) { mode = "rail"; k = fit; }
+      else { mode = "bar"; k = Math.min(fit, (H - bar) / ch); }
+      x = (W - cw * k) / 2;
+      y = mode === "bar" ? Math.max(0, Math.min((H - ch * k) / 2, H - bar - ch * k)) : (H - ch * k) / 2;
+    }
+    d.classList.remove("deck-bar", "deck-rail", "deck-panel");
+    d.classList.add(`deck-${mode}`);
+    // 실행 값: controls.css :root에 기본값이 있고 여기서 덮어쓴다(시스템 check.mjs가 setProperty를 「정의」로 읽는다)
+    d.style.setProperty("--deck-k", String(k));
+    d.style.setProperty("--deck-x", `${x}px`);
+    d.style.setProperty("--deck-y", `${y}px`);
+    d.style.setProperty("--deck-bottom", `${y + ch * k}px`);
+    d.style.setProperty("--ui-bottom", `${safe.b}px`);
+    d.style.setProperty("--thumb-k", String(Math.min(0.2, (W - 3 * rem) / cw)));
+    return { mode, k, x, y, W, H };
+  };
+  window.__deckLayout();
+})();
+</script>
+</head>
+<body>
+<!-- @sprite -->
+<div class="deck">
+<!-- @slides -->
+</div>
+<script type="application/json" id="chart-data"><!-- @chart-data --></script>
+<noscript><p class="deck-noscript">JavaScript가 꺼져 있어 34장을 위아래로 이어 보여 줘요. 차트와 표 일부는 JavaScript를 켜야 보여요.</p></noscript>
+<script src="src/fit.js"></script>
+<script src="src/charts.js"></script>
+<script src="src/present.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+/* 배치 부품 — 피그마 자동 배치(auto layout)를 CSS로 옮긴 것(SP-61·SP-62, guideline/layout.md).
+   - 흐름: .stack(세로), .inline(가로, 줄바꿈은 data-wrap), .grid(격자)
+   - 간격·안쪽 여백은 부모가 갖는다(자식에 margin을 주지 않는다). 값은 간격 단계에서만:
+     data-gap, data-pad = half · 1 · 2 · 3 · 4 · 5 · 6 · 8, 쪽 격자의 열 사이는 data-gap="gutter"(관계별 배정은 guideline/spacing.md)
+   - 정렬: data-align(교차 축) = start · center · end · stretch · baseline, data-justify(주 축) = start · center · end · between
+   - 크기 방식: 자식의 .hug(내용에 맞춤) · .fill(남는 자리 채움), 고정은 크기 토큰, 최대는 data-max = line · page
+   - 흐름 밖: .float(부모 기준 위치, 모서리 배지 등)
+   - 나란한 상자의 행 공유: .grid[data-share-rows] — 자식마다 머리·본문 두 행(값 3이면 바닥까지 세 행)을 서브그리드로 함께 쓴다 */
+
+/* ---------- 흐름 ---------- */
+
+.stack,
+.inline,
+.grid {
+  --gap: var(--space-2);
+  gap: var(--gap);
+  min-width: 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.inline[data-wrap] {
+  flex-wrap: wrap;
+}
+
+/* 격자: 열 수(data-columns) 또는 최소 열 폭에 맞춰 열 수를 정하는 채움 격자(data-fit) */
+.grid {
+  --grid-columns: 2;
+  --grid-min: calc(var(--space-8) * 5);
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  gap: var(--gap) var(--gap);
+}
+
+.grid[data-columns="1"] { --grid-columns: 1; }
+.grid[data-columns="2"] { --grid-columns: 2; }
+.grid[data-columns="3"] { --grid-columns: 3; }
+.grid[data-columns="4"] { --grid-columns: 4; }
+
+.grid[data-fit] {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min)), 1fr));
+}
+
+/* 칸 차지: 한 줄 전체 */
+.grid > [data-span="full"] {
+  grid-column: 1 / -1;
+}
+
+/* 나란한 상자의 행 공유(SP-62): 상자가 바깥 격자의 머리·본문 행에 걸치고, 그 행을 서브그리드로 물려받는다.
+   그래서 같은 줄의 상자는 머리끼리·본문끼리 시작선이 맞고 높이가 같다.
+   상자 안 머리·본문 사이는, 상자가 자기 row-gap을 주지 않으면 바깥 격자의 행 간격과 같다(.sp-box처럼 상자가 gap을 가지면 그 값).
+   행을 함께 쓰면 짧은 부분은 행 높이만큼 늘어난다. 부분 안 내용은 위에서부터 쌓아(align-content: start) 시작선이 내려가지 않게 한다 */
+.grid[data-share-rows] {
+  --share-rows: 2;
+  grid-auto-rows: auto;
+  align-items: stretch;
+}
+
+.grid[data-share-rows="3"] {
+  --share-rows: 3;
+}
+
+.grid[data-share-rows] > * {
+  display: grid;
+  grid-row: span var(--share-rows);
+  grid-template-rows: subgrid;
+  align-content: start;
+}
+
+.grid[data-share-rows] > * > * {
+  align-content: start;
+}
+
+/* ---------- 간격·안쪽 여백(간격 단계에서만) ---------- */
+
+[data-gap="half"] { --gap: var(--space-half); }
+[data-gap="1"] { --gap: var(--space-1); }
+[data-gap="2"] { --gap: var(--space-2); }
+[data-gap="3"] { --gap: var(--space-3); }
+[data-gap="4"] { --gap: var(--space-4); }
+[data-gap="5"] { --gap: var(--space-5); }
+[data-gap="6"] { --gap: var(--space-6); }
+[data-gap="8"] { --gap: var(--space-8); }
+/* 쪽 단위 격자의 열 사이: 밀도 안의 홈통(layout-gutter) */
+[data-gap="gutter"] { --gap: var(--layout-gutter); }
+
+[data-pad="half"] { padding: var(--space-half); }
+[data-pad="1"] { padding: var(--space-1); }
+[data-pad="2"] { padding: var(--space-2); }
+[data-pad="3"] { padding: var(--space-3); }
+[data-pad="4"] { padding: var(--space-4); }
+
+/* ---------- 정렬 ---------- */
+
+[data-align="start"] { align-items: flex-start; }
+[data-align="center"] { align-items: center; }
+[data-align="end"] { align-items: flex-end; }
+[data-align="stretch"] { align-items: stretch; }
+[data-align="baseline"] { align-items: baseline; }
+
+[data-justify="start"] { justify-content: flex-start; }
+[data-justify="center"] { justify-content: center; }
+[data-justify="end"] { justify-content: flex-end; }
+[data-justify="between"] { justify-content: space-between; }
+
+/* ---------- 크기 방식 ---------- */
+
+/* 내용에 맞춤: 줄어들지도 늘어나지도 않는다. 세로 쌓기 안에서는 폭도 내용만큼 */
+.hug {
+  flex: none;
+}
+
+.stack > .hug {
+  align-self: flex-start;
+}
+
+/* 남는 자리 채움 */
+.fill {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.stack > .fill {
+  flex: 1 1 auto;
+}
+
+/* 최대: 읽기 폭, 쪽 폭 */
+[data-max="line"] { max-width: var(--layout-line-length); }
+/* 쪽 폭 안 가운데 맞춤: margin-inline auto는 간격이 아니라 밀어 정렬이다(layout.md 예외 표) */
+[data-max="page"] { max-width: var(--layout-max-width); margin-inline: auto; }
+
+/* ---------- 흐름 밖 ---------- */
+
+:has(> .float) {
+  position: relative;
+}
+
+.float {
+  position: absolute;
+}

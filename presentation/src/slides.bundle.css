@@ -1,0 +1,739 @@
+/* 생성 파일 — bun scripts/build.ts가 src/slides/NN.css를 차례대로 묶는다. 고치지 말고 src/slides/NN.css를 고친다. */
+
+/* ── 01 (src/slides/01.css) ── */
+/* 01 표지 · 히어로(.hero 패턴은 deck.css · design-standard/components.md 「히어로」)
+ * - 제목 묶음: 큰 제목 → 16 → [부제 → 8 → 설명 문단]. 부제 + 설명은 제목 + 설명 문단 관계라 8(spacing.md, 1회차 L-22).
+ *   큰 제목(display 44) 뒤만 한 단계 넓힌다 — 마크업에서 부제 · 설명을 .stack[data-gap="1"]로 묶어 부모 간격만 쓴다(SP-61).
+ * - 두 숫자: 덱 figure 36/44, 글자색은 덱 기본(text-1). 누를 수 없는 강조라 파랑을 쓰지 않는다(2회차 C-01 · C-03 · C-04).
+ *   숫자 설명은 읽어야 하는 글이라 text-2(2회차 C-05).
+ * - 라벨 각주(p.footnote, 묶음 끝 — 3회차 C3-01 · T3-03): 숫자 설명(라벨 13 · text-2)과 같은 글자라 묶음 기본 8이면 설명에 붙어 읽혀
+ *   한 단계 넓은 16(spacing.md 「덩어리 사이」). 간격은 부모 gap으로(SP-61).
+ * - 숫자 이름 줄(본문 24) 안 꼬리표(24)가 줄을 25로 키운다(3회차 SL3-10) — 꼬리말 · 차트 출처와 같은 위아래 −4 광학 보정(layout.md 예외 표).
+ * - 그림 자르기는 deck.css 기본(오른쪽 아래 100% 100%) 그대로: 로봇 팔 · 손 · 노트북이 오른쪽에 있고 워터마크가 잘리지 않는다. */
+.s01 .s01-nums { gap: var(--space-2); }
+.s01 .group__cell > .t-label { text-wrap: pretty; }
+.s01 .group__cell .tag { margin-block: calc(var(--space-half) * -1); }
+
+/* ── 03 (src/slides/03.css) ── */
+/* 03 세 가지 질문(카드 없음: 바탕 상자 없이 칸 사이 세로선 — 덱 .group__cols)
+ * - 칸 폭은 덱 .group__cols 그대로(12열 선 4 · 4 · 4 — 장 CSS에서 칸 폭을 따로 주지 않는다, 2회차 SL-03 · SL-12 · SL-13).
+ * - 칸: [그림] 16 [질문 + 무엇을 재나(사이 8)] 16 [답하는 장]. 세 칸이 세 행을 함께 써서(서브그리드, SP-62)
+ *   설명 줄 수가 달라도 답하는 장 줄이 같은 높이에 온다. 칸 높이 = 내용 높이(남는 높이는 칸 밖, SP-60).
+ *   그림 ↔ 글 묶음 ↔ 답하는 장은 서로 다른 덩어리라 한 단계 넓은 16, 질문 + 설명 문단은 8(spacing.md 「제목 + 설명 문단」).
+ * - 그림 비율은 덱 허용 세트의 16:9(마크업 data-ratio — 장 CSS의 직접 비율 3 / 2를 지움, 3회차 SC-05). 368 × 207로 높이가 정수이고(3회차 SL3-11),
+ *   정의를 각주로 옮겨 생긴 본문 아래 자리에 각주(세 줄)가 든다. 기준점은 덱 기본(오른쪽 아래)이라 위만 잘리고 워터마크는 남는다.
+ * - 질문은 type-heading(18) — 이 장의 주인공이 세 질문이라 칸 설명(본문 15)보다 한 단계 위(TY-34). 번호는 text-3.
+ * - 답하는 장: 장 번호(라벨 굵게, text-2) + 절 이름(라벨, text-3).
+ * - 용어 각주는 덱 .footnote(13/20 · text-2 · 읽기 폭 40em) 그대로, 본문 맨 아래(3회차 C3-01 · T3-03 — 꼬리말에서 옮김). */
+.s03 .s03-qs { grid-template-rows: repeat(3, auto); }
+.s03 .s03-qs > .group__cell {
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: var(--space-2);
+}
+.s03 .s03-text {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+.s03 .s03-text > p { color: var(--color-text-2); text-wrap: pretty; }
+.s03 .s03-q {
+  display: flex;
+  gap: var(--space-1);
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+}
+.s03 .s03-no {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-3);
+}
+.s03 .s03-where {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-3);
+}
+.s03 .s03-where > .num {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-2);
+}
+
+/* ── 04 (src/slides/04.css) ── */
+/* 04 결론 먼저(카드 없음: 바탕 상자 대신 칸 사이 세로선)
+ * - 칸 폭은 덱 .group__cols 그대로(12열 선 4 · 4 · 4). 아래 2036년 줄은 8 + 4라 막대가 위 셋째 칸과 같은 선에서 시작한다(2회차 SL-03).
+ * - 칸: [질문 + 숫자(사이 8)] 16 [설명] 16 [비교 막대] 16 [꼬리표]. 덩어리 사이는 한 단계 넓은 16 — 3장과 같은 관계 간격(2회차 SL-02).
+ *   세 칸이 행을 함께 써서(서브그리드, SP-62) 설명 줄 수가 달라도 비교 막대와 꼬리표가 같은 높이에서 시작한다. 칸 높이 = 내용 높이.
+ * - 질문은 type-heading(18) — 3장의 같은 세 질문과 같은 단계(2회차 T2-01, TY-20 · TY-34). 번호는 text-3.
+ * - 3.5배 각주(p.footnote, 묶음 끝 — 3회차 C3-01 · T3-03): 칸 끝 꼬리표 줄과 다른 덩어리라 한 단계 넓은 16(부모 gap, SP-61). 한 줄.
+ *   각주 표시(.fn, 폭 0)는 13/600(3회차 T3-18 — 숫자 크기 22로 커지지 않게).
+ * - 2036년 줄: 정의 문단(8열) | 시나리오 세 막대(4열). 막대 색은 시나리오 계열 색(신중 중립 · 기준 파랑 · 빠름 갈색, color.md).
+ *   정의 문단은 읽기 폭 40em(.measure — 3회차 SL3-04 · T3-09: 728px = 56em이던 것). 세 줄이 되어 묶음 제목(18) 줄을 두면 본문 479를 넘어
+ *   이름(「2036년 대체 압력」)을 문단 첫머리 라벨 굵게 · text-1로 둔다 — 줄 높이 = 막대 72.
+ * - 핵심 문장은 한 줄(1회차 SC-16: 두 줄이면 위 선이 다른 장보다 28 올라간다).
+ * - 핵심 문장 안 꼬리표(24)가 줄을 42로 키워 위 선이 다른 장보다 1 올라간다(3회차 SC-09 · SL3-16) — 꼬리말 · 차트 출처와 같은 −4 광학 보정.
+ * - 자세히 다루는 장은 라벨(text-3). */
+.s04 .s04-nums { gap: var(--space-2); }
+.s04 .s04-strip { grid-template-rows: repeat(4, auto); }
+.s04 .s04-strip > .group__cell {
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: var(--space-2);
+}
+.s04 .s04-head {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+.s04 .s04-q {
+  display: flex;
+  gap: var(--space-1);
+  font: var(--type-heading);
+  letter-spacing: var(--type-heading-letter-spacing);
+}
+.s04 .s04-no {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-3);
+}
+.s04 .s04-more {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-3);
+}
+.s04 .figure > .fn {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+.s04 .s04-2036 .t-label { text-wrap: pretty; }
+.s04 .takeaway .tag { margin-block: calc(var(--space-half) * -1); }
+
+/* ── 05 (src/slides/05.css) ── */
+/* 05 전체 구조: 도식 글자 · 화살표 모양은 deck.css .diagram 그대로. 마디는 상자 없이 글자 묶음(2회차 S-01 — 카드 없음):
+ * 이름(.n-t, 본문 굵게 · text-1) + 설명(.n-s, 라벨 · text-2). 핵심 마디도 글자색은 text-1(누를 수 없는 강조에 파랑을 쓰지 않는다, 2회차 C-01).
+ * 핵심 문장은 덱 .takeaway 그대로(위 가는 선 + 굵은 본문). 끝의 추정 꼬리표(24)가 줄을 키우지 않게 꼬리말 · 차트 출처와 같은 −4 광학 보정
+ *   (3회차 SC-09 · SL3-16 — 위 선이 다른 장과 같은 y).
+ * 연결선 이름표 R1~R6: 뒤 장 꼬리말의 「관계식 Rn」 번호를 여기서 처음 보인다(1회차 W-35). 상자 · 바탕 없이 글자만, 라벨 굵게(13) · text-2.
+ * 연결선 설명(.e-l)은 읽어야 하는 단서라 차트 주석과 같은 라벨(13) · text-2(2회차 T2-09, design-standard/typography.md 「차트 주석」) */
+.s05 .diagram .e-r {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  fill: var(--color-text-2);
+}
+.s05 .diagram .e-l {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  fill: var(--color-text-2);
+}
+.s05 .takeaway .tag { margin-block: calc(var(--space-half) * -1); }
+
+/* ── 06 (src/slides/06.css) ── */
+/* 06 재귀적 자기개선 · 지금 보이는 사례
+ * - 아래 사례 두 칸의 설명 문단은 읽기 폭 40em에서 멈춘다(2회차 SL-15, TY-44 — 칸 폭 564에서 한 줄이 41.9em까지 늘던 것).
+ * - 문단 끝 꼬리표(24)가 라벨 줄(20)을 키우지 않게 꼬리말 · 차트 출처와 같은 위아래 −4 광학 보정(3회차 T3-10 · SL3-10 · SC-07). */
+.s06 .group__cell > p { max-width: var(--layout-line-length); }
+.s06 .group__cell > p .tag { margin-block: calc(var(--space-half) * -1); }
+
+/* ── 09 (src/slides/09.css) ── */
+/* 09 회사 대표들의 말: 세 사람을 예상 시점 순서(2026 → 2028 → 2030)로 나란히.
+ * 칸은 12열 격자 4 · 4 · 4(368 · 368 · 368, 시작 64 · 456 · 848, 칸 사이 24)이고 사진은 덱 허용 비율 4:3(368 × 276)으로 모두 같게 자른다
+ *   — 3회차 SL3-05 · SC-05: 원래 비율로 높이만 맞추면 폭 200 · 189 · 480, 틈 94 · 105로 고르지 않고 줄 끝이 1132(본문 끝 1216에서 84 모자람)였다.
+ * 사진은 실제 인물 사진(Wikimedia Commons, 워터마크 없음)이라 자르는 기준점을 얼굴 쪽으로 옮긴다(덱 기본 오른쪽 아래는 Gemini 워터마크 보존용).
+ * 영상 링크는 올트먼 발언의 출처(2025. 10. 28. 라이브)라 그 칸의 출처 줄 아래에 정본 글 링크(.link)로 둔다(2회차 S-06).
+ *   링크 시각(474초)은 2차 확인이라 바로 아래 각주(.footnote)로 밝힌다(3회차 D3-13 — 꼬리말에는 출처만).
+ * 높이(가장 긴 올트먼 칸): 사진 276 + 16 + 발언 24 + 8 + (회사 · 이름 20 + 4 + 때 · 꼬리표 24 + 4 + 영상 링크 20 + 4 + 각주 두 줄 40) = 440 ≤ 본문 447. */
+.s09 .s09-people {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--layout-gutter);
+}
+
+.s09 .s09-who {
+  grid-column: span 4;
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* 얼굴이 자른 틀 안에 오게: 세로 사진 둘은 위쪽, 가로 사진은 허사비스가 앉은 오른쪽 */
+.s09 .s09-photo--amodei { --media-position: 50% 20%; }
+.s09 .s09-photo--altman { --media-position: 50% 4%; }
+.s09 .s09-photo--hassabis { --media-position: 100% 50%; }
+
+/* 발언 → (회사 · 이름, 때 · 출처 · 라벨, 영상 링크, 각주): 발언과 덩어리 사이 8, 덩어리 안 4 */
+.s09 .s09-say {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.s09 .s09-meta {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-half);
+}
+
+/* ── 10 (src/slides/10.css) ── */
+/* 10 AGI까지 남은 햇수: 차트(8열 760) + 옆 칸(4열 368). 옆 칸은 관계식 묶음 → 그림(16:9) 차례로 위에서부터 쌓는다(묶음 사이 32).
+ * 옆 칸이 글 세 줄뿐이면 아래 160 남짓이 비어(1회차 L-01 · 2단계 「아래 빈 곳」) 전문가 회의 그림으로 채운다. 높이는 늘리지 않는다.
+ * 관계식 가정 각주(설문 시점 · 집계 판)는 옆 칸에 그림과 함께 들어갈 높이가 없어 차트 아래(출처 줄 위)에 둔다 — 「오른쪽 관계식은」으로 가리킨다.
+ * 그래서 차트 높이를 264로 줄였다(3회차 C3-01 · T3-03 · W-37: 꼬리말 둘째 줄 · 차트 출처 둘째 줄의 단서를 각주 · 부제로 옮김).
+ * 옆 칸 높이: 제목 24 + 8 + (관계식 24 + 8 + 풀이 두 줄 40 + 8 + 상관계수 한 줄 20 + 8 + 꼬리표 24) + 32 + 그림 207 = 403 ≤ 본문 447(그림 출처 캡션은 34장에서 한 번에 밝혀 뺐다) */
+.s10 .s10-side {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+/* ── 11 (src/slides/11.css) ── */
+/* 11 두 예상의 차이: 숫자 묶음(4열 368) + 차트(8열 760). 줄은 라벨 → 숫자 → 계산 · 그림 순서, 덩어리 사이 8(덱 기본).
+ * 묶음 아래가 200 가까이 비던 자리(1회차 L-01)를 설문별 두 예상 연도 차이(105 → 69 → 56년, chart-data espai_two_clocks.간격) 막대로 채운다.
+ * 각주는 묶음 끝(항목 아래 8)의 덱 공통 .footnote(라벨 13/20 · text-2 · pretty — 3회차 T3-03, 장 CSS의 따로 준 규칙은 지움) */
+/* AGI 3.2년 · 모든 직업 자동화 11.2년을 나란히 두 칸(숫자 + 이름). 칸 사이 24(가로 항목 사이), 숫자 ↔ 이름 4(작은 글 덩어리) */
+.s11 .s11-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--space-3);
+}
+
+.s11 .s11-num {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-half);
+}
+
+/* 각주 표시(*)는 덱 공통 .fn(폭 0)에 라벨 굵은 글자(13/600)로 — 큰 숫자 줄(22/700) 안에서도 별이 숫자만큼 커지지 않게(3회차 T3-18) */
+.s11 .fn {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+/* 두 예상 연도 차이 막대는 손 SVG(viewBox = 실제 픽셀 368 × 84, 1년 = 232 / 105 px). 줄 28마다 막대 12. 굵은 이름표 2024년 설문(56년)이 핵심이라
+ * 파랑(s-main), 앞 두 설문은 맥락 중립 — 2 · 4 · 8 · 12 · 14장과 같은 짜임(2회차 C-06). 모양은 덱 차트 클래스 그대로 */
+
+/* ── 12 (src/slides/12.css) ── */
+/* 12 컨설팅 기관 추정: 12열 격자 9 + 3. 왼쪽 9열(858)은 두 줄, 줄마다 설명(4열 368) + 손 SVG(5열 466, viewBox 폭 = 실제 픽셀).
+ * 오른쪽 3열(270)은 그림 — 덱 허용 비율 3:4(270 × 360, 3회차 SC-05: 장 CSS의 직접 비율 3:5를 지움). 기준점은 덱 기본 오른쪽 아래(워터마크 보존).
+ *   남는 높이는 그림을 늘리지 않고 아래에 둔다(덱 「남는 높이는 본문 아래」).
+ * 두 SVG는 같은 가로 자리(축 136~440, 1년 = 15.2px · 1% = 3.04px)라 위아래 눈금이 한 세로선에 선다. viewBox를 x 32에서 시작해
+ *   가장 긴 범주 이름(「생성형 AI 반영 전」)이 칸 시작선에 닿는다 — 범주 이름 잉크가 칸 안쪽 32~39에서 시작하던 것(3회차 SL3-03)을 0~7로.
+ * 줄 안 설명 · 그림은 위 끝을 맞춘다(1회차 L-16: 가운데 맞춤이면 설명 첫 줄이 줄마다 다른 높이에서 시작했다).
+ * 두 줄 사이는 묶음 사이 32 + 가는 선(separator) + 32. 두 그림 모두 위 줄 = 이전 추정(회색), 아래 줄 = 새 추정(파랑). */
+.s12 .s12-rows {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+}
+
+.s12 .s12-row {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  column-gap: var(--layout-gutter);
+  align-items: start;
+}
+
+.s12 .s12-row:first-child { padding-block-end: var(--space-4); }
+
+.s12 .s12-row + .s12-row {
+  padding-block-start: var(--space-4);
+  border-top: var(--border-1) solid var(--color-separator);
+}
+
+.s12 .s12-text {
+  grid-column: span 4;
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+
+/* 두 줄로 넘어가는 차트 제목은 줄 길이를 고르게(둘째 줄에 「비중」 한 낱말만 남지 않게) */
+.s12 .chart-title { text-wrap: balance; }
+
+/* 그림 칸(5열): SVG → 8 → 각주(위 줄만). 각주는 그림 높이 144 아래, 설명 칸 높이 안에 든다 */
+.s12 .s12-plot {
+  grid-column: span 5;
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* 이전 위치 → 새 위치 화살표 머리(지시선과 같은 덱 중립 데이터 색) */
+.s12 .chart svg .s12-head {
+  fill: var(--color-control-border); /* = 덱 중립 데이터 색(--deck-data-neutral) */
+}
+
+/* ── 13 (src/slides/13.css) ── */
+/* 13 직업 전체 상관 */
+/* 손 그림: 원본은 네 직업의 손 2×2 격자(2400 × 1792)다. 오른쪽 아래 칸(노트북 손 — 가로축의 컴퓨터 일 끝)만 한 장으로 보여 준다.
+ * 아래 두 칸을 따로 보이면 왼쪽 칸에 워터마크가 없었고(3회차 M-02), 두 칸을 한 장으로 자르면 가운데 흰 홈이 이음선으로 남았다(2회차 S-10 · SL-14).
+ * 비율은 덱 비율 세트의 16:9(figure에 data-ratio="16:9" — 칸 폭 기준 컨테이너가 된다), 높이는 deck.css와 같게 4px 격자로 반올림(3회차 SL3-11).
+ * 덱 변수 --media-ratio는 장 CSS 단독 검사(check.mjs --scan=src/slides)에서 없는 토큰으로 잡혀 같은 값 16 / 9를 여기 적는다.
+ * 폭은 4열 안 3열(270 — 사진 폭 단계 270 · 368 · 466, 시작선은 4열 시작선). 그림이 칸의 직계 img가 아니라 덱 규칙 대신 칸(span)에 비율을 건다:
+ * 칸 안에 원본을 2400/1194배 폭으로 놓고 오른쪽 아래에 붙이면 원본 격자 한 칸(가로 1194, 흰 홈 x 1194~1205) 안만 보이고 오른쪽 아래 워터마크가 남는다 */
+.s13 .s13-media {
+  width: calc(75% - var(--layout-gutter) / 4);
+}
+
+/* 폭은 칸 폭 그대로, 높이는 round()가 있으면 4px 격자로 반올림한 값(폭 · 높이를 다 정하면 비율은 쓰이지 않는다). round()가 없는 브라우저는 높이 선언을 버리고 비율로 높이를 낸다 */
+.s13 .s13-cell {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  height: round(nearest, calc(100cqi * 9 / 16), var(--space-half));
+  border-radius: var(--radius-2);
+}
+
+.s13 .s13-cell > img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: block;
+  width: calc(100% * 2400 / 1194);
+  max-width: none;
+  height: auto;
+}
+
+/* ── 14 (src/slides/14.css) ── */
+/* 14 노출 상위 직업 */
+/* 표(시스템 표 그대로, 행 높이 = 내용): [직업] [노출도 β] [고용 변화율]. 숫자 칸은 끝 맞춤 */
+.s14 .s14-table :is(.table__head, .table__row) {
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+}
+
+/* ── 15 (src/slides/15.css) ── */
+/* 15 직업군 섞어 보기 */
+/* 막대 이름 옆 직업 수: 이름(type-label)보다 한 단계 낮은 캡션 크기, 색은 text-2 — 값을 지닌 글이라 3단계 색에 싣지 않는다(정본 CO-05, 3회차 C3-04).
+ * 이름은 시작선에 왼쪽 맞춤, 직업 수는 이름 열 끝에 끝 맞춤해 한 열로 쌓는다 */
+.s15 .chart svg .s15-n {
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  fill: var(--color-text-2);
+}
+
+/* ── 16 (src/slides/16.css) ── */
+/* 16 머신러닝 예측 비교 */
+/* 표(시스템 표 그대로, 행 높이 = 내용): [모형] [노출도 포함] [노출도 뺌]. 숫자 칸은 끝 맞춤, 각주 *는 .fn(폭 0)이라 자릿수가 밀리지 않는다 */
+.s16 .s16-table :is(.table__head, .table__row) {
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+}
+
+/* 노출도 3종 막대의 값 이름표 안 지표 이름: 파랑 끝 = 가장 낮은 값(Microsoft), 회색 끝 = 가장 높은 값(Anthropic)을 값 옆에서 바로 읽게 한다
+ * (색 범례 대신 — CN-123, 3회차 C3-01). 값(라벨 굵게 · text-1)보다 한 단계 낮은 라벨 400 · text-2 */
+.s16 .chart svg .s16-who {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  fill: var(--color-text-2);
+}
+
+/* ── 17 (src/slides/17.css) ── */
+/* 17 한국 직업 대분류 */
+/* 판매직 줄의 덧붙인 설명: 여러 줄이라 마지막 줄에 한 어절만 남지 않게(typography.md 「text-wrap: pretty」). 끝 두 어절은 마크업 &nbsp;로도 묶었다(2회차 T2-02) */
+.s17 .s17-note {
+  text-wrap: pretty;
+}
+
+/* 출근길 그림은 덱 비율 세트의 3:4(3열 270 — 기준점은 오른쪽 아래, 워터마크가 남는다). 장 CSS에서 비율을 따로 주지 않는다(3회차 SC-05).
+ * 차트 이름표 칸은 data-key-w로 줄여(기본 160) 선 끝 이름표가 칸 끝(564)에 닿게 한다 — 칸 안 오른쪽 빈 곳 76(3회차 SL3-15) */
+
+/* ── 18 (src/slides/18.css) ── */
+/* 18 신입 채용 */
+/* 큰 숫자 28.5만 개는 글자색 그대로(text-1) — 누를 수 없는 강조에 파랑을 쓰지 않는다(2회차 C-03 · C-04, 공통 결정).
+ * 면접 대기 그림은 덱 비율 세트의 3:2(3열 270 — 기준점은 오른쪽 아래, 워터마크가 남는다). 장 CSS에서 비율을 따로 주지 않는다(3회차 SC-05) */
+
+/* ── 19 (src/slides/19.css) ── */
+/* 19 로봇 학습 데이터: 숫자 줄 둘(묶음) + 단위 그림(차트) + 각주 · 그림(figure.media 4:3 — 덱 허용 비율, 3회차 SC-05)
+ * 단위 그림의 칸: 덱 중립 데이터 색(흰 바탕 3:1 이상, 맥락 계열과 같은 값). 한 칸 = 로봇 조작 데이터 약 30만 시간.
+ * 칸 3 + 틈 1 = 4 간격으로 165칸 × 20줄 + 33칸 = 3,333칸, 폭 660(열 폭 662 안). 모서리 없는 네모(막대와 같은 radius-0).
+ * 격자 첫 칸은 범례의 파랑 표식과 같은 칸(s-main)이라 「1칸」이 격자 안에서 보인다(3회차 C3-07).
+ * 3회차 SC-08: 칸 4 + 틈 1(132 × 25)이면 660 × 130 회색 면이 장에서 가장 큰 색 면이었다 — 칸을 3으로 줄여 면을 660 × 84로(약 35% 작게).
+ * OP-14: 덱 차트 종류 표에 없는 손 SVG 단위 그림(CN-122 면 크기) · 까닭: 3,333배를 칸 수로 세어 보이는 그림이 이 장 하나 · 2026. 10. 21. · 다시 나올 가능성 낮음
+ * 범례 둘째 줄 표식도 같은 칸 모양이다(첫 줄 파랑 표식과 글 시작선을 맞춘다 — 2회차 SL-09) */
+.s19 .unit-cell {
+  fill: var(--color-control-border); /* = 덱 중립 데이터 색(--deck-data-neutral). 장 CSS는 덱 토큰 대신 시스템 토큰(check.mjs) */
+}
+
+/* 그림 칸: 덱 허용 비율 4:3(466 × 349.5, 마크업 data-ratio). 장 CSS에서 주던 13 : 12를 지웠다(3회차 SC-05 — 폭 단계마다 허용 비율 하나,
+ * 남는 높이는 그림을 늘리지 않고 그림 아래 빈 곳으로). 그림 캡션(생성 표기)은 34장 출처에서 한 번에 밝힌다(2026. 10. 21.).
+ * 기준점은 덱 기본 오른쪽 아래(워터마크 보존). 이 장 CSS에는 그림 규칙이 따로 없다 */
+
+/* ── 21 (src/slides/21.css) ── */
+/* 21 전력 제약: 그림(figure.media 4:3) + 숫자 줄 둘(.group__row--stat). 숫자 줄 오른쪽 칸 = 이름 → 근거 → 손 막대(svg 폭 466 = 칸 폭 — 숫자 칸이 2열 폭 172가 되어 478 → 466, 3회차 SL3-02 공통).
+ * 두 막대 그림은 이름 칸 끝 88 · 0선 100 · 가장 긴 막대 280 · 줄 간격 40 · 위아래 여백 12를 같게 써서 숫자 → 첫 막대 거리가 같다(1회차 L-16).
+ * 이름 칸 끝을 112 → 88로 당겨 가장 긴 이름(「학습에 드는 전력」)이 칸 시작선 가까이에서 시작한다(3회차 SL3-03 — 잉크 시작이 칸 안쪽 +28이던 것).
+ * 둘째 줄 근거가 두 줄(Epoch 전망 범위 병기, 2회차 D-07)이 되어 위아래 여백을 14 → 12로 줄여 본문 높이 안에 둔다.
+ * 숫자 줄에 차트 클래스(.chart)를 함께 달아 손 막대가 차트 모양을 받는다. 그런데 .chart의 gap(8)이 숫자 줄의 열 사이(24)를
+ * 덮어 숫자 칸 ↔ 이름 사이가 8이 되므로(2회차 SL-10) 열 사이만 숫자 줄 값(덱 layout.md 「숫자 칸 ↔ 설명 24」)으로 되돌린다 */
+.s21 .group__row--stat.chart {
+  column-gap: var(--space-3);
+}
+
+/* ── 22 (src/slides/22.css) ── */
+/* 22 뇌세포 칩: 12열 8 + 4. 왼쪽 8열 = CL1 사양 가로 칸 넷(.group__cols, 칸마다 2열) + 각주(.footnote), 그 아래 나란한 묶음 둘(4 + 4, 이름 ↔ 값 줄).
+ * 오른쪽 4열 = 그림(figure.media 1:1, 368 × 368)이 두 행을 함께 쓴다 — 왼쪽 두 행(사양 → 묶음 둘) 높이와 그림 높이가 비슷해
+ * 3 + 3 + 6일 때 오른쪽 아래에 남던 880 × 108 빈 곳이 없다(3회차 SL3-08). 맨 아래는 핵심 한 문장.
+ * 열: 위 칸 넷은 덱 공통 .group__cols가 8열 폭을 칸 넷으로 나눠 12열 선(64 · 260 · 456 · 652)에 얹고,
+ * 아래 두 묶음은 64 · 456에서 시작해 위 칸 1 · 3번째 시작선과 같다(2회차 SL-03의 「아래 시작선 = 위 칸 시작선」 유지). 칸 폭은 장 CSS에서 주지 않는다.
+ * 사양 칸 넷과 각주 사이는 16(.stack data-gap 2): 칸 안 덩어리 사이(8)와 같으면 각주가 마지막 칸에 붙어 읽혔다(3회차 SL3-14).
+ * 나란한 두 묶음은 같은 짜임(제목 → 이름 ↔ 값 줄 둘 → 설명 줄)이라 줄 사이 선이 같은 높이에 놓인다(1회차 L-05).
+ * 이름 칸 글줄 안 꼬리표가 줄 높이를 키우지 않는 보정은 덱 공통(deck.css 「글줄 안 꼬리표」 · layout.md 예외 표) */
+.s22 .s22-media {
+  grid-row: span 2;
+}
+
+/* ── 23 (src/slides/23.css) ── */
+/* 23 모형의 뼈대: 12열 7 + 5에 묶음 넷을 바로 놓는다(.cols 두 줄) — 위 두 묶음이 한 행을 함께 써서 아래 두 묶음의 제목이 같은 선에서 시작한다(1회차 L-06, SP-62).
+ * 표는 시스템 표(table table--wrap), 회사 도입 기간의 근거는 이름 ↔ 값 줄 둘(덱 패턴 「셋까지는 pair」 — 3회차 SC-04). 묶음 제목과 표 칸 글이 같은 시작선이다.
+ * 각주(.footnote)는 묶음 안 마지막 덩어리(묶음 gap 8): 왼쪽 = 본격화 뜻 · 소수점 · 반올림, 오른쪽 = 모형에서 뺀 것(3회차 C3-01 · T3-03 — 꼬리말에서 옮김).
+ * 시나리오 표 열 · 계산 표(머리 없이, 마지막 줄 = 합계 굵게) */
+
+/* 시나리오 표: 첫 칸 = 12열 한 열 폭(74) — 둘째 칸 글이 12열 선(162)에서 시작한다(3회차 SL3-13: 첫 칸 64면 152로 선 −10) */
+.s23 .scen-table .table__head,
+.s23 .scen-table .table__row {
+  grid-template-columns: calc((var(--layout-max-width) - var(--space-8) * 2 - var(--layout-gutter) * 11) / 12) minmax(0, 2.4fr) repeat(2, minmax(0, 1fr));
+}
+
+/* 좌우 행 맞춤(2회차 SL-11): 왼쪽 표는 머리(28 + 선 1 + 아래 4 = 33) 뒤에 행이 오고, 오른쪽 계산 표는 머리 없이 행(36)부터라
+ * 두 표의 행이 3씩 어긋났다. 왼쪽 머리 자리를 행 하나(36)와 같게 — 위 안쪽 4 + 글 칸 27 + 선 1 + 아래 4 —
+ * 두면 왼쪽 행 셋이 오른쪽 둘째~넷째 행과 같은 높이에 서고, 머리 글도 오른쪽 첫 행 글과 같은 높이(행 가운데 18)에 놓인다.
+ * 머리 모양(선 · 글자)은 시스템 그대로이고 높이만 맞춘다(SP-62 행을 함께 쓰기).
+ * OP-14: 시스템 표 머리 높이(size-control-1) 밖 — 머리 없는 옆 표와 행을 함께 쓰려고 · 2026. 10. 21. · 다시 나올 가능성 낮음(이 장 하나) */
+.s23 .scen-table > .table__head {
+  min-height: calc(var(--size-control-1) - var(--border-1));
+  padding-block-start: var(--space-half);
+}
+
+/* 계산 표: 머리 없는 이름 ↔ 값 표(4행). 값 넷이 한 줄로 이어지는 계산(더하기 · 곱하기)이라 열 머리가 뜻을 더하지 않고,
+ * 머리를 달면 표마다 36씩 늘어 본문 높이(423)를 넘는다.
+ * OP-14: 덱 components.md 「값 셋 이상 · 견줄 열 둘 이상이면 머리 있는 표」 밖 — 열이 이름 · 값 하나씩인 계산 줄 · 2026. 10. 21. · 다시 나올 가능성 중간(26장도 같은 꼴) */
+.s23 .calc-table .table__row {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.s23 .calc-table .table__row:last-child {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+/* ── 24 (src/slides/24.css) ── */
+/* 24 AI 능력 연장: 본문 폭 차트(capfan) + 핵심 한 문장.
+ * 차트 부제(읽어야 하는 가정 · 풀이)를 12열 6 + 6 두 칸에 나눈다. 부제는 읽기 폭 40em(13px에서 520)이라 한 칸이면 다섯 줄을 넘어
+ * 차트 높이를 깎아야 했다 — 본문 폭 차트의 머리 오른쪽 빈 곳을 둘째 칸으로 쓴다. 차트 제목은 두 칸에 걸친다.
+ * 출처 줄에 있던 출발점 · 가는 점선 풀이와 꼬리말의 소수점 풀이를 이 두 칸으로 옮겼다(3회차 C3-01 · T3-03 · SL3-04 — 출처 줄 94em).
+ * OP-14: 덱 차트 머리(제목 + 부제 하나) 밖 — 본문 폭 차트에서 부제가 길 때 두 칸 · 2026. 10. 21. · 다시 나올 가능성 낮음 */
+.s24 .s24-head {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--layout-gutter);
+  align-items: start;
+}
+
+.s24 .s24-head > .chart-title {
+  grid-column: 1 / -1;
+}
+
+/* ── 25 (src/slides/25.css) ── */
+/* 25 직급별 대체 시점: 제목이 말하는 기준 시나리오 열은 장 마크업 data-main="기준"(강조 색은 deck.css가 정한다).
+ * 표 글자는 시스템 표 그대로(type-label, 본격화 연도만 굵게 — charts.js). 읽는 법은 표 바로 위(28장 범례와 같은 자리, 라벨 ↔ 표 8),
+ * 표의 가정(업무 크기 · 80% 기준)은 표 바로 아래 각주(.footnote 13 · text-2 — 꼬리말에는 출처만, 3회차 C3-01 · T3-03).
+ * 「맡는 업무 크기」 열 · 칸 아래 작은 줄의 글자색(text-2)은 charts.js · deck.css가 정한다(3회차 C3-04 — 장 CSS에서 다시 주지 않는다).
+ * 그림은 오른쪽 3열(270) 3:4(덱 허용 비율, 3열 그림은 3:4 — 3회차 SC-05). 자르는 기준점은 deck.css 기본(오른쪽 아래, 워터마크 보존) */
+
+/* 표 열: 직급 · 업무 크기는 12열 격자 2열 폭(172)씩 — 28장 표 첫 열과 같은 시작선(L-15). 시나리오 세 열은 나머지를 나눈다.
+ * 100%는 행 글 폭(9열 = 858), 열 하나 = (858 − 열 사이 8개) ÷ 9 */
+.s25 .gates-table :is(.table__head, .table__row) {
+  grid-template-columns:
+    repeat(2, calc((100% - var(--layout-gutter) * 8) / 9 * 2 + var(--layout-gutter)))
+    repeat(3, minmax(0, 1fr));
+}
+
+/* 신입 채용 묶음: 끝 줄에 한 어절만 남지 않게(TY-44 · T-07). 읽기 폭(40em)은 deck.css 묶음 문단 규칙이 건다(3회차 SL3-04) */
+.s25 .s25-note > p { text-wrap: pretty; }
+
+/* ── 26 (src/slides/26.css) ── */
+/* 26 한국 일자리 누적: 기준 시나리오 숫자는 누를 수 없는 강조라 글자색 그대로(text-1, 2회차 C-01 · C-04). 위 라벨이 글자로 뜻을 말한다.
+ * 숫자는 홀로 서는 숫자라 deck.css 기본 비례 폭(.group__row--stat 밖) — 장 CSS의 숫자 변형 땜질은 지웠다(3회차 T3-11).
+ * 다른 가정 세 줄은 열 머리 없는 이름 ↔ 값이라 묶음의 이름 ↔ 값 줄(.group__row--pair, 줄 사이 선 — 13 · 17 · 22장과 같은 꼴).
+ *   머리 없는 시스템 표로 두던 것을 deck.css · components.md 기준(행 수가 아니라 열 머리 유무로 고른다, 2회차 S-07)에 맞췄다(3회차 SC-04 · T3-16).
+ * 차트: 그림 → 대체 압력 정의 각주(.footnote, 그림 뒤 · 출처 앞 — 3회차 C3-01 · W-04) → 출처. 차트 높이 320(덱 차트 기본)은
+ *   각주가 본문 높이 안에 들어가도록 352에서 줄인 값. 가로축 이름 「연말 기준」의 글자색은 deck.css .axis-name(text-2, 3회차 C3-04) */
+
+/* 설명 문단: 끝 줄에 한 어절만 남지 않게 */
+.s26 .s26-why > p { text-wrap: pretty; }
+
+/* ── 27 (src/slides/27.css) ── */
+/* 27 직업군별 대체 시작: 차트 8열 + 읽을 점 4열(덱 「차트 하나 + 읽는 법」 패턴). 묶음 높이 = 내용, 남는 높이는 묶음 아래(SP-60).
+ * 차트 높이 308 = charts.js starts의 (높이 − 64 − 28) ÷ 6행이 정수 36(hbar 기본 줄 간격과 같음)이 되는 값(2회차 SL-08 — 행 간격 소수 위치 없앰).
+ * φ 뜻은 읽어야 하는 단서라 차트 출처(캡션 · text-3)가 아니라 그림 뒤 · 출처 앞 각주(.footnote 13 · text-2)에 둔다(3회차 C3-01).
+ * 축 이름(열 이름 · 가로축 이름) 글자색은 deck.css .axis-name(text-2, 3회차 C3-04) */
+
+/* 설명 문단: 끝 줄에 한 어절만 남지 않게 */
+.s27 .s27-note > p { text-wrap: pretty; }
+
+/* ── 28 (src/slides/28.css) ── */
+/* 28 직업군별 대체 시작: 라벨 풀이 각주(charts.js) → 표(행 높이 = 내용 높이) → 「시작」 뜻 각주(.footnote — 꼬리말에는 출처만, 3회차 C3-01), 왼쪽 8열.
+ * 신호 칸 끝 줄에 기간 괄호만 남지 않게는 charts.js가 단 .table--multiline(text-wrap: pretty, 3회차 T3-04).
+ * 오른쪽 4열은 그림 4:3(덱 허용 비율, 4열 그림은 4:3 — 3회차 SC-05). 원본도 4:3이라 자르지 않고 워터마크(오른쪽 아래)가 그대로 보인다.
+ *   표보다 그림이 짧아 남는 높이는 그림 아래 빈 곳으로 둔다(그림을 늘리지 않는다 — layout.md 「남는 높이는 늘리지 않는다」).
+ * 제목이 말하는 사무직 행은 장 마크업 data-main="사무직"(강조 모양은 deck.css가 정한다). 시작 칸 모양은 deck.css .poster-when */
+
+/* 범례 ↔ 표 ↔ 각주: 라벨 · 각주와 표 사이 8(spacing.md 「간격 배정」) */
+.s28 .s28-poster {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+
+/* 표 열: 12열 격자에 맞춘다 — 직업군 2열(172) · 신호 4열(368) · 시작 나머지(2열). 25장 표 첫 열과 같은 시작선(L-15).
+ * 100%는 행 글 폭(8열 = 760), 열 하나 = (760 − 열 사이 7개) ÷ 8 */
+.s28 .poster-table :is(.table__head, .table__row) {
+  grid-template-columns:
+    calc((100% - var(--layout-gutter) * 7) / 8 * 2 + var(--layout-gutter))
+    calc((100% - var(--layout-gutter) * 7) / 8 * 4 + var(--layout-gutter) * 3)
+    minmax(0, 1fr);
+}
+
+/* 이름 칸: 직업군 이름과 묶음 이름 사이는 작은 글 덩어리 간격 */
+.s28 .poster-table .table__row > :first-child {
+  display: grid;
+  gap: var(--space-half);
+}
+
+/* ── 29 (src/slides/29.css) ── */
+/* 29 2036년까지의 흐름: 덱 세로 시간축(.timeline--vertical)으로 네 단계를 위에서 아래로(왼쪽 9열), 오른쪽 3열에 그림.
+ * 줄 위 선은 시간축 그대로(border-1). 지금 단계는 「지금」 글자로 말한다(누를 수 없는 글자라 파랑을 쓰지 않는다 — 2회차 C-01 · C-03).
+ * 설명은 덱 시간축 그대로 type-label(13) · text-2 — 단계 이름(15 굵게)보다 한 단계 작게(TY-34, 2회차 T2-10).
+ * 시간축 아래 각주(.footnote — 연도 · 라벨의 단서는 꼬리말이 아니라 본문에, 3회차 C3-01 · T3-03). 시간축 ↔ 각주 16(줄 사이 선 위아래와 같은 값) */
+
+/* 줄 = [때 2열][단계 이름 2열][설명 나머지 5열] — 12열 격자 선에 맞춘다(25 · 28장 표 첫 열과 같은 172).
+ * 100%는 시간축 폭(9열 묶음 폭 그대로 = 858), 열 하나 = (858 − 열 사이 8개) ÷ 9 */
+.s29 .timeline--vertical {
+  /* 줄 사이 선의 위아래 16(줄 사이 · 줄 위 선 아래)은 덱 공통 .timeline--vertical(deck.css) */
+  --timeline-row:
+    calc((100% - var(--layout-gutter) * 8) / 9 * 2 + var(--layout-gutter))
+    calc((100% - var(--layout-gutter) * 8) / 9 * 2 + var(--layout-gutter))
+    minmax(0, 1fr);
+}
+
+/* 때: 핵심 숫자 크기(type-title-2), 같은 폭 숫자. 아래에 「지금」 */
+.s29 .timeline__when {
+  display: grid;
+  align-content: start;
+  gap: var(--space-half);
+  font: var(--type-title-2);
+  letter-spacing: var(--type-title-2-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-1);
+}
+
+.s29 .s29-now {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  color: var(--color-text-1);
+}
+
+/* ── 30 (src/slides/30.css) ── */
+/* 30 반대 증거 맞대기: 왼쪽 8열 = 시스템 표 3열(쟁점 · AI 쪽 근거 · 다른 원인 근거) → 32 → 이중차분 뜻(.block), 오른쪽 4열 저울 그림(1:1, 오른쪽 아래 기준 자름).
+ * - 왼쪽 8열은 .stack[data-gap="4"](묶음 사이 32 — 부모 gap, SP-61). 표 아래 빈 칸(2회차 SL-04 172px)을 꼬리말에 있던 이중차분 풀이로 채웠다
+ *   — 핵심 한 문장이 쓰는 낱말을 쓰기 전에 풀고(WR-13), 꼬리말은 출처만 남긴다(2회차 T2-13).
+ *   표 뒤 간격(3회차 SL3-07)과 풀이 문단의 읽기 폭 40em(SL3-04)은 deck.css 공통 규칙이 맡는다 — 여기서 다시 주지 않는다.
+ * - 표 열은 12열 격자에 맞춘다(31 · 32장 표와 같은 2 · 3 · 3열 = 172 · 270 · 270): 행을 8열 격자로 두고 칸이 열을 걸친다.
+ *   두 근거 열은 같은 폭(같은 무게로). 칸 글자는 표 그대로(type-label), 행 높이 = 내용 높이.
+ *   칸 글은 모두 명사구(… 업종 · … 원격근무 · … 속도 · … 사례)로 끝맺는다 — 서술형 명사 끝맺음(「설명」 「뿐」 「없음」)을 섞지 않는다(3회차 W-17, WR-85).
+ * - 여러 줄 칸이 섞인 행이라 덱 공통 변형 .table--multiline(첫 줄 기준선 맞춤 · text-wrap: pretty, deck.css)을 쓴다. */
+.s30 .s30-table :is(.table__head, .table__row) {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.s30 .s30-table :is(.table__head, .table__row) > :first-child { grid-column: span 2; }
+.s30 .s30-table :is(.table__head, .table__row) > :not(:first-child) { grid-column: span 3; }
+
+/* ── 31 (src/slides/31.css) ── */
+/* 31 계획 1: 12열 격자 두 줄(줄 사이 32). 위 12열에 질문(묶음), 아래 8열에 2~4단계 표 + 각주 + 4열에 갈라지는 길 그림(16:9).
+ * - 아래 줄 두 열의 끝을 맞춘다(3회차 SL3-08 — 표 466 · 그림 561로 표 아래에 784 × 96~136 빈 곳): 그림을 4:3 → 16:9(덱 비율 세트, 33장 그림과 같은
+ *   4열 · 16:9)로 낮추고, 표 아래에 「(2주)」 같은 괄호 주차의 뜻을 각주(p.footnote, 표 → 8)로 단다. 행을 늘려 맞추지 않는다.
+ * - 칸 안 여러 항목은 쉼표로 잇는다(WR-91 — 줄 끝에 「·」 구분점이 남지 않게, 3회차 T3-08). 괄호 풀이는 앞 낱말과 한 덩어리(.nowrap, T3-05).
+ *   4단계 이름은 「기술 통계」 — 주장 라벨 「기술」(결론 등급)과 같은 낱말이라 기술(technology)로 읽히지 않게 수업 용어 그대로 쓴다.
+ * - 글자 위계(2회차 T2-12): 묶음 제목 「1 질문」은 type-heading 18, 그 안 질문 줄은 항목 제목과 같은 type-body-strong 15.
+ *   제목의 번호 1은 아래 표의 단계 번호 2~4와 같은 모양(text-3 · 같은 폭 숫자 · 이름과 사이 8)이라 1 → 4가 한 줄로 읽힌다.
+ * - 조작적 정의 줄과 표는 같은 열: 12열 격자의 2 · 3 · 3열(172 · 270 · 270, 30 · 32장 표와 같다). 정의 줄은 12열 행에서,
+ *   표는 8열 행(.stack.span-8 안)에서 칸이 열을 걸친다. 묶음 줄 글과 표 칸의 시작선이 위아래로 맞는다(둘 다 안쪽 좌우 0).
+ *   정의 줄 글자는 아래 표 칸과 같은 단계(이름 label-strong · 값 label).
+ * - 표 행 높이 = 내용 높이(행 위아래는 표 그대로 8). 여러 줄 칸이 섞여 덱 공통 변형 .table--multiline(첫 줄 기준선 맞춤 · text-wrap: pretty)을 쓴다. */
+.s31 .s31-def {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: baseline;
+  column-gap: var(--layout-gutter);
+}
+
+.s31 .s31-table :is(.table__head, .table__row) {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.s31 .s31-def > :first-child,
+.s31 .s31-table :is(.table__head, .table__row) > :first-child { grid-column: span 2; }
+
+.s31 .s31-def > :not(:first-child),
+.s31 .s31-table :is(.table__head, .table__row) > :not(:first-child) { grid-column: span 3; }
+
+.s31 .s31-def > dt {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.s31 .s31-def > dd {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+}
+
+.s31 .s31-step {
+  display: grid;
+  gap: var(--space-half);
+}
+
+.s31 .s31-step__name {
+  display: flex;
+  gap: var(--space-1);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.s31 .s31-no {
+  color: var(--color-text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 수업 주차는 「방법 · 수업 연결」 열의 내용이라 읽어야 하는 글 — text-2(CO-05) */
+.s31 .s31-week {
+  color: var(--color-text-2);
+}
+
+.s31 .s31-qtitle {
+  display: flex;
+  gap: var(--space-1);
+}
+
+/* ── 32 (src/slides/32.css) ── */
+/* 32 계획 2: 왼쪽 8열 5~7단계 표 + 각주, 오른쪽 4열 이중차분 개념 그림 + 그림 각주, 아래 12열 주차 일정(덱 시간축).
+ * - 표는 31장과 같은 열(8열 격자에 2 · 3 · 3열 = 172 · 270 · 270)과 행 모양(시스템 표, 행 위아래 8)이라 31 → 32로 넘겨도 칸이 제자리에 있다.
+ *   여러 줄 칸이 섞여 덱 공통 변형 .table--multiline(첫 줄 기준선 맞춤 · text-wrap: pretty)을 쓴다. 행 높이 = 내용 높이.
+ *   칸 안 여러 항목은 쉼표로 잇는다(WR-91 — 줄 끝에 「·」 구분점이 남지 않게, 3회차 T3-08).
+ *   교란 후보는 덱 안 숫자와 맞춰 「교란 후보 점검(15장에서 든 4개)」(3회차 W-22, 오케스트레이터 결정 2026. 10. 21. — 수업 점검 항목
+ *   method-selector.md 「교란 후보 3개」는 최소 기준, 덱에는 analysis/out/occupation_results.json 교란후보 4개를 쓴다).
+ * - 표 아래 각주(p.footnote, 표 → 8): 괄호 주차의 뜻과 「7주부터 16주까지는 계획 문서 기준」 — 꼬리말에 있던 단서를 본문으로 옮겼다
+ *   (3회차 C3-01 · T3-03, 꼬리말은 출처만). 표 아래 빈 곳(SL3-08 — 표 293 · 그림 388)을 행을 늘리지 않고 이 각주로 메운다.
+ * - 개념 그림은 손 SVG를 figure.chart 안에 두고 차트 클래스를 빌린다(viewBox = 실제 픽셀). 등장 모션이 없어 data-step 표시는 두지 않는다(L-03 · SC-14).
+ *   노출 큰 직업 = 이 장의 핵심 계열 s-main(나란히 갔을 경로는 같은 색 점선 — color.md에 적힌 이 장만의 파선 뜻), 노출 작은 직업 = 맥락 s-ctx,
+ *   2023년 = 문턱 점선(.gate), 이중차분 = 지시선 괄호(.leader). 값이 없는 그림이라 눈금 숫자를 두지 않는다. 두 직선 기울기는 같다(−0.110, 나란함).
+ *   그림 높이 156(3회차에 168에서 줄임 — 일정을 시간축으로 바꾸며 본문이 3px 넘쳐 fit.js 「본문 아래」에 걸렸다. 세로만 116/124로 눌러 비례 · 평행은 그대로).
+ *   「선의 높이는 실제 값이 아니에요」는 읽어야 하는 단서라 차트 출처(text-3)가 아니라 그림 뒤 각주(text-2)로 둔다. 출처 줄은 없다(자료가 없는 개념 그림).
+ * - 일정(3회차 SC-02 · C3-03 · C3-04): 채운 막대 띠(파랑 한 칸 + 회색 네 칸)를 지우고 29장과 같은 덱 시간축(.timeline — 단계 위 가는 선 + 주차 + 이름)으로 그린다.
+ *   어느 단계도 파랑으로 칠하지 않는다(누를 수 없는 강조는 파랑이 아니다 — CO-35). 주차는 시간축 그대로 label-strong · text-2(값이 있는 글, CO-05).
+ *   단계 칸은 12열 격자 선에 선다 — 2 · 3 · 2 · 3 · 2열(시작 64 · 260 · 554 · 750 · 1044). 두 주짜리 단계(10~11주 · 13~14주)가 한 열 넓다
+ *   (기간 비례는 주차 글자가 말하고, 칸 폭은 격자 선을 지킨다).
+ * - 맨 아래 핵심 한 문장(.takeaway, 본문 맨 아래 같은 자리): 개념 그림의 「사전 추세 점검」 · 「나란히 갔다면」을 글로 — 이중차분을 원인 쪽으로 읽는 조건. */
+.s32 .s32-table :is(.table__head, .table__row) {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.s32 .s32-table :is(.table__head, .table__row) > :first-child { grid-column: span 2; }
+.s32 .s32-table :is(.table__head, .table__row) > :not(:first-child) { grid-column: span 3; }
+
+.s32 .s32-step {
+  display: flex;
+  gap: var(--space-1);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.s32 .s32-no {
+  color: var(--color-text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 수업 주차는 「방법 · 수업 연결」 열의 내용이라 읽어야 하는 글 — text-2(CO-05) */
+.s32 .s32-week {
+  color: var(--color-text-2);
+}
+
+/* 일정: 12열 격자 위의 시간축 — 단계 칸이 열을 걸친다 */
+.s32 .s32-timeline {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.s32 .s32-timeline > :nth-child(odd) { grid-column: span 2; }
+.s32 .s32-timeline > :nth-child(even) { grid-column: span 3; }
+
+/* ── 33 (src/slides/33.css) ── */
+/* 33 한계: 12열 격자 두 줄(줄 사이 32).
+ * - 위 줄: 말할 수 없는 것 · 근거가 약한 부분 · 여러 방법으로 다시 확인한 부분을 4열씩 나란한 묶음 셋(제목 + 점 목록). 묶음 높이 = 내용 높이.
+ *   셋째 묶음 이름은 verification-independent.md 1절(METR 값 일치는 METR 자체 산출이라 독립 확인으로 세지 않음)에 맞췄다(2회차 W-56).
+ *   「근거가 약한 부분」 첫 줄은 점이 적은 관계식만 이름으로 꼽는다(3회차 W-03 · D3-09): report.md 3절 표 — R2 · R3 설문 3회, R4 2점 · 1기간.
+ *   R1은 점 17 · 14 · 12개(셋째 묶음의 METR 재계산), R5 · R6은 점이 아니라 계산(추정)이라 「관계식마다 2개 또는 3개」가 아니다.
+ *   가정 셋은 쉼표로 잇고 항목마다 한 덩어리(.nowrap)로 둬 「0.5·」 뒤에서 줄이 꺾여 한 항목처럼 읽히지 않게 한다(T3-08, WR-91).
+ * - 아래 줄: 8열 바로 다음 할 일(번호 줄 group__row--step 셋) + 4열 안개 길 그림(16:9, 오른쪽 아래 기준 자름 — 워터마크 보존).
+ *   위 줄의 열 시작선(64 · 456 · 848)과 아래 줄의 묶음 · 그림 시작선이 같다(SP-18).
+ * - 번호 줄은 제목만 있다(설명 문단 없음). 번호 칸이 덩어리 수만큼만 행을 걸치는 것은 덱 공통 규칙(deck.css 「번호 줄」). */
+
+/* 점 목록 끝 줄에 한 어절만 남지 않게(1회차 T-07) */
+.s33 .bullets > li { text-wrap: pretty; }
+
+/* ── 34 (src/slides/34.css) ── */
+/* 34 출처: 직접 확인한 자료 표(시스템 표 4열 — 기관 · 자료 · 이 발표에서 · 확인) → 32 → 원문 링크 줄 → 32 → 라벨 뜻(묶음).
+ * - 차례: 자료 → 그 원문(확인 경로) → 꼬리표 읽는 법(범례). 링크 줄을 본문 맨 아래에 두면 누름 여백(controls.css, 위아래 12)이 본문 아래 끝을 넘어
+ *   fit.js 「본문 아래」 검사에 걸렸다(+3) — 링크 줄을 표 바로 뒤로 올려 여백이 본문 안에 든다.
+ * - 표 열은 12열 격자 선에 선다(3회차 SL3-01 — 비율 열이라 64 · 308 · 692 · 996으로 선을 벗어났다): 2 · 4 · 3 · 3열 → 64 · 260 · 652 · 946
+ *   (28 · 30~32장 표의 260 · 652와 같은 선, 아래 라벨 뜻의 652 · 946과 같은 선). 기관 칸 「OpenAI · Microsoft · Anthropic」은 173px로
+ *   2열(172)보다 1px 넓어 한 덩어리(.nowrap)로 둔다 — 열 사이 24 안으로 1px 나가고 줄은 꺾이지 않는다.
+ * - 행 묶음(rowgroup) 둘(다시 계산한 자료 → 직접 확인한 자료)은 이름 줄 없이 차례로 잇는다. 묶음 이름은 aria-label로 남기고, 화면에서는
+ *   「확인」 열(재계산 · 직접 계산 ↔ 직접 확인)이 갈래를 말한다. 이름 줄 두 개(96px)를 라벨 뜻에 내주었다 — 본문 479 안에 표 · 라벨 뜻 · 원문이 함께 든다.
+ * - 제목은 표가 담는 범위대로 「직접 확인한 자료」(3회차 W-14 · D3-10). 한국은행 이슈노트에 2025-22(23장 51.8%의 출처, research/jobs-korea.md 38행)를 더했다.
+ *   표에 없는 2차 · 회사 발표 · 예측 자료(Metaculus · McKinsey · IEA · Epoch AI · Stanford · NY Fed 등)는 꼬리말 출처 줄이 각 장 꼬리말 · research/*.md를 가리킨다.
+ * - 라벨 뜻(덱에 쓴 주장 꼬리표 11개 — 1장 꼬리말이 「모든 라벨 뜻은 34장」으로 가리킨다): 4열씩 네 칸, 칸마다 [꼬리표][뜻] 두 열(꼬리표 열 = 그 칸에서 가장 긴 꼬리표).
+ *   칸 차례는 갈래대로: 결론 등급(기술 · 추정) → 확인 상태(직접 · 2차 · 자체 보고) → 회사 · 말의 종류(회사 주장 · 예측 · 내부 목표) → 근거의 세기(시간순 검증 · n = 3 · 가정 공개).
+ *   「기술」 뜻이 두 줄이라 첫 칸은 두 항목만 둔다(네 칸 모두 세 줄 높이 76 안).
+ *   뜻은 report.md 첫머리(결론 등급 · 확인 상태), spec.md 제약(예측 ≠ 실측, 목표와 예측을 섞지 않음), research/biocomputing.md 10행(회사 주장 = 독립 검증 없음),
+ *   research/agi-timelines.md 11행(사내 코드 비율 = 자체 보고), report.md 5절(시간순 분할 백테스트) · 3절(R2 · R3 설문 3회 = n = 3)에서 옮겼다.
+ *   「기술」은 결론 등급이라 첫 칸 첫 줄에 「있는 그대로 적음: 정확한 집계나 함께 움직임, 원인은 아님」(1장 꼬리말과 같은 낱말)으로 푼다 — technology로 읽히지 않게
+ *   (오케스트레이터 결정 2026. 10. 21. — 한자 「記述」은 Pretendard에 없어 대체 글꼴이 섞이므로 쓰지 않는다. 뜻은 report.md 첫머리 「기술(함께 움직임, 정확한 집계)」).
+ *   뜻 글은 읽어야 하는 글이라 라벨 13 · text-2. 꼬리표는 글줄 안 꼬리표 규칙(deck.css, 위아래 −12)으로 줄 높이 20을 지키게 span 안에 둔다(줄 사이 8).
+ * - 원문 링크 줄: 「원문」은 묶음 제목이 아니라 줄 라벨이라 h3가 아니라 p.t-label-strong(3회차 T3-07 — 13 제목이 15 항목보다 작았다).
+ *   링크는 독립 링크 목록이라 누름 영역 24 이상(AC-44): a[data-hit](controls.css 공통 규칙, 좌우 여백 상한으로 이웃과 겹치지 않음 — SL3-06). */
+.s34 .s34-group {
+  display: grid;
+}
+
+.s34 .s34-table .table__head,
+.s34 .s34-table .table__row {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.s34 .s34-table :is(.table__head, .table__row) > :nth-child(1) { grid-column: span 2; }
+.s34 .s34-table :is(.table__head, .table__row) > :nth-child(2) { grid-column: span 4; }
+.s34 .s34-table :is(.table__head, .table__row) > :nth-child(n + 3) { grid-column: span 3; }
+
+/* 라벨 뜻: 12열 격자 4칸(3 · 3 · 3 · 3열 → 64 · 358 · 652 · 946) */
+.s34 .s34-label-cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--layout-gutter);
+}
+
+.s34 .s34-label-col {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
+  align-items: baseline;
+  gap: var(--space-1);
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+  color: var(--color-text-2);
+}
+
+.s34 .s34-links {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: var(--space-4);
+}

@@ -1,0 +1,49 @@
+<!-- 23 모형의 뼈대 · 2 × 2 묶음(12열 7 + 5, 두 줄이 행을 함께 써서 아래 묶음 시작선이 같다): 시나리오 가정 표 · 사무직 시점 계산 표 / 회사 도입 기간의 근거(이름 ↔ 값 줄 둘) + 각주(본격화 · 소수점 · 반올림) · 규모 계산 표 + 각주(빠진 것). 꼬리말 = 수치 출처만 -->
+<section class="slide s23">
+  <div class="head">
+    <p class="tag section-tag" data-hue="yellow">2036 추정</p>
+    <h2 class="headline">관계식들을 이어 직업군별 대체 시점 모형을 만들었어요</h2>
+    <p class="lead">AI 능력이 같아도 몸을 많이 쓸수록 대체가 늦게 본격화된다고 봐요. 최종 규모는 한국고용정보원의 고위험 비중을 따르고, 계산으로 정하는 것은 시기뿐이에요.</p>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <section class="group span-7" aria-labelledby="s23-scen">
+        <h3 class="group__title" id="s23-scen">시나리오별 가정</h3>
+        <div class="table table--wrap scen-table" role="table" aria-labelledby="s23-scen">
+          <div class="table__head" role="row"><span role="columnheader">시나리오</span><span role="columnheader">AI 능력이 두 배가 되는 기간</span><span role="columnheader" class="table__cell--numeric">회사 도입까지</span><span role="columnheader" class="table__cell--numeric">로봇 데이터 시차</span></div>
+          <div class="table__row" role="row"><span class="table__cell table__cell--name" role="cell">빠름</span><span class="table__cell num" role="cell">105일 유지</span><span class="table__cell table__cell--numeric" role="cell">2.6년</span><span class="table__cell table__cell--numeric" role="cell">3년</span></div>
+          <div class="table__row" role="row"><span class="table__cell table__cell--name" role="cell">기준</span><span class="table__cell num" role="cell">129일, 2028년부터 188일</span><span class="table__cell table__cell--numeric" role="cell">4년</span><span class="table__cell table__cell--numeric" role="cell">5년</span></div>
+          <div class="table__row" role="row"><span class="table__cell table__cell--name" role="cell">신중</span><span class="table__cell num" role="cell">188일, 2028년부터 1년</span><span class="table__cell table__cell--numeric" role="cell">6년</span><span class="table__cell table__cell--numeric" role="cell">8년</span></div>
+        </div>
+      </section>
+      <section class="group span-5" aria-labelledby="s23-when">
+        <h3 class="group__title" id="s23-when">사무직·기준 시나리오</h3>
+        <div class="table table--wrap calc-table" role="table" aria-labelledby="s23-when">
+          <div class="table__row" role="row"><span class="table__cell" role="cell">AI가 한 주짜리 업무를 해내는 연도</span><span class="table__cell table__cell--numeric" role="cell">2027.6년</span></div>
+          <div class="table__row" role="row"><span class="table__cell" role="cell">회사 도입까지</span><span class="table__cell table__cell--numeric" role="cell">+4년</span></div>
+          <div class="table__row" role="row"><span class="table__cell" role="cell">몸을 쓰는 정도 0.05 × 로봇 데이터 시차 5년</span><span class="table__cell table__cell--numeric" role="cell">+0.25년</span></div>
+          <div class="table__row" role="row"><span class="table__cell" role="cell">대체가 본격화되는 해</span><span class="table__cell table__cell--numeric" role="cell">2031.85년</span></div>
+        </div>
+      </section>
+      <section class="group span-7" aria-labelledby="s23-adopt">
+        <h3 class="group__title" id="s23-adopt">회사 도입 기간의 근거</h3>
+        <div class="group__rows">
+          <div class="group__row group__row--pair"><span class="group__label">ChatGPT 출시 뒤 한국 직장인 과반(51.8%)이 업무에 생성형 AI를 쓰기까지</span><span class="group__value">2.6년</span></div>
+          <div class="group__row group__row--pair"><span class="group__label"><span>기업 AI 활용률 1.4%→6.1%(2017→2023) <span class="tags"><span class="tag" data-hue="purple">추정 · 가정 공개</span></span></span></span><span class="group__value">6년</span></div>
+        </div>
+        <p class="footnote">본격화 시점은 대체 압력이 최대치의 절반에 이르는 해예요. 연도의 소수점은 그 연도 안에서 지난 몫이에요<span class="nowrap">(2027.6년 = 2027년이 60% 지난 때).</span> 모형은 대리·주임 능력 문턱을 0.1년 단위로 반올림해 넣었어요. 그래서 결과의 끝자리가 조금 달라질 수 있어요.</p>
+      </section>
+      <section class="group span-5" aria-labelledby="s23-size">
+        <h3 class="group__title" id="s23-size">규모</h3>
+        <div class="table table--wrap calc-table" role="table" aria-labelledby="s23-size">
+          <div class="table__row" role="row"><span class="table__cell" role="cell">2025년 사무직 취업자</span><span class="table__cell table__cell--numeric" role="cell">516.2만 명</span></div>
+          <div class="table__row" role="row"><span class="table__cell" role="cell">AI·자동화 고위험 비중(대체 가능성 70% 이상)</span><span class="table__cell table__cell--numeric" role="cell">× 49.8%</span></div>
+          <div class="table__row" role="row"><span class="table__cell" role="cell">실제로 사람이 빠지는 비율</span><span class="table__cell table__cell--numeric" role="cell">× 0.5</span></div>
+          <div class="table__row" role="row"><span class="table__cell" role="cell">최대 대체 압력(취업자 1명 = 일자리 1개)</span><span class="table__cell table__cell--numeric" role="cell">128.5만 개</span></div>
+        </div>
+        <p class="footnote">교육용 모형이라 새로 생기는 일자리와 인구 감소는 넣지 않았어요.</p>
+      </section>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">한국은행 이슈노트 2025-22(51.8%)&nbsp;· <span class="nowrap">기업활동조사(KDI 연구보고서 2026-01 표 4-1, 1.4%→6.1%)</span>&nbsp;· KOSIS 직업별 취업자(516.2만 명)&nbsp;· <span class="nowrap">한국고용정보원 연구사업 2025-40(49.8%)</span>&nbsp;· analysis/projection_2036.py</p><p class="where"><span class="sec">2036 추정 1 · 모형의 뼈대</span><span class="pg"></span></p></footer>
+</section>

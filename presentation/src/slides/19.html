@@ -1,0 +1,51 @@
+<!-- 19 로봇 학습 데이터 · 왼쪽 = 두 배가 되는 기간 둘(숫자 줄) → 격차 3,333배 단위 그림(한 칸 = 로봇 학습 데이터 약 30만 시간, 그 한 칸을 격자 첫 칸에 파랑으로) + 각주(세계 총량과 회사 발표 값은 더하지 못함) · 오른쪽 = 컵을 집는 로봇 팔 그림(4:3, 몸을 쓰는 일) -->
+<section class="slide s19">
+  <div class="head">
+    <p class="tag section-tag" data-hue="blue">속도를 바꾸는 요인</p>
+    <h2 class="headline">로봇 학습 데이터가 쌓이면 같은 AI가 몸을 쓰는 일도 맡을 수 있게 된다고 봐요</h2>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <div class="span-7 stack" data-gap="4">
+        <section class="group" aria-label="두 배가 되는 데 걸린 기간">
+          <div class="group__rows">
+            <div class="group__row group__row--stat">
+              <p class="figure">2.5<span class="figure__unit">개월</span></p>
+              <p>로봇 학습 데이터가 두 배로 느는 데 걸린 기간. Physical Intelligence <span class="nowrap">1만&nbsp;시간(2024년&nbsp;10월)</span> → Generalist AI <span class="nowrap">27만&nbsp;시간(2025년&nbsp;11월)</span>. 서로 다른 두 회사의 발표를 이은&nbsp;참고치예요. <span class="tag" data-hue="purple">추정</span></p>
+            </div>
+            <div class="group__row group__row--stat">
+              <p class="figure">6.6<span class="figure__unit">개월</span></p>
+              <p>Waymo 무인 택시의 주간 유료 운행이 두 배가 되기까지. <span class="nowrap">5만&nbsp;건(2024년&nbsp;5월)</span> → <span class="nowrap">50만&nbsp;건(2026년&nbsp;3월)</span>. <span class="tag" data-hue="purple">추정</span></p>
+            </div>
+          </div>
+        </section>
+        <figure class="chart">
+          <figcaption class="chart-head">
+            <p class="chart-title">인터넷 영상과 로봇 학습 데이터의 양</p>
+            <p class="chart-sub">한 칸이 약 30만 시간이고, 인터넷 영상은 그 3,333배예요.</p>
+          </figcaption>
+          <!-- 범례 두 줄: 표식(한 칸과 같은 3 × 3) x0 · 글 x12로 두 줄 시작선이 같다(2회차 SL-09).
+               칸 시작 y48 — 범례 끝 줄과 약 16 띄우고, 무늬 간격 4의 배수라 칸이 잘리지 않는다. 격자 첫 칸이 범례의 파랑 「1칸」이다(3회차 C3-07) -->
+          <svg width="662" height="132" viewBox="0 0 662 132" role="img" aria-label="단위 그림이에요. 로봇 학습 데이터 약 30만 시간은 1칸, 인터넷 영상 약 10억 시간은 3,333칸이에요.">
+            <defs>
+              <pattern id="s19-cell" width="4" height="4" patternUnits="userSpaceOnUse"><rect class="unit-cell" width="3" height="3"/></pattern>
+            </defs>
+            <rect class="bar s-main" x="0" y="6" width="3" height="3"/>
+            <text class="vlab" x="12" y="12">로봇 학습 데이터 약 30만 시간 <tspan class="note">· 1칸</tspan></text>
+            <rect class="unit-cell" x="0" y="26" width="3" height="3"/>
+            <text class="vlab" x="12" y="32">인터넷 영상 약 10억 시간 <tspan class="note">· 3,333칸</tspan></text>
+            <rect class="units" fill="url(#s19-cell)" x="0" y="48" width="660" height="80"/>
+            <rect class="units" fill="url(#s19-cell)" x="0" y="128" width="132" height="4"/>
+            <rect class="bar s-main" x="0" y="48" width="3" height="3"/>
+          </svg>
+          <p class="chart-src">Bessemer · VC(벤처캐피털) 추정 <span class="tag" data-hue="purple">추정</span></p>
+          <p class="footnote">세계 총량 약 30만 시간(Bessemer 추정)과 회사 발표 값(Generalist AI 27만 시간 등)은 세는 기준이 달라 서로 더할 수 없어요.</p>
+        </figure>
+      </div>
+      <figure class="media span-5" data-ratio="4:3">
+        <img src="assets/img/19-robot-cup.jpg" width="2400" height="1792" alt="밝은 실험실에서 흰 로봇 팔이 흰 머그를 집어 드는 모습">
+      </figure>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">Waymo 발표 · Generalist AI·Physical Intelligence 블로그 · Bessemer · research/physical-ai.md · analysis/relations.py</p><p class="where"><span class="sec">로봇 학습 데이터</span><span class="pg"></span></p></footer>
+</section>

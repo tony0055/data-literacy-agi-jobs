@@ -1,0 +1,64 @@
+<!-- 20 로봇 학습 데이터가 따라잡는 시간(관계식 R6 로봇 데이터 시차) · 위 = 식 한 줄 + 11.7번 풀이, 아래 = 시나리오별 햇수 손 막대(+ 각주: 19장 관측 · Levine) · 데이터를 쌓는 곳과 로봇 현황 · 창고 로봇 그림(몸을 쓰는 일) -->
+<section class="slide s20">
+  <div class="head">
+    <p class="tag section-tag" data-hue="blue">속도를 바꾸는 요인</p>
+    <h2 class="headline">모형에서는 몸을 쓰는 일이 3년부터 8년까지 늦게 따라와요</h2>
+  </div>
+  <div class="body">
+    <section class="group" aria-label="따라잡는 햇수를 구하는 식">
+      <div class="group__rows">
+        <div class="group__row">
+          <p class="t-body-strong">따라잡는 햇수(= 로봇 데이터 시차) <span class="c-text-2">=</span> 격차를 메우려면 두 배로 늘어야 하는 횟수 <mark>11.7번</mark> <span class="c-text-2">×</span> 한 번 두 배가 되는 데 걸리는 기간</p>
+          <p>11.7번은 인터넷 영상과 로봇 학습 데이터의 차이 약 3,333배(19장)에서 나온 값이에요(2의 11.7제곱 ≈ 3,333).</p>
+        </div>
+      </div>
+    </section>
+    <div class="cols">
+      <figure class="chart span-5">
+        <figcaption class="chart-head">
+          <p class="chart-title">로봇 학습 데이터가 인터넷 영상만큼 쌓이는 데 걸리는 햇수</p>
+          <p class="chart-sub">3·5·8개월마다 두 배가 되면 2.9·4.9·7.8년이 걸려요. 모형의 빠름·기준·신중 시나리오에는 이를 3·5·8년으로 올려 썼어요.</p>
+        </figcaption>
+        <!-- 이름 칸 끝 88 · 0선 100(가장 긴 이름 「빠름 · 3개월마다」가 시작선에 닿게 — 3회차 SL-03), 한 해 = 35, 줄 간격 56 -->
+        <svg width="466" height="200" viewBox="0 0 466 200" role="img" aria-label="가로 막대 차트예요. 3개월마다 두 배가 되는 빠름은 2.9년, 5개월마다인 기준은 4.9년, 8개월마다인 신중은 7.8년이에요.">
+          <g class="grid-lines">
+            <line x1="170" y1="0" x2="170" y2="172"/>
+            <line x1="240" y1="0" x2="240" y2="172"/>
+            <line x1="310" y1="0" x2="310" y2="172"/>
+            <line x1="380" y1="0" x2="380" y2="172"/>
+          </g>
+          <line class="base" x1="100" y1="0" x2="100" y2="172"/>
+          <text class="tick" aria-hidden="true" x="100" y="192" text-anchor="middle">0</text>
+          <text class="tick" aria-hidden="true" x="170" y="192" text-anchor="middle">2</text>
+          <text class="tick" aria-hidden="true" x="240" y="192" text-anchor="middle">4</text>
+          <text class="tick" aria-hidden="true" x="310" y="192" text-anchor="middle">6</text>
+          <text class="tick" aria-hidden="true" x="380" y="192" text-anchor="middle">8년</text>
+          <text class="cat" aria-hidden="true" x="88" y="34" text-anchor="end">빠름 · 3개월마다</text>
+          <rect class="bar s-alt" x="100" y="24" width="101.5" height="12"/>
+          <text class="vlab" x="209.5" y="34">2.9년</text>
+          <text class="cat cat-hi" aria-hidden="true" x="88" y="90" text-anchor="end">기준 · 5개월마다</text>
+          <rect class="bar s-main" x="100" y="80" width="171.5" height="12"/>
+          <text class="vlab" x="279.5" y="90">4.9년</text>
+          <text class="cat" aria-hidden="true" x="88" y="146" text-anchor="end">신중 · 8개월마다</text>
+          <rect class="bar s-ctx" x="100" y="136" width="273" height="12"/>
+          <text class="vlab" x="381" y="146">7.8년</text>
+        </svg>
+        <p class="chart-src">Bessemer · analysis/relations.py <span class="tag" data-hue="purple">추정</span></p>
+        <p class="footnote">19장 관측(2.5개월마다 두 배, 회사 주장)은 빠름 시나리오(3개월)보다도 짧아요. 로봇 연구자 Levine이 2025년 9월에 내다본 자율화 <span class="nowrap">시점(약 5년 뒤)은</span> 다른 지표지만 기준 시나리오(4.9년)와 가까워요.</p>
+      </figure>
+      <section class="group span-4" aria-labelledby="s20-who">
+        <h3 class="group__title" id="s20-who">데이터를 쌓는 곳과 로봇 현황</h3>
+        <div class="group__rows">
+          <div class="group__row"><h4>오픈그래프랩스</h4><p>서울, 촉각 글러브·영상 수집, NVIDIA Inception</p></div>
+          <div class="group__row"><h4>Scale AI</h4><p>10만 시간 이상 <span class="tag" data-hue="indigo">회사 주장</span></p></div>
+          <div class="group__row"><h4>Generalist AI</h4><p>주 1만 시간씩 증가 <span class="tag" data-hue="indigo">회사 주장</span></p></div>
+          <div class="group__row"><h4>한국</h4><p>제조업 근로자 1만&nbsp;명당 산업용 로봇 1,220대로 <span class="nowrap">세계 1위(미국 307대)</span></p></div>
+        </div>
+      </section>
+      <figure class="media span-3" data-ratio="3:4">
+        <img src="assets/img/20-warehouse-robot.jpg" width="2400" height="1792" alt="밝은 물류 창고에서 하늘색 작업복 작업자와 상자를 실은 흰 이동 로봇이 함께 걷는 뒷모습">
+      </figure>
+    </div>
+  </div>
+  <footer class="foot"><p class="source">Bessemer · Generalist AI · Scale AI · IFR World Robotics 2026 · Dwarkesh Podcast(Levine, 2025. 9. 12.) · 국내 보도 · research/physical-ai.md · analysis/relations.py</p><p class="where"><span class="sec">관계식 R6 · 로봇 데이터 시차</span><span class="pg"></span></p></footer>
+</section>

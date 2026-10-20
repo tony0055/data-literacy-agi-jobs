@@ -1,0 +1,31 @@
+/* 29 2036년까지의 흐름: 덱 세로 시간축(.timeline--vertical)으로 네 단계를 위에서 아래로(왼쪽 9열), 오른쪽 3열에 그림.
+ * 줄 위 선은 시간축 그대로(border-1). 지금 단계는 「지금」 글자로 말한다(누를 수 없는 글자라 파랑을 쓰지 않는다 — 2회차 C-01 · C-03).
+ * 설명은 덱 시간축 그대로 type-label(13) · text-2 — 단계 이름(15 굵게)보다 한 단계 작게(TY-34, 2회차 T2-10).
+ * 시간축 아래 각주(.footnote — 연도 · 라벨의 단서는 꼬리말이 아니라 본문에, 3회차 C3-01 · T3-03). 시간축 ↔ 각주 16(줄 사이 선 위아래와 같은 값) */
+
+/* 줄 = [때 2열][단계 이름 2열][설명 나머지 5열] — 12열 격자 선에 맞춘다(25 · 28장 표 첫 열과 같은 172).
+ * 100%는 시간축 폭(9열 묶음 폭 그대로 = 858), 열 하나 = (858 − 열 사이 8개) ÷ 9 */
+.s29 .timeline--vertical {
+  /* 줄 사이 선의 위아래 16(줄 사이 · 줄 위 선 아래)은 덱 공통 .timeline--vertical(deck.css) */
+  --timeline-row:
+    calc((100% - var(--layout-gutter) * 8) / 9 * 2 + var(--layout-gutter))
+    calc((100% - var(--layout-gutter) * 8) / 9 * 2 + var(--layout-gutter))
+    minmax(0, 1fr);
+}
+
+/* 때: 핵심 숫자 크기(type-title-2), 같은 폭 숫자. 아래에 「지금」 */
+.s29 .timeline__when {
+  display: grid;
+  align-content: start;
+  gap: var(--space-half);
+  font: var(--type-title-2);
+  letter-spacing: var(--type-title-2-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-1);
+}
+
+.s29 .s29-now {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+  color: var(--color-text-1);
+}

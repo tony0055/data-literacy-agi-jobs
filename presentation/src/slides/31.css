@@ -1,0 +1,63 @@
+/* 31 계획 1: 12열 격자 두 줄(줄 사이 32). 위 12열에 질문(묶음), 아래 8열에 2~4단계 표 + 각주 + 4열에 갈라지는 길 그림(16:9).
+ * - 아래 줄 두 열의 끝을 맞춘다(3회차 SL3-08 — 표 466 · 그림 561로 표 아래에 784 × 96~136 빈 곳): 그림을 4:3 → 16:9(덱 비율 세트, 33장 그림과 같은
+ *   4열 · 16:9)로 낮추고, 표 아래에 「(2주)」 같은 괄호 주차의 뜻을 각주(p.footnote, 표 → 8)로 단다. 행을 늘려 맞추지 않는다.
+ * - 칸 안 여러 항목은 쉼표로 잇는다(WR-91 — 줄 끝에 「·」 구분점이 남지 않게, 3회차 T3-08). 괄호 풀이는 앞 낱말과 한 덩어리(.nowrap, T3-05).
+ *   4단계 이름은 「기술 통계」 — 주장 라벨 「기술」(결론 등급)과 같은 낱말이라 기술(technology)로 읽히지 않게 수업 용어 그대로 쓴다.
+ * - 글자 위계(2회차 T2-12): 묶음 제목 「1 질문」은 type-heading 18, 그 안 질문 줄은 항목 제목과 같은 type-body-strong 15.
+ *   제목의 번호 1은 아래 표의 단계 번호 2~4와 같은 모양(text-3 · 같은 폭 숫자 · 이름과 사이 8)이라 1 → 4가 한 줄로 읽힌다.
+ * - 조작적 정의 줄과 표는 같은 열: 12열 격자의 2 · 3 · 3열(172 · 270 · 270, 30 · 32장 표와 같다). 정의 줄은 12열 행에서,
+ *   표는 8열 행(.stack.span-8 안)에서 칸이 열을 걸친다. 묶음 줄 글과 표 칸의 시작선이 위아래로 맞는다(둘 다 안쪽 좌우 0).
+ *   정의 줄 글자는 아래 표 칸과 같은 단계(이름 label-strong · 값 label).
+ * - 표 행 높이 = 내용 높이(행 위아래는 표 그대로 8). 여러 줄 칸이 섞여 덱 공통 변형 .table--multiline(첫 줄 기준선 맞춤 · text-wrap: pretty)을 쓴다. */
+.s31 .s31-def {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: baseline;
+  column-gap: var(--layout-gutter);
+}
+
+.s31 .s31-table :is(.table__head, .table__row) {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.s31 .s31-def > :first-child,
+.s31 .s31-table :is(.table__head, .table__row) > :first-child { grid-column: span 2; }
+
+.s31 .s31-def > :not(:first-child),
+.s31 .s31-table :is(.table__head, .table__row) > :not(:first-child) { grid-column: span 3; }
+
+.s31 .s31-def > dt {
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.s31 .s31-def > dd {
+  font: var(--type-label);
+  letter-spacing: var(--type-label-letter-spacing);
+}
+
+.s31 .s31-step {
+  display: grid;
+  gap: var(--space-half);
+}
+
+.s31 .s31-step__name {
+  display: flex;
+  gap: var(--space-1);
+  font: var(--type-label-strong);
+  letter-spacing: var(--type-label-strong-letter-spacing);
+}
+
+.s31 .s31-no {
+  color: var(--color-text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 수업 주차는 「방법 · 수업 연결」 열의 내용이라 읽어야 하는 글 — text-2(CO-05) */
+.s31 .s31-week {
+  color: var(--color-text-2);
+}
+
+.s31 .s31-qtitle {
+  display: flex;
+  gap: var(--space-1);
+}
